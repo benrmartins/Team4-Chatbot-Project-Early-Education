@@ -10,6 +10,7 @@ import re
 import zipfile
 from pathlib import Path
 from database import MockDatabase
+from json_retrieval import search_knowledge_base
 # We're using dotenv to load the env variables from the .env file
 # you must first create a .env file in the same directory as this file and add your openrouter key like this:
 # OPENROUTER_API_KEY="enter whatever your openrouter key is"
@@ -31,7 +32,12 @@ client = OpenAI(
 
 SYSTEM_PROMPT = """
 You are an Early Education Chatbot named Owlbear.
-Use the conversation history when it is relevant to the client.
+
+Answer questions about the Early Education Leaders Institute using retrieved source material whenever possible.
+If tool results are available, prioritize them over guesswork.
+Do not invent facts.
+If the retrieved sources are insufficient, say you do not know and suggest contacting EarlyEdLeaders@umb.edu.
+When you answer using retrieved sources, cite them clearly by title and URL.
 """
 
 # increase if we want to do a larger context history collection for the chatbot
@@ -254,6 +260,28 @@ TOOLS = [
             },
         },
     },
+    {
+    "type": "function",
+    "function": {
+        "name": "search_knowledge_base",
+        "description": "Search the scraped Early Education Leaders JSON knowledge base for relevant pages, blog posts, and institute information.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "query": {
+                    "type": "string",
+                    "description": "The user question or search query."
+                },
+                "max_results": {
+                    "type": "integer",
+                    "description": "Maximum number of search results to return.",
+                    "default": 5
+                }
+            },
+            "required": ["query"]
+        }
+    }
+},
     # {
     #     "type": "function",
     #     "function": {
@@ -281,6 +309,7 @@ TOOLS = [
 # Then add the function to the handlers so the chatbot can execute it by string
 TOOL_HANDLERS = {
     "keyword_search_docx": keyword_search_docx,
+    "search_knowledge_base": search_knowledge_base,
     # "another_tool": another_tool,  # Add more handlers here as needed
 }
 
