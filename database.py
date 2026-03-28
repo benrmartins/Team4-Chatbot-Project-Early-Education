@@ -42,7 +42,7 @@ class MockDatabase(DatabaseProvider):
 
     @staticmethod
     def _load_website_sources_from_json():
-        jsonFile = open('website_sources.json')
+        jsonFile = open('website_data.json')
         data = json.load(jsonFile)
         jsonFile.close()
         return data
