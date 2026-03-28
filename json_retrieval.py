@@ -5,6 +5,7 @@ from collections import Counter
 from typing import List, Dict, Any
 
 KNOWLEDGE_BASE_PATH = Path(__file__).with_name("early_ed_clean_data.json")
+UNIFIED_KNOWLEDGE_BASE_PATH = Path(__file__).with_name("unified_vector_data.json")
 
 STOPWORDS = {
     "the", "a", "an", "and", "or", "of", "to", "in", "on", "for", "with",
@@ -28,6 +29,23 @@ def load_knowledge_base(path: Path = KNOWLEDGE_BASE_PATH) -> List[Dict[str, Any]
 
     if not isinstance(data, list):
         raise ValueError("Knowledge base JSON must be a list of records.")
+
+    return data
+
+
+def load_unified_knowledge_base(path: Path = UNIFIED_KNOWLEDGE_BASE_PATH) -> Dict[str, Any]:
+    if not path.exists():
+        raise FileNotFoundError(f"Unified knowledge base file not found: {path}")
+
+    with open(path, "r", encoding="utf-8") as f:
+        data = json.load(f)
+
+    if not isinstance(data, dict):
+        raise ValueError("Unified knowledge base JSON must be an object.")
+
+    chunks = data.get("chunks", [])
+    if not isinstance(chunks, list):
+        raise ValueError("Unified knowledge base must contain a list field named 'chunks'.")
 
     return data
 
@@ -137,6 +155,80 @@ def search_knowledge_base(query: str, max_results: int = 5) -> Dict[str, Any]:
             "score": score,
             "excerpt": build_excerpt(text, query_terms),
         })
+
+    ranked_results.sort(key=lambda x: x["score"], reverse=True)
+    top_results = ranked_results[:max_results]
+
+    return {
+        "query": query,
+        "result_count": len(top_results),
+        "results": top_results,
+    }
+
+
+def score_chunk(query_terms: List[str], title: str, text: str) -> int:
+    title_tokens = tokenize(title)
+    text_tokens = tokenize(text)
+
+    title_counts = Counter(title_tokens)
+    text_counts = Counter(text_tokens)
+
+    score = 0
+    for term in query_terms:
+        score += title_counts.get(term, 0) * 4
+        score += text_counts.get(term, 0)
+
+    full_query = " ".join(query_terms).strip()
+    if full_query:
+        title_lower = title.lower()
+        text_lower = text.lower()
+
+        if full_query in title_lower:
+            score += 15
+        if full_query in text_lower:
+            score += 12
+
+    return score
+
+
+def search_unified_knowledge(query: str, max_results: int = 5) -> Dict[str, Any]:
+    if not isinstance(query, str) or not query.strip():
+        return {"error": "Query must be a non-empty string."}
+
+    if not isinstance(max_results, int) or max_results <= 0:
+        max_results = 5
+
+    data = load_unified_knowledge_base()
+    query_terms = tokenize(query)
+    ranked_results = []
+
+    for chunk in data.get("chunks", []):
+        chunk_text = (chunk.get("text") or "").strip()
+        title = (chunk.get("title") or "Untitled").strip()
+        url = (chunk.get("url") or "No URL provided").strip()
+
+        if not chunk_text:
+            continue
+
+        score = score_chunk(query_terms, title, chunk_text)
+        if score <= 0:
+            continue
+
+        ranked_results.append(
+            {
+                "title": title,
+                "url": url,
+                "source_type": chunk.get("source_type", "unknown"),
+                "document_id": chunk.get("document_id", ""),
+                "chunk_id": chunk.get("chunk_id", ""),
+                "score": score,
+                "excerpt": build_excerpt(chunk_text, query_terms),
+                "citation": {
+                    "title": title,
+                    "url": url,
+                },
+            }
+        )
 
     ranked_results.sort(key=lambda x: x["score"], reverse=True)
     top_results = ranked_results[:max_results]
