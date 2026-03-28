@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 from urllib.parse import urljoin, urlparse
 import json
 import time
+import re
 
 class EarlyEdCrawler:
     def __init__(self):
@@ -21,14 +22,15 @@ class EarlyEdCrawler:
     def is_relevant(self, url):
         parsed = urlparse(url)
         # STRICT RULE: Only stay inside these specific sub-folders
-        is_blog = "blogs.umb.edu/earlyed" in url
+        is_blog = bool(re.match(r'.*/\d{4}/\d{2}/\d{2}/.*', url))
         is_institute = "umb.edu/early-education-leaders-institute" in url
         
         # Avoid huge files or external social media
-        is_not_file = not url.lower().endswith(('.pdf', '.jpg', '.png', '.zip'))
+        is_not_file = not url.lower().endswith(('.pdf', '.jpg', '.png', '.zip', '.doc', '.docx', '.xls', '.xlsx', '.ppt', '.pptx', '.mp4', '.mp3'))
+        is_not_fragment = not parsed.fragment  # Avoid URLs with fragments (anchor links that don't lead to anything useful)
         
-        return (is_blog or is_institute) and is_not_file
-
+        return (is_blog or is_institute) and is_not_file and is_not_fragment
+    
     def scrape(self):
         while self.queue:
             url = self.queue.pop(0)
