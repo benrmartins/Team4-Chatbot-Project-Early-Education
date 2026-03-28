@@ -2,7 +2,66 @@ import requests
 from bs4 import BeautifulSoup
 from urllib.parse import urljoin, urlparse
 import json
+import os
 import time
+import re
+from datetime import datetime, timezone
+
+SCHEMA_VERSION = "1.0"
+OUTPUT_JSON = "web_data.json"
+
+def normalize_text(text):
+    return re.sub(r"\s+", " ", text).strip()
+
+
+def build_web_document_record(index, title, url, text):
+    clean_text = normalize_text(text)
+    return {
+        "document_id": f"web::{index:05d}",
+        "source_type": "website",
+        "source_name": "web_crawler",
+        "source_locator": url,
+        "title": title,
+        "mime_type": "text/html",
+        "url": url,
+        "modified_time": None,
+        "size_bytes": None,
+        "folder_path": "",
+        "text": clean_text,
+        "char_count": len(clean_text),
+    }
+
+
+def build_web_payload(documents, skipped_pages, pages_seen):
+    indexed_files = [
+        {
+            "id": doc["document_id"],
+            "name": doc["title"],
+            "mimeType": doc["mime_type"],
+            "url": doc["url"],
+            "folder_path": doc["folder_path"],
+            "char_count": doc["char_count"],
+        }
+        for doc in documents
+    ]
+
+    return {
+        "schema_version": SCHEMA_VERSION,
+        "generated_at_utc": datetime.now(timezone.utc).isoformat(),
+        "source": {
+            "type": "website_crawler",
+            "recursive": True,
+        },
+        "summary": {
+            "pages_seen": pages_seen,
+            "pages_indexed": len(documents),
+            "documents": len(documents),
+            "pages_skipped": len(skipped_pages),
+        },
+        "documents": documents,
+        "skipped_files": skipped_pages,
+        "indexed_files": indexed_files,
+    }
 
 class EarlyEdCrawler:
     def __init__(self):
@@ -16,7 +75,8 @@ class EarlyEdCrawler:
         ]
         self.queue = list(self.seeds)
         self.visited = set()
-        self.knowledge_base = []
+        self.documents = []
+        self.skipped_pages = []
 
     def is_relevant(self, url):
         parsed = urlparse(url)
@@ -30,6 +90,13 @@ class EarlyEdCrawler:
         return (is_blog or is_institute) and is_not_file
 
     def scrape(self):
+        if os.path.exists(OUTPUT_JSON):
+            print(f"Skipping scrape because {OUTPUT_JSON} already exists.")
+            with open(OUTPUT_JSON, "r", encoding="utf-8") as f:
+                return json.load(f)
+
+        page_index = 0
+
         while self.queue:
             url = self.queue.pop(0)
             if url in self.visited:
@@ -42,6 +109,10 @@ class EarlyEdCrawler:
                 
                 if response.status_code != 200:
                     print(f"Skipping {url} - Status: {response.status_code}")
+                    self.skipped_pages.append({
+                        "url": url,
+                        "reason": f"HTTP {response.status_code}",
+                    })
                     continue
 
                 self.visited.add(url)
@@ -59,11 +130,19 @@ class EarlyEdCrawler:
                     text = " ".join(content_area.get_text(separator=' ', strip=True).split())
                     
                     if len(text) > 100: # Only save meaningful pages
-                        self.knowledge_base.append({
-                            "title": soup.title.string.replace(" - UMass Boston", "").strip() if soup.title else "Untitled",
+                        title = soup.title.string.replace(" - UMass Boston", "").strip() if soup.title else "Untitled"
+                        self.documents.append(build_web_document_record(page_index, title, url, text))
+                        page_index += 1
+                    else:
+                        self.skipped_pages.append({
                             "url": url,
-                            "text": text
+                            "reason": "Extracted text too short",
                         })
+                else:
+                    self.skipped_pages.append({
+                        "url": url,
+                        "reason": "No content area found",
+                    })
 
                 # Find more links
                 for a in soup.find_all('a', href=True):
@@ -75,11 +154,24 @@ class EarlyEdCrawler:
 
             except Exception as e:
                 print(f"Could not connect to {url}: {e}")
+                self.skipped_pages.append({
+                    "url": url,
+                    "reason": str(e),
+                })
 
-        # Final Export
-        with open("early_ed_clean_data.json", "w", encoding="utf-8") as f:
-            json.dump(self.knowledge_base, f, indent=4)
-        print(f"\nDone! Scraped {len(self.knowledge_base)} specific EarlyEd pages.")
+        payload = build_web_payload(
+            documents=self.documents,
+            skipped_pages=self.skipped_pages,
+            pages_seen=len(self.visited),
+        )
+
+        with open(OUTPUT_JSON, "w", encoding="utf-8") as f:
+            json.dump(payload, f, indent=2, ensure_ascii=False)
+
+
+        print(f"\nDone! Scraped {len(self.documents)} specific EarlyEd pages.")
+        print(f"Output written to: {OUTPUT_JSON}")
+        return payload
 
 if __name__ == "__main__":
     crawler = EarlyEdCrawler()
