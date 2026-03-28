@@ -1,3 +1,9 @@
 .env
 /__pycache__
 .venv
+credentials.json
+token_drive_v3.pickle
+unified_vector_data.json
+web_data.json
+drive_data.json
+early_ed_clean_data.json
