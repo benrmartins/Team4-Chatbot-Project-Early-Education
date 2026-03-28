@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+import json
 
 
 class DatabaseProvider(ABC):
@@ -28,40 +29,24 @@ class MockDatabase(DatabaseProvider):
 
     def load(self):
         return {
-            "google_drive": self._load_google_drive_source(),
-            "website_sources": self._load_website_sources(),
-            "notes": [
-                "Mock database initialized at chatbot startup.",
-                "Replace this provider with Supabase later.",
-            ],
+            "google_drive": self._load_google_drive_source_from_json(),
+            "website_sources": self._load_website_sources_from_json(),
         }
 
     @staticmethod
     def _load_google_drive_source_from_json():
-        return {
-            "enabled": False,
-            "sync_folder": "",
-            "indexed_files": [
-                "lesson_plan_grade1.docx",
-                "math_vocab_week3.docx",
-            ],
-        }
+        jsonFile = open('drive_data.json')
+        data = json.load(jsonFile)
+        jsonFile.close()
+        return data
 
     @staticmethod
     def _load_website_sources_from_json():
-        return {
-            "enabled": False,
-            "urls": [
-                "https://example-school-resources.org",
-                "https://example-early-learning.net",
-            ],
-            "scraper_jobs": [
-                {"name": "curriculum_scraper", "status": "not_started"},
-                {"name": "activities_scraper", "status": "not_started"},
-            ],
-        }
-
-
+        jsonFile = open('website_sources.json')
+        data = json.load(jsonFile)
+        jsonFile.close()
+        return data
+    
 class OtherDatabase(DatabaseProvider):
     """Placeholder for future implementation."""
 
