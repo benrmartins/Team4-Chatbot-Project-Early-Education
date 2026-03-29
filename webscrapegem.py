@@ -75,7 +75,8 @@ class EarlyEdCrawler:
             "https://www.umb.edu/early-education-leaders-institute/",
             "https://blogs.umb.edu/earlyed/"
         ]
-        self.queue = list(self.seeds)
+        # Queue stores tuples of (url, depth). Only follow links from seed pages (depth 0).
+        self.queue = [(url, 0) for url in self.seeds]
         self.visited = set()
         self.documents = []
         self.skipped_pages = []
@@ -115,7 +116,7 @@ class EarlyEdCrawler:
 
         try:
             while self.queue:
-                url = self.queue.pop(0)
+                url, depth = self.queue.pop(0)
                 if url in self.visited:
                     continue
 
@@ -166,11 +167,12 @@ class EarlyEdCrawler:
                             "reason": "No content area found",
                         })
 
-                    # Find more links
-                    for a in soup.find_all('a', href=True):
-                        full_link = urljoin(url, a['href']).split('?')[0].split('#')[0]
-                        if self.is_relevant(full_link) and full_link not in self.visited and full_link not in self.queue:
-                            self.queue.append(full_link)
+                    # Find more links (follow up to depth 4)
+                    if depth < 5:
+                        for a in soup.find_all('a', href=True):
+                            full_link = urljoin(url, a['href']).split('?')[0].split('#')[0]
+                            if self.is_relevant(full_link) and full_link not in self.visited and full_link not in [u for u, d in self.queue]:
+                                self.queue.append((full_link, depth + 1))
 
                     time.sleep(1.5) # Slight delay so we don't get IP banned
 
