@@ -2,6 +2,7 @@ from openai import OpenAI
 from dotenv import load_dotenv 
 import json
 import os
+from typing import Callable
 from tool_calls.registry import execute_tool_call, TOOLS
 from chatbot.prompts import ONBOARD_PROMPT, SYSTEM_PROMPT, format_tool_reprompt
 
@@ -66,7 +67,7 @@ class Chatbot:
         self.onboard_prompt = ONBOARD_PROMPT
 
     # main entry point for handling user input, generating assistant responses, and managing tool calls
-    def create_response(self, user_input):
+    def create_response(self, user_input, status_callback: Callable[[str], None] = None):
         if not isinstance(user_input, str) or not user_input.strip():
             return "Please enter a non-empty question."
 
@@ -83,17 +84,21 @@ class Chatbot:
         assistant_message = response.choices[0].message
 
         # Process the response before returning it
-        return self._handle_response(assistant_message)
+        return self._handle_response(assistant_message, status_callback=status_callback)
 
     # process the assistant message, execute any tool calls if present, 
     # then reprompt the assistant with the tool results included in the context 
     # to generate a final response for the user
-    def _handle_response(self, message):
+    def _handle_response(self, message, status_callback: Callable[[str], None] = None):
         
         # process tool calls if present in the assistant message, execute them and collect results
         tool_calls = message.tool_calls or []
         if not tool_calls:
             return (message.content or "").strip()
+
+        if status_callback:
+            status_callback("running_tools")
+
         results = []
         for tool_call in tool_calls:
             function_name = tool_call.function.name
@@ -113,13 +118,16 @@ class Chatbot:
 
         # combine tool results into a single string to include in the reprompt to the assistant, truncating if necessary to avoid exceeding token limits
         combined_results = "\n".join(results)
-        print(f"Combined tool results for reprompting assistant: {combined_results}")
-        print(f"Length of combined tool results: {len(combined_results)} characters\n\n")
-        if len(combined_results) > 3000:
-            combined_results = combined_results[:3000] + "\n[Truncated additional results]"
+
+        if len(combined_results) > 2000:
+            combined_results = combined_results[:2000] + "\n[Truncated additional results]"
+
         generated_reprompt = format_tool_reprompt(combined_results)
 
         # reprompt the assistant with the tool results included in the context, generate a final response for the user, and add it to the conversation history
+        if status_callback:
+            status_callback("generating_final")
+
         self.history.add_message("system", generated_reprompt)
         reprompt_messages = self.history.to_list()
         response = get_open_ai_response(reprompt_messages)

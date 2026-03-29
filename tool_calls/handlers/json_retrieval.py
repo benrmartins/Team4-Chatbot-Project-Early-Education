@@ -7,8 +7,10 @@ from pathlib import Path
 from collections import Counter
 from typing import List, Dict, Any
 
-KNOWLEDGE_BASE_PATH = Path(__file__).with_name("web_data.json")
-UNIFIED_KNOWLEDGE_BASE_PATH = Path(__file__).with_name("unified_vector_data.json")
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+DATA_DIR = PROJECT_ROOT / "data"
+KNOWLEDGE_BASE_PATH = DATA_DIR / "early_ed_clean_data.json"
+UNIFIED_KNOWLEDGE_BASE_PATH = DATA_DIR / "unified_vector_data.json"
 
 STOPWORDS = {
     "the", "a", "an", "and", "or", "of", "to", "in", "on", "for", "with",
