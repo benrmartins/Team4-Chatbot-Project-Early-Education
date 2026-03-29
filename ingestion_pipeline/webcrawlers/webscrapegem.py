@@ -11,10 +11,16 @@ from urllib3.util.retry import Retry
 
 SCHEMA_VERSION = "1.0"
 OUTPUT_JSON = "web_data.json"
+HEADERS = {
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+}
+SEEDS = [
+    "https://www.umb.edu/early-education-leaders-institute/",
+    "https://blogs.umb.edu/earlyed/"
+]
 
 def normalize_text(text):
     return re.sub(r"\s+", " ", text).strip()
-
 
 def build_web_document_record(index, title, url, text):
     clean_text = normalize_text(text)
@@ -32,7 +38,6 @@ def build_web_document_record(index, title, url, text):
         "text": clean_text,
         "char_count": len(clean_text),
     }
-
 
 def build_web_payload(documents, skipped_pages, pages_seen):
     indexed_files = [

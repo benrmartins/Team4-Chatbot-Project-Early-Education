@@ -1,27 +1,30 @@
+# main ingestion pipeline to run both Google Drive and web crawling, then unify outputs with vector preprocessing
+# Usage:
+#   python pipeline.py --folder-id <GOOGLE_DRIVE_FOLDER_ID> --chunk-size 700 --chunk-overlap 120
+#   python pipeline.py --skip-drive --chunk-size 700 --chunk-overlap 120
+#   python pipeline.py --skip-web --chunk-size 700 --chunk-overlap 120
+# Outputs:
+#   - drive_data.json: raw Google Drive ingestion output
+#   - web_data.json: raw web crawling ingestion output
+#   - unified_vector_data.json: combined and preprocessed output ready for vectorization
+# Note: Ensure .env file is set up with DRIVE_FOLDER_ID or DRIVE_FOLDER_LINK if not providing --folder-id
+# This script is designed for modularity and can be extended to include additional data sources or preprocessing steps as needed.
 import argparse
 import json
 from typing import Dict, List
 
 from dotenv import load_dotenv
 
-from googlescrape import DEFAULT_DRIVE_OUTPUT, ingest_google_drive
-from vector_preprocess import build_vector_payload, save_json
-from webscrapegem import EarlyEdCrawler
+from ingestion_pipeline.webcrawlers.googlescrape import GoogleDriveCrawler
+from ingestion_pipeline.webcrawlers.webscrapegem import EarlyEdCrawler
+from ingestion_pipeline.vector_preprocess import build_vector_payload, save_json
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description="Run Drive + web ingestion, then apply unified chunking/vector preprocessing."
     )
-    parser.add_argument(
-        "--folder-id",
-        required=False,
-        help="Google Drive folder ID to ingest. If omitted, uses DRIVE_FOLDER_ID or DRIVE_FOLDER_LINK from .env",
-    )
-    parser.add_argument(
-        "--drive-output",
-        default=DEFAULT_DRIVE_OUTPUT,
-        help=f"Drive raw output path (default: {DEFAULT_DRIVE_OUTPUT})",
-    )
+    parser.add_argument("--folder-id",required=False, help="Google Drive folder ID to ingest. If omitted, uses DRIVE_FOLDER_ID or DRIVE_FOLDER_LINK from .env")
+    parser.add_argument("--drive-output", default="drive_data.json", help=f"Drive raw output path (default: drive_data.json)")
     parser.add_argument("--web-output", default="web_data.json", help="Website raw output path")
     parser.add_argument("--vector-output", default="unified_vector_data.json", help="Unified chunked output path")
     parser.add_argument("--chunk-size", type=int, default=700, help="Chunk size in characters.")
@@ -38,15 +41,14 @@ def main() -> None:
     source_summary: Dict[str, Dict] = {}
 
     if not args.skip_drive:
-        drive_payload = ingest_google_drive(folder_id=args.folder_id)
+        drive_payload = GoogleDriveCrawler().scrape(folder_id=args.folder_id)
         save_json(drive_payload, args.drive_output)
         all_documents.extend(drive_payload.get("documents", []))
         source_summary["google_drive"] = drive_payload.get("summary", {})
         print(f"Drive output written to: {args.drive_output}")
 
     if not args.skip_web:
-        crawler = EarlyEdCrawler()
-        web_payload = crawler.scrape()
+        web_payload = EarlyEdCrawler().scrape()
         save_json(web_payload, args.web_output)
         all_documents.extend(web_payload.get("documents", []))
         source_summary["website"] = web_payload.get("summary", {})

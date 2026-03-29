@@ -1,3 +1,6 @@
+# json_retrieval.py
+# This module provides functions to search the knowledge base JSON files for relevant information based on a user
+# query. It includes functions to load the knowledge base, tokenize text, score relevance, and build excerpts for results.
 import json
 import re
 from pathlib import Path
