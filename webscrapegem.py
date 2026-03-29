@@ -105,6 +105,20 @@ class EarlyEdCrawler:
         is_not_fragment = not parsed.fragment  # Avoid URLs with fragments (anchor links that don't lead to anything useful)
         
         return (is_blog or is_institute) and is_not_file and is_not_fragment
+
+    def is_blog_navigation_page(self, url):
+        """Blog landing/pagination pages used to discover more post URLs."""
+        parsed = urlparse(url)
+        if parsed.fragment:
+            return False
+        if not url.startswith("https://blogs.umb.edu/earlyed"):
+            return False
+        return bool(
+            re.search(r"/earlyed/?$", url)
+            or re.search(r"/earlyed/page/\d+/?$", url)
+            or re.search(r"/earlyed/category/", url)
+            or re.search(r"/earlyed/tag/", url)
+        )
     
     def scrape(self):
         if os.path.exists(OUTPUT_JSON):
@@ -167,12 +181,21 @@ class EarlyEdCrawler:
                             "reason": "No content area found",
                         })
 
-                    # Find more links (follow up to depth 4)
-                    if depth < 5:
+                    # Discover more pages.
+                    # Relevant content pages are depth 1. Blog navigation pages remain depth 0 so
+                    # we can continue discovering additional blog posts through pagination.
+                    if depth == 0:
                         for a in soup.find_all('a', href=True):
                             full_link = urljoin(url, a['href']).split('?')[0].split('#')[0]
-                            if self.is_relevant(full_link) and full_link not in self.visited and full_link not in [u for u, d in self.queue]:
-                                self.queue.append((full_link, depth + 1))
+                            if self.is_relevant(full_link):
+                                link_depth = 1
+                            elif self.is_blog_navigation_page(full_link):
+                                link_depth = 0
+                            else:
+                                continue
+
+                            if full_link not in self.visited and full_link not in [u for u, d in self.queue]:
+                                self.queue.append((full_link, link_depth))
 
                     time.sleep(1.5) # Slight delay so we don't get IP banned
 
