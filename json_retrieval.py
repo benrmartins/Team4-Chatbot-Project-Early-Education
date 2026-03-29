@@ -4,7 +4,7 @@ from pathlib import Path
 from collections import Counter
 from typing import List, Dict, Any
 
-KNOWLEDGE_BASE_PATH = Path(__file__).with_name("early_ed_clean_data.json")
+KNOWLEDGE_BASE_PATH = Path(__file__).with_name("web_data.json")
 UNIFIED_KNOWLEDGE_BASE_PATH = Path(__file__).with_name("unified_vector_data.json")
 
 STOPWORDS = {
