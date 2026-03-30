@@ -1,16 +1,16 @@
-from chatbot.API import Chatbot
+from chatbot import Chatbot
 
-class Conversation: 
+class Conversation:
     def __init__(self, chatbot):
         self.chatbot = chatbot
-        print(self.chatbot.onboard_prompt) # print the onboarding prompt when the conversation starts
+        print(self.chatbot.onboard_prompt)
 
     def _update_status(self, status):
         if status == "running_tools":
             print(f"{self.chatbot.name}: thinking... (running tools)")
         elif status == "generating_final":
             print(f"{self.chatbot.name}: thinking... (writing answer)")
-    
+
     def _update_output(self, output):
         print(f"{self.chatbot.name}: {output}")
 

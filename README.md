@@ -1,167 +1,146 @@
-# Team4-Chatbot-Project-Early-Education
+# Team4 Chatbot Project
 
-## Project Structure
+This project provides a configurable chatbot and ingestion pipeline that can be reused across different data sources.
 
-- `app.py` - Flask web app entrypoint (simple deployable frontend)
-- `frontend.py` - CLI chat frontend
-- `chatbot/`
-	- `API.py` - chatbot orchestration and tool-calling loop
-	- `prompts.py` - system/onboarding/tool reprompt templates
-- `tool_calls/`
-	- `registry.py` - tool schema + handler registry
-	- `handlers/json_retrieval.py` - retrieval over local JSON knowledge files
-- `ingestion_pipeline/`
-	- `vector_preprocess.py` - shared normalize/chunk/vector payload logic
-	- `services/google_service.py` - Google API auth/service setup
-	- `webcrawlers/googlescrape.py` - Google Drive crawler
-	- `webcrawlers/webscrapegem.py` - website crawler
-- `scripts/pipeline.py` - unified ingestion pipeline runner
-- `data/`
-	- `early_ed_clean_data.json`
-	- `unified_vector_data.json`
-- `templates/index.html` - Flask chat UI template
-
-## Unified Ingestion Architecture
-
-Chunking/vector preprocessing is centralized in `ingestion_pipeline/vector_preprocess.py`.
-
-Current flow:
-
-1. `scripts/pipeline.py` runs Google Drive ingestion (raw documents).
-2. `scripts/pipeline.py` runs website ingestion (raw documents).
-3. `scripts/pipeline.py` merges both sources.
-4. `scripts/pipeline.py` calls `ingestion_pipeline/vector_preprocess.py` for unified chunking + vector-ready payload output.
-
-This keeps Drive and web scraping consistent and makes future source integration easier.
-
-## Google Drive Ingestion (Raw Documents)
-
-Drive ingestion is folder-scoped and recursive (includes subfolders). It extracts readable text and outputs normalized `documents[]` records.
-
-### Supported File Types
-
-- Google Docs (`application/vnd.google-apps.document`)
-- Plain text (`text/plain`)
-- CSV (`text/csv`)
-- PDF (`application/pdf`)
-- DOCX (`application/vnd.openxmlformats-officedocument.wordprocessingml.document`)
-
-Unsupported file types are tracked in `skipped_files` in the output JSON.
-
-## Configure Drive Folder in `.env`
-
-```env
-DRIVE_FOLDER_LINK="https://drive.google.com/drive/folders/YOUR_FOLDER_ID?usp=sharing"
-# Optional alternative:
-DRIVE_FOLDER_ID="YOUR_FOLDER_ID"
-```
-
-## Run Unified Pipeline
-
-```powershell
-py .\scripts\pipeline.py
-```
-
-Optional:
-
-```powershell
-py .\scripts\pipeline.py --folder-id "YOUR_GOOGLE_DRIVE_FOLDER_ID" --drive-output "data\drive_data.json" --web-output "data\web_data.json" --vector-output "data\unified_vector_data.json" --chunk-size 700 --chunk-overlap 120
-```
-
-Source toggles:
-
-```powershell
-py .\scripts\pipeline.py --skip-web
-py .\scripts\pipeline.py --skip-drive
-```
-
-## Output Files
-
-- `data/unified_vector_data.json` (primary merged + chunked vector-ready payload used by retrieval)
-- `data/early_ed_clean_data.json` (legacy clean dataset used by legacy retrieval)
-- Optional pipeline outputs if you pass explicit args:
-	- `data/drive_data.json`
-	- `data/web_data.json`
-
-## Unified Schema
-
-Raw ingestors (Drive/Web) output matching `documents[]` fields:
-
-- `document_id`
-- `source_type`
-- `source_name`
-- `source_locator`
-- `title`
-- `mime_type`
-- `url`
-- `modified_time`
-- `size_bytes`
-- `folder_path`
-- `text`
-- `char_count`
-
-Unified vector output adds `chunks[]`:
-
-- `chunk_id`
-- `document_id`
-- `source_type`
-- `title`
-- `url`
-- `chunk_index`
-- `text`
-- `char_count`
-- `token_estimate`
-- `metadata`
-
-## Source Files
-
-- `scripts/pipeline.py`: Orchestrates sources + calls unified chunking.
-- `ingestion_pipeline/webcrawlers/googlescrape.py`: Google Drive crawling and raw document extraction only.
-- `ingestion_pipeline/webcrawlers/webscrapegem.py`: Web crawling and raw document extraction only.
-- `ingestion_pipeline/vector_preprocess.py`: Shared normalize/chunk/vector payload logic.
-- `ingestion_pipeline/services/google_service.py`: Google API auth and service setup.
-
-## Chatbot Setup
+## Setup (Recommended)
 
 Run commands from the project root.
 
-Install dependencies:
+### Prerequisites
 
-```powershell
-py -m pip install -r requirements.txt
+- Python 3.10+ installed (3.13 tested)
+- `pip` available
+
+### One-command setup
+
+Windows (PowerShell or CMD):
+
+```bat
+setup.bat
 ```
 
-Add required API key in `.env`:
+macOS/Linux/Git Bash:
+
+```bash
+bash setup.sh
+```
+
+To force a clean re-create of `.venv`:
+
+```bash
+setup.bat --recreate
+bash setup.sh --recreate
+```
+
+These scripts will:
+
+- create (or reuse) `.venv`
+- install/upgrade dependencies from `requirements.txt`
+- create `.env` template if missing
+- run a dependency smoke test
+
+### After setup
+
+Activate virtual environment:
+
+Windows CMD:
+
+```bat
+call .venv\Scripts\activate.bat
+```
+
+Windows PowerShell:
+
+```powershell
+.\.venv\Scripts\Activate.ps1
+```
+
+macOS/Linux/Git Bash:
+
+```bash
+source .venv/bin/activate
+```
+
+Set your OpenRouter key in `.env`:
 
 ```env
 OPENROUTER_API_KEY="YOUR_OPENROUTER_KEY"
 ```
 
-## Chatbot Run (CLI)
+Non-sensitive runtime defaults live in `project_config.py`, including:
+
+- OpenRouter base URL/model
+- Chatbot name, prompts, and behavior text
+- Drive folder defaults
+- Website seed URLs
+- Pipeline toggles and chunk settings
+
+Set VS Code interpreter to `.venv`:
+
+- Command Palette -> Python: Select Interpreter
+- Choose `.venv/Scripts/python.exe` (Windows) or `.venv/bin/python` (macOS/Linux)
+
+## Run Chatbot
+
+CLI:
 
 ```powershell
-py .\frontend.py
+python .\cli.py
 ```
 
-## Simple Deployable Frontend (Flask)
-
-This repo includes a basic web frontend in `app.py` and `templates/index.html`.
-
-Run it locally:
+Flask app:
 
 ```powershell
-py .\app.py
+python .\app.py
 ```
 
-Then open:
+Then open `http://localhost:8000`.
 
-- `http://localhost:8000`
+## Run Ingestion Pipeline
 
-Health endpoint:
+Default run (module):
 
-- `http://localhost:8000/health`
+```powershell
+python -m ingestion_pipeline.scripts.pipeline_runner
+```
 
-## Retrieval Tools Used By Chatbot
+Default run (convenience script):
 
-- `search_unified_knowledge`: Primary retrieval over `data/unified_vector_data.json` chunks for RAG answers and citations.
-- `search_knowledge_base`: Legacy fallback retrieval over `data/early_ed_clean_data.json`.
+```powershell
+python .\collect_data.py
+```
+
+All pipeline behavior is config-driven from `project_config.py`:
+
+- `PIPELINE_RUN_DRIVE`
+- `PIPELINE_RUN_WEB`
+- `PIPELINE_CHUNK_SIZE`
+- `PIPELINE_CHUNK_OVERLAP`
+- `DEFAULT_DRIVE_OUTPUT`, `DEFAULT_WEB_OUTPUT`, `DEFAULT_VECTOR_OUTPUT`
+
+## Retrieval Tools
+
+- `search_unified_knowledge`: primary retrieval over `data/unified_vector_data.json` chunks
+
+## Project Structure
+
+- `app.py` - Flask web app entrypoint
+- `cli.py` - CLI chatbot entrypoint
+- `collect_data.py` - convenience ingestion entrypoint
+- `chatbot/`
+  - `chatbot_api.py` - chatbot orchestration and tool-calling loop
+  - `tool_calls/`
+    - `registry.py` - tool schema + handler registry
+    - `handlers/json_retrieval.py` - retrieval over local JSON knowledge files
+- `ingestion_pipeline/`
+  - `scripts/pipeline_runner.py` - unified ingestion runner
+  - `vector_preprocess.py` - shared normalize/chunk/payload logic
+  - `schema.py` - normalized schema contracts
+  - `services/google_service.py` - Google API auth/service setup
+  - `webcrawlers/google_drive_crawler.py` - Google Drive ingestion
+  - `webcrawlers/website_crawler.py` - website ingestion
+- `project_config.py` - centralized runtime config, prompts, and source defaults
+- `data/`
+  - `unified_vector_data.json`
+- `templates/index.html` - Flask chat UI
+
