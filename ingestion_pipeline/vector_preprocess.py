@@ -1,11 +1,9 @@
 import json
 import re
-from datetime import datetime, timezone
 from pathlib import Path
-from typing import Dict, List
+from typing import List
 
-SCHEMA_VERSION = "1.0"
-
+from ingestion_pipeline.schema import JSONDict, build_base_payload
 
 def normalize_text(text: str) -> str:
     return re.sub(r"\s+", " ", text or "").strip()
@@ -34,8 +32,8 @@ def estimate_token_count(text: str) -> int:
     return max(1, len(text) // 4)
 
 
-def ensure_document_char_count(documents: List[Dict]) -> List[Dict]:
-    normalized_docs: List[Dict] = []
+def ensure_document_char_count(documents: List[JSONDict]) -> List[JSONDict]:
+    normalized_docs: List[JSONDict] = []
 
     for doc in documents:
         text = normalize_text(doc.get("text", ""))
@@ -50,8 +48,8 @@ def ensure_document_char_count(documents: List[Dict]) -> List[Dict]:
     return normalized_docs
 
 
-def build_chunk_records(documents: List[Dict], chunk_size: int = 700, chunk_overlap: int = 120) -> List[Dict]:
-    chunks: List[Dict] = []
+def build_chunk_records(documents: List[JSONDict], chunk_size: int = 700, chunk_overlap: int = 120) -> List[JSONDict]:
+    chunks: List[JSONDict] = []
 
     for doc in ensure_document_char_count(documents):
         document_id = doc["document_id"]
@@ -80,23 +78,39 @@ def build_chunk_records(documents: List[Dict], chunk_size: int = 700, chunk_over
     return chunks
 
 
-def build_vector_payload(documents: List[Dict], source: Dict, chunk_size: int = 700, chunk_overlap: int = 120) -> Dict:
+def build_vector_payload(
+    documents: List[JSONDict],
+    source: JSONDict,
+    chunk_size: int = 700,
+    chunk_overlap: int = 120,
+) -> JSONDict:
     normalized_documents = ensure_document_char_count(documents)
     chunks = build_chunk_records(normalized_documents, chunk_size=chunk_size, chunk_overlap=chunk_overlap)
 
-    return {
-        "schema_version": SCHEMA_VERSION,
-        "generated_at_utc": datetime.now(timezone.utc).isoformat(),
-        "source": source,
-        "summary": {
+    payload = build_base_payload(
+        source=source,
+        summary={
             "documents": len(normalized_documents),
             "chunks": len(chunks),
         },
-        "documents": normalized_documents,
-        "chunks": chunks,
-    }
+    )
+    payload["documents"] = normalized_documents
+    payload["chunks"] = chunks
+    return payload
 
 
-def save_json(payload: Dict, output_path: str) -> None:
+def save_json(payload: JSONDict, output_path: str) -> None:
     output_file = Path(output_path)
     output_file.write_text(json.dumps(payload, indent=2, ensure_ascii=False), encoding="utf-8")
+
+
+__all__ = [
+    "JSONDict",
+    "normalize_text",
+    "chunk_text",
+    "estimate_token_count",
+    "ensure_document_char_count",
+    "build_chunk_records",
+    "build_vector_payload",
+    "save_json",
+]

@@ -2,7 +2,7 @@ from uuid import uuid4
 
 from flask import Flask, jsonify, render_template, request, session
 
-from chatbot.API import Chatbot
+from chatbot import Chatbot
 
 
 app = Flask(__name__)
