@@ -1,6 +1,6 @@
 import json
 import os
-from dataclasses import dataclass
+from dataclasses import asdict, dataclass
 from typing import Any, Callable
 
 from dotenv import load_dotenv
@@ -21,19 +21,18 @@ from project_config import (
 
 load_dotenv()
 
-client = OpenAI(
-    api_key=os.getenv("OPENROUTER_API_KEY"),
-    base_url=OPENROUTER_BASE_URL,
-)
+client = OpenAI(api_key=os.getenv("OPENROUTER_API_KEY"), base_url=OPENROUTER_BASE_URL)
 
 
-def get_open_ai_response(messages):
-    response = client.chat.completions.create(
-        model=OPENROUTER_MODEL,
-        messages=messages,
-        tools=TOOLS,
-        tool_choice="auto",
-    )
+def get_open_ai_response(messages, tool_choice: str = "auto"):
+    request_kwargs = {
+        "model": OPENROUTER_MODEL,
+        "messages": messages,
+        "tool_choice": tool_choice,
+    }
+    if tool_choice != "none":
+        request_kwargs["tools"] = TOOLS
+    response = client.chat.completions.create(**request_kwargs)
     return response
 
 
@@ -47,6 +46,17 @@ class ChatMessage:
 
     def to_dict(self) -> dict[str, str]:
         return {"role": self.role, "content": self.content}
+
+
+@dataclass
+class ChatTurnPayload:
+    reply: str
+    citations: list[dict[str, str]]
+    evidence: list[dict[str, Any]]
+    retrieval: dict[str, Any] | None
+
+    def to_dict(self) -> dict[str, Any]:
+        return asdict(self)
 
 
 class ConversationHistory:
@@ -85,26 +95,46 @@ class Chatbot:
         self.onboard_prompt = ONBOARD_PROMPT
 
     def create_response(self, user_input: str, status_callback: Callable[[str], None] | None = None) -> str:
+        payload = self.create_response_payload(user_input, status_callback=status_callback)
+        return payload["reply"]
+
+    def create_response_payload(
+        self,
+        user_input: str,
+        status_callback: Callable[[str], None] | None = None,
+    ) -> dict[str, Any]:
         if not isinstance(user_input, str) or not user_input.strip():
-            return "Please enter a non-empty question."
+            return ChatTurnPayload(
+                reply="Please enter a non-empty question.",
+                citations=[],
+                evidence=[],
+                retrieval=None,
+            ).to_dict()
 
         self.history.add_message("user", user_input)
 
         request_messages = self.history.to_list()
-        response = get_open_ai_response(request_messages)
+        response = get_open_ai_response(request_messages, tool_choice="auto")
         assistant_message = response.choices[0].message
 
-        return self._handle_response(assistant_message, status_callback=status_callback)
+        payload = self._handle_response_payload(assistant_message, status_callback=status_callback)
+        return payload.to_dict()
 
-    def _handle_response(self, message: Any, status_callback: Callable[[str], None] | None = None) -> str:
+    def _handle_response_payload(
+        self,
+        message: Any,
+        status_callback: Callable[[str], None] | None = None,
+    ) -> ChatTurnPayload:
         tool_calls = message.tool_calls or []
         if not tool_calls:
-            return (message.content or "").strip()
+            reply = self._sanitize_reply(message.content)
+            self.history.add_message("assistant", reply)
+            return ChatTurnPayload(reply=reply, citations=[], evidence=[], retrieval=None)
 
         if status_callback:
             status_callback("running_tools")
 
-        results = []
+        tool_results: list[dict[str, Any]] = []
         for tool_call in tool_calls:
             function_name = tool_call.function.name
             arguments_raw = tool_call.function.arguments or "{}"
@@ -116,25 +146,123 @@ class Chatbot:
 
             try:
                 tool_result = execute_tool_call(function_name, arguments)
-                results.append(f"Tool: {function_name}, Result: {tool_result}")
+                tool_results.append(
+                    {
+                        "name": function_name,
+                        "arguments": arguments,
+                        "result": tool_result,
+                    }
+                )
             except Exception as e:
-                error_msg = f"Error executing tool {function_name}: {str(e)}"
-                results.append(error_msg)
+                tool_results.append(
+                    {
+                        "name": function_name,
+                        "arguments": arguments,
+                        "result": {"error": f"Error executing tool {function_name}: {str(e)}"},
+                    }
+                )
 
-        combined_results = "\n".join(results)
-
-        if len(combined_results) > 2000:
-            combined_results = combined_results[:2000] + "\n[Truncated additional results]"
-
-        generated_reprompt = TOOL_REPROMPT_TEMPLATE.format(tool_results=combined_results)
+        formatted_results = self._format_tool_results_for_prompt(tool_results)
+        generated_reprompt = TOOL_REPROMPT_TEMPLATE.format(tool_results=formatted_results)
 
         if status_callback:
             status_callback("generating_final")
 
         self.history.add_message("system", generated_reprompt)
         reprompt_messages = self.history.to_list()
-        response = get_open_ai_response(reprompt_messages)
+        response = get_open_ai_response(reprompt_messages, tool_choice="none")
         final_message = response.choices[0].message
-        result = (final_message.content or "").strip()
-        self.history.add_message("assistant", result)
-        return result
+        reply = self._sanitize_reply(final_message.content)
+
+        citations, evidence, retrieval = self._build_evidence_payload(tool_results)
+        self.history.add_message("assistant", reply)
+        return ChatTurnPayload(
+            reply=reply,
+            citations=citations,
+            evidence=evidence,
+            retrieval=retrieval,
+        )
+
+    def _sanitize_reply(self, content: str | None) -> str:
+        reply = (content or "").strip()
+        if reply:
+            return reply
+        return (
+            "I couldn't generate a grounded answer from the available sources. "
+            "Please try rephrasing your question."
+        )
+
+    def _format_tool_results_for_prompt(self, tool_results: list[dict[str, Any]]) -> str:
+        prompt_blocks: list[str] = []
+        for tool_result in tool_results:
+            name = tool_result["name"]
+            result = tool_result["result"]
+            if isinstance(result, dict) and result.get("results") is not None:
+                lines = [
+                    f"Tool: {name}",
+                    f"Query: {result.get('query', '')}",
+                    f"Low confidence: {result.get('low_confidence', False)}",
+                ]
+                for item in result.get("results", [])[:5]:
+                    lines.extend(
+                        [
+                            f"Rank {item.get('rank', '?')} | Title: {item.get('title', 'Untitled')}",
+                            f"URL: {item.get('url', '')}",
+                            f"Matched terms: {', '.join(item.get('matched_terms', [])) or 'n/a'}",
+                            f"Why it matched: {', '.join(item.get('match_reasons', [])) or 'n/a'}",
+                            f"Evidence: {item.get('evidence_snippet', '')}",
+                        ]
+                    )
+                prompt_blocks.append("\n".join(lines))
+                continue
+            prompt_blocks.append(f"Tool: {name}\nResult: {result}")
+
+        combined_results = "\n\n".join(prompt_blocks).strip()
+        if len(combined_results) <= 3000:
+            return combined_results
+        return combined_results[:3000] + "\n[Truncated additional results]"
+
+    def _build_evidence_payload(
+        self,
+        tool_results: list[dict[str, Any]],
+    ) -> tuple[list[dict[str, str]], list[dict[str, Any]], dict[str, Any] | None]:
+        retrieval = None
+        for tool_result in tool_results:
+            result = tool_result["result"]
+            if isinstance(result, dict) and "results" in result:
+                retrieval = result
+                break
+
+        if retrieval is None:
+            return [], [], None
+
+        citations: list[dict[str, str]] = []
+        seen_citations: set[tuple[str, str]] = set()
+        evidence: list[dict[str, Any]] = []
+
+        for item in retrieval.get("results", []):
+            citation = item.get("citation") or {
+                "title": item.get("title", "Untitled"),
+                "url": item.get("url", ""),
+            }
+            citation_key = (citation.get("title", ""), citation.get("url", ""))
+            if citation_key not in seen_citations:
+                citations.append(citation)
+                seen_citations.add(citation_key)
+
+            evidence.append(
+                {
+                    "rank": item.get("rank"),
+                    "title": item.get("title", "Untitled"),
+                    "url": item.get("url", ""),
+                    "source_type": item.get("source_type", "unknown"),
+                    "matched_terms": item.get("matched_terms", []),
+                    "match_reasons": item.get("match_reasons", []),
+                    "snippet": item.get("evidence_snippet") or item.get("excerpt", ""),
+                    "document_id": item.get("document_id", ""),
+                    "chunk_id": item.get("chunk_id", ""),
+                    "score": item.get("score"),
+                }
+            )
+
+        return citations, evidence, retrieval

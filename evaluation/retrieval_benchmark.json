@@ -1,0 +1,62 @@
+[
+  {
+    "question": "What is ExCELS and what does it measure?",
+    "why_hard": "Acronym lookup where the best answer may appear in specialized research/program pages instead of generic institute descriptions.",
+    "phase1_likely_failure_mode": "Keyword overlap can pull broad institute pages or repeated mentions instead of the chunk that defines ExCELS directly.",
+    "expected_source_hints": ["excels", "leadership study", "measure of leadership"]
+  },
+  {
+    "question": "How does Early Education Leaders support bilingual or multilingual educators?",
+    "why_hard": "Paraphrase and synonym matching: bilingual, multilingual, and language-access phrasing vary across sources.",
+    "phase1_likely_failure_mode": "Phase 1 may over-rank generic 'support educators' pages rather than language-specific program details.",
+    "expected_source_hints": ["languages", "spanish", "mandarin", "inclusive pathways"]
+  },
+  {
+    "question": "Is there a fellowship that helps early educators earn a bachelor's degree?",
+    "why_hard": "Program lookup using indirect phrasing instead of the exact program title.",
+    "phase1_likely_failure_mode": "Phase 1 may retrieve generic degree research summaries because 'bachelor' appears there more often than the fellowship program page.",
+    "expected_source_hints": ["early childhood fellowship", "bachelor", "tuition", "fellows"]
+  },
+  {
+    "question": "What support do fellows receive besides tuition?",
+    "why_hard": "Requires fine-grained retrieval within a larger fellowship description.",
+    "phase1_likely_failure_mode": "Phase 1 may find the fellowship page but surface a chunk that emphasizes eligibility rather than support details.",
+    "expected_source_hints": ["stipend", "advising", "coaching", "transportation", "childcare"]
+  },
+  {
+    "question": "How does Leading for Change help educators become change agents?",
+    "why_hard": "Conceptual phrasing should connect change agents, leadership mindsets, and project-based improvement.",
+    "phase1_likely_failure_mode": "Phase 1 may return duplicate chunks from the same source instead of distinct evidence about outcomes and program structure.",
+    "expected_source_hints": ["leading for change", "change project", "change agents", "leadership mindsets"]
+  },
+  {
+    "question": "What is the Culture of Continuous Learning Project trying to improve?",
+    "why_hard": "The answer often spans quality improvement, organizational learning, and social-emotional teaching support.",
+    "phase1_likely_failure_mode": "Keyword-only retrieval may over-rank unrelated workforce-development grant pages that mention learning or improvement broadly.",
+    "expected_source_hints": ["quality improvement", "culture of continuous learning", "breakthrough series collaborative", "social and emotional"]
+  },
+  {
+    "question": "How does the institute connect research, policy, and practice?",
+    "why_hard": "Multi-source synthesis phrased abstractly rather than by exact page title.",
+    "phase1_likely_failure_mode": "Phase 1 may return generic institute boilerplate instead of pages that explicitly discuss research-policy-practice connections.",
+    "expected_source_hints": ["research, policy, and practice", "systems change", "thought leadership", "research impact"]
+  },
+  {
+    "question": "Do they mention opportunities focused on infants and toddlers?",
+    "why_hard": "Narrow audience/program fit question where exact wording may only appear in a subsection.",
+    "phase1_likely_failure_mode": "Phase 1 may rank pages that mention support or teaching broadly without the infant/toddler focus.",
+    "expected_source_hints": ["infants", "toddlers", "prioritize applicants", "greatest need"]
+  },
+  {
+    "question": "How can someone learn more or contact the institute?",
+    "why_hard": "High-frequency generic terms make it easy for broad pages to crowd out actual contact information.",
+    "phase1_likely_failure_mode": "Phase 1 may return general overview pages without the clearest contact or inquiry language.",
+    "expected_source_hints": ["contact", "email", "learn more", "information"]
+  },
+  {
+    "question": "Does the institute say anything about campus parking permits?",
+    "why_hard": "Out-of-scope question intended to verify weak-match handling rather than answer generation.",
+    "phase1_likely_failure_mode": "Phase 1 may still return weak generic support pages because of partial lexical overlap.",
+    "expected_source_hints": ["parking permits"]
+  }
+]

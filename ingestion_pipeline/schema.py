@@ -36,6 +36,7 @@ CHUNK_METADATA_FIELDS = (
 	"source_locator",
 	"folder_path",
 	"source_name",
+	"section_hint",
 )
 
 

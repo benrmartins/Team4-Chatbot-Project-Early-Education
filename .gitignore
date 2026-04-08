@@ -6,3 +6,6 @@ credentials.json
 token_drive_v3.pickle
 data/
 credentials/
+unified_vector_data.json
+outputs/
+tmp*/

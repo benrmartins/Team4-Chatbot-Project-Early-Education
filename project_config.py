@@ -17,6 +17,7 @@ DEFAULT_VECTOR_OUTPUT = DATA_DIR / "unified_vector_data.json"
 
 # Primary retrieval file used by search_unified_knowledge.
 UNIFIED_KNOWLEDGE_BASE_PATH = DEFAULT_VECTOR_OUTPUT
+UNIFIED_KNOWLEDGE_BASE_FALLBACK_PATH = PROJECT_ROOT / "unified_vector_data.json"
 
 # OpenRouter API endpoint and model used by chatbot completions.
 OPENROUTER_BASE_URL = "https://openrouter.ai/api/v1"
@@ -89,6 +90,7 @@ PIPELINE_RUN_DRIVE = True
 PIPELINE_RUN_WEB = True
 PIPELINE_CHUNK_SIZE = 700
 PIPELINE_CHUNK_OVERLAP = 120
+PIPELINE_MIN_CHUNK_SIZE = 220
 EXCLUDED_PATH_SEGMENTS = {
         "tag",
         "tags",
@@ -117,6 +119,30 @@ BLOCKED_FILE_EXTENSIONS = (
 )
 MIN_CONTENT_CHARS = 100
 
+# Retrieval tuning
+RETRIEVAL_CANDIDATE_POOL = 40
+RETRIEVAL_MAX_RESULTS_PER_DOCUMENT = 1
+RETRIEVAL_LOW_CONFIDENCE_MIN_SCORE = 3.5
+RETRIEVAL_LOW_CONFIDENCE_MIN_COVERAGE = 0.34
+RETRIEVAL_SNIPPET_MAX_CHARS = 320
+RETRIEVAL_SYNONYM_MAP = {
+    "multilingual": ["bilingual", "language", "languages", "linguistically"],
+    "bilingual": ["multilingual", "language", "languages", "linguistically"],
+    "teachers": ["educators", "teacher", "instructors"],
+    "teacher": ["educator", "teachers", "instructor"],
+    "educators": ["teacher", "teachers", "workforce"],
+    "support": ["help", "supports", "supporting", "assistance"],
+    "fellowship": ["fellow", "fellows", "scholarship"],
+    "fellows": ["fellowship", "fellow", "scholarship"],
+    "bachelor": ["degree", "ba", "undergraduate"],
+    "degree": ["bachelor", "undergraduate", "college"],
+    "change": ["improvement", "improve", "innovation"],
+    "policy": ["systems", "advocacy", "policymakers"],
+    "infants": ["infant", "toddler", "toddlers"],
+    "toddlers": ["toddler", "infant", "infants"],
+    "contact": ["email", "reach", "learn", "information"],
+}
+
 
 __all__ = [
     "PROJECT_ROOT",
@@ -126,6 +152,7 @@ __all__ = [
     "DEFAULT_WEB_OUTPUT",
     "DEFAULT_VECTOR_OUTPUT",
     "UNIFIED_KNOWLEDGE_BASE_PATH",
+    "UNIFIED_KNOWLEDGE_BASE_FALLBACK_PATH",
     "OPENROUTER_BASE_URL",
     "OPENROUTER_MODEL",
     "CHAT_CONTEXT_LIMIT",
@@ -143,4 +170,11 @@ __all__ = [
     "PIPELINE_RUN_WEB",
     "PIPELINE_CHUNK_SIZE",
     "PIPELINE_CHUNK_OVERLAP",
+    "PIPELINE_MIN_CHUNK_SIZE",
+    "RETRIEVAL_CANDIDATE_POOL",
+    "RETRIEVAL_MAX_RESULTS_PER_DOCUMENT",
+    "RETRIEVAL_LOW_CONFIDENCE_MIN_SCORE",
+    "RETRIEVAL_LOW_CONFIDENCE_MIN_COVERAGE",
+    "RETRIEVAL_SNIPPET_MAX_CHARS",
+    "RETRIEVAL_SYNONYM_MAP",
 ]
