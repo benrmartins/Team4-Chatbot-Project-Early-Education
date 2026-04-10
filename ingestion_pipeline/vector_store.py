@@ -81,7 +81,8 @@ def get_default_embedder() -> BaseEmbedder:
 
 
 def _now_iso() -> str:
-    return datetime.utcnow().isoformat() + "Z"
+    # return current datetime in ISO format. Used for embedding record timestamps.
+    return datetime.now().isoformat()
 
 
 def init_db(db_path: Path | str) -> None:
