@@ -3,10 +3,12 @@ from typing import Dict, List
 
 from ingestion_pipeline.schema import JSONDict
 from ingestion_pipeline.vector_preprocess import build_vector_payload, save_json
+from ingestion_pipeline.vector_store import ingest_payload_to_sqlite, get_default_embedder
 from ingestion_pipeline.webcrawlers import GoogleDriveCrawler, WebsiteCrawler
 from project_config import (
     DEFAULT_DRIVE_OUTPUT,
     DEFAULT_VECTOR_OUTPUT,
+    DEFAULT_VECTOR_DB,
     DEFAULT_WEB_OUTPUT,
     PIPELINE_CHUNK_OVERLAP,
     PIPELINE_CHUNK_SIZE,
@@ -48,6 +50,16 @@ def run_pipeline() -> None:
     )
 
     save_json(unified_payload, str(DEFAULT_VECTOR_OUTPUT))
+
+    # Optional: ingest embeddings into a local SQLite vector DB. Uses a
+    # deterministic dummy embedder by default so this works without API keys.
+    try:
+        db_path = DEFAULT_VECTOR_DB
+        embedder = get_default_embedder()
+        inserted = ingest_payload_to_sqlite(unified_payload, db_path, embedder=embedder)
+        print(f"Inserted {inserted} embeddings into: {db_path}")
+    except Exception as exc:  # pragma: no cover - optional step
+        print(f"Warning: could not ingest embeddings to DB: {exc}")
 
     print("Unified pipeline complete.")
     print(json.dumps(unified_payload["summary"], indent=2))

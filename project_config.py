@@ -15,6 +15,9 @@ DEFAULT_WEB_OUTPUT = DATA_DIR / "web_data.json"
 # Unified chunked payload consumed by retrieval tools.
 DEFAULT_VECTOR_OUTPUT = DATA_DIR / "unified_vector_data.json"
 
+# Optional SQLite database for embedded vectors (used by new ingestion helpers)
+DEFAULT_VECTOR_DB = DATA_DIR / "unified_vector.db"
+
 # Primary retrieval file used by search_unified_knowledge.
 UNIFIED_KNOWLEDGE_BASE_PATH = DEFAULT_VECTOR_OUTPUT
 UNIFIED_KNOWLEDGE_BASE_FALLBACK_PATH = PROJECT_ROOT / "unified_vector_data.json"
