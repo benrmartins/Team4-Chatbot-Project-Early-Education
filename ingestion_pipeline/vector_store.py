@@ -20,22 +20,41 @@ import os
 import sqlite3
 import hashlib
 import random
+from dotenv import load_dotenv
+from openai import OpenAI
 from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional
-
 from ingestion_pipeline.schema import JSONDict
+from project_config import OPENROUTER_BASE_URL, EMBEDDING_DIM
+from abc import ABC, abstractmethod
 
+load_dotenv()
+API_KEY = os.getenv("OPENROUTER_API_KEY", None)
+client = OpenAI(api_key=API_KEY, base_url=OPENROUTER_BASE_URL)
 
-class BaseEmbedder:
+class BaseEmbedder(ABC):
     """Abstract embedder interface.
 
-    Implementers must provide `embed(texts: List[str]) -> List[List[float]]`.
+    Implementers must provide `embed(documents: List[Dict[str, str]]) -> List[List[float]]`.
     """
+    @abstractmethod
+    def embed(self, documents: JSONDict) -> List[List[float]]:
+        pass
 
-    def embed(self, texts: List[str]) -> List[List[float]]:
-        raise NotImplementedError()
+class OpenAIEmbedder(BaseEmbedder):
+    def __init__(self, model: str = "text-embedding-3-small", dim: int = 1024):
+        self.model = model
+        self.dim = dim
 
+    def embed(self, documents: JSONDict) -> List[List[float]]:
+        texts = [doc.get("text", "") for doc in documents.get("chunks", [])]
+        response = client.embeddings.create(
+            input=texts,
+            model=self.model,
+            dimensions=self.dim,
+        )
+        return [e.embedding for e in response.data]
 
 class DummyEmbedder(BaseEmbedder):
     """Deterministic pseudo-embedder for local testing.
@@ -48,7 +67,8 @@ class DummyEmbedder(BaseEmbedder):
     def __init__(self, dim: int = 128):
         self.dim = int(dim)
 
-    def embed(self, texts: List[str]) -> List[List[float]]:
+    def embed(self, documents: JSONDict) -> List[List[float]]:
+        texts = [doc.get("text", "") for doc in documents.get("chunks", [])]
         out: List[List[float]] = []
         for text in texts:
             seed = int.from_bytes(hashlib.sha256((text or "").encode("utf-8")).digest(), "big")
@@ -68,22 +88,23 @@ def get_default_embedder() -> BaseEmbedder:
     the pipeline works out of the box.
     """
     try:
-        if os.environ.get("OPENAI_API_KEY"):
-            # Lazy import to avoid hard dependency in environments without openai
-            import openai  # type: ignore
-
-            # If openai is installed and an API key is present, user may
-            # plug a production embedder here. For now, fall back to dummy.
-            return DummyEmbedder(dim=int(os.environ.get("EMBEDDING_DIM", "1536")))
+        if API_KEY and client is not None:
+            return OpenAIEmbedder(dim=int(EMBEDDING_DIM))
     except Exception:
         pass
     return DummyEmbedder()
 
+def get_embedder_with_dimension(dim: int) -> BaseEmbedder:
+    """Helper to get an embedder instance with a specific dimension."""
+    try:
+        if API_KEY and client is not None:
+            return OpenAIEmbedder(dim=dim)
+    except Exception:
+        pass
+    return DummyEmbedder(dim=dim)
 
 def _now_iso() -> str:
-    # return current datetime in ISO format. Used for embedding record timestamps.
     return datetime.now().isoformat()
-
 
 def init_db(db_path: Path | str) -> None:
     db = Path(db_path)
@@ -106,7 +127,6 @@ def init_db(db_path: Path | str) -> None:
     cur.execute("CREATE INDEX IF NOT EXISTS idx_document_id ON embeddings(document_id)")
     conn.commit()
     conn.close()
-
 
 def ingest_payload_to_sqlite(
     payload: JSONDict,
@@ -134,8 +154,7 @@ def ingest_payload_to_sqlite(
     total = 0
     for i in range(0, len(chunks), batch_size):
         batch = chunks[i : i + batch_size]
-        texts = [c.get("text", "") for c in batch]
-        embeddings = embedder.embed(texts)
+        embeddings = embedder.embed({"chunks": batch})
         now = _now_iso()
         rows: List[tuple] = []
         for chunk, emb in zip(batch, embeddings):
@@ -212,7 +231,7 @@ def query_similar_by_text(
     if embedder is None:
         embedder = get_default_embedder()
 
-    q_emb = embedder.embed([query_text])[0]
+    q_emb = embedder.embed({"chunks": [{"text": query_text}]})[0]
     all_rows = fetch_all_embeddings(db_path)
     scored: List[tuple[float, JSONDict]] = []
     for row in all_rows:
