@@ -9,9 +9,23 @@ if [[ ! -f requirements.txt ]]; then
 fi
 
 RECREATE=0
-if [[ "${1:-}" == "--recreate" ]]; then
-  RECREATE=1
-fi
+SKIP_SMOKE_TEST=0
+
+for arg in "$@"; do
+  case "$arg" in
+    --recreate)
+      RECREATE=1
+      ;;
+    --skip-smoke-test)
+      SKIP_SMOKE_TEST=1
+      ;;
+    *)
+      echo "ERROR: Unknown argument '$arg'"
+      echo "Usage: bash setup.sh [--recreate] [--skip-smoke-test]"
+      exit 1
+      ;;
+  esac
+done
 
 if [[ "$RECREATE" -eq 1 && -d .venv ]]; then
   echo "Removing existing .venv..."
@@ -43,11 +57,16 @@ if [[ ! -f .env ]]; then
   echo "Created .env template. Update OPENROUTER_API_KEY before running the chatbot."
 fi
 
-echo "Running dependency smoke test..."
-"$VENV_PY" -c "import requests, bs4, urllib3, pandas, PyPDF2, docx, googleapiclient.http; print('Setup check: ok')"
+if [[ "$SKIP_SMOKE_TEST" -eq 0 ]]; then
+  echo "Running dependency smoke test..."
+  "$VENV_PY" -c "import requests, bs4, urllib3, pandas, PyPDF2, docx, googleapiclient.http; print('Setup check: ok')"
+else
+  echo "Skipping dependency smoke test (--skip-smoke-test)."
+fi
 
 echo
 echo "Setup complete."
 echo "Activate environment with: source .venv/bin/activate"
 echo "Run CLI chatbot with: python cli.py"
 echo "Run Flask app with: python app.py"
+echo "Run HPC variant experiment with: sbatch run_full_variant_experiment.slurm"

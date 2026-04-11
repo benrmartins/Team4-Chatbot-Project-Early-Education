@@ -32,6 +32,13 @@ setup.bat --recreate
 bash setup.sh --recreate
 ```
 
+To skip the smoke test (useful on constrained HPC login nodes):
+
+```bash
+setup.bat --skip-smoke-test
+bash setup.sh --skip-smoke-test
+```
+
 These scripts will:
 
 - create (or reuse) `.venv`
@@ -81,6 +88,60 @@ Set VS Code interpreter to `.venv`:
 - Command Palette -> Python: Select Interpreter
 - Choose `.venv/Scripts/python.exe` (Windows) or `.venv/bin/python` (macOS/Linux)
 
+## HPC Quickstart (SLURM)
+
+Run these from the project root on your HPC system.
+
+1. Copy or clone the repo to your home/scratch directory.
+2. Create environment and install dependencies:
+
+```bash
+bash setup.sh
+```
+
+3. Set your OpenRouter key:
+
+```bash
+nano .env
+# OPENROUTER_API_KEY="YOUR_OPENROUTER_KEY"
+```
+
+4. Submit the full variant job:
+
+```bash
+sbatch run_full_variant_experiment.slurm
+```
+
+5. Monitor and inspect outputs:
+
+```bash
+squeue -u $USER
+ls outputs/hpc
+tail -f outputs/hpc/variant-experiment-<jobid>_<arrayid>.out
+```
+
+Each shard writes a JSON artifact to:
+
+```text
+outputs/variant_test_results_shard_<index>_of_<count>.json
+```
+
+6. Merge shard outputs into one final ranked report:
+
+```bash
+python -m scripts.merge_variant_results \
+  --input-glob "outputs/variant_test_results_shard_*_of_*.json" \
+  --output-json "outputs/variant_test_results_merged.json" \
+  --delete-inputs
+```
+
+Notes for low-storage HPC runs:
+
+- `run_full_variant_experiment.slurm` now runs baseline on shard `0` only.
+- Per-variant SQLite DBs are deleted automatically after scoring by default.
+- Set `VARIANT_CLEANUP_DBS=0` before `sbatch` if you want to keep DB files.
+- Set `VARIANT_REBUILD_EXISTING=1` before `sbatch` to force full DB rebuild.
+
 ## Run Chatbot
 
 CLI:
@@ -115,17 +176,17 @@ python -m ingestion_pipeline.scripts.pipeline_runner
 Default run (convenience script):
 
 ```powershell
-python .\collect_data.py
+python -m scripts.create_default_database
 ```
 
-All pipeline behavior is config-driven from `project_config.py`:
+Default pipeline behavior is config-driven from `project_config.py`:
 
 - `PIPELINE_RUN_DRIVE`
 - `PIPELINE_RUN_WEB`
-- `PIPELINE_CHUNK_SIZE`
-- `PIPELINE_CHUNK_OVERLAP`
-- `PIPELINE_MIN_CHUNK_SIZE`
-- `DEFAULT_DRIVE_OUTPUT`, `DEFAULT_WEB_OUTPUT`, `DEFAULT_VECTOR_OUTPUT`
+- `DEFAULT_CHUNK_SIZE`
+- `DEFAULT_CHUNK_OVERLAP`
+- `DEFAULT_MIN_CHUNK_SIZE`
+- `DEFAULT_WEB_OUTPUT`, `DEFAULT_CHUNK_OUTPUT`, `DEFAULT_VECTOR_DB_PATH`
 
 The chunking path is now section-aware for new ingestion runs:
 
@@ -135,21 +196,23 @@ The chunking path is now section-aware for new ingestion runs:
 
 ## Retrieval Tools
 
-- `search_unified_knowledge`: primary retrieval over `data/unified_vector_data.json` chunks
+- `search_sqlite_knowledge`: primary retrieval over SQLite vector databases (default path derived from `project_config.py`)
 
 Phase 2 retrieval improvements include:
-
 - fallback loading from repo-root `unified_vector_data.json` if `data/` is missing
 - query normalization and lightweight synonym expansion
 - stronger lexical reranking with title/section weighting
 - duplicate-result suppression
 - focused evidence snippet extraction
 - low-confidence retrieval signaling
+- metadata-aware embedding-method selection from DB metadata
+- lexical + similarity evidence shaping for ranked snippets
+- low-confidence and structured failure signaling (`retrieval_status`, `error_code`, `error_message`)
 
 For a lightweight before-vs-after comparison:
 
 ```powershell
-python .\tests_keyword_retrieval\run_retrieval_benchmark.py
+python -m scripts.run_retrieval_benchmark
 ```
 
 Benchmark questions live in `evaluation/retrieval_benchmark.json`.
@@ -158,26 +221,32 @@ Benchmark questions live in `evaluation/retrieval_benchmark.json`.
 
 - `app.py` - Flask web app entrypoint
 - `cli.py` - CLI chatbot entrypoint
-- `collect_data.py` - convenience ingestion entrypoint
+- `run_full_variant_experiment.slurm` - SLURM entrypoint for full shard-based variant experiments
 - `chatbot/`
   - `chatbot_api.py` - chatbot orchestration and tool-calling loop
   - `tool_calls/`
     - `registry.py` - tool schema + handler registry
-    - `handlers/json_retrieval.py` - retrieval over local JSON knowledge files
+    - `handlers/database_retrieval.py` - retrieval over SQLite vector databases
 - `ingestion_pipeline/`
   - `scripts/pipeline_runner.py` - unified ingestion runner
-  - `vector_preprocess.py` - shared normalize/chunk/payload logic
+  - `DataProcessor.py` - data processing orchestration for chunking and embedding
   - `schema.py` - normalized schema contracts
-  - `services/google_service.py` - Google API auth/service setup
+  - `services/`
+    - `google_service.py` - Google API auth/service setup
+    - `vector_store.py` - embedding + SQLite vector store helpers
   - `webcrawlers/google_drive_crawler.py` - Google Drive ingestion
   - `webcrawlers/website_crawler.py` - website ingestion
 - `project_config.py` - centralized runtime config, prompts, and source defaults
-- `tests_keyword_retrieval/` - retrieval-focused tests plus demo/benchmark runners
-  - `run_retrieval_benchmark.py` - compares Phase 1 vs Phase 2 retrieval on a demo benchmark
+- `scripts/`
+  - `create_default_database.py` - build default SQLite vector database
+  - `create_variant_database.py` - build one variant SQLite database
+  - `run_variant_tests.py` - run deterministic matrix benchmark and scoring
+  - `merge_variant_results.py` - merge shard outputs into one ranked report
+  - `run_retrieval_benchmark.py` - compare retrieval behavior on benchmark prompts
   - `run_demo_questions.py` - batch demo runner for sample questions
-  - `test_*.py` - retrieval regression tests
+- `tests/` - regression and integration tests
 - `evaluation/retrieval_benchmark.json` - retrieval-focused benchmark questions for demos
 - `data/`
-  - `unified_vector_data.json`
+  - `db_store_default.sqlite` (created on first embed)
 - `templates/index.html` - Flask chat UI
 

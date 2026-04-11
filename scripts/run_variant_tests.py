@@ -2,8 +2,10 @@ from __future__ import annotations
 
 import argparse
 import datetime
+import hashlib
 import itertools
 import json
+import os
 from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Any
@@ -32,6 +34,15 @@ class VariantSpec:
     embedding_dim: int
     batch_size: int
     output_path: str
+
+
+@dataclass(frozen=True)
+class HPCExecutionConfig:
+    num_shards: int
+    shard_index: int
+    node_count: int
+    gpus_per_job: int
+    cpus_per_job: int
 
 
 def _ordered_unique(values: list[int]) -> list[int]:
@@ -203,9 +214,58 @@ def build_variant_specs(limit: int | None = None) -> list[VariantSpec]:
         )
 
     specs.sort(key=lambda s: s.name)
+    name_set = {spec.name for spec in specs}
+    if len(name_set) != len(specs):
+        raise ValueError("Duplicate variant names detected; shard assignment would be ambiguous.")
     if limit and limit > 0:
         return specs[:limit]
     return specs
+
+
+def _resolve_hpc_execution_config(args: argparse.Namespace) -> HPCExecutionConfig:
+    env_shards = os.getenv("SLURM_ARRAY_TASK_COUNT", "").strip()
+    env_index = os.getenv("SLURM_ARRAY_TASK_ID", "").strip()
+
+    num_shards = int(args.num_shards)
+    shard_index = int(args.shard_index)
+
+    if int(args.hpc_job_count) > 0:
+        num_shards = int(args.hpc_job_count)
+    elif not args.no_slurm_autodetect and env_shards:
+        num_shards = int(env_shards)
+
+    if int(args.hpc_job_index) >= 0:
+        shard_index = int(args.hpc_job_index)
+    elif not args.no_slurm_autodetect and env_index:
+        shard_index = int(env_index)
+
+    if num_shards <= 0:
+        raise ValueError("num_shards must be a positive integer.")
+    if shard_index < 0 or shard_index >= num_shards:
+        raise ValueError(
+            f"shard_index must be in range [0, {num_shards - 1}] for num_shards={num_shards}."
+        )
+
+    return HPCExecutionConfig(
+        num_shards=num_shards,
+        shard_index=shard_index,
+        node_count=max(1, int(args.hpc_node_count)),
+        gpus_per_job=max(0, int(args.hpc_gpus_per_job)),
+        cpus_per_job=max(1, int(args.hpc_cpus_per_job)),
+    )
+
+
+def _stable_shard_for_variant(variant_name: str, num_shards: int) -> int:
+    digest = hashlib.sha256(variant_name.encode("utf-8")).hexdigest()
+    return int(digest, 16) % num_shards
+
+
+def _select_shard(specs: list[VariantSpec], cfg: HPCExecutionConfig) -> list[VariantSpec]:
+    return [
+        spec
+        for spec in specs
+        if _stable_shard_for_variant(spec.name, cfg.num_shards) == cfg.shard_index
+    ]
 
 
 class VariantTestRunner:
@@ -216,13 +276,33 @@ class VariantTestRunner:
         max_results: int = VARIANT_TEST_MAX_RESULTS,
         limit: int | None = None,
         rebuild_existing: bool = False,
+        hpc_config: HPCExecutionConfig | None = None,
+        include_baseline: bool = True,
+        cleanup_variant_dbs: bool = False,
     ):
         self.base_processor = base_processor or DefaultDataProcessor()
         self.benchmark_path = benchmark_path or Path(VARIANT_TEST_BENCHMARK_PATH)
         self.max_results = max_results
         self.limit = limit
         self.rebuild_existing = rebuild_existing
-        self.specs = build_variant_specs(limit=limit)
+        self.hpc_config = hpc_config or HPCExecutionConfig(
+            num_shards=1,
+            shard_index=0,
+            node_count=1,
+            gpus_per_job=0,
+            cpus_per_job=1,
+        )
+        # In sharded runs, baseline should execute once on shard 0 only.
+        self.include_baseline = include_baseline and not (
+            self.hpc_config.num_shards > 1 and self.hpc_config.shard_index != 0
+        )
+        self.cleanup_variant_dbs = cleanup_variant_dbs
+        full_specs = build_variant_specs(limit=None)
+        sharded_specs = _select_shard(full_specs, self.hpc_config)
+        if limit and limit > 0:
+            sharded_specs = sharded_specs[:limit]
+        self.specs = sharded_specs
+        self.total_spec_count = len(full_specs)
         self.variant_results: list[dict[str, Any]] = []
 
     def _ensure_base_data(self) -> None:
@@ -267,24 +347,33 @@ class VariantTestRunner:
         return variant
 
     def run_tests(self) -> None:
-        self._ensure_default_database()
+        if self.include_baseline:
+            self._ensure_default_database()
+        else:
+            self._ensure_base_data()
         benchmark_items = _load_benchmark(Path(self.benchmark_path))
 
-        baseline_payload = {
-            "name": self.base_processor.name,
-            "embedding_method": "dummy",
-            "chunk_size": self.base_processor.chunk_size,
-            "chunk_overlap": self.base_processor.chunk_overlap,
-            "embedding_dim": self.base_processor.embedding_dim,
-            "batch_size": self.base_processor.batch_size,
-            "output_path": self.base_processor.output_path,
-            **evaluate_variant(
-                db_path=self.base_processor.output_path,
-                benchmark_items=benchmark_items,
-                max_results=self.max_results,
-            ),
-        }
-        self.variant_results.append(baseline_payload)
+        print(
+            f"Shard {self.hpc_config.shard_index + 1}/{self.hpc_config.num_shards}: "
+            f"running {len(self.specs)} of {self.total_spec_count} variants"
+        )
+
+        if self.include_baseline:
+            baseline_payload = {
+                "name": self.base_processor.name,
+                "embedding_method": "dummy",
+                "chunk_size": self.base_processor.chunk_size,
+                "chunk_overlap": self.base_processor.chunk_overlap,
+                "embedding_dim": self.base_processor.embedding_dim,
+                "batch_size": self.base_processor.batch_size,
+                "output_path": self.base_processor.output_path,
+                **evaluate_variant(
+                    db_path=self.base_processor.output_path,
+                    benchmark_items=benchmark_items,
+                    max_results=self.max_results,
+                ),
+            }
+            self.variant_results.append(baseline_payload)
 
         for spec in self.specs:
             if str(spec.output_path) == str(self.base_processor.output_path):
@@ -301,6 +390,11 @@ class VariantTestRunner:
                 **metrics,
             }
             self.variant_results.append(payload)
+
+            if self.cleanup_variant_dbs:
+                variant_db = Path(variant.output_path)
+                if variant_db.exists():
+                    variant_db.unlink()
 
         self.variant_results.sort(key=lambda item: item["retrieval_score"], reverse=True)
 
@@ -325,6 +419,11 @@ class VariantTestRunner:
             "generated_at": datetime.datetime.now().isoformat(timespec="seconds"),
             "benchmark_path": str(Path(self.benchmark_path)),
             "max_results": self.max_results,
+            "include_baseline": self.include_baseline,
+            "cleanup_variant_dbs": self.cleanup_variant_dbs,
+            "hpc": asdict(self.hpc_config),
+            "total_spec_count": self.total_spec_count,
+            "shard_spec_count": len(self.specs),
             "variant_count": len(self.variant_results),
             "variants": self.variant_results,
         }
@@ -358,20 +457,83 @@ def parse_args() -> argparse.Namespace:
         help="Delete and rebuild existing variant databases.",
     )
     parser.add_argument(
+        "--skip-baseline",
+        action="store_true",
+        default=False,
+        help="Skip evaluating the default baseline in this run.",
+    )
+    parser.add_argument(
+        "--cleanup-variant-dbs",
+        action="store_true",
+        default=False,
+        help="Delete each variant SQLite DB after it is scored to reduce disk usage.",
+    )
+    parser.add_argument(
         "--output-json",
         default="outputs/variant_test_results.json",
         help="Where to write the test artifact.",
+    )
+    parser.add_argument(
+        "--num-shards",
+        type=int,
+        default=1,
+        help="Total number of parallel shard jobs. Use 1 for no sharding.",
+    )
+    parser.add_argument(
+        "--shard-index",
+        type=int,
+        default=0,
+        help="Zero-based shard index for this run.",
+    )
+    parser.add_argument(
+        "--hpc-job-count",
+        type=int,
+        default=0,
+        help="Optional alias for --num-shards for scheduler integration.",
+    )
+    parser.add_argument(
+        "--hpc-job-index",
+        type=int,
+        default=-1,
+        help="Optional alias for --shard-index for scheduler integration.",
+    )
+    parser.add_argument(
+        "--hpc-node-count",
+        type=int,
+        default=1,
+        help="Metadata only: total HPC nodes allocated to this run.",
+    )
+    parser.add_argument(
+        "--hpc-gpus-per-job",
+        type=int,
+        default=0,
+        help="Metadata only: GPUs available per job.",
+    )
+    parser.add_argument(
+        "--hpc-cpus-per-job",
+        type=int,
+        default=1,
+        help="Metadata only: CPUs available per job.",
+    )
+    parser.add_argument(
+        "--no-slurm-autodetect",
+        action="store_true",
+        help="Disable auto-detecting shard count/index from SLURM_ARRAY_TASK_COUNT/SLURM_ARRAY_TASK_ID.",
     )
     return parser.parse_args()
 
 
 if __name__ == "__main__":
     args = parse_args()
+    hpc_config = _resolve_hpc_execution_config(args)
     runner = VariantTestRunner(
         benchmark_path=Path(args.benchmark),
         max_results=int(args.max_results),
         limit=int(args.limit) if int(args.limit) > 0 else None,
         rebuild_existing=bool(args.rebuild_existing),
+        hpc_config=hpc_config,
+        include_baseline=not bool(args.skip_baseline),
+        cleanup_variant_dbs=bool(args.cleanup_variant_dbs),
     )
     runner.run_tests()
     runner.print_results()
