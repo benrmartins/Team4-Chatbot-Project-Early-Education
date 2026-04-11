@@ -20,6 +20,27 @@ STOPWORDS = {
 TOKEN_PATTERN = re.compile(r"[a-zA-Z0-9']+")
 
 
+def _error_payload(
+	query: str,
+	database_path: str | None,
+	error_code: str,
+	error_message: str,
+	max_results: int,
+) -> Dict[str, Any]:
+	return {
+		"query": query,
+		"normalized_query_terms": tokenize(query),
+		"result_count": 0,
+		"low_confidence": True,
+		"results": [],
+		"retrieval_status": "failed",
+		"error_code": error_code,
+		"error_message": error_message,
+		"database_path": database_path or "",
+		"max_results": max_results,
+	}
+
+
 def tokenize(text: str) -> List[str]:
 	if not text:
 		return []
@@ -142,29 +163,64 @@ def search_sqlite_knowledge(
 	database_path: str | None = None,
 ) -> Dict[str, Any]:
 	if not isinstance(query, str) or not query.strip():
-		return {"error": "Query must be a non-empty string."}
+		return _error_payload(
+			query=query if isinstance(query, str) else "",
+			database_path=database_path,
+			error_code="invalid_query",
+			error_message="Query must be a non-empty string.",
+			max_results=max_results if isinstance(max_results, int) else 5,
+		)
 	if not database_path:
-		return {"error": "database_path is required for SQLite retrieval."}
+		return _error_payload(
+			query=query,
+			database_path=database_path,
+			error_code="missing_database_path",
+			error_message="database_path is required for SQLite retrieval.",
+			max_results=max_results if isinstance(max_results, int) else 5,
+		)
 	if not isinstance(max_results, int) or max_results <= 0:
 		max_results = 5
 
 	db_file = Path(database_path)
 	if not db_file.exists():
-		return {"error": f"SQLite database not found: {db_file}"}
+		return _error_payload(
+			query=query,
+			database_path=database_path,
+			error_code="database_not_found",
+			error_message=f"SQLite database not found: {db_file}",
+			max_results=max_results,
+		)
 
 	query_terms = tokenize(query)
 	semantic_pool = max(max_results * 4, 10)
-	embedding_method, detected_dim = read_db_embedding_config(db_file)
-	query_embedder = get_embedder_with_dimension(
-		dim=detected_dim,
-		embedding_method=embedding_method,
-	)
-	rows = query_similar_by_text(
-		db_path=db_file,
-		query_text=query,
-		embedder=query_embedder,
-		top_k=semantic_pool,
-	)
+	try:
+		embedding_method, detected_dim = read_db_embedding_config(db_file)
+		query_embedder = get_embedder_with_dimension(
+			dim=detected_dim,
+			embedding_method=embedding_method,
+		)
+		rows = query_similar_by_text(
+			db_path=db_file,
+			query_text=query,
+			embedder=query_embedder,
+			top_k=semantic_pool,
+		)
+	except ValueError as exc:
+		return _error_payload(
+			query=query,
+			database_path=database_path,
+			error_code="embedding_dim_mismatch",
+			error_message=str(exc),
+			max_results=max_results,
+		)
+	except Exception as exc:
+		return _error_payload(
+			query=query,
+			database_path=database_path,
+			error_code="embedder_unavailable",
+			error_message=str(exc),
+			max_results=max_results,
+		)
 
 	ranked_results = [
 		_build_result_item(row, query_terms=query_terms, rank=index)
@@ -181,6 +237,7 @@ def search_sqlite_knowledge(
 		"normalized_query_terms": query_terms,
 		"result_count": len(ranked_results),
 		"low_confidence": low_confidence,
+		"retrieval_status": "ok",
 		"results": ranked_results,
 	}
 

@@ -11,7 +11,7 @@ from project_config import (
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--name", help="Optional explicit name for the variant processor", type=str, default="")
-    parser.add_argument("--embedding-method", help="Embedding method label used in variant naming", type=str, default="default")
+    parser.add_argument("--embedding-method", help="Embedding method label used in variant naming", type=str, default="dummy")
     parser.add_argument("--chunk-size", help="Chunk size for the variant processor", type=int, default=DEFAULT_CHUNK_SIZE)
     parser.add_argument("--chunk-overlap", help="Chunk overlap for the variant processor", type=int, default=DEFAULT_CHUNK_OVERLAP)
     parser.add_argument("--embedding-dim", help="Embedding dimension for the variant processor", type=int, default=DEFAULT_EMBEDDING_DIM)
@@ -46,7 +46,8 @@ if __name__ == "__main__":
         chunk_overlap=pipeline_chunk_overlap,
         embedding_dim=embedding_dim,
         batch_size=batch_size,
-        output_path=output_path
+        output_path=output_path,
+        embedding_method=embedding_method,
     )
 
     print(f"Created variant '{variant_processor.name}' at: {variant_processor.output_path}")

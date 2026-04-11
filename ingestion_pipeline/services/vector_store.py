@@ -88,16 +88,19 @@ def get_default_embedder() -> BaseEmbedder:
             return OpenAIEmbedder(dim=DEFAULT_EMBEDDING_DIM)
     except Exception:
         pass
-    return DummyEmbedder(dim=DEFAULT_EMBEDDING_DIM)
+    raise Exception(f"Failed to initialize OpenAIEmbedder with dim {DEFAULT_EMBEDDING_DIM}. Check API key and client configuration.")
 
 def get_embedder_with_dimension(dim: int, embedding_method: str = "dummy") -> BaseEmbedder:
     """Helper to get an embedder instance with a specific dimension."""
-    try:
-        if API_KEY and client is not None and embedding_method != "dummy":
-            return OpenAIEmbedder(dim=dim, embedding_method=embedding_method)
-    except Exception:
-        pass
-    return DummyEmbedder(dim=dim)
+    if embedding_method == "dummy":
+        return DummyEmbedder(dim=dim)
+    else:
+        try:
+            if API_KEY and client is not None:
+                return OpenAIEmbedder(embedding_method=embedding_method, dim=dim)
+        except Exception:
+            pass
+    raise Exception(f"Failed to initialize OpenAIEmbedder with method '{embedding_method}' and dim {dim}. Check API key and client configuration.")
 
 def _now_iso() -> str:
     return datetime.now().isoformat()
@@ -338,6 +341,13 @@ def query_similar_by_text(
 
     q_emb = embedder.embed({"chunks": [{"text": query_text}]})[0]
     all_rows = fetch_all_embeddings(db_path)
+
+    # compare size of query and db vector and error if they don't match
+    if all_rows and "embedding" in all_rows[0]:
+        db_emb = all_rows[0]["embedding"]
+        if len(q_emb) != len(db_emb):
+            raise ValueError(f"Query embedding dimension {len(q_emb)} does not match DB embedding dimension {len(db_emb)}.")
+
     scored: List[tuple[float, JSONDict]] = []
     for row in all_rows:
         emb = row.get("embedding") or []

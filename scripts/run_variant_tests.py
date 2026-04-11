@@ -232,12 +232,6 @@ class VariantTestRunner:
         self.base_processor.embed()
 
     def _create_or_rebuild_variant(self, spec: VariantSpec) -> DataProcessor:
-        if spec.embedding_method != "openai_small":
-            raise ValueError(
-                f"Unsupported embedding method '{spec.embedding_method}'. "
-                "Currently supported methods: ['openai_small']."
-            )
-
         variant = DataProcessor(
             name=spec.name,
             chunk_size=spec.chunk_size,
@@ -245,6 +239,7 @@ class VariantTestRunner:
             embedding_dim=spec.embedding_dim,
             batch_size=spec.batch_size,
             output_path=spec.output_path,
+            embedding_method=spec.embedding_method,
         )
         variant.web_data = self.base_processor.web_data
         variant.source_summary = self.base_processor.source_summary

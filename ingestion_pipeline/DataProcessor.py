@@ -6,11 +6,12 @@ from project_config import *
 
 class DataProcessor():
     """Class to handle data processing steps for the chatbot ingestion pipeline."""
-    def __init__(self, name: str, chunk_size: int, chunk_overlap: int, embedding_dim: int, batch_size: int, output_path: str):
+    def __init__(self, name: str, chunk_size: int, chunk_overlap: int, embedding_dim: int, batch_size: int, output_path: str, embedding_method: str = "default"):
         self.name = name
         self.chunk_size = chunk_size
         self.chunk_overlap = chunk_overlap
         self.embedding_dim = embedding_dim
+        self.embedding_method = embedding_method
         self.batch_size = batch_size
         self.output_path = output_path
         self.web_data = None
@@ -42,6 +43,7 @@ class DataProcessor():
             embedding_dim: int,
             batch_size: int,
             output_path: str | None = None,
+            embedding_method: str = "default",
     ) -> 'DataProcessor':
         path_to_db = output_path or self.build_variant_output_path(name)
         if not str(path_to_db).lower().endswith(".sqlite"):
@@ -55,7 +57,8 @@ class DataProcessor():
             chunk_overlap=chunk_overlap,
             embedding_dim=embedding_dim,
             batch_size=batch_size,
-            output_path=path_to_db
+            output_path=path_to_db,
+            embedding_method=embedding_method,
         )
 
         copy.web_data = self.web_data
@@ -97,6 +100,7 @@ class DataProcessor():
             dimensions=self.embedding_dim,
             batch_size=self.batch_size,
             database_path=self.output_path,
+            embedding_method=self.embedding_method,
         )
 
 class DefaultDataProcessor(DataProcessor):
@@ -109,6 +113,7 @@ class DefaultDataProcessor(DataProcessor):
             embedding_dim=DEFAULT_EMBEDDING_DIM,
             batch_size=DEFAULT_BATCH_SIZE,
             output_path=str(DEFAULT_VECTOR_DB_PATH) + "_default.sqlite",
+            embedding_method="dummy",
         )
         # if default web output is not found, run crawler to populate data for chunking and embedding steps
         if DEFAULT_WEB_OUTPUT.exists():
@@ -121,17 +126,3 @@ class DefaultDataProcessor(DataProcessor):
         else:
             print(f"Default web output not found at {DEFAULT_WEB_OUTPUT}. Running crawler to populate data...")
             self.crawl(output_path=str(DEFAULT_WEB_OUTPUT))
-
-    def embed(self):
-        if self.chunk_payload is None:
-            print("Chunk payload not found. Running chunking step first...")
-            self.chunk()
-
-        # Force dummy embeddings for the default datastore to keep startup fast and deterministic.
-        run_embedder(
-            unified_payload=self.chunk_payload or {},
-            dimensions=self.embedding_dim,
-            batch_size=self.batch_size,
-            database_path=self.output_path,
-            embedding_method="dummy",
-        )
