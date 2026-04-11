@@ -117,6 +117,9 @@ def init_db(db_path: Path | str) -> None:
             id TEXT PRIMARY KEY,
             document_id TEXT,
             chunk_index INTEGER,
+            title TEXT,
+            url TEXT,
+            source_type TEXT,
             text TEXT,
             metadata TEXT,
             embedding TEXT,
@@ -124,6 +127,7 @@ def init_db(db_path: Path | str) -> None:
         )
         """
     )
+
     cur.execute("CREATE INDEX IF NOT EXISTS idx_document_id ON embeddings(document_id)")
     conn.commit()
     conn.close()
@@ -131,7 +135,6 @@ def init_db(db_path: Path | str) -> None:
 def ingest_payload_to_sqlite(
     payload: JSONDict,
     db_path: Path | str,
-    overwrite_db: bool = False,
     embedder: Optional[BaseEmbedder] = None,
     batch_size: int = DEFAULT_BATCH_SIZE,
 ) -> int:
@@ -147,10 +150,7 @@ def ingest_payload_to_sqlite(
     if embedder is None:
         embedder = get_default_embedder()
 
-    if overwrite_db:
-        init_db(db_path)
-    if not Path(db_path).exists():
-        init_db(db_path)
+    init_db(db_path)
 
     conn = sqlite3.connect(str(db_path))
     cur = conn.cursor()
@@ -166,12 +166,28 @@ def ingest_payload_to_sqlite(
             chunk_id = chunk.get("chunk_id")
             document_id = chunk.get("document_id")
             chunk_index = chunk.get("chunk_index")
+            title = chunk.get("title")
+            url = chunk.get("url")
+            source_type = chunk.get("source_type")
             text = chunk.get("text")
-            metadata = chunk.get("metadata", {})
-            rows.append((chunk_id, document_id, chunk_index, text, json.dumps(metadata, ensure_ascii=False), json.dumps(emb), now))
+            metadata = dict(chunk.get("metadata", {}) or {})
+            rows.append(
+                (
+                    chunk_id,
+                    document_id,
+                    chunk_index,
+                    title,
+                    url,
+                    source_type,
+                    text,
+                    json.dumps(metadata, ensure_ascii=False),
+                    json.dumps(emb),
+                    now,
+                )
+            )
 
         cur.executemany(
-            "INSERT OR REPLACE INTO embeddings (id, document_id, chunk_index, text, metadata, embedding, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)",
+            "INSERT OR REPLACE INTO embeddings (id, document_id, chunk_index, title, url, source_type, text, metadata, embedding, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
             rows,
         )
         conn.commit()
@@ -184,11 +200,17 @@ def ingest_payload_to_sqlite(
 def fetch_all_embeddings(db_path: Path | str) -> List[JSONDict]:
     conn = sqlite3.connect(str(db_path))
     cur = conn.cursor()
-    rows = cur.execute("SELECT id, document_id, chunk_index, text, metadata, embedding, created_at FROM embeddings").fetchall()
+    rows = cur.execute(
+        "SELECT id, document_id, chunk_index, title, url, source_type, text, metadata, embedding, created_at FROM embeddings"
+    ).fetchall()
+    
     conn.close()
 
     out: List[JSONDict] = []
-    for id_, document_id, chunk_index, text, metadata_text, embedding_text, created_at in rows:
+    for row in rows:
+
+        id_, document_id, chunk_index, title, url, source_type, text, metadata_text, embedding_text, created_at = row
+
         try:
             metadata = json.loads(metadata_text) if metadata_text else {}
         except Exception:
@@ -202,6 +224,9 @@ def fetch_all_embeddings(db_path: Path | str) -> List[JSONDict]:
                 "id": id_,
                 "document_id": document_id,
                 "chunk_index": chunk_index,
+                "title": title,
+                "url": url,
+                "source_type": source_type,
                 "text": text,
                 "metadata": metadata,
                 "embedding": embedding,

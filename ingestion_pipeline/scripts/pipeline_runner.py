@@ -70,7 +70,6 @@ def run_embedder(
         dimensions: int,
         batch_size: int,
         database_path: str,
-        overwrite_db: bool = False,
     ) -> int:
     embedder = get_embedder_with_dimension(dim=dimensions)
     inserted = ingest_payload_to_sqlite(
@@ -78,7 +77,6 @@ def run_embedder(
         database_path,
         embedder=embedder, 
         batch_size=batch_size, 
-        overwrite_db=overwrite_db
     )
     print(f"Inserted {inserted} chunks into vector DB at: {database_path}")
     print("Embedding complete.")

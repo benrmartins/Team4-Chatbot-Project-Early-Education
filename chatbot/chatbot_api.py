@@ -12,6 +12,7 @@ from project_config import (
     CHAT_CONTEXT_LIMIT,
     CHAT_INPUT_PROMPT,
     CHAT_MAX_MESSAGE_CHARS,
+    DEFAULT_VECTOR_DB_PATH,
     OPENROUTER_BASE_URL,
     OPENROUTER_MODEL,
     ONBOARD_PROMPT,
@@ -87,12 +88,21 @@ class ConversationHistory:
 
 
 class Chatbot:
-    def __init__(self, system_prompt=SYSTEM_PROMPT, context_limit=CHAT_CONTEXT_LIMIT, name=CHATBOT_NAME):
+    def __init__(
+            self, 
+            system_prompt=SYSTEM_PROMPT, 
+            context_limit=CHAT_CONTEXT_LIMIT, 
+            name=CHATBOT_NAME, 
+            input_prompt=CHAT_INPUT_PROMPT, 
+            onboard_prompt=ONBOARD_PROMPT,
+            database_path: str = str(DEFAULT_VECTOR_DB_PATH) + "_default.sqlite",
+        ):
         self.name = name
         self.history = ConversationHistory(context_limit=context_limit)
         self.history.add_message("system", system_prompt)
-        self.input_prompt = CHAT_INPUT_PROMPT
-        self.onboard_prompt = ONBOARD_PROMPT
+        self.input_prompt = input_prompt
+        self.onboard_prompt = onboard_prompt
+        self.database_path = database_path
 
     def create_response(self, user_input: str, status_callback: Callable[[str], None] | None = None) -> str:
         payload = self.create_response_payload(user_input, status_callback=status_callback)
@@ -145,7 +155,11 @@ class Chatbot:
                 arguments = {}
 
             try:
-                tool_result = execute_tool_call(function_name, arguments)
+                tool_result = execute_tool_call(
+                    function_name,
+                    arguments,
+                    tool_context={"database_path": self.database_path},
+                )
                 tool_results.append(
                     {
                         "name": function_name,

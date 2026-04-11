@@ -78,7 +78,6 @@ class DataProcessor():
             dimensions=self.embedding_dim,
             batch_size=self.batch_size,
             database_path=self.output_path,
-            overwrite_db=True  # Overwrite DB for this variant to ensure clean slate
         )
 
 class DefaultDataProcessor(DataProcessor):
