@@ -4,6 +4,7 @@ from pathlib import Path
 PROJECT_ROOT = Path(__file__).resolve().parent
 # Folder containing pipeline outputs and retrieval datasets.
 DATA_DIR = PROJECT_ROOT / "data"
+COST_LOG_PATH = PROJECT_ROOT / "cost.json"
 
 # OAuth client credentials JSON used by Google Drive ingestion.
 CREDENTIALS_PATH = PROJECT_ROOT / "credentials.json"
@@ -161,6 +162,7 @@ RETRIEVAL_SYNONYM_MAP = {
 __all__ = [
     "PROJECT_ROOT",
     "DATA_DIR",
+    "COST_LOG_PATH",
     "CREDENTIALS_PATH",
     "DEFAULT_WEB_OUTPUT",
     "DEFAULT_CHUNK_OUTPUT",

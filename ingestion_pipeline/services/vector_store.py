@@ -26,6 +26,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional
 from ingestion_pipeline.schema import JSONDict
+from cost_logger import log_api_usage
 from project_config import DEFAULT_BATCH_SIZE, OPENROUTER_BASE_URL, DEFAULT_EMBEDDING_DIM
 from abc import ABC, abstractmethod
 
@@ -46,16 +47,32 @@ class OpenAIEmbedder(BaseEmbedder):
     def __init__(self, embedding_method: str = "dummy", dim: int = 1024):
         self.embedding_method = embedding_method
         self.dim = dim
+        self.model = (
+            "text-embedding-3-small" if self.embedding_method == "openai_small" else
+            "text-embedding-3-large" if self.embedding_method == "openai_large" else
+            "text-embedding-3-small"
+        )
 
     def embed(self, documents: JSONDict) -> List[List[float]]:
         texts = [doc.get("text", "") for doc in documents.get("chunks", [])]
         response = client.embeddings.create(
             input=texts,
-            model="text-embedding-3-small" if self.embedding_method == "openai_small" else
-                  "text-embedding-3-large" if self.embedding_method == "openai_large" else
-                  "text-embedding-3-small",
+            model=self.model,
             dimensions=self.dim,
         )
+
+        usage = getattr(response, "usage", None)
+        if usage is not None:
+            try:
+                log_api_usage(
+                    model=self.model,
+                    prompt_tokens=getattr(usage, "prompt_tokens", 0),
+                    completion_tokens=0,
+                    total_tokens=getattr(usage, "total_tokens", 0),
+                )
+            except Exception:
+                pass
+
         return [e.embedding for e in response.data]
 
 class DummyEmbedder(BaseEmbedder):

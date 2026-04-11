@@ -5,6 +5,7 @@ from typing import Any, Callable
 
 from dotenv import load_dotenv
 from openai import OpenAI
+from cost_logger import log_api_usage
 
 from chatbot.tool_calls import TOOLS, execute_tool_call
 from ingestion_pipeline.schema import JSONDict
@@ -35,6 +36,19 @@ def get_open_ai_response(messages, tool_choice: str = "auto"):
     if tool_choice != "none":
         request_kwargs["tools"] = TOOLS
     response = client.chat.completions.create(**request_kwargs)
+
+    usage = getattr(response, "usage", None)
+    if usage is not None:
+        try:
+            log_api_usage(
+                model=getattr(response, "model", OPENROUTER_MODEL),
+                prompt_tokens=getattr(usage, "prompt_tokens", 0),
+                completion_tokens=getattr(usage, "completion_tokens", 0),
+                total_tokens=getattr(usage, "total_tokens", 0),
+            )
+        except Exception:
+            pass
+
     return response
 
 
