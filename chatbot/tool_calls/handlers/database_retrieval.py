@@ -2,7 +2,11 @@ import re
 from pathlib import Path
 from typing import Any, Dict, List
 
-from ingestion_pipeline.services.vector_store import get_default_embedder, query_similar_by_text
+from ingestion_pipeline.services.vector_store import (
+	get_embedder_with_dimension,
+	query_similar_by_text,
+	read_db_embedding_config,
+)
 from project_config import RETRIEVAL_SNIPPET_MAX_CHARS
 
 STOPWORDS = {
@@ -150,10 +154,15 @@ def search_sqlite_knowledge(
 
 	query_terms = tokenize(query)
 	semantic_pool = max(max_results * 4, 10)
+	embedding_method, detected_dim = read_db_embedding_config(db_file)
+	query_embedder = get_embedder_with_dimension(
+		dim=detected_dim,
+		embedding_method=embedding_method,
+	)
 	rows = query_similar_by_text(
 		db_path=db_file,
 		query_text=query,
-		embedder=get_default_embedder(),
+		embedder=query_embedder,
 		top_k=semantic_pool,
 	)
 
@@ -181,4 +190,3 @@ def search_unified_knowledge(query: str, max_results: int = 5, database_path: st
 	return search_sqlite_knowledge(query=query, max_results=max_results, database_path=database_path)
 
 
-__all__ = ["search_sqlite_knowledge", "search_unified_knowledge"]

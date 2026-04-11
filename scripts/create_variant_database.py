@@ -3,9 +3,9 @@ from ingestion_pipeline import DefaultDataProcessor
 from project_config import (
     DEFAULT_BATCH_SIZE,
     DEFAULT_EMBEDDING_DIM,
-    VARIANT_TEST_DB_DIR,
     DEFAULT_CHUNK_OVERLAP,
     DEFAULT_CHUNK_SIZE,
+    DATA_DIR
 )
 
 if __name__ == "__main__":
@@ -37,7 +37,7 @@ if __name__ == "__main__":
 
     output_path = args.output_path.strip() or DefaultDataProcessor.build_variant_output_path(
         name=name,
-        db_dir=VARIANT_TEST_DB_DIR,
+        db_dir=DATA_DIR ,
     )
 
     variant_processor = DefaultDataProcessor().create_variant(

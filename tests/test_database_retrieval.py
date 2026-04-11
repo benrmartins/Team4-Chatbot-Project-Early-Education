@@ -45,7 +45,6 @@ class DatabaseRetrievalTests(unittest.TestCase):
             ingest_payload_to_sqlite(
                 payload,
                 db_path,
-                overwrite_db=True,
                 embedder=DummyEmbedder(dim=32),
                 batch_size=8,
             )

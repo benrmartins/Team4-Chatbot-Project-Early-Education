@@ -217,11 +217,25 @@ class VariantTestRunner:
         if self.base_processor.web_data is None or self.base_processor.source_summary is None:
             self.base_processor.crawl()
 
+    def _ensure_default_database(self) -> None:
+        """Ensure the canonical default datastore exists before variant evaluation."""
+        self._ensure_base_data()
+        default_db = Path(self.base_processor.output_path)
+        if default_db.exists() and not self.rebuild_existing:
+            return
+
+        if default_db.exists() and self.rebuild_existing:
+            default_db.unlink()
+
+        print(f"Default database not found; creating: {default_db}")
+        self.base_processor.chunk()
+        self.base_processor.embed()
+
     def _create_or_rebuild_variant(self, spec: VariantSpec) -> DataProcessor:
-        if spec.embedding_method != "default":
+        if spec.embedding_method != "openai_small":
             raise ValueError(
                 f"Unsupported embedding method '{spec.embedding_method}'. "
-                "Currently supported methods: ['default']."
+                "Currently supported methods: ['openai_small']."
             )
 
         variant = DataProcessor(
@@ -246,10 +260,28 @@ class VariantTestRunner:
         return variant
 
     def run_tests(self) -> None:
-        self._ensure_base_data()
+        self._ensure_default_database()
         benchmark_items = _load_benchmark(Path(self.benchmark_path))
 
+        baseline_payload = {
+            "name": self.base_processor.name,
+            "embedding_method": "dummy",
+            "chunk_size": self.base_processor.chunk_size,
+            "chunk_overlap": self.base_processor.chunk_overlap,
+            "embedding_dim": self.base_processor.embedding_dim,
+            "batch_size": self.base_processor.batch_size,
+            "output_path": self.base_processor.output_path,
+            **evaluate_variant(
+                db_path=self.base_processor.output_path,
+                benchmark_items=benchmark_items,
+                max_results=self.max_results,
+            ),
+        }
+        self.variant_results.append(baseline_payload)
+
         for spec in self.specs:
+            if str(spec.output_path) == str(self.base_processor.output_path):
+                continue
             print(f"Building variant: {spec.name}")
             variant = self._create_or_rebuild_variant(spec)
             metrics = evaluate_variant(
@@ -313,6 +345,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--rebuild-existing",
         action="store_true",
+        default=False,
         help="Delete and rebuild existing variant databases.",
     )
     parser.add_argument(

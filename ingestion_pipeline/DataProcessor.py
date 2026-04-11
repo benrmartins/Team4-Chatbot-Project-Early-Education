@@ -122,3 +122,16 @@ class DefaultDataProcessor(DataProcessor):
             print(f"Default web output not found at {DEFAULT_WEB_OUTPUT}. Running crawler to populate data...")
             self.crawl(output_path=str(DEFAULT_WEB_OUTPUT))
 
+    def embed(self):
+        if self.chunk_payload is None:
+            print("Chunk payload not found. Running chunking step first...")
+            self.chunk()
+
+        # Force dummy embeddings for the default datastore to keep startup fast and deterministic.
+        run_embedder(
+            unified_payload=self.chunk_payload or {},
+            dimensions=self.embedding_dim,
+            batch_size=self.batch_size,
+            database_path=self.output_path,
+            embedding_method="dummy",
+        )

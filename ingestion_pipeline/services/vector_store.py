@@ -43,15 +43,17 @@ class BaseEmbedder(ABC):
         pass
 
 class OpenAIEmbedder(BaseEmbedder):
-    def __init__(self, model: str = "text-embedding-3-small", dim: int = 1024):
-        self.model = model
+    def __init__(self, embedding_method: str = "dummy", dim: int = 1024):
+        self.embedding_method = embedding_method
         self.dim = dim
 
     def embed(self, documents: JSONDict) -> List[List[float]]:
         texts = [doc.get("text", "") for doc in documents.get("chunks", [])]
         response = client.embeddings.create(
             input=texts,
-            model=self.model,
+            model="text-embedding-3-small" if self.embedding_method == "openai_small" else
+                  "text-embedding-3-large" if self.embedding_method == "openai_large" else
+                  "text-embedding-3-small",
             dimensions=self.dim,
         )
         return [e.embedding for e in response.data]
@@ -79,26 +81,20 @@ class DummyEmbedder(BaseEmbedder):
             out.append([x / norm for x in vec])
         return out
 
-
 def get_default_embedder() -> BaseEmbedder:
-    """Return a sensible default embedder.
-
-    If `OPENAI_API_KEY` is present and `openai` is importable, an OpenAI
-    embedder could be used here. For now, default to `DummyEmbedder` so
-    the pipeline works out of the box.
-    """
+    """Helper to get a default embedder instance."""
     try:
         if API_KEY and client is not None:
-            return OpenAIEmbedder(dim=int(DEFAULT_EMBEDDING_DIM))
+            return OpenAIEmbedder(dim=DEFAULT_EMBEDDING_DIM)
     except Exception:
         pass
-    return DummyEmbedder()
+    return DummyEmbedder(dim=DEFAULT_EMBEDDING_DIM)
 
-def get_embedder_with_dimension(dim: int) -> BaseEmbedder:
+def get_embedder_with_dimension(dim: int, embedding_method: str = "dummy") -> BaseEmbedder:
     """Helper to get an embedder instance with a specific dimension."""
     try:
-        if API_KEY and client is not None:
-            return OpenAIEmbedder(dim=dim)
+        if API_KEY and client is not None and embedding_method != "dummy":
+            return OpenAIEmbedder(dim=dim, embedding_method=embedding_method)
     except Exception:
         pass
     return DummyEmbedder(dim=dim)
@@ -127,10 +123,85 @@ def init_db(db_path: Path | str) -> None:
         )
         """
     )
+    cur.execute(
+        """
+        CREATE TABLE IF NOT EXISTS db_metadata (
+            key TEXT PRIMARY KEY,
+            value TEXT
+        )
+        """
+    )
 
     cur.execute("CREATE INDEX IF NOT EXISTS idx_document_id ON embeddings(document_id)")
     conn.commit()
     conn.close()
+
+
+def _write_db_embedding_config(
+    conn: sqlite3.Connection,
+    embedding_config: Dict[str, Any],
+) -> None:
+    cur = conn.cursor()
+    now = _now_iso()
+    rows = [
+        ("embedding_config", json.dumps(embedding_config)),
+        ("updated_at", now),
+    ]
+    cur.executemany(
+        "INSERT OR REPLACE INTO db_metadata (key, value) VALUES (?, ?)",
+        rows,
+    )
+
+
+def _build_embedding_config(embedder: BaseEmbedder) -> Dict[str, Any]:
+    config: Dict[str, Any] = {
+        "method": str(getattr(embedder, "embedding_method", "dummy")).strip().lower() or "dummy",
+        "dim": int(getattr(embedder, "dim", DEFAULT_EMBEDDING_DIM)),
+        "embedder_class": embedder.__class__.__name__,
+    }
+    model_name = getattr(embedder, "model", None)
+    if model_name:
+        config["model"] = str(model_name)
+    return config
+
+
+def read_db_embedding_config(
+    db_path: Path | str,
+    default_method: str = "dummy",
+    default_dim: int = DEFAULT_EMBEDDING_DIM,
+) -> tuple[str, int]:
+    """Resolve (embedding_method, embedding_dim) directly from DB metadata."""
+    conn = sqlite3.connect(str(db_path))
+    try:
+        cur = conn.cursor()
+        table_exists = cur.execute(
+            "SELECT name FROM sqlite_master WHERE type='table' AND name='db_metadata'"
+        ).fetchone()
+        if not table_exists:
+            return str(default_method or "dummy").strip().lower() or "dummy", int(default_dim)
+
+        row = cur.execute(
+            "SELECT value FROM db_metadata WHERE key='embedding_config' LIMIT 1"
+        ).fetchone()
+        if not row or not row[0]:
+            return str(default_method or "dummy").strip().lower() or "dummy", int(default_dim)
+
+        parsed = json.loads(row[0])
+        if not isinstance(parsed, dict):
+            return str(default_method or "dummy").strip().lower() or "dummy", int(default_dim)
+
+        method = str(parsed.get("method", "")).strip().lower() or str(default_method or "dummy").strip().lower() or "dummy"
+        try:
+            dim = int(parsed.get("dim", default_dim))
+        except Exception:
+            dim = int(default_dim)
+        if dim <= 0:
+            dim = int(default_dim)
+        return method, dim
+    except Exception:
+        return str(default_method or "dummy").strip().lower() or "dummy", int(default_dim)
+    finally:
+        conn.close()
 
 def ingest_payload_to_sqlite(
     payload: JSONDict,
@@ -154,6 +225,10 @@ def ingest_payload_to_sqlite(
 
     conn = sqlite3.connect(str(db_path))
     cur = conn.cursor()
+
+    # Record embedder configuration for retrieval-time query embedding alignment.
+    embedding_config = _build_embedding_config(embedder)
+    _write_db_embedding_config(conn, embedding_config=embedding_config)
 
     chunks = payload.get("chunks", []) or []
     total = 0
@@ -280,6 +355,7 @@ __all__ = [
     "DummyEmbedder",
     "get_default_embedder",
     "get_embedder_with_dimension",
+    "read_db_embedding_config",
     "init_db",
     "ingest_payload_to_sqlite",
     "fetch_all_embeddings",
