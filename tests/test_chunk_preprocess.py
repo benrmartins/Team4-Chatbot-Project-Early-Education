@@ -1,6 +1,6 @@
 import unittest
 
-from ingestion_pipeline.vector_preprocess import build_chunk_records
+from ingestion_pipeline.scripts.build_chunk_payload import build_chunk_records
 
 
 class VectorPreprocessTests(unittest.TestCase):

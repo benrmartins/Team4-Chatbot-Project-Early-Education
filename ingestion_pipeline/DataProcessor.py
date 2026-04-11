@@ -17,6 +17,23 @@ class DataProcessor():
         self.chunk_payload = None
         self.source_summary = None
 
+    @staticmethod
+    def build_variant_name(
+        embedding_method: str,
+        chunk_size: int,
+        chunk_overlap: int,
+        embedding_dim: int,
+        batch_size: int,
+    ) -> str:
+        method = str(embedding_method or "default").strip().lower()
+        return f"{method}_cs{int(chunk_size)}_co{int(chunk_overlap)}_ed{int(embedding_dim)}_bs{int(batch_size)}"
+
+    @staticmethod
+    def build_variant_output_path(name: str, db_dir: str | Path = DATA_DIR) -> str:
+        directory = Path(db_dir)
+        directory.mkdir(parents=True, exist_ok=True)
+        return str(directory / f"{name}.sqlite")
+
     def create_variant(
             self,
             name: str,
@@ -24,9 +41,11 @@ class DataProcessor():
             chunk_overlap: int,
             embedding_dim: int,
             batch_size: int,
-            output_path: str
+            output_path: str | None = None,
     ) -> 'DataProcessor':
-        path_to_db = output_path + f"_{name}.sqlite"
+        path_to_db = output_path or self.build_variant_output_path(name)
+        if not str(path_to_db).lower().endswith(".sqlite"):
+            path_to_db = f"{path_to_db}.sqlite"
         if Path(path_to_db).exists():
             raise RuntimeError(f"Warning: Output database for variant '{name}' already exists at {path_to_db}.")
 
@@ -89,7 +108,7 @@ class DefaultDataProcessor(DataProcessor):
             chunk_overlap=DEFAULT_CHUNK_OVERLAP,
             embedding_dim=DEFAULT_EMBEDDING_DIM,
             batch_size=DEFAULT_BATCH_SIZE,
-            output_path=str(DEFAULT_VECTOR_DB_PATH)
+            output_path=str(DEFAULT_VECTOR_DB_PATH) + "_default.sqlite",
         )
         # if default web output is not found, run crawler to populate data for chunking and embedding steps
         if DEFAULT_WEB_OUTPUT.exists():

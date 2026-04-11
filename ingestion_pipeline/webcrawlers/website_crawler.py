@@ -69,7 +69,7 @@ def build_web_payload(documents: list[dict], skipped_pages: list[dict], pages_se
 
 
 class WebsiteCrawler:
-    def __init__(self, seeds: Iterable[str] | None = None, max_depth: int = CRAWLER_DEPTH_LIMIT) -> None:
+    def __init__(self, seeds: Iterable[str], max_depth: int = CRAWLER_DEPTH_LIMIT) -> None:
         configured_seeds = [url.strip() for url in (seeds or DEFAULT_WEBSITE_SEED_URLS) if url and url.strip()]
         if not configured_seeds:
             raise ValueError(
@@ -236,6 +236,6 @@ class WebsiteCrawler:
 
 
 if __name__ == "__main__":
-    crawler = WebsiteCrawler()
+    crawler = WebsiteCrawler(DEFAULT_WEBSITE_SEED_URLS)
     payload = crawler.scrape()
     print(json.dumps(payload["summary"], indent=2))

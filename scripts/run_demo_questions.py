@@ -118,7 +118,7 @@ def main() -> None:
     for idx, question in enumerate(questions, start=1):
         print(f"\n[{idx}/{len(questions)}] {question}")
         try:
-            payload = bot.create_response_payload(question, status_callback=status_cb)
+            payload = bot.create_response(question, status_callback=status_cb)
         except Exception as exc:
             payload = {"reply": f"[ERROR] {exc}", "citations": [], "evidence": [], "retrieval": None}
         print(f"{bot.name}: {payload['reply']}")

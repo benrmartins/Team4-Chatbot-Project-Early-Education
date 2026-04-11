@@ -10,9 +10,13 @@ from project_config import (
     DEFAULT_WEB_OUTPUT,
     PIPELINE_RUN_DRIVE,
     PIPELINE_RUN_WEB,
+    DEFAULT_WEBSITE_SEED_URLS,
+    DEFAULT_DRIVE_FOLDER_URLS
 )
 
 def run_crawlers(
+        web_seeds: List[str] = DEFAULT_WEBSITE_SEED_URLS,
+        drive_links: List[str] = DEFAULT_DRIVE_FOLDER_URLS,
         run_drive: bool = PIPELINE_RUN_DRIVE, 
         run_web: bool = PIPELINE_RUN_WEB,
         web_output_path: str | None = str(DEFAULT_WEB_OUTPUT)
@@ -21,12 +25,14 @@ def run_crawlers(
     source_summary: Dict[str, JSONDict] = {}
 
     if run_drive:
-        drive_payload = GoogleDriveCrawler().scrape()
-        all_documents.extend(drive_payload.get("documents", []))
-        source_summary["google_drive"] = drive_payload.get("summary", {})
+        drive_payload = GoogleDriveCrawler(drive_links=drive_links).scrape()
+        for folder_id, payload_result in drive_payload.items():
+            all_documents.extend(payload_result.get("documents", []))
+            source_summary["google_drive_" + folder_id] = payload_result.get("summary", {})
+        
 
     if run_web:
-        web_payload = WebsiteCrawler().scrape()
+        web_payload = WebsiteCrawler(seeds=web_seeds).scrape()
         all_documents.extend(web_payload.get("documents", []))
         source_summary["website"] = web_payload.get("summary", {})
 

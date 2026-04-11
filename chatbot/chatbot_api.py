@@ -7,6 +7,7 @@ from dotenv import load_dotenv
 from openai import OpenAI
 
 from chatbot.tool_calls import TOOLS, execute_tool_call
+from ingestion_pipeline.schema import JSONDict
 from project_config import (
     CHATBOT_NAME,
     CHAT_CONTEXT_LIMIT,
@@ -53,10 +54,10 @@ class ChatMessage:
 class ChatTurnPayload:
     reply: str
     citations: list[dict[str, str]]
-    evidence: list[dict[str, Any]]
-    retrieval: dict[str, Any] | None
+    evidence: list[JSONDict]
+    retrieval: JSONDict | None
 
-    def to_dict(self) -> dict[str, Any]:
+    def to_dict(self) -> JSONDict:
         return asdict(self)
 
 
@@ -104,15 +105,11 @@ class Chatbot:
         self.onboard_prompt = onboard_prompt
         self.database_path = database_path
 
-    def create_response(self, user_input: str, status_callback: Callable[[str], None] | None = None) -> str:
-        payload = self.create_response_payload(user_input, status_callback=status_callback)
-        return payload["reply"]
-
-    def create_response_payload(
+    def create_response(
         self,
         user_input: str,
         status_callback: Callable[[str], None] | None = None,
-    ) -> dict[str, Any]:
+    ) -> JSONDict:
         if not isinstance(user_input, str) or not user_input.strip():
             return ChatTurnPayload(
                 reply="Please enter a non-empty question.",
@@ -144,7 +141,7 @@ class Chatbot:
         if status_callback:
             status_callback("running_tools")
 
-        tool_results: list[dict[str, Any]] = []
+        tool_results: list[JSONDict] = []
         for tool_call in tool_calls:
             function_name = tool_call.function.name
             arguments_raw = tool_call.function.arguments or "{}"
@@ -206,7 +203,7 @@ class Chatbot:
             "Please try rephrasing your question."
         )
 
-    def _format_tool_results_for_prompt(self, tool_results: list[dict[str, Any]]) -> str:
+    def _format_tool_results_for_prompt(self, tool_results: list[JSONDict]) -> str:
         prompt_blocks: list[str] = []
         for tool_result in tool_results:
             name = tool_result["name"]
@@ -238,8 +235,8 @@ class Chatbot:
 
     def _build_evidence_payload(
         self,
-        tool_results: list[dict[str, Any]],
-    ) -> tuple[list[dict[str, str]], list[dict[str, Any]], dict[str, Any] | None]:
+        tool_results: list[JSONDict],
+    ) -> tuple[list[JSONDict], list[JSONDict], JSONDict | None]:
         retrieval = None
         for tool_result in tool_results:
             result = tool_result["result"]
@@ -250,9 +247,9 @@ class Chatbot:
         if retrieval is None:
             return [], [], None
 
-        citations: list[dict[str, str]] = []
+        citations: list[JSONDict] = []
         seen_citations: set[tuple[str, str]] = set()
-        evidence: list[dict[str, Any]] = []
+        evidence: list[JSONDict] = []
 
         for item in retrieval.get("results", []):
             citation = item.get("citation") or {

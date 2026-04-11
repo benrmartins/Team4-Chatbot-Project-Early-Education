@@ -45,7 +45,7 @@ def chat():
     def _status_callback(status: str) -> None:
         status_events.append(status)
 
-    response_payload = bot.create_response_payload(user_input, status_callback=_status_callback)
+    response_payload = bot.create_response(user_input, status_callback=_status_callback)
     return jsonify({
         "reply": response_payload["reply"],
         "citations": response_payload["citations"],

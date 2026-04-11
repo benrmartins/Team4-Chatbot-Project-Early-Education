@@ -14,15 +14,18 @@ from ingestion_pipeline.schema import SOURCE_GOOGLE_DRIVE, build_base_payload
 from ingestion_pipeline.scripts.build_chunk_payload import normalize_text
 from project_config import (
     CREDENTIALS_PATH,
-    DEFAULT_DRIVE_FOLDER_ID,
-    DEFAULT_DRIVE_FOLDER_LINK
+    DEFAULT_DRIVE_FOLDER_URLS,
 )
 
 SCOPES = ["https://www.googleapis.com/auth/drive.readonly"]
 FOLDER_MIME_TYPE = "application/vnd.google-apps.folder"
 
+DrivePayload = Dict[str, Dict]  # Mapping of folder link to its crawl payload
 
 class GoogleDriveCrawler:
+    def __init__(self, drive_links: List[str]) -> None:
+        self.drive_links = drive_links
+
     def create_media_download(self, file_buffer: io.BytesIO, request):
         google_http = importlib.import_module("googleapiclient.http")
         media_io_base_download = getattr(google_http, "MediaIoBaseDownload")
@@ -150,16 +153,13 @@ class GoogleDriveCrawler:
 
         return None
 
-    def resolve_folder_id(self) -> str:
-        if DEFAULT_DRIVE_FOLDER_ID:
-            return DEFAULT_DRIVE_FOLDER_ID
-
-        parsed_id = self.extract_folder_id_from_link(DEFAULT_DRIVE_FOLDER_LINK)
+    def resolve_folder_id(self, folder_link: str) -> str:
+        parsed_id = self.extract_folder_id_from_link(folder_link)
         if parsed_id:
             return parsed_id
 
         raise ValueError(
-            "Google Drive folder not configured. Set DEFAULT_DRIVE_FOLDER_ID or DEFAULT_DRIVE_FOLDER_LINK in project_config.py"
+            "Google Drive folder not configured. Either pass a folder link or set DEFAULT_DRIVE_FOLDER_URLS in project_config.py"
         )
 
     def build_document_record(self, file_meta: Dict, source_folder_id: str, text: str) -> Dict:
@@ -258,17 +258,22 @@ class GoogleDriveCrawler:
         payload["indexed_files"] = indexed_files
         return payload
 
-    def scrape(self) -> Dict:
-        resolved_folder_id = self.resolve_folder_id()
-
-        service = create_service(str(CREDENTIALS_PATH), "drive", "v3", SCOPES)
-        if service is None:
-            raise RuntimeError("Unable to create Google Drive service.")
-
-        return self.ingest_drive_folder(service=service, folder_id=resolved_folder_id)
+    def scrape(self, drive_links: List[str] = DEFAULT_DRIVE_FOLDER_URLS) -> DrivePayload:
+        drive_data = {}
+        for link in (drive_links):
+            try:
+                folder_id = self.resolve_folder_id(link)
+                print(f"Starting crawl for Google Drive folder: {folder_id}")
+                drive_data[folder_id] = self.ingest_drive_folder(
+                    service=create_service(str(CREDENTIALS_PATH), "drive", "v3", SCOPES),
+                    folder_id=folder_id,
+                )
+            except Exception as exc:
+                print(f"Error processing folder link '{link}': {exc}")
+        return drive_data
 
 
 if __name__ == "__main__":
-    crawler = GoogleDriveCrawler()
+    crawler = GoogleDriveCrawler(DEFAULT_DRIVE_FOLDER_URLS)
     payload = crawler.scrape()
     print(json.dumps(payload["summary"], indent=2))

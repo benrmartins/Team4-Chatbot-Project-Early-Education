@@ -74,10 +74,11 @@ If the tool results contain factual information relevant to the user's query, us
 If the tool results indicate an error or issue with retrieving information, acknowledge that in your response and do not attempt to fabricate an answer.
 Always prioritize accuracy and grounding in the provided tool results when formulating your response."""
 
-# Default Google Drive folder target for Drive crawler runs.
-DEFAULT_DRIVE_FOLDER_ID = "0AFlQ37_lQJh8Uk9PVA"
-DEFAULT_DRIVE_FOLDER_LINK = "https://drive.google.com/drive/folders/0AFlQ37_lQJh8Uk9PVA"
-# Seed URLs for website crawling.
+# Default Google Drive folder target for Drive crawler runs. This can be overridden by providing a different folder link when running the pipeline.
+DEFAULT_DRIVE_FOLDER_URLS = [
+    "https://drive.google.com/drive/folders/0AFlQ37_lQJh8Uk9PVA"
+]
+# Seed URLs for website crawling. This can be overridden by providing different URLs when running the pipeline.
 DEFAULT_WEBSITE_SEED_URLS = [
     "https://www.umb.edu/early-education-leaders-institute/",
     "https://blogs.umb.edu/earlyed/",
@@ -122,6 +123,16 @@ MIN_CONTENT_CHARS = 100
 DEFAULT_EMBEDDING_DIM = 1024
 DEFAULT_BATCH_SIZE = 32
 DEFAULT_VECTOR_DB_PATH = DATA_DIR / "db_store"
+
+# Deterministic variant-testing matrix for retrieval experiments.
+VARIANT_TEST_CHUNK_SIZES = [DEFAULT_CHUNK_SIZE, DEFAULT_CHUNK_SIZE * 2, DEFAULT_CHUNK_SIZE // 2]
+VARIANT_TEST_CHUNK_OVERLAPS = [DEFAULT_CHUNK_OVERLAP, DEFAULT_CHUNK_OVERLAP * 2, DEFAULT_CHUNK_OVERLAP // 2]
+VARIANT_TEST_EMBEDDING_DIMS = [DEFAULT_EMBEDDING_DIM, DEFAULT_EMBEDDING_DIM * 2, DEFAULT_EMBEDDING_DIM // 2]
+VARIANT_TEST_BATCH_SIZES = [DEFAULT_BATCH_SIZE, DEFAULT_BATCH_SIZE * 2, DEFAULT_BATCH_SIZE // 2]
+VARIANT_TEST_EMBEDDING_METHODS = ["default"]
+VARIANT_TEST_DB_DIR = DATA_DIR / "variants"
+VARIANT_TEST_BENCHMARK_PATH = PROJECT_ROOT / "evaluation" / "retrieval_benchmark.json"
+VARIANT_TEST_MAX_RESULTS = 3
 
 # Retrieval tuning
 RETRIEVAL_CANDIDATE_POOL = 40
@@ -168,8 +179,7 @@ __all__ = [
     "ONBOARD_PROMPT",
     "SYSTEM_PROMPT",
     "TOOL_REPROMPT_TEMPLATE",
-    "DEFAULT_DRIVE_FOLDER_ID",
-    "DEFAULT_DRIVE_FOLDER_LINK",
+    "DEFAULT_DRIVE_FOLDER_URLS",
     "DEFAULT_WEBSITE_SEED_URLS",
     "CRAWLER_DEPTH_LIMIT",
     "PIPELINE_RUN_DRIVE",
@@ -183,4 +193,12 @@ __all__ = [
     "RETRIEVAL_LOW_CONFIDENCE_MIN_COVERAGE",
     "RETRIEVAL_SNIPPET_MAX_CHARS",
     "RETRIEVAL_SYNONYM_MAP",
+    "VARIANT_TEST_CHUNK_SIZES",
+    "VARIANT_TEST_CHUNK_OVERLAPS",
+    "VARIANT_TEST_EMBEDDING_DIMS",
+    "VARIANT_TEST_BATCH_SIZES",
+    "VARIANT_TEST_EMBEDDING_METHODS",
+    "VARIANT_TEST_DB_DIR",
+    "VARIANT_TEST_BENCHMARK_PATH",
+    "VARIANT_TEST_MAX_RESULTS",
 ]
