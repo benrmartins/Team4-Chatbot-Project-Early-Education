@@ -12,7 +12,6 @@ if str(PROJECT_ROOT) not in sys.path:
 
 from chatbot import Chatbot
 
-
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description="Ask a list of questions with Chatbot and write responses to a text file."

@@ -11,7 +11,7 @@ from docx import Document
 
 from ingestion_pipeline.services.google_service import create_service
 from ingestion_pipeline.schema import SOURCE_GOOGLE_DRIVE, build_base_payload
-from ingestion_pipeline.vector_preprocess import normalize_text
+from ingestion_pipeline.scripts.build_chunk_payload import normalize_text
 from project_config import (
     CREDENTIALS_PATH,
     DEFAULT_DRIVE_FOLDER_ID,

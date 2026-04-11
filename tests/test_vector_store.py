@@ -2,9 +2,8 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from ingestion_pipeline.vector_preprocess import build_vector_payload
-from ingestion_pipeline.vector_store import DummyEmbedder, ingest_payload_to_sqlite, query_similar_by_text
-
+from ingestion_pipeline.scripts import build_chunk_payload
+from ingestion_pipeline.services.vector_store import ingest_payload_to_sqlite, query_similar_by_text, DummyEmbedder
 
 class VectorStoreTests(unittest.TestCase):
     def test_ingest_and_query(self):
@@ -24,7 +23,7 @@ class VectorStoreTests(unittest.TestCase):
             }
         ]
 
-        payload = build_vector_payload(
+        payload = build_chunk_payload(
             documents=documents,
             source={"type": "test_pipeline"},
             chunk_size=180,

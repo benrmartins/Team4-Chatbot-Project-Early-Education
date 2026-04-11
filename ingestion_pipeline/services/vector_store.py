@@ -26,7 +26,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional
 from ingestion_pipeline.schema import JSONDict
-from project_config import OPENROUTER_BASE_URL, EMBEDDING_DIM
+from project_config import DEFAULT_BATCH_SIZE, OPENROUTER_BASE_URL, DEFAULT_EMBEDDING_DIM
 from abc import ABC, abstractmethod
 
 load_dotenv()
@@ -89,7 +89,7 @@ def get_default_embedder() -> BaseEmbedder:
     """
     try:
         if API_KEY and client is not None:
-            return OpenAIEmbedder(dim=int(EMBEDDING_DIM))
+            return OpenAIEmbedder(dim=int(DEFAULT_EMBEDDING_DIM))
     except Exception:
         pass
     return DummyEmbedder()
@@ -131,8 +131,9 @@ def init_db(db_path: Path | str) -> None:
 def ingest_payload_to_sqlite(
     payload: JSONDict,
     db_path: Path | str,
+    overwrite_db: bool = False,
     embedder: Optional[BaseEmbedder] = None,
-    batch_size: int = 32,
+    batch_size: int = DEFAULT_BATCH_SIZE,
 ) -> int:
     """Insert chunk records from a payload into a SQLite vector DB.
 
@@ -146,7 +147,11 @@ def ingest_payload_to_sqlite(
     if embedder is None:
         embedder = get_default_embedder()
 
-    init_db(db_path)
+    if overwrite_db:
+        init_db(db_path)
+    if not Path(db_path).exists():
+        init_db(db_path)
+
     conn = sqlite3.connect(str(db_path))
     cur = conn.cursor()
 
@@ -249,6 +254,7 @@ __all__ = [
     "BaseEmbedder",
     "DummyEmbedder",
     "get_default_embedder",
+    "get_embedder_with_dimension",
     "init_db",
     "ingest_payload_to_sqlite",
     "fetch_all_embeddings",

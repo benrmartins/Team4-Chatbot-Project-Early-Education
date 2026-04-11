@@ -10,7 +10,7 @@ from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
 from ingestion_pipeline.schema import SOURCE_WEBSITE, build_base_payload
-from ingestion_pipeline.vector_preprocess import normalize_text
+from ingestion_pipeline.scripts.build_chunk_payload import normalize_text
 from project_config import ( 
     CRAWLER_DEPTH_LIMIT,
     DEFAULT_WEBSITE_SEED_URLS, 

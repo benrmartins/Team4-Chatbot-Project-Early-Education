@@ -8,19 +8,15 @@ DATA_DIR = PROJECT_ROOT / "data"
 # OAuth client credentials JSON used by Google Drive ingestion.
 CREDENTIALS_PATH = PROJECT_ROOT / "credentials.json"
 
-# Raw source outputs written by each crawler.
-DEFAULT_DRIVE_OUTPUT = DATA_DIR / "drive_data.json"
+# Raw source outputs written by web crawlers. These are not directly consumed by retrieval tools but can be useful for debugging and pipeline iteration.
 DEFAULT_WEB_OUTPUT = DATA_DIR / "web_data.json"
 
 # Unified chunked payload consumed by retrieval tools.
-DEFAULT_VECTOR_OUTPUT = DATA_DIR / "unified_vector_data.json"
-
-# Optional SQLite database for embedded vectors (used by new ingestion helpers)
-DEFAULT_VECTOR_DB = DATA_DIR / "unified_vector.db"
+DEFAULT_CHUNK_OUTPUT = DATA_DIR / "unified_chunk_data.json"
 
 # Primary retrieval file used by search_unified_knowledge.
-UNIFIED_KNOWLEDGE_BASE_PATH = DEFAULT_VECTOR_OUTPUT
-UNIFIED_KNOWLEDGE_BASE_FALLBACK_PATH = PROJECT_ROOT / "unified_vector_data.json"
+UNIFIED_KNOWLEDGE_BASE_PATH = DEFAULT_CHUNK_OUTPUT
+UNIFIED_KNOWLEDGE_BASE_FALLBACK_PATH = PROJECT_ROOT / "unified_chunk_data.json"
 
 # OpenRouter API endpoint and model used by chatbot completions.
 OPENROUTER_BASE_URL = "https://openrouter.ai/api/v1"
@@ -91,9 +87,9 @@ DEFAULT_WEBSITE_SEED_URLS = [
 CRAWLER_DEPTH_LIMIT = 5
 PIPELINE_RUN_DRIVE = True
 PIPELINE_RUN_WEB = True
-PIPELINE_CHUNK_SIZE = 700
-PIPELINE_CHUNK_OVERLAP = 120
-PIPELINE_MIN_CHUNK_SIZE = 220
+DEFAULT_CHUNK_SIZE = 700
+DEFAULT_CHUNK_OVERLAP = 120
+DEFAULT_MIN_CHUNK_SIZE = 220
 EXCLUDED_PATH_SEGMENTS = {
         "tag",
         "tags",
@@ -123,7 +119,9 @@ BLOCKED_FILE_EXTENSIONS = (
 MIN_CONTENT_CHARS = 100
 
 # Embedding and vector store settings
-EMBEDDING_DIM = 1536
+DEFAULT_EMBEDDING_DIM = 1024
+DEFAULT_BATCH_SIZE = 32
+DEFAULT_VECTOR_DB_PATH = DATA_DIR / "db_store"
 
 # Retrieval tuning
 RETRIEVAL_CANDIDATE_POOL = 40
@@ -154,9 +152,11 @@ __all__ = [
     "PROJECT_ROOT",
     "DATA_DIR",
     "CREDENTIALS_PATH",
-    "DEFAULT_DRIVE_OUTPUT",
     "DEFAULT_WEB_OUTPUT",
-    "DEFAULT_VECTOR_OUTPUT",
+    "DEFAULT_CHUNK_OUTPUT",
+    "DEFAULT_VECTOR_DB_PATH",
+    "DEFAULT_BATCH_SIZE",
+    "DEFAULT_EMBEDDING_DIM",
     "UNIFIED_KNOWLEDGE_BASE_PATH",
     "UNIFIED_KNOWLEDGE_BASE_FALLBACK_PATH",
     "OPENROUTER_BASE_URL",
@@ -174,9 +174,9 @@ __all__ = [
     "CRAWLER_DEPTH_LIMIT",
     "PIPELINE_RUN_DRIVE",
     "PIPELINE_RUN_WEB",
-    "PIPELINE_CHUNK_SIZE",
-    "PIPELINE_CHUNK_OVERLAP",
-    "PIPELINE_MIN_CHUNK_SIZE",
+    "DEFAULT_CHUNK_SIZE",
+    "DEFAULT_CHUNK_OVERLAP",
+    "DEFAULT_MIN_CHUNK_SIZE",
     "RETRIEVAL_CANDIDATE_POOL",
     "RETRIEVAL_MAX_RESULTS_PER_DOCUMENT",
     "RETRIEVAL_LOW_CONFIDENCE_MIN_SCORE",

@@ -4,7 +4,7 @@ from pathlib import Path
 from typing import List
 
 from ingestion_pipeline.schema import JSONDict, build_base_payload
-from project_config import PIPELINE_MIN_CHUNK_SIZE
+from project_config import DEFAULT_MIN_CHUNK_SIZE
 
 
 def normalize_text(text: str) -> str:
@@ -90,7 +90,7 @@ def chunk_text_with_metadata(
     text: str,
     chunk_size: int = 700,
     chunk_overlap: int = 120,
-    min_chunk_size: int = PIPELINE_MIN_CHUNK_SIZE,
+    min_chunk_size: int = DEFAULT_MIN_CHUNK_SIZE,
 ) -> List[dict[str, str]]:
     if chunk_overlap >= chunk_size:
         raise ValueError("chunk_overlap must be smaller than chunk_size")
@@ -178,6 +178,7 @@ def ensure_document_char_count(documents: List[JSONDict]) -> List[JSONDict]:
     return normalized_docs
 
 
+
 def build_chunk_records(documents: List[JSONDict], chunk_size: int = 700, chunk_overlap: int = 120) -> List[JSONDict]:
     chunks: List[JSONDict] = []
 
@@ -214,7 +215,7 @@ def build_chunk_records(documents: List[JSONDict], chunk_size: int = 700, chunk_
     return chunks
 
 
-def build_vector_payload(
+def build_chunk_payload(
     documents: List[JSONDict],
     source: JSONDict,
     chunk_size: int = 700,
@@ -241,13 +242,12 @@ def save_json(payload: JSONDict, output_path: str) -> None:
 
 
 __all__ = [
-    "JSONDict",
     "normalize_text",
     "chunk_text_with_metadata",
     "chunk_text",
     "estimate_token_count",
     "ensure_document_char_count",
     "build_chunk_records",
-    "build_vector_payload",
+    "build_chunk_payload",
     "save_json",
 ]
