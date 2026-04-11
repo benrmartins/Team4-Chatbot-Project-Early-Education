@@ -83,6 +83,7 @@ def evaluate_variant(
     reciprocal_rank_total = 0.0
     confidence_points = 0
     citation_points = 0.0
+    retrieval_failures = 0
     details: list[dict[str, Any]] = []
 
     for item in benchmark_items:
@@ -96,6 +97,10 @@ def evaluate_variant(
             max_results=max_results,
             database_path=db_path,
         )
+
+        retrieval_status = result.get("retrieval_status", "ok") if isinstance(result, dict) else "failed"
+        if retrieval_status != "ok":
+            retrieval_failures += 1
 
         ranked_results = result.get("results", []) if isinstance(result, dict) else []
         first_hit_rank = _hit_rank(ranked_results, expected_hints)
@@ -121,6 +126,8 @@ def evaluate_variant(
                 "hit": hit,
                 "first_hit_rank": first_hit_rank,
                 "mrr": round(mrr, 4),
+                "retrieval_status": retrieval_status,
+                "error_code": result.get("error_code") if isinstance(result, dict) else "unknown_error",
                 "low_confidence": bool(result.get("low_confidence", False)),
                 "confidence_score": confidence_score,
                 "citation_score": round(citation_score, 4),
@@ -133,20 +140,25 @@ def evaluate_variant(
     mrr = reciprocal_rank_total / question_count
     confidence_calibration = confidence_points / question_count
     citation_completeness = citation_points / question_count
+    failure_rate = retrieval_failures / question_count
 
-    retrieval_score = (
+    base_score = (
         0.45 * hit_rate
         + 0.35 * mrr
         + 0.10 * confidence_calibration
         + 0.10 * citation_completeness
     )
+    retrieval_score = max(0.0, base_score - (0.50 * failure_rate))
 
     return {
         "retrieval_score": round(retrieval_score, 4),
+        "base_score": round(base_score, 4),
         "hit_rate": round(hit_rate, 4),
         "mrr": round(mrr, 4),
         "confidence_calibration": round(confidence_calibration, 4),
         "citation_completeness": round(citation_completeness, 4),
+        "retrieval_failures": retrieval_failures,
+        "failure_rate": round(failure_rate, 4),
         "question_count": question_count,
         "details": details,
     }
@@ -299,6 +311,8 @@ class VariantTestRunner:
                 f"{payload['name']}: score={payload['retrieval_score']} "
                 f"(hit_rate={payload['hit_rate']}, mrr={payload['mrr']}, "
                 f"confidence={payload['confidence_calibration']}, citations={payload['citation_completeness']})"
+                f" - {payload['question_count']} questions, {payload['retrieval_failures']} retrieval failures"
+                f" - {payload['failure_rate']*100:.1f}% failure rate"
             )
 
     def write_results_to_json(self, output_path: str) -> None:
