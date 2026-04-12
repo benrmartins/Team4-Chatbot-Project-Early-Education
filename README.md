@@ -92,11 +92,13 @@ Set VS Code interpreter to `.venv`:
 
 Run these from the project root on your HPC system.
 
+### Setup
+
 1. Copy or clone the repo to your home/scratch directory.
 2. Create environment and install dependencies:
 
 ```bash
-bash setup.sh
+bash setup.sh --skip-smoke-test
 ```
 
 3. Set your OpenRouter key:
@@ -106,13 +108,49 @@ nano .env
 # OPENROUTER_API_KEY="YOUR_OPENROUTER_KEY"
 ```
 
-4. Submit the full variant job:
+4. Activate the virtual environment:
+
+```bash
+source .venv/bin/activate
+```
+### Before you run anything
+
+- Run all Chimera/SLURM commands from the repo root.
+- Make sure the repo root is writable by your job.
+- Create the expected output directories before submitting jobs:
+
+```bash
+mkdir -p data outputs outputs/hpc
+```
+
+- If you already have a known-good `data/web_data.json`, keep it in place. This avoids a fresh crawl and makes HPC runs more reproducible.
+- `credentials.json` is only needed for the Google Drive crawler path. If it is missing, the Drive portion is skipped, but website/prebuilt-data runs can still proceed.
+
+### Recommended run order
+
+Start with the cheapest/safest run first, then scale up:
+
+1. Dummy smoke run
+
+```bash
+sbatch run_dummy_variant_experiment.slurm
+```
+
+2. Small sharded run
+
+```bash
+sbatch run_small_variant_experiment.slurm
+```
+
+3. Full run
 
 ```bash
 sbatch run_full_variant_experiment.slurm
 ```
 
-5. Monitor and inspect outputs:
+### Monitor jobs and inspect logs
+
+Use these after any submission:
 
 ```bash
 squeue -u $USER
@@ -123,24 +161,46 @@ tail -f outputs/hpc/variant-experiment-<jobid>_<arrayid>.out
 Each shard writes a JSON artifact to:
 
 ```text
-outputs/variant_test_results_shard_<index>_of_<count>.json
+outputs/hpc/variant_test_results_shard_<index>_of_<count>.json
 ```
 
-6. Merge shard outputs into one final ranked report:
+### Merge shard outputs
+
+After the run finishes, merge the shard artifacts into one ranked report:
 
 ```bash
 python -m scripts.merge_variant_results \
-  --input-glob "outputs/variant_test_results_shard_*_of_*.json" \
-  --output-json "outputs/variant_test_results_merged.json" \
-  --delete-inputs
+  --input-glob "outputs/hpc/variant_test_results_shard_*_of_*.json" \
+  --output-json "outputs/hpc/variant_test_results_merged.json"
 ```
 
-Notes for low-storage HPC runs:
+### Reruns after failed or interrupted jobs
+
+Interrupted runs can leave behind incomplete SQLite DB files. If you are retrying after a failed run, force a rebuild:
+
+```bash
+export VARIANT_REBUILD_EXISTING=1
+```
+
+Then resubmit the job:
+
+```bash
+sbatch run_dummy_variant_experiment.slurm
+```
+
+If you want to preserve per-variant DBs for inspection instead of deleting them after scoring:
+
+```bash
+export VARIANT_CLEANUP_DBS=0
+```
+
+Notes:
 
 - `run_full_variant_experiment.slurm` now runs baseline on shard `0` only.
 - Per-variant SQLite DBs are deleted automatically after scoring by default.
-- Set `VARIANT_CLEANUP_DBS=0` before `sbatch` if you want to keep DB files.
 - Set `VARIANT_REBUILD_EXISTING=1` before `sbatch` to force full DB rebuild.
+- Set `VARIANT_CLEANUP_DBS=0` before `sbatch` if you want to keep DB files.
+- If `data/web_data.json` is missing, some runs may trigger a fresh crawl.
 
 ## Cost Tracking (Team + HPC)
 
@@ -164,6 +224,8 @@ Optional: write summary to a JSON file:
 python -m scripts.summarize_cost_events \
   --output-json outputs/cost/cost_summary.json
 ```
+
+After any real HPC run, review the printed summary or saved JSON before launching larger runs. This is the easiest way to sanity-check API usage and cost growth across dummy, small, and full experiment passes.
 
 ## Run Chatbot
 
