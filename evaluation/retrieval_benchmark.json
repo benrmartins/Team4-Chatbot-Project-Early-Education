@@ -105,9 +105,9 @@
     "ground_truth": "",
     "source_doc": "[path/to/answer]",
     "source_text": "",
-    "why_hard":"Broad organizational description question where relevant information may be spread across overview, mission, and program pages rather stated in one sentence.",
-    "phase2_likely_failure_mode":"Phase 2 may return a rather narrow program description organizational role and could focus too much on one area such as leadership training.",
-    "expected_source_hints":["about", "mission", "what we do", "early education", "leadership"]
+    "why_hard":"",
+    "phase2_likely_failure_mode":"",
+    "expected_source_hints":[]
   },
   {
     "id": "12",
@@ -115,9 +115,9 @@
     "ground_truth": "",
     "source_doc": "[path/to/answer]",
     "source_text": "",
-    "why_hard":"Partner information is distributed across impact, program, and sponser pages rather than collected in one clearly labeled section",
-    "phase2_likely_failure_mode":"Phase 2 may retrieve pages that mention collaboration, but don't mention actual partner organizations.",
-    "expected_source_hints":["partner", "partnership", "collaborate", "organizations"]
+    "why_hard":"",
+    "phase2_likely_failure_mode":"",
+    "expected_source_hints":[]
   },
   {
     "id": "13",
@@ -125,9 +125,9 @@
     "ground_truth": "",
     "source_doc": "[path/to/answer]",
     "source_text": "",
-    "why_hard":"If program offerings are listed/mentioned across multiple pages, it may be hard to receive a complete answer from one source.",
-    "phase2_likely_failure_mode":"Phase 2 may retreive only one of the program offering than listing all of them, or key offers.",
-    "expected_source_hints":["programs", "leadership developement", "coaching", "training"]
+    "why_hard":"",
+    "phase2_likely_failure_mode":"",
+    "expected_source_hints":[]
   },
   {
     "id": "14",
@@ -135,9 +135,9 @@
     "ground_truth": "",
     "source_doc": "[path/to/answer]",
     "source_text": "",
-    "why_hard":"Research may be described using contiguous terms such as evaluation, analyzation, studying, or policy rather than using the exact word 'Research'.",
-    "phase2_likely_failure_mode":"Phase 2 may return general program pages that end up failing to identify focused on studies, findings, or evaluations.",
-    "expected_source_hints":["research", "evaluation", "findings", "policy", "analyzation", "studying"]
+    "why_hard":"",
+    "phase2_likely_failure_mode":"",
+    "expected_source_hints":[]
   },
   {
     "id": "15",
@@ -145,9 +145,9 @@
     "ground_truth": "",
     "source_doc": "[path/to/answer]",
     "source_text": "",
-    "why_hard":"Impact can be too broad and repeated in many reports or program pages, making it harder to isolate direct evidence of the impact programs have.",
-    "phase2_likely_failure_mode":"Phase 2 may retrieve promotional language or mission statements instead of pages with definite outcomes or evidence of impact.",
-    "expected_source_hints":["impact", "outcomes", "graduates", "results", "fellows"]
+    "why_hard":"",
+    "phase2_likely_failure_mode":"",
+    "expected_source_hints":[]
   },
   {
     "id": "16",
