@@ -4,7 +4,7 @@ from pathlib import Path
 PROJECT_ROOT = Path(__file__).resolve().parent
 # Folder containing pipeline outputs and retrieval datasets.
 DATA_DIR = PROJECT_ROOT / "data"
-COST_LOG_PATH = PROJECT_ROOT / "cost.json"
+COST_LOG_PATH = PROJECT_ROOT / "outputs" / "cost" / "cost_events.jsonl"
 
 # OAuth client credentials JSON used by Google Drive ingestion.
 CREDENTIALS_PATH = PROJECT_ROOT / "credentials.json"
@@ -130,7 +130,7 @@ VARIANT_TEST_CHUNK_SIZES = [DEFAULT_CHUNK_SIZE, 500, 1000]
 VARIANT_TEST_CHUNK_OVERLAPS = [DEFAULT_CHUNK_OVERLAP, DEFAULT_CHUNK_OVERLAP // 2]
 VARIANT_TEST_EMBEDDING_DIMS = [DEFAULT_EMBEDDING_DIM, 1536]
 VARIANT_TEST_BATCH_SIZES = [DEFAULT_BATCH_SIZE, DEFAULT_BATCH_SIZE * 2]
-VARIANT_TEST_EMBEDDING_METHODS = ["openai_small", "dummy"]
+VARIANT_TEST_EMBEDDING_METHODS = ["openai_small"]
 VARIANT_TEST_BENCHMARK_PATH = PROJECT_ROOT / "evaluation" / "retrieval_benchmark.json"
 VARIANT_TEST_MAX_RESULTS = 20
 
