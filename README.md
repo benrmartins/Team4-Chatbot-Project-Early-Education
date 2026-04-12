@@ -142,6 +142,29 @@ Notes for low-storage HPC runs:
 - Set `VARIANT_CLEANUP_DBS=0` before `sbatch` if you want to keep DB files.
 - Set `VARIANT_REBUILD_EXISTING=1` before `sbatch` to force full DB rebuild.
 
+## Cost Tracking (Team + HPC)
+
+Cost usage is now logged as append-only JSONL events (one line per API call) to:
+
+```text
+outputs/cost/cost_events.jsonl
+```
+
+This avoids read-modify-write race conditions across concurrent SLURM jobs and avoids git merge conflicts on mutable totals.
+
+To summarize cost events:
+
+```bash
+python -m scripts.summarize_cost_events
+```
+
+Optional: write summary to a JSON file:
+
+```bash
+python -m scripts.summarize_cost_events \
+  --output-json outputs/cost/cost_summary.json
+```
+
 ## Run Chatbot
 
 CLI:

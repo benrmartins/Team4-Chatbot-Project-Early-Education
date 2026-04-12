@@ -1,8 +1,12 @@
 from __future__ import annotations
 
 import json
+import os
+from datetime import datetime, timezone
 from pathlib import Path
+from typing import Any
 
+from filelock import FileLock
 from project_config import COST_LOG_PATH
 
 # Public list of known per-model token pricing in USD per 1M tokens.
@@ -57,25 +61,69 @@ def log_api_usage(
     cost_path = Path(cost_file_path) if cost_file_path else Path(COST_LOG_PATH)
     cost_path.parent.mkdir(parents=True, exist_ok=True)
 
-    running_total = 0.0
-    if cost_path.exists():
-        try:
-            existing = json.loads(cost_path.read_text(encoding="utf-8") or "{}")
-            running_total = float(existing.get("total_estimated_cost", 0.0))
-        except Exception:
-            running_total = 0.0
+    # Append-only event records are safer than read-modify-write totals across HPC shards.
+    event = {
+        "timestamp_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+        "model": (model or "").strip().lower(),
+        "prompt_tokens": max(int(prompt_tokens or 0), 0),
+        "completion_tokens": max(int(completion_tokens or 0), 0),
+        "total_tokens": max(int(total_tokens or 0), 0) if total_tokens is not None else None,
+        "estimated_cost_usd": round(float(estimated_cost), 10),
+        "slurm_job_id": os.getenv("SLURM_JOB_ID", ""),
+        "slurm_array_task_id": os.getenv("SLURM_ARRAY_TASK_ID", ""),
+        "hostname": os.getenv("HOSTNAME", ""),
+        "user": os.getenv("USER", ""),
+    }
+    line = json.dumps(event, separators=(",", ":")) + "\n"
 
-    new_total = running_total + estimated_cost
-    payload = {"total_estimated_cost": round(new_total, 10)}
-
-    temp_path = cost_path.with_suffix(cost_path.suffix + ".tmp")
-    temp_path.write_text(json.dumps(payload, indent=2), encoding="utf-8")
-    temp_path.replace(cost_path)
+    lock_path = cost_path.with_suffix(cost_path.suffix + ".lock")
+    with FileLock(str(lock_path), timeout=30):
+        with cost_path.open("a", encoding="utf-8") as handle:
+            handle.write(line)
+            handle.flush()
 
     return estimated_cost
+
+
+def summarize_cost_events(cost_file_path: Path | str | None = None) -> dict[str, Any]:
+    cost_path = Path(cost_file_path) if cost_file_path else Path(COST_LOG_PATH)
+    if not cost_path.exists():
+        return {
+            "events": 0,
+            "total_estimated_cost_usd": 0.0,
+            "by_model": {},
+        }
+
+    by_model: dict[str, float] = {}
+    events = 0
+    total = 0.0
+    with cost_path.open("r", encoding="utf-8") as handle:
+        for raw in handle:
+            line = raw.strip()
+            if not line:
+                continue
+            try:
+                event = json.loads(line)
+            except json.JSONDecodeError:
+                continue
+            if not isinstance(event, dict):
+                continue
+
+            model = str(event.get("model", "unknown") or "unknown")
+            cost = float(event.get("estimated_cost_usd", 0.0) or 0.0)
+            events += 1
+            total += cost
+            by_model[model] = by_model.get(model, 0.0) + cost
+
+    return {
+        "events": events,
+        "total_estimated_cost_usd": round(total, 10),
+        "by_model": {k: round(v, 10) for k, v in sorted(by_model.items())},
+    }
 
 
 __all__ = [
     "estimate_cost_usd",
     "log_api_usage",
+    "summarize_cost_events",
 ]
