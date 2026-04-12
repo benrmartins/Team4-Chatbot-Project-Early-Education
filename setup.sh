@@ -95,7 +95,7 @@ source .venv/bin/activate
 
 if [[ "$INIT_DATA_DIRS" -eq 1 ]]; then
   echo "Initializing data directories..."
-  "$PYTHON_BIN" -m scripts.create_default_database
+  "$VENV_PY" -m scripts.create_default_database
 else
   echo "Skipping data directory initialization (INIT_DATA_DIRS=0)."
 fi
