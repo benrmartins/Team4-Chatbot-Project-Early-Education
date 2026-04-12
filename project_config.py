@@ -4,7 +4,7 @@ from pathlib import Path
 PROJECT_ROOT = Path(__file__).resolve().parent
 # Folder containing pipeline outputs and retrieval datasets.
 DATA_DIR = PROJECT_ROOT / "data"
-COST_LOG_PATH = PROJECT_ROOT / "outputs" / "cost" / "cost_events.jsonl"
+COST_LOG_PATH = PROJECT_ROOT / "cost_events.jsonl"
 
 # OAuth client credentials JSON used by Google Drive ingestion.
 CREDENTIALS_PATH = PROJECT_ROOT / "credentials.json"
