@@ -56,7 +56,7 @@ def make_completion(message):
 
 
 class ChatbotPayloadTests(unittest.TestCase):
-    def test_create_response_payload_returns_structured_evidence(self):
+    def test_create_response_returns_structured_evidence_payload(self):
         chatbot_api = import_chatbot_api()
         bot = chatbot_api.Chatbot()
 
@@ -104,7 +104,7 @@ class ChatbotPayloadTests(unittest.TestCase):
             "execute_tool_call",
             return_value=retrieval_payload,
         ):
-            payload = bot.create_response_payload("What is ExCELS?")
+            payload = bot.create_response("What is ExCELS?")
 
         self.assertIn("reply", payload)
         self.assertIn("citations", payload)
@@ -116,7 +116,7 @@ class ChatbotPayloadTests(unittest.TestCase):
             payload["evidence"][0]["snippet"],
         )
 
-    def test_create_response_returns_safe_fallback_when_final_message_is_blank(self):
+    def test_create_response_returns_safe_fallback_payload_when_final_message_is_blank(self):
         chatbot_api = import_chatbot_api()
         bot = chatbot_api.Chatbot()
 
@@ -136,10 +136,11 @@ class ChatbotPayloadTests(unittest.TestCase):
             "execute_tool_call",
             return_value={"query": "What is ExCELS?", "result_count": 0, "low_confidence": True, "results": []},
         ):
-            reply = bot.create_response("What is ExCELS?")
+            payload = bot.create_response("What is ExCELS?")
 
-        self.assertTrue(reply)
-        self.assertIn("couldn't generate", reply.lower())
+        self.assertIn("reply", payload)
+        self.assertTrue(payload["reply"])
+        self.assertIn("couldn't generate", payload["reply"].lower())
 
 
 if __name__ == "__main__":
