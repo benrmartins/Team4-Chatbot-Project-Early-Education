@@ -10,6 +10,7 @@ fi
 
 RECREATE=0
 SKIP_SMOKE_TEST=0
+INIT_DATA_DIRS=1
 
 is_supported_python() {
   "$1" - <<'PY' >/dev/null 2>&1
@@ -37,9 +38,12 @@ for arg in "$@"; do
     --skip-smoke-test)
       SKIP_SMOKE_TEST=1
       ;;
+    --skip-data-init)
+      INIT_DATA_DIRS=0
+      ;;
     *)
       echo "ERROR: Unknown argument '$arg'"
-      echo "Usage: bash setup.sh [--recreate] [--skip-smoke-test]"
+      echo "Usage: bash setup.sh [--recreate] [--skip-smoke-test] [--skip-data-init]"
       exit 1
       ;;
   esac
@@ -87,9 +91,18 @@ else
   echo "Skipping dependency smoke test (--skip-smoke-test)."
 fi
 
+source .venv/bin/activate
+
+if [[ "$INIT_DATA_DIRS" -eq 1 ]]; then
+  echo "Initializing data directories..."
+  "$PYTHON_BIN" -m scripts.create_default_database
+else
+  echo "Skipping data directory initialization (INIT_DATA_DIRS=0)."
+fi
+
 echo
 echo "Setup complete."
-echo "Activate environment with: source .venv/bin/activate"
+echo "Activate the virtual environment with: source .venv/bin/activate"
 echo "Run CLI chatbot with: python cli.py"
 echo "Run Flask app with: python app.py"
 echo "Run HPC variant experiment with: sbatch run_full_variant_experiment.slurm"
