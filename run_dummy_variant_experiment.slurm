@@ -52,6 +52,7 @@ fi
 OUTPUT_JSON="$OUTPUT_DIR/variant_test_results_shard_${SHARD_INDEX}_of_${NUM_SHARDS}.json"
 
 MAX_RESULTS=3
+DISPLAY_SHARD_INDEX=$((SHARD_INDEX + 1))
 
 EXTRA_FLAGS=()
 if [[ "$SHARD_INDEX" != "0" ]]; then
@@ -68,7 +69,7 @@ if [[ "${VARIANT_REBUILD_EXISTING:-0}" == "1" ]]; then
   EXTRA_FLAGS+=(--rebuild-existing)
 fi
 
-echo "Running shard ${SHARD_INDEX + 1}/${NUM_SHARDS} on node count ${NODE_COUNT}" 
+echo "Running shard ${DISPLAY_SHARD_INDEX}/${NUM_SHARDS} on node count ${NODE_COUNT}" 
 echo "Writing artifact: ${OUTPUT_JSON}"
 
 "$PYTHON_BIN" -m scripts.run_variant_tests \
