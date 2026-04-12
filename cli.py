@@ -42,7 +42,7 @@ class Conversation:
             if user_input.lower() in ["exit", "quit", "bye"]:
                 print("Goodbye!")
                 break
-            payload = self.chatbot.create_response_payload(user_input, status_callback=self._update_status)
+            payload = self.chatbot.create_response(user_input, status_callback=self._update_status)
             self._update_output(payload["reply"])
             self._print_supporting_evidence(payload)
 
