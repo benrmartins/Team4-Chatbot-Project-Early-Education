@@ -22,6 +22,10 @@ DEFAULT_VARIANT_OUTPUT_PATH = PROJECT_ROOT / "outputs" / "baseline_variant_resul
 UNIFIED_KNOWLEDGE_BASE_PATH = DEFAULT_CHUNK_OUTPUT
 UNIFIED_KNOWLEDGE_BASE_FALLBACK_PATH = PROJECT_ROOT / "unified_chunk_data.json"
 
+# Benchmark and HPC results paths. These are used by the retrieval benchmark script and can also be used to load a chatbot with the best performing variant for demo purposes.
+BENCHMARK_PATH = PROJECT_ROOT / "evaluation" / "retrieval_benchmark.json"
+UNIFIED_HPC_RESULTS_PATH = PROJECT_ROOT / "outputs" / "hpc" / "unified_variant_results.json"
+
 # OpenRouter API endpoint and model used by chatbot completions.
 OPENROUTER_BASE_URL = "https://openrouter.ai/api/v1"
 OPENROUTER_MODEL = "openai/gpt-4o-mini"

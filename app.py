@@ -4,6 +4,8 @@ from flask import Flask, jsonify, render_template, request, session
 
 from chatbot import Chatbot
 
+from scripts.run_retrieval_benchmark import _load_best_variant
+from project_config import UNIFIED_HPC_RESULTS_PATH
 
 app = Flask(__name__)
 app.secret_key = "change-me-in-production"
@@ -11,6 +13,14 @@ app.secret_key = "change-me-in-production"
 # In-memory chat state keyed by browser session id.
 _CHATBOTS = {}
 
+def _load_benchmark_chatbot() -> Chatbot:
+    variant = _load_best_variant(UNIFIED_HPC_RESULTS_PATH)
+    if not variant:
+        raise ValueError("No benchmark variant found to load chatbot from.")
+    output_path = variant.get("output_path")
+    if not output_path:
+        raise ValueError("Benchmark variant does not specify a knowledge base path.")
+    return Chatbot(database_path=output_path)
 
 def _get_chatbot() -> Chatbot:
     chat_id = session.get("chat_id")
@@ -20,7 +30,7 @@ def _get_chatbot() -> Chatbot:
 
     bot = _CHATBOTS.get(chat_id)
     if bot is None:
-        bot = Chatbot()
+        bot = _load_benchmark_chatbot()
         _CHATBOTS[chat_id] = bot
     return bot
 

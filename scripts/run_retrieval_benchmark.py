@@ -6,12 +6,10 @@ import json
 import sys
 from pathlib import Path
 from typing import Any
-from project_config import PROJECT_ROOT, DATA_DIR
+from project_config import PROJECT_ROOT, DATA_DIR, UNIFIED_HPC_RESULTS_PATH, BENCHMARK_PATH
 
 from metrics import aggregate_retrieval_benchmark_scores, score_retrieval_benchmark_item
 
-BENCHMARK_PATH = PROJECT_ROOT / "evaluation" / "retrieval_benchmark.json"
-UNIFIED_HPC_RESULTS_PATH = PROJECT_ROOT / "outputs" / "hpc" / "unified_variant_results.json"
 PHASE1_RETRIEVAL_MODULE_PATH = PROJECT_ROOT / "chatbot" / "tool_calls" / "handlers" / "json_retrieval.py"
 SQLITE_RETRIEVAL_MODULE_PATH = PROJECT_ROOT / "chatbot" / "tool_calls" / "handlers" / "database_retrieval.py"
 
