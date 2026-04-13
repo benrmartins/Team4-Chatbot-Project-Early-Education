@@ -15,9 +15,16 @@ DEFAULT_WEB_OUTPUT = DATA_DIR / "web_data.json"
 # Unified chunked payload consumed by retrieval tools.
 DEFAULT_CHUNK_OUTPUT = DATA_DIR / "unified_chunk_data.json"
 
+# Default variant test results output path.
+DEFAULT_VARIANT_OUTPUT_PATH = PROJECT_ROOT / "outputs" / "baseline_variant_results.json"
+
 # Primary retrieval file used by search_unified_knowledge.
 UNIFIED_KNOWLEDGE_BASE_PATH = DEFAULT_CHUNK_OUTPUT
 UNIFIED_KNOWLEDGE_BASE_FALLBACK_PATH = PROJECT_ROOT / "unified_chunk_data.json"
+
+# Benchmark and HPC results paths. These are used by the retrieval benchmark script and can also be used to load a chatbot with the best performing variant for demo purposes.
+BENCHMARK_PATH = PROJECT_ROOT / "evaluation" / "retrieval_benchmark.json"
+UNIFIED_HPC_RESULTS_PATH = PROJECT_ROOT / "outputs" / "hpc" / "unified_variant_results.json"
 
 # OpenRouter API endpoint and model used by chatbot completions.
 OPENROUTER_BASE_URL = "https://openrouter.ai/api/v1"
@@ -72,6 +79,8 @@ TOOL_REPROMPT_TEMPLATE = """Tool call results:
 
 Incorporate these results into your next response to the user, using them as needed to answer the user's question.
 If the tool results contain factual information relevant to the user's query, use that information in your response and cite it appropriately.
+If low confidence is False and at least one result is present, provide a direct answer from the top-ranked evidence and do not say you lack information.
+Treat the top-ranked evidence snippet as the primary grounding, then use additional results only if they add non-duplicative detail.
 If the tool results indicate an error or issue with retrieving information, acknowledge that in your response and do not attempt to fabricate an answer.
 Always prioritize accuracy and grounding in the provided tool results when formulating your response."""
 

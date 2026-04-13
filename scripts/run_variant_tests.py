@@ -12,7 +12,9 @@ from typing import Any
 
 from chatbot.tool_calls.handlers.database_retrieval import search_sqlite_knowledge
 from ingestion_pipeline import DataProcessor, DefaultDataProcessor, JSONDict
+from metrics import aggregate_retrieval_benchmark_scores, score_retrieval_benchmark_item
 from project_config import (
+    DEFAULT_VARIANT_OUTPUT_PATH,
     PROJECT_ROOT,
     VARIANT_TEST_BATCH_SIZES,
     VARIANT_TEST_BENCHMARK_PATH,
@@ -62,117 +64,43 @@ def _load_benchmark(path: Path) -> list[dict[str, Any]]:
     return payload
 
 
-def _hit_rank(results: list[dict[str, Any]], hints: list[str]) -> int | None:
-    normalized_hints = [hint.lower().strip() for hint in hints if hint.strip()]
-    if not normalized_hints:
-        return None
-
-    for idx, result in enumerate(results, start=1):
-        haystack = " ".join(
-            [
-                str(result.get("title", "")),
-                str(result.get("evidence_snippet", "")),
-                str(result.get("excerpt", "")),
-                str(result.get("url", "")),
-            ]
-        ).lower()
-        if any(hint in haystack for hint in normalized_hints):
-            return idx
-    return None
-
-
-def _is_out_of_scope_case(item: dict[str, Any]) -> bool:
-    return "out-of-scope" in str(item.get("why_hard", "")).lower()
-
-
 def evaluate_variant(
     db_path: str,
     benchmark_items: list[dict[str, Any]],
     max_results: int,
 ) -> dict[str, Any]:
-    hit_count = 0
-    reciprocal_rank_total = 0.0
-    confidence_points = 0
-    citation_points = 0.0
-    retrieval_failures = 0
-    details: list[dict[str, Any]] = []
+    details = _evaluate_benchmark_items(
+        db_path=db_path,
+        benchmark_items=benchmark_items,
+        max_results=max_results,
+    )
 
+    return aggregate_retrieval_benchmark_scores(details)
+
+
+def _evaluate_benchmark_items(
+    db_path: str,
+    benchmark_items: list[dict[str, Any]],
+    max_results: int,
+) -> list[dict[str, Any]]:
+    details: list[dict[str, Any]] = []
     for item in benchmark_items:
         query = str(item.get("question", "")).strip()
         if not query:
             continue
 
-        expected_hints = item.get("expected_source_hints", []) or []
-        result = search_sqlite_knowledge(
+        retrieval_result = search_sqlite_knowledge(
             query=query,
             max_results=max_results,
             database_path=db_path,
         )
-
-        retrieval_status = result.get("retrieval_status", "ok") if isinstance(result, dict) else "failed"
-        if retrieval_status != "ok":
-            retrieval_failures += 1
-
-        ranked_results = result.get("results", []) if isinstance(result, dict) else []
-        first_hit_rank = _hit_rank(ranked_results, expected_hints)
-        hit = 1 if first_hit_rank is not None else 0
-        mrr = 1.0 / first_hit_rank if first_hit_rank else 0.0
-
-        if _is_out_of_scope_case(item):
-            confidence_score = 1 if result.get("low_confidence", False) else 0
-        else:
-            confidence_score = 0 if result.get("low_confidence", False) else 1
-
-        citation_rows = [r for r in ranked_results if (r.get("title") and r.get("url"))]
-        citation_score = len(citation_rows) / max(1, len(ranked_results)) if ranked_results else 0.0
-
-        hit_count += hit
-        reciprocal_rank_total += mrr
-        confidence_points += confidence_score
-        citation_points += citation_score
-
         details.append(
-            {
-                "question": query,
-                "hit": hit,
-                "first_hit_rank": first_hit_rank,
-                "mrr": round(mrr, 4),
-                "retrieval_status": retrieval_status,
-                "error_code": result.get("error_code") if isinstance(result, dict) else "unknown_error",
-                "low_confidence": bool(result.get("low_confidence", False)),
-                "confidence_score": confidence_score,
-                "citation_score": round(citation_score, 4),
-                "result_count": int(result.get("result_count", 0)),
-            }
+            score_retrieval_benchmark_item(
+                benchmark_item=item,
+                retrieval_result=retrieval_result if isinstance(retrieval_result, dict) else {},
+            )
         )
-
-    question_count = max(1, len(details))
-    hit_rate = hit_count / question_count
-    mrr = reciprocal_rank_total / question_count
-    confidence_calibration = confidence_points / question_count
-    citation_completeness = citation_points / question_count
-    failure_rate = retrieval_failures / question_count
-
-    base_score = (
-        0.45 * hit_rate
-        + 0.35 * mrr
-        + 0.10 * confidence_calibration
-        + 0.10 * citation_completeness
-    )
-    retrieval_score = max(0.0, base_score - (0.50 * failure_rate))
-
-    return {
-        "retrieval_score": round(retrieval_score, 4),
-        "base_score": round(base_score, 4),
-        "hit_rate": round(hit_rate, 4),
-        "mrr": round(mrr, 4),
-        "confidence_calibration": round(confidence_calibration, 4),
-        "citation_completeness": round(citation_completeness, 4),
-        "retrieval_failures": retrieval_failures,
-        "failure_rate": round(failure_rate, 4),
-        "question_count": question_count,
-        "details": details,
-    }
+    return details
 
 
 def build_variant_specs(
@@ -272,10 +200,18 @@ def _stable_shard_for_variant(variant_name: str, num_shards: int) -> int:
 
 
 def _select_shard(specs: list[VariantSpec], cfg: HPCExecutionConfig) -> list[VariantSpec]:
+    if not specs:
+        return []
+
+    # If shards >= variants, map by index: shard i runs specs[i] (or empty if i is out of range).
+    if cfg.num_shards >= len(specs):
+        return [specs[cfg.shard_index]] if cfg.shard_index < len(specs) else []
+
+    # Otherwise distribute evenly and deterministically.
     return [
         spec
-        for spec in specs
-        if _stable_shard_for_variant(spec.name, cfg.num_shards) == cfg.shard_index
+        for idx, spec in enumerate(specs)
+        if idx % cfg.num_shards == cfg.shard_index
     ]
 
 
@@ -443,9 +379,9 @@ class VariantTestRunner:
         print("Variant testing complete. Summary of results:")
         for payload in self.variant_results:
             print(
-                f"{payload['name']}: score={payload['retrieval_score']} "
-                f"(hit_rate={payload['hit_rate']}, mrr={payload['mrr']}, "
-                f"confidence={payload['confidence_calibration']}, citations={payload['citation_completeness']})"
+                f"{payload['name']}: avg_score={payload['avg_score']}/5 "
+                f"(accuracy={payload['accuracy']}, retrieval_hit_rate={payload['retrieval_hit_rate']}, "
+                f"hint_match_rate={payload['hint_match_rate']})"
                 f" - {payload['question_count']} questions, {payload['retrieval_failures']} retrieval failures"
                 f" - {payload['failure_rate']*100:.1f}% failure rate"
             )
@@ -512,7 +448,7 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument(
         "--output-json",
-        default="outputs/baseline_variant_test_results.json",
+        default=DEFAULT_VARIANT_OUTPUT_PATH / "baseline_test_results.json",
         help="Where to write the test artifact.",
     )
     parser.add_argument(

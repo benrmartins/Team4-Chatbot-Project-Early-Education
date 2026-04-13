@@ -4,7 +4,7 @@
 #SBATCH --error=outputs/hpc/%x-%A_%a.err
 #SBATCH --cpus-per-task=4
 #SBATCH --mem=8G
-#SBATCH --array=0-7
+#SBATCH --array=0-23%4              # Adjust the range and concurrency as needed
 #SBATCH --partition=pomplun         # Specify the partition
 #SBATCH --gres=gpu:1                # Request 1 GPU
 #SBATCH --time=01:00:00             # Time limit hrs:min:sec
@@ -13,19 +13,26 @@
 
 set -euo pipefail
 
-REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-cd "$REPO_ROOT"
-
-mkdir -p outputs/hpc
-
-if command -v python3 >/dev/null 2>&1; then
-  PYTHON_BIN="python3"
-elif command -v python >/dev/null 2>&1; then
-  PYTHON_BIN="python"
-else
-  echo "ERROR: python executable not found on PATH" >&2
+# Always anchor to the directory where sbatch was launched.
+REPO_ROOT="${SLURM_SUBMIT_DIR:-}"
+if [[ -z "$REPO_ROOT" ]]; then
+  echo "ERROR: SLURM_SUBMIT_DIR is not set. Submit with sbatch from repo root."
   exit 1
 fi
+cd "$REPO_ROOT"
+
+OUTPUT_DIR="$REPO_ROOT/outputs/hpc"
+mkdir -p "$OUTPUT_DIR"
+
+PYTHON_BIN="$REPO_ROOT/.venv/bin/python"
+if [[ ! -x "$PYTHON_BIN" ]]; then
+  echo "ERROR: Missing virtualenv python at $PYTHON_BIN"
+  echo "Run: bash setup.sh"
+  exit 1
+fi
+
+echo "Using Python: $PYTHON_BIN"
+"$PYTHON_BIN" -V
 
 NUM_SHARDS="${SLURM_ARRAY_TASK_COUNT:-1}"
 SHARD_INDEX="${SLURM_ARRAY_TASK_ID:-0}"
@@ -40,7 +47,8 @@ else
   GPUS_PER_JOB="0"
 fi
 
-OUTPUT_JSON="outputs/variant_test_results_shard_${SHARD_INDEX}_of_${NUM_SHARDS}.json"
+DISPLAY_SHARD_INDEX=$((SHARD_INDEX + 1))
+OUTPUT_JSON="outputs/hpc/variant_test_results_shard_${DISPLAY_SHARD_INDEX}_of_${NUM_SHARDS}.json"
 
 EXTRA_FLAGS=()
 if [[ "$SHARD_INDEX" != "0" ]]; then
@@ -57,7 +65,7 @@ if [[ "${VARIANT_REBUILD_EXISTING:-0}" == "1" ]]; then
   EXTRA_FLAGS+=(--rebuild-existing)
 fi
 
-echo "Running shard ${SHARD_INDEX}/${NUM_SHARDS} on node count ${NODE_COUNT}" 
+echo "Running shard ${DISPLAY_SHARD_INDEX}/${NUM_SHARDS} on node count ${NODE_COUNT}" 
 echo "Writing artifact: ${OUTPUT_JSON}"
 
 "$PYTHON_BIN" -m scripts.run_variant_tests \
