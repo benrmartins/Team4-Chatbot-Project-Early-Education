@@ -12,9 +12,9 @@
   {
     "id": "2",
     "question": "How does Early Education Leaders support bilingual or multilingual educators?",
-    "ground_truth": "",
-    "source_doc": "[path/to/answer]",
-    "source_text": "",
+    "ground_truth": "Early Education Leaders supports bilingual and multilingual educators by offering free professional development and coaching through the Metro Boston Professional Development Center, with training available in English, Spanish, Portuguese, Cantonese, and Mandarin through professional learning communities.",
+    "source_doc": "https://blogs.umb.edu/earlyed/2025/07/09/from-survivor-to-leader-how-one-educator-used-leadership-training-to-transform-her-approach-to-supporting-families",
+    "source_text": "The Metro Boston Professional Development Center offers free professional development and coaching services to licensed early educators in Massachusetts. Training is available in English, Spanish, Portuguese, Cantonese, and Mandarin through highly engaging professional learning communities.",
     "why_hard": "Paraphrase and synonym matching: bilingual, multilingual, and language-access phrasing vary across sources.",
     "phase1_likely_failure_mode": "Phase 1 may over-rank generic 'support educators' pages rather than language-specific program details.",
     "expected_source_hints": ["languages", "spanish", "mandarin", "inclusive pathways"]

@@ -20,6 +20,29 @@ STOPWORDS = {
 TOKEN_PATTERN = re.compile(r"[a-zA-Z0-9']+")
 
 
+def _extract_query_phrases(query: str) -> List[str]:
+	"""Build simple phrase candidates to reward exact/near-exact phrase matches."""
+	if not query:
+		return []
+	raw_terms = [token for token in TOKEN_PATTERN.findall(query.lower()) if token not in STOPWORDS]
+	phrases: List[str] = []
+	if len(raw_terms) >= 2:
+		phrases.append(" ".join(raw_terms[: min(4, len(raw_terms))]))
+		for size in (2, 3):
+			for idx in range(0, max(0, len(raw_terms) - size + 1)):
+				phrases.append(" ".join(raw_terms[idx : idx + size]))
+
+	seen: set[str] = set()
+	unique: List[str] = []
+	for phrase in phrases:
+		cleaned = re.sub(r"\s+", " ", phrase).strip()
+		if len(cleaned) < 4 or cleaned in seen:
+			continue
+		seen.add(cleaned)
+		unique.append(cleaned)
+	return unique
+
+
 def _error_payload(
 	query: str,
 	database_path: str | None,
@@ -109,17 +132,44 @@ def _pick_source_type(row: Dict[str, Any], metadata: Dict[str, Any]) -> str:
 	).strip() or "unknown"
 
 
-def _build_result_item(row: Dict[str, Any], query_terms: List[str], rank: int) -> Dict[str, Any]:
+def _build_result_item(
+	row: Dict[str, Any],
+	query_terms: List[str],
+	query_phrases: List[str],
+	rank: int,
+) -> Dict[str, Any]:
 	metadata = _coerce_metadata(row.get("metadata"))
 	text = (row.get("text") or "").strip()
 	title = _pick_title(row, metadata)
 	url = _pick_url(row, metadata)
 	source_type = _pick_source_type(row, metadata)
+	section_hint = str(metadata.get("section_hint") or "").strip()
 
-	row_tokens = set(tokenize(text))
+	row_tokens = set(tokenize(" ".join([title, section_hint, text])))
 	matched_terms = [term for term in query_terms if term in row_tokens]
 	coverage = len(matched_terms) / max(1, len(query_terms))
-	score = float(row.get("score") or 0.0)
+	semantic_score = float(row.get("score") or 0.0)
+
+	title_lower = title.lower()
+	section_lower = section_hint.lower()
+	text_lower = text.lower()
+	title_term_hits = sum(1 for term in query_terms if term in title_lower)
+	section_term_hits = sum(1 for term in query_terms if term in section_lower)
+	phrase_hits = sum(
+		1
+		for phrase in query_phrases
+		if phrase in title_lower or phrase in section_lower or phrase in text_lower
+	)
+
+	# Hybrid rerank favors semantic similarity but strongly rewards exact lexical evidence.
+	lexical_bonus = (
+		(0.25 if matched_terms else -0.15)
+		+ (coverage * 0.35)
+		+ (title_term_hits * 0.12)
+		+ (section_term_hits * 0.06)
+		+ (phrase_hits * 0.08)
+	)
+	hybrid_score = semantic_score + lexical_bonus
 	evidence_snippet = build_excerpt(text, query_terms=query_terms)
 
 	reasons: List[str] = []
@@ -129,10 +179,14 @@ def _build_result_item(row: Dict[str, Any], query_terms: List[str], rank: int) -
 		reasons.append("high term coverage")
 	elif coverage >= 0.34:
 		reasons.append("partial term coverage")
-	if score >= 0.5:
+	if semantic_score >= 0.5:
 		reasons.append("strong semantic similarity")
-	elif score >= 0.2:
+	elif semantic_score >= 0.2:
 		reasons.append("moderate semantic similarity")
+	if title_term_hits:
+		reasons.append("title match")
+	if phrase_hits:
+		reasons.append("phrase match")
 	if not reasons:
 		reasons.append("weak lexical overlap")
 
@@ -143,8 +197,9 @@ def _build_result_item(row: Dict[str, Any], query_terms: List[str], rank: int) -
 		"source_type": source_type,
 		"document_id": row.get("document_id", ""),
 		"chunk_id": row.get("id", ""),
-		"score": round(score, 4),
-		"recall_score": round(score, 4),
+		"score": round(hybrid_score, 4),
+		"semantic_score": round(semantic_score, 4),
+		"recall_score": round(hybrid_score, 4),
 		"coverage": round(coverage, 3),
 		"matched_terms": matched_terms,
 		"match_reasons": reasons,
@@ -192,7 +247,8 @@ def search_sqlite_knowledge(
 		)
 
 	query_terms = tokenize(query)
-	semantic_pool = max(max_results * 4, 10)
+	query_phrases = _extract_query_phrases(query)
+	semantic_pool = max(max_results * 10, 25)
 	try:
 		embedding_method, detected_dim = read_db_embedding_config(db_file)
 		query_embedder = get_embedder_with_dimension(
@@ -222,14 +278,34 @@ def search_sqlite_knowledge(
 			max_results=max_results,
 		)
 
-	ranked_results = [
-		_build_result_item(row, query_terms=query_terms, rank=index)
-		for index, row in enumerate(rows[:max_results], start=1)
+	candidates = [
+		_build_result_item(
+			row,
+			query_terms=query_terms,
+			query_phrases=query_phrases,
+			rank=index,
+		)
+		for index, row in enumerate(rows, start=1)
 	]
+	candidates.sort(
+		key=lambda item: (
+			item.get("score", 0.0),
+			item.get("coverage", 0.0),
+			len(item.get("matched_terms", [])),
+		),
+		reverse=True,
+	)
+	ranked_results = candidates[:max_results]
+	for rank, item in enumerate(ranked_results, start=1):
+		item["rank"] = rank
 
 	top_result = ranked_results[0] if ranked_results else None
 	low_confidence = top_result is None or (
-		top_result.get("score", 0.0) < 0.2 and top_result.get("coverage", 0.0) < 0.34
+		top_result.get("coverage", 0.0) < 0.2
+		or (
+			top_result.get("semantic_score", top_result.get("score", 0.0)) < 0.2
+			and top_result.get("coverage", 0.0) < 0.34
+		)
 	)
 
 	return {
