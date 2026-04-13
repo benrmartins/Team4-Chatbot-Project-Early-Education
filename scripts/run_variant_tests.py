@@ -175,12 +175,24 @@ def evaluate_variant(
     }
 
 
-def build_variant_specs(limit: int | None = None) -> list[VariantSpec]:
-    chunk_sizes = _ordered_unique(list(VARIANT_TEST_CHUNK_SIZES))
-    chunk_overlaps = _ordered_unique(list(VARIANT_TEST_CHUNK_OVERLAPS))
-    embedding_dims = _ordered_unique(list(VARIANT_TEST_EMBEDDING_DIMS))
-    batch_sizes = _ordered_unique(list(VARIANT_TEST_BATCH_SIZES))
-    embedding_methods = _ordered_unique_str(list(VARIANT_TEST_EMBEDDING_METHODS))
+def build_variant_specs(
+                        chunk_sizes: list[int] = VARIANT_TEST_CHUNK_SIZES,
+                        chunk_overlaps: list[int] = VARIANT_TEST_CHUNK_OVERLAPS,
+                        embedding_dims: list[int] = VARIANT_TEST_EMBEDDING_DIMS,
+                        batch_sizes: list[int] = VARIANT_TEST_BATCH_SIZES,
+                        embedding_methods: list[str] = VARIANT_TEST_EMBEDDING_METHODS,
+                        include_dummy_variant: bool = False,
+    ) -> list[VariantSpec]:
+    chunk_sizes = _ordered_unique(chunk_sizes)
+    chunk_overlaps = _ordered_unique(list(chunk_overlaps))
+    embedding_dims = _ordered_unique(list(embedding_dims))
+    batch_sizes = _ordered_unique(list(batch_sizes))
+    embedding_methods = _ordered_unique_str(list(embedding_methods))
+
+    if include_dummy_variant and "dummy" not in embedding_methods:
+        embedding_methods.append("dummy")
+    else:        
+        embedding_methods = [m for m in embedding_methods if m != "dummy"]
 
     db_dir = Path(DATA_DIR)
     db_dir.mkdir(parents=True, exist_ok=True)
@@ -217,8 +229,7 @@ def build_variant_specs(limit: int | None = None) -> list[VariantSpec]:
     name_set = {spec.name for spec in specs}
     if len(name_set) != len(specs):
         raise ValueError("Duplicate variant names detected; shard assignment would be ambiguous.")
-    if limit and limit > 0:
-        return specs[:limit]
+
     return specs
 
 
@@ -268,6 +279,34 @@ def _select_shard(specs: list[VariantSpec], cfg: HPCExecutionConfig) -> list[Var
     ]
 
 
+def _apply_limit(specs: list[VariantSpec], limit: int | None) -> list[VariantSpec]:
+    if not limit or limit <= 0:
+        return specs
+
+    # Round-robin per embedding method to avoid tiny runs selecting one method only.
+    grouped: dict[str, list[VariantSpec]] = {}
+    for spec in specs:
+        grouped.setdefault(spec.embedding_method, []).append(spec)
+
+    methods = sorted(grouped.keys())
+    selected: list[VariantSpec] = []
+    row = 0
+    while len(selected) < limit:
+        progressed = False
+        for method in methods:
+            group = grouped[method]
+            if row < len(group):
+                selected.append(group[row])
+                progressed = True
+                if len(selected) >= limit:
+                    break
+        if not progressed:
+            break
+        row += 1
+
+    return selected
+
+
 class VariantTestRunner:
     def __init__(
         self,
@@ -278,6 +317,7 @@ class VariantTestRunner:
         rebuild_existing: bool = False,
         hpc_config: HPCExecutionConfig | None = None,
         include_baseline: bool = True,
+        include_dummy_variant: bool = False,
         cleanup_variant_dbs: bool = False,
     ):
         self.base_processor = base_processor or DefaultDataProcessor()
@@ -297,10 +337,11 @@ class VariantTestRunner:
             self.hpc_config.num_shards > 1 and self.hpc_config.shard_index != 0
         )
         self.cleanup_variant_dbs = cleanup_variant_dbs
-        full_specs = build_variant_specs(limit=None)
+        embedding_methods = list(VARIANT_TEST_EMBEDDING_METHODS)
+
+        full_specs = build_variant_specs(include_dummy_variant=include_dummy_variant)
         sharded_specs = _select_shard(full_specs, self.hpc_config)
-        if limit and limit > 0:
-            sharded_specs = sharded_specs[:limit]
+        sharded_specs = _apply_limit(sharded_specs, limit=limit)
         self.specs = sharded_specs
         self.total_spec_count = len(full_specs)
         self.variant_results: list[dict[str, Any]] = []
@@ -361,7 +402,7 @@ class VariantTestRunner:
         if self.include_baseline:
             baseline_payload = {
                 "name": self.base_processor.name,
-                "embedding_method": "dummy",
+                "embedding_method": self.base_processor.embedding_method,
                 "chunk_size": self.base_processor.chunk_size,
                 "chunk_overlap": self.base_processor.chunk_overlap,
                 "embedding_dim": self.base_processor.embedding_dim,
@@ -419,6 +460,7 @@ class VariantTestRunner:
             "generated_at": datetime.datetime.now().isoformat(timespec="seconds"),
             "benchmark_path": str(Path(self.benchmark_path)),
             "max_results": self.max_results,
+            "limit": self.limit,
             "include_baseline": self.include_baseline,
             "cleanup_variant_dbs": self.cleanup_variant_dbs,
             "hpc": asdict(self.hpc_config),
@@ -436,7 +478,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--limit",
         type=int,
-        default=0,
+        default=1,
         help="Optional cap on how many matrix variants to run (0 means all).",
     )
     parser.add_argument(
@@ -470,7 +512,7 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument(
         "--output-json",
-        default="outputs/variant_test_results.json",
+        default="outputs/baseline_variant_test_results.json",
         help="Where to write the test artifact.",
     )
     parser.add_argument(
@@ -520,6 +562,12 @@ def parse_args() -> argparse.Namespace:
         action="store_true",
         help="Disable auto-detecting shard count/index from SLURM_ARRAY_TASK_COUNT/SLURM_ARRAY_TASK_ID.",
     )
+    parser.add_argument(
+        "--include-dummy-variant",
+        default=False,
+        action="store_true",
+        help="Include a dummy variant with no embedding for sanity check.",
+    )
     return parser.parse_args()
 
 
@@ -527,6 +575,7 @@ if __name__ == "__main__":
     args = parse_args()
     hpc_config = _resolve_hpc_execution_config(args)
     runner = VariantTestRunner(
+        include_dummy_variant=bool(args.include_dummy_variant),
         benchmark_path=Path(args.benchmark),
         max_results=int(args.max_results),
         limit=int(args.limit) if int(args.limit) > 0 else None,
