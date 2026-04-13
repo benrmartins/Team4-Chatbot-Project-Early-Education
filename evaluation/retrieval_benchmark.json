@@ -3,8 +3,8 @@
     "id": "1",
     "question": "What is ExCELS and what does it measure?",
     "ground_truth": "ExCELS is a leadership study that measures leadership development outcomes.",
-    "source_doc": "[path/to/answer]",
-    "source_text": "ExCELS is a leadership study that measures leadership development outcomes.",
+    "source_doc": "Persuasive policy | https://blogs.umb.edu/earlyed/2023/01/09/popular-policy/",
+    "source_text": "This research was conducted as part of the Early Care and Education Leadership Study (ExCELS), a multi-phase project now in its fifth and final year, which seeks to help the early childhood field understand how effective leaders can improve quality experiences for children in ECE settings.",
     "why_hard": "Acronym lookup where the best answer may appear in specialized research/program pages instead of generic institute descriptions.",
     "phase1_likely_failure_mode": "Keyword overlap can pull broad institute pages or repeated mentions instead of the chunk that defines ExCELS directly.",
     "expected_source_hints": ["excels", "leadership study", "measure of leadership"]
@@ -22,9 +22,9 @@
   {
     "id": "3",
     "question": "Is there a fellowship that helps early educators earn a bachelor's degree?",
-    "ground_truth": "",
-    "source_doc": "[path/to/answer]",
-    "source_text": "",
+    "ground_truth": "Yes, the Early Childhood Fellowship provides tuition coverage and stipends to help early educators earn their bachelor's degree without accumulating debt, as well as many other benefits.",
+    "source_doc": "Building the Future of Early Education: Inside the Early Childhood Fellowship | https://blogs.umb.edu/earlyed/2025/04/04/building-the-future-of-early-education-inside-the-early-childhood-fellowship/",
+    "source_text": "The EC Fellowship is part of UMass Boston’s innovative early education BA program which serves 300 students annually and has established itself as a leader in recruiting, retaining, and graduating racially and linguistically diverse early childhood educators. It addresses critical barriers that often prevent early educators from completing their degrees and provides comprehensive support through five key components:",
     "why_hard": "Program lookup using indirect phrasing instead of the exact program title.",
     "phase1_likely_failure_mode": "Phase 1 may retrieve generic degree research summaries because 'bachelor' appears there more often than the fellowship program page.",
     "expected_source_hints": ["early childhood fellowship", "bachelor", "tuition", "fellows"]
@@ -32,9 +32,9 @@
   {
     "id": "4",
     "question": "What support do fellows receive besides tuition?",
-    "ground_truth": "",
-    "source_doc": "[path/to/answer]",
-    "source_text": "",
+    "ground_truth": "EC Fellows at Umass Boston receive comprehensive support including tuition coverage, stipends, personalized tutoring, academic support, regular mentoring, a learning community network, coaching to enhance teaching practices, leadership development opportunities, and access to an alumni network.",
+    "source_doc": "Building the Future of Early Education: Inside the Early Childhood Fellowship | https://blogs.umb.edu/earlyed/2025/04/04/building-the-future-of-early-education-inside-the-early-childhood-fellowship/",
+    "source_text": "Tuition coverage and stipends to ensure Fellows can earn their degree without accumulating debt, Personalized tutoring and academic support, Regular mentoring and a learning community network, Coaching to support and enhance the quality of teaching practices, Leadership development opportunities and an alumni network",
     "why_hard": "Requires fine-grained retrieval within a larger fellowship description.",
     "phase1_likely_failure_mode": "Phase 1 may find the fellowship page but surface a chunk that emphasizes eligibility rather than support details.",
     "expected_source_hints": ["stipend", "advising", "coaching", "transportation", "childcare"]
@@ -42,9 +42,9 @@
   {
     "id": "5",
     "question": "How does Leading for Change help educators become change agents?",
-    "ground_truth": "",
-    "source_doc": "[path/to/answer]",
-    "source_text": "",
+    "ground_truth": "Leading for Change helps educators become change agents by increasing their leadership skills, confidence, and ability to lead positive change and quality improvement.",
+    "source_doc": "https://blogs.umb.edu/earlyed/2022/02/25/preparing-early-educators/",
+    "source_text": "Findings from the study indicate that relational-entrepreneurial leadership training taps into early educators’ proprietary knowledge and equips them to lead for positive change and quality improvement.",
     "why_hard": "Conceptual phrasing should connect change agents, leadership mindsets, and project-based improvement.",
     "phase1_likely_failure_mode": "Phase 1 may return duplicate chunks from the same source instead of distinct evidence about outcomes and program structure.",
     "expected_source_hints": ["leading for change", "change project", "change agents", "leadership mindsets"]
