@@ -248,7 +248,9 @@ def search_sqlite_knowledge(
 
 	query_terms = tokenize(query)
 	query_phrases = _extract_query_phrases(query)
-	semantic_pool = max(max_results * 10, 25)
+	# query_similar_by_text evaluates against all stored embeddings in-memory,
+	# so use a broad top_k and let hybrid reranking promote grounded lexical hits.
+	semantic_pool = 10_000
 	try:
 		embedding_method, detected_dim = read_db_embedding_config(db_file)
 		query_embedder = get_embedder_with_dimension(
