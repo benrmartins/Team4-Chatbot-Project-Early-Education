@@ -152,12 +152,12 @@
   {
     "id": "16",
     "question":"What do our leaders/graduates/fellows do?",
-    "ground_truth": "",
-    "source_doc": "[path/to/answer]",
-    "source_text": "",
-    "why_hard":"",
-    "phase2_likely_failure_mode":"",
-    "expected_source_hints":[]
+    "ground_truth": "Leaders, graduates, and fellows work in a range of early childhood education roles, including classroom teaching, paraprofessional and assistant teaching, family child care, advanced study and research, and broader leadership and advocacy work.",
+    "source_doc": "A Promising Pathway: Early Insights from the Early Childhood Fellowship | https://blogs.umb.edu/earlyed/2025/04/11/a-promising-pathway-early-insights-from-the-early-childhood-fellowship",
+    "source_text": "Most EC Fellows (85%) are employed in various early childhood education settings, with 36% working as classroom teachers, 28% as paraprofessionals or assistant teachers, and 17% as family child care providers.",
+    "why_hard":"The question is broad and can match alumni stories, fellowship outcomes, and general program pages rather than the clearest role breakdown.",
+    "phase2_likely_failure_mode":"Phase 2 may retrieve inspiring individual profiles or policy posts instead of the source that gives the most direct distribution of fellow roles.",
+    "expected_source_hints":["early childhood fellowship", "classroom teachers", "assistant teachers", "family child care providers", "fellows"]
   },
   {
     "id": "17",
@@ -182,12 +182,12 @@
   {
     "id": "19",
     "question":"What is the Leadership Forum?",
-    "ground_truth": "",
-    "source_doc": "[path/to/answer]",
-    "source_text": "",
-    "why_hard":"",
-    "phase2_likely_failure_mode":"",
-    "expected_source_hints":[]
+    "ground_truth": "The Leadership Forum is an annual Early Education Leaders gathering where early childhood practitioners and leaders discuss research, policy, and practice, share roundtable presentations, and leave with a call to action for improving the field.",
+    "source_doc": "At Leadership Forum, ECE practitioners get a call to action | https://blogs.umb.edu/earlyed/2019/05/24/leadershipforum2019",
+    "source_text": "Seven roundtable presentations and discussions followed the welcome, and leadership program graduates presented on topics such as trauma and resilience in ECE, improving early childhood systems and policies, and entrepreneurial leadership for ECE small businesses.",
+    "why_hard":"Several forum-related pages exist, and some focus on a specific year, speaker, or cancellation notice instead of defining what the forum is.",
+    "phase2_likely_failure_mode":"Phase 2 may rank adjacent event announcements higher than the source that best explains the forum's purpose and structure.",
+    "expected_source_hints":["leadership forum", "research policy practice", "roundtable presentations", "call to action", "ECE practitioners"]
   },
   {
     "id": "20",
@@ -212,32 +212,32 @@
   {
     "id": "22",
     "question":"What do our leadership development program graduates/alumni say about developing and strengthening their leadership?",
-    "ground_truth": "",
-    "source_doc": "[path/to/answer]",
-    "source_text": "",
-    "why_hard":"",
-    "phase2_likely_failure_mode":"",
-    "expected_source_hints":[]
+    "ground_truth": "Graduates say the leadership programs helped them better understand their role as teacher-researchers, strengthen their confidence and leadership, and empower them to improve their own programs while helping other educators do the same.",
+    "source_doc": "Two PMC grads team up to provide resources to FCC providers | https://blogs.umb.edu/earlyed/2024/01/09/two-pmc-grads-team-up-to-provide-resources-to-fcc-providers",
+    "source_text": "\"It helped us to understand the value of the teacher/researcher, how we can make a difference in our own programs, and empower other educators to make a difference in theirs.\"",
+    "why_hard":"The question asks for testimonial-style evidence, which is often embedded in alumni stories instead of overview pages.",
+    "phase2_likely_failure_mode":"Phase 2 may surface leadership program descriptions without the strongest first-person evidence about how alumni describe their own growth.",
+    "expected_source_hints":["teacher/researcher", "make a difference", "empower other educators", "PMC grads", "alumni reflections"]
   },
   {
     "id": "23",
     "question":"How do our programs impact early educators?",
-    "ground_truth": "",
-    "source_doc": "[path/to/answer]",
-    "source_text": "",
-    "why_hard":"",
-    "phase2_likely_failure_mode":"",
-    "expected_source_hints":[]
+    "ground_truth": "The programs help early educators build leadership capacity by identifying their strengths, developing personal and professional growth plans, strengthening practice, joining supportive learning communities, and becoming more prepared to lead change.",
+    "source_doc": "Leading for Change in California: Roxana Flores | https://blogs.umb.edu/earlyed/2022/07/21/leading-for-change-in-california-roxana-flores",
+    "source_text": "A leadership development exercise helps participants identify their individual strengths and ability to impact change, create personal and professional development plans based on their unique strengths and talents, and understand the work situations and environments that bring out the best in them and in others.",
+    "why_hard":"The impact is described across training pages, participant stories, and fellowship posts, so retrieval can easily grab a partial answer.",
+    "phase2_likely_failure_mode":"Phase 2 may retrieve general offerings pages that mention professional development but miss the clearest language about how participants themselves are changed.",
+    "expected_source_hints":["impact change", "personal and professional development", "strengths", "professional learning communities", "lead for change"]
   },
   {
     "id": "24",
     "question":"What kinds of things do our program graduates/alumni (early educators) do as a result of our leadership programs?",
-    "ground_truth": "",
-    "source_doc": "[path/to/answer]",
-    "source_text": "",
-    "why_hard":"",
-    "phase2_likely_failure_mode":"",
-    "expected_source_hints":[]
+    "ground_truth": "Program graduates use their leadership training to lead change projects, improve program quality, strengthen family engagement, mentor peers, collaborate across the field, and advocate for broader improvements in early childhood education.",
+    "source_doc": "From Survivor to Leader: How One Educator Used Leadership Training to Transform Her Approach to Supporting Families | https://blogs.umb.edu/earlyed/2025/07/09/from-survivor-to-leader-how-one-educator-used-leadership-training-to-transform-her-approach-to-supporting-families",
+    "source_text": "Leading for Change in Early Care and Education was developed by Early Education Leaders and anchors all of our programs. Participants learn how to lead for change to improve program quality and promote equity in early care and education.",
+    "why_hard":"This asks for post-program actions, which are spread across alumni success stories and may be phrased differently from the question.",
+    "phase2_likely_failure_mode":"Phase 2 may retrieve a canonical program description instead of a concrete alumni example showing what graduates actually go on to do.",
+    "expected_source_hints":["lead for change", "improve program quality", "promote equity", "supporting families", "alumni actions"]
   },
   {
     "id": "25",
