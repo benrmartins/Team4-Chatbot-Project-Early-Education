@@ -75,7 +75,7 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument(
         "--output-json",
-        default="outputs/variant_test_results_merged.json",
+        default="outputs/hpc/unified_variant_results.json",
         help="Output path for merged artifact.",
     )
     parser.add_argument(
