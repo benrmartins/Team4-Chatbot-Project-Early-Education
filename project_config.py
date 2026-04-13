@@ -15,6 +15,9 @@ DEFAULT_WEB_OUTPUT = DATA_DIR / "web_data.json"
 # Unified chunked payload consumed by retrieval tools.
 DEFAULT_CHUNK_OUTPUT = DATA_DIR / "unified_chunk_data.json"
 
+# Default variant test results output path.
+DEFAULT_VARIANT_OUTPUT_PATH = PROJECT_ROOT / "outputs" / "baseline_variant_results.json"
+
 # Primary retrieval file used by search_unified_knowledge.
 UNIFIED_KNOWLEDGE_BASE_PATH = DEFAULT_CHUNK_OUTPUT
 UNIFIED_KNOWLEDGE_BASE_FALLBACK_PATH = PROJECT_ROOT / "unified_chunk_data.json"
