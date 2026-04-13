@@ -188,18 +188,18 @@ Then resubmit the job:
 sbatch run_dummy_variant_experiment.slurm
 ```
 
-If you want to preserve per-variant DBs for inspection instead of deleting them after scoring:
+If you want to delete per-variant DBs after scoring (optional):
 
 ```bash
-export VARIANT_CLEANUP_DBS=0
+export VARIANT_CLEANUP_DBS=1
 ```
 
 Notes:
 
 - `run_full_variant_experiment.slurm` now runs baseline on shard `0` only.
-- Per-variant SQLite DBs are deleted automatically after scoring by default.
+- Per-variant SQLite DB cleanup is opt-in.
 - Set `VARIANT_REBUILD_EXISTING=1` before `sbatch` to force full DB rebuild.
-- Set `VARIANT_CLEANUP_DBS=0` before `sbatch` if you want to keep DB files.
+- Set `VARIANT_CLEANUP_DBS=1` before `sbatch` if you want DBs deleted after scoring.
 - If `data/web_data.json` is missing, some runs may trigger a fresh crawl.
 
 ## Cost Tracking (Team + HPC)
