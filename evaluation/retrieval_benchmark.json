@@ -52,21 +52,21 @@
   {
     "id": "6",
     "question": "What is the Culture of Continuous Learning Project trying to improve?",
-    "ground_truth": "",
-    "source_doc": "[path/to/answer]",
-    "source_text": "",
-    "why_hard": "The answer often spans quality improvement, organizational learning, and social-emotional teaching support.",
-    "phase1_likely_failure_mode": "Keyword-only retrieval may over-rank unrelated workforce-development grant pages that mention learning or improvement broadly.",
+    "ground_truth": "It is trying to improve social and emotional teaching and learning in early care and education programs by supporting quality improvement and organizational change through a continuous learning model.",
+    "source_doc": "https://docs.google.com/document/d/12gLIAjth2xRUcBZTJABcL7VQ0aQfkaIb/edit",
+    "source_text": "We work with ECE programs in Boston to enhance social and emotional teaching and learning using the model for improvement called the Breakthrough Series Collaborative. This model facilitates both individual and organizational change by mobilizing leadership from all levels within ECE programs, and creating a culture of learning among ECE programs.",
+    "why_hard": "Connects quality improvement, social-emotional learning, and organizational change through an abstract improvement model.",
+    "phase1_likely_failure_mode": "May retrieve general leadership program pages mentioning improvement but miss the specific Breakthrough Series Collaborative mechanism.",
     "expected_source_hints": ["quality improvement", "culture of continuous learning", "breakthrough series collaborative", "social and emotional"]
   },
   {
     "id": "7",
     "question": "How does the institute connect research, policy, and practice?",
-    "ground_truth": "",
-    "source_doc": "[path/to/answer]",
-    "source_text": "",
-    "why_hard": "Multi-source synthesis phrased abstractly rather than by exact page title.",
-    "phase1_likely_failure_mode": "Phase 1 may return generic institute boilerplate instead of pages that explicitly discuss research-policy-practice connections.",
+    "ground_truth": "The institute connects research, policy, and practice by conducting applied research, forming research-practice-policy partnerships, and using findings to inform systems change and improve early education programs and policies.",
+    "source_doc": "https://docs.google.com/document/d/12gLIAjth2xRUcBZTJABcL7VQ0aQfkaIb/edit",
+    "source_text": "We establish applied research-practice-policy partnerships that contribute new knowledge about early educator entrepreneurial leadership as a powerful lever for change. Our current research and evaluation projects include studies on leadership in early care and education settings, workforce surveys, and evaluations of quality improvement interventions.",
+    "why_hard": "Requires synthesizing across multiple abstract statements about research, partnerships, and systems change.",
+    "phase1_likely_failure_mode": "May return generic mission statements instead of explicit research-policy-practice linkage content.",
     "expected_source_hints": ["research, policy, and practice", "systems change", "thought leadership", "research impact"]
   },
   {
@@ -82,12 +82,12 @@
   {
     "id": "9",
     "question": "How can someone learn more or contact the institute?",
-    "ground_truth": "",
-    "source_doc": "[path/to/answer]",
-    "source_text": "",
-    "why_hard": "High-frequency generic terms make it easy for broad pages to crowd out actual contact information.",
-    "phase1_likely_failure_mode": "Phase 1 may return general overview pages without the clearest contact or inquiry language.",
-    "expected_source_hints": ["contact", "email", "learn more", "information"]
+    "ground_truth": "People can learn more or get information by visiting program pages and contacting program staff via listed emails such as Chelsea.Cleary@umb.edu or Chelsea Cleary for fellowship inquiries.",
+    "source_doc": "12gLIAjth2xRUcBZTJABcL7VQ0aQfkaIb",
+    "source_text": "For additional information please contact Chelsea.Cleary@umb.edu. Contact Chelsea Cleary, Program Coordinator.",
+    "why_hard": "Contact information is embedded in program-specific sections rather than centralized.",
+    "phase1_likely_failure_mode": "May retrieve general overview pages without contact details.",
+    "expected_source_hints": ["contact", "email", "learn more", "information", "https://docs.google.com/document/d/12gLIAjth2xRUcBZTJABcL7VQ0aQfkaIb/edit"]
   },
   {
     "id": "10",
@@ -102,9 +102,9 @@
   {
     "id": "11",
     "question":"What does Early Education Leaders do?",
-    "ground_truth": "",
-    "source_doc": "[path/to/answer]",
-    "source_text": "",
+    "ground_truth": "Early education leaders drive systems change in early care and education by investing in workforce and leadership development, conducting research, and improving the early education ecosystem to support high-quality care and the professional growth of educators and families.",
+    "source_doc": "https://www.umb.edu/early-education-leaders-institute/",
+    "source_text": "We drive systems change by investing in workforce and leadership development, research, and the larger early education ecosystem to cultivate effective leaders who reflect and represent their communities. We consistently and successfully make accessible, high-quality early care and education a reality for more children and families, while supporting the professional growth of a diverse workforce of early educators. The Leadership Institute drives systems change in early care and education so that all early educators, young children, and their families thrive.",
     "why_hard":"Broad organizational description question where relevant information may be spread across overview, mission, and program pages rather stated in one sentence.",
     "phase2_likely_failure_mode":"Phase 2 may return a rather narrow program description organizational role and could focus too much on one area such as leadership training.",
     "expected_source_hints":["about", "mission", "what we do", "early education", "leadership"]
@@ -112,29 +112,29 @@
   {
     "id": "12",
     "question":"Who do we partner with?",
-    "ground_truth": "",
-    "source_doc": "[path/to/answer]",
-    "source_text": "",
+    "ground_truth": "The Institute partners with government, community, philanthropic, and research organizations including the Massachusetts Department of Early Education and Care, U.S. Department of Education, U.S. Department of Health and Human Services, New Profit, and other organizations such as the City of Boston, Boston Children’s Hospital Foundation, Boston Public Schools, and several research and nonprofit institutions.",
+    "source_doc": "https://www.umb.edu/early-education-leaders-institute/",
+    "source_text": "Key partners who’ve made transformational grants to support this work include the Massachusetts Department of Early Education and Care, the U.S. Department of Education, the U.S. Department of Health and Human Services, and New Profit. Professional, community, government, and philanthropic entities that share our vision include City of Boston, Boston Children’s Hospital Foundation, The Boston Foundation, Boston Public Schools Early Childhood Department, Mayor’s Office of Women’s Advancement - City of Boston, Child Trends, Maryland Early Childhood Leadership Project, MA Department of Early Education and Care, Department of Higher Education, Mathematica Policy Research, New Profit, Project Hope, Promise Venture Studio, Robert Wood Johnson Foundation, Start Early Tech Goes Home, UMass Donahue Institute, US Department of Education, US Department of Health and Human Services, United Way, Vital Village Network.",
     "why_hard":"Partner information is distributed across impact, program, and sponser pages rather than collected in one clearly labeled section",
     "phase2_likely_failure_mode":"Phase 2 may retrieve pages that mention collaboration, but don't mention actual partner organizations.",
     "expected_source_hints":["partner", "partnership", "collaborate", "organizations"]
   },
-  {
+    {
     "id": "13",
-    "question":"What kind of leadership programs do we offer?",
-    "ground_truth": "",
-    "source_doc": "[path/to/answer]",
-    "source_text": "",
-    "why_hard":"If program offerings are listed/mentioned across multiple pages, it may be hard to receive a complete answer from one source.",
+    "question": "What kinds of leadership programs are offered by the Leadership Institute?",
+    "ground_truth": "The Leadership Institute offers leadership coaching and training programs for early childhood program administrators through the Early Childhood Support Organization, along with professional development that includes peer learning, workplace-based training, and support for building continuous improvement cultures in early education settings.",
+    "source_doc": "Leadership Institute ECSO announcement (Oct 2020)",
+    "source_text": "The ECSO offers leadership coaching and training to ECE program administrators to cultivate the skills necessary to create cultures of continuous learning and improvement in organizations and establish professional development opportunities in the workplace that strengthen teaching quality and children’s learning. The ECSO offers program leaders high quality professional development to gain knowledge, coaching to transfer knowledge into practice, and opportunities for peer learning to support their efforts to continuous improvement.",
+    "why_hard": "Requires synthesizing multiple program components (coaching, training, peer learning, organizational improvement) rather than extracting a single named program.",
     "phase2_likely_failure_mode":"Phase 2 may retreive only one of the program offering than listing all of them, or key offers.",
     "expected_source_hints":["programs", "leadership developement", "coaching", "training"]
   },
   {
     "id": "14",
     "question":"What kind of research does Early Education Leaders do?",
-    "ground_truth": "",
-    "source_doc": "[path/to/answer]",
-    "source_text": "",
+    "ground_truth": "Early Education Leaders conduct research focused on early care and education systems, workforce and leadership development, and improving the quality and accessibility of early education by studying how to support educators, children, and families.",
+    "source_doc": "https://www.umb.edu/early-education-leaders-institute/",
+    "source_text": "We invest in workforce and leadership development, research, and the larger early education ecosystem to cultivate effective leaders who reflect and represent their communities. The Leadership Institute drives systems change in early care and education so that all early educators, young children, and their families thrive. Findings from studies contribute new knowledge to the emerging literature on early educator leadership development and examine how systems can be redesigned to cultivate the leadership of early educators at scale.",
     "why_hard":"Research may be described using contiguous terms such as evaluation, analyzation, studying, or policy rather than using the exact word 'Research'.",
     "phase2_likely_failure_mode":"Phase 2 may return general program pages that end up failing to identify focused on studies, findings, or evaluations.",
     "expected_source_hints":["research", "evaluation", "findings", "policy", "analyzation", "studying"]
@@ -142,9 +142,9 @@
   {
     "id": "15",
     "question":"What impact do our programs have?",
-    "ground_truth": "",
-    "source_doc": "[path/to/answer]",
-    "source_text": "",
+    "ground_truth": "The institute’s programs expand access to leadership development, increase the number of trained early educators, support degree completion, advance workforce development, and produce research that informs policy and improves early education systems.",
+    "source_doc": "https://blogs.umb.edu/earlyed/2025/04/22/fy2024-impact-report/",
+    "source_text": "Last fiscal year marked an important milestone when the number of early educators who have graduated from Leading for Change surpassed 1,000. Fiscal Year 2024 also saw growth in the Early Childhood Fellowship – Bachelor’s Degree Completion Program, with nearly 75 early educators accepted, removing financial barriers to higher education. Through partnerships, we advanced workforce development via professional development programs. We published over 25 pieces of research and commentary, reinforcing our role as a thought leader in the field. Our programs are guided by a vision of racially, culturally, and linguistically diverse early educators who are supported to transform early learning and improve outcomes for children and families.",
     "why_hard":"Impact can be too broad and repeated in many reports or program pages, making it harder to isolate direct evidence of the impact programs have.",
     "phase2_likely_failure_mode":"Phase 2 may retrieve promotional language or mission statements instead of pages with definite outcomes or evidence of impact.",
     "expected_source_hints":["impact", "outcomes", "graduates", "results", "fellows"]
@@ -161,23 +161,23 @@
   },
   {
     "id": "17",
-    "question":"And other questions we may have previously generated?",
-    "ground_truth": "",
-    "source_doc": "[path/to/answer]",
-    "source_text": "",
-    "why_hard":"",
-    "phase2_likely_failure_mode":"",
-    "expected_source_hints":[]
+    "question": "What are the key types of positive relationships that support early educators in earning their bachelor's degree?",
+    "ground_truth": "The key types of positive relationships are mutual respect and caring, believing in educators, flexibility and responsiveness, and mentoring and role modeling from faculty, advisors, and workplace supervisors.",
+    "source_doc": "1jsek26MhrbxYkSvf6TaEbZBuFhPVhvnf",
+    "source_text": "The study identified four types of positive relational processes: mutual respect and caring, believing in educators, flexibility and responsiveness, and mentoring and role modeling. These were supported by relationships with faculty, advisors, peers, and workplace supervisors, which helped educators persist in completing their bachelor's degrees.",
+    "why_hard": "Requires synthesizing multiple qualitative themes from narrative descriptions into a structured categorical answer.",
+    "phase2_likely_failure_mode": "Retrieval may capture only one relationship type (e.g., mentoring) instead of all four categories, leading to incomplete answers.",
+    "expected_source_hints": ["mutual respect", "believing in educators", "flexibility", "mentoring", "relationships", "https://docs.google.com/document/d/1jsek26MhrbxYkSvf6TaEbZBuFhPVhvnf/edit"]
   },
   {
     "id": "18",
-    "question":"What are the main focus areas of the institute’s work?",
-    "ground_truth": "",
-    "source_doc": "[path/to/answer]",
-    "source_text": "",
-    "why_hard":"",
-    "phase2_likely_failure_mode":"",
-    "expected_source_hints":[]
+    "question": "What are the main focus areas of the institute’s work?",
+    "ground_truth": "The institute focuses on leadership development, workforce development, research, policy engagement, and improving early care and education systems through training and innovation programs.",
+    "source_doc": "12gLIAjth2xRUcBZTJABcL7VQ0aQfkaIb",
+    "source_text": "We design and deliver programs in entrepreneurial leadership... Leading for Change... Early Childhood Support Organization... Statewide Professional Development Academy... Research & Policy...",
+    "why_hard": "Requires synthesizing across multiple programs into unified themes.",
+    "phase2_likely_failure_mode": "May retrieve single program pages instead of aggregated institute-wide focus.",
+    "expected_source_hints": ["leadership", "workforce development", "research", "policy", "programs", "https://docs.google.com/document/d/12gLIAjth2xRUcBZTJABcL7VQ0aQfkaIb/edit"]
   },
   {
     "id": "19",
@@ -191,23 +191,23 @@
   },
   {
     "id": "20",
-    "question":"Why is the Leadership Forum so special?",
-    "ground_truth": "",
-    "source_doc": "[path/to/answer]",
-    "source_text": "",
-    "why_hard":"",
-    "phase2_likely_failure_mode":"",
-    "expected_source_hints":[]
+    "question": "Why is the Leadership Forum so special?",
+    "ground_truth": "The Leadership Forum is special because it brings together early educators and leaders to share research, collaborate, and advance equity and systems change in early education through collective dialogue and innovation.",
+    "source_doc": "Leadership Forum description pages",
+    "source_text": "The Forum continues to serve as a vital space where early educators come together to share ideas, build networks, and lead conversations about quality improvement, equity, and systems change.",
+    "why_hard": "Requires interpreting value/importance rather than factual definition.",
+    "phase2_likely_failure_mode": "May retrieve event logistics instead of significance/impact framing.",
+    "expected_source_hints": ["leadership forum", "equity", "systems change", "networking"]
   },
   {
     "id": "21",
-    "question":"Who should attend the Leadership Forum?",
-    "ground_truth": "",
-    "source_doc": "[path/to/answer]",
-    "source_text": "",
-    "why_hard":"",
-    "phase2_likely_failure_mode":"",
-    "expected_source_hints":[]
+    "question": "Who should attend the Leadership Forum?",
+    "ground_truth": "Early educators, leaders, researchers, and practitioners in early childhood education who are interested in improving practice, policy, and systems change should attend.",
+    "source_doc": "12gLIAjth2xRUcBZTJABcL7VQ0aQfkaIb",
+    "source_text": "Early educators come together to share ideas, build networks, and lead conversations about quality improvement, equity, and systems change.",
+    "why_hard": "Audience is implied rather than explicitly listed.",
+    "phase2_likely_failure_mode": "May miss implied stakeholder groups and only return partial audience description.",
+    "expected_source_hints": ["early educators", "leaders", "researchers", "practitioners", "https://docs.google.com/document/d/12gLIAjth2xRUcBZTJABcL7VQ0aQfkaIb/edit"]
   },
   {
     "id": "22",
@@ -241,63 +241,63 @@
   },
   {
     "id": "25",
-    "question":"What impact do our early educator alums have on early childhood programs, practices, systems, and policies?",
-    "ground_truth": "",
-    "source_doc": "[path/to/answer]",
-    "source_text": "",
-    "why_hard":"",
-    "phase2_likely_failure_mode":"",
-    "expected_source_hints":[]
+    "question": "What impact do our early educator alums have on early childhood programs, practices, systems, and policies?",
+    "ground_truth": "Early educator alumni drive improvements in teaching practices, program quality, and early education systems by implementing leadership strategies, improving instructional practices, and influencing policy and organizational change.",
+    "source_doc": "12gLIAjth2xRUcBZTJABcL7VQ0aQfkaIb",
+    "source_text": "Collectively, they are catalyzing local and systemic change needed to improve quality of instructional practices and devise business innovations that ensure quality programs are available and accessible in low-income communities.",
+    "why_hard": "Requires synthesis across impact statements and program outcomes.",
+    "phase2_likely_failure_mode": "May retrieve program descriptions instead of alumni impact synthesis.",
+    "expected_source_hints": ["alumni", "impact", "systems change", "instructional practices", "policy", "https://docs.google.com/document/d/12gLIAjth2xRUcBZTJABcL7VQ0aQfkaIb/edit"]
   },
   {
     "id": "26",
-    "question":"Why does leadership matter in early care and education?",
-    "ground_truth": "",
-    "source_doc": "[path/to/answer]",
-    "source_text": "",
-    "why_hard":"",
-    "phase2_likely_failure_mode":"",
-    "expected_source_hints":[]
+    "question": "Why does leadership matter in early care and education?",
+    "ground_truth": "Leadership matters because it enables systems change, improves program quality, supports educators, and ensures equitable, high-quality early education for children and families.",
+    "source_doc": "12gLIAjth2xRUcBZTJABcL7VQ0aQfkaIb",
+    "source_text": "We design programs that create opportunities for early educators and organizations to improve quality in their practice, programs, and the field.",
+    "why_hard": "Abstract conceptual reasoning across multiple program goals.",
+    "phase2_likely_failure_mode": "May return program descriptions instead of conceptual synthesis.",
+    "expected_source_hints": ["leadership", "systems change", "quality improvement", "equity", "https://docs.google.com/document/d/12gLIAjth2xRUcBZTJABcL7VQ0aQfkaIb/edit"]
   },
   {
     "id": "27",
-    "question":"What is Leading for Change in ECE?",
-    "ground_truth": "",
-    "source_doc": "[path/to/answer]",
-    "source_text": "",    
-    "why_hard":"",
-    "phase2_likely_failure_mode":"",
-    "expected_source_hints":[]
+    "question": "What is Leading for Change in ECE?",
+    "ground_truth": "Leading for Change is a research-based, 40-hour entrepreneurial leadership development program that trains early educators to become leaders and change agents who improve practice, equity, and systems in early education.",
+    "source_doc": "12gLIAjth2xRUcBZTJABcL7VQ0aQfkaIb",
+    "source_text": "Leading for Change in Early Care and Education (LFC) is our research-based, 40-hour leadership development program... participants gain a deeper understanding of themselves as leaders and change agents and explore ways to improve practice and promote social and racial justice.",
+    "why_hard": "Dense program definition with multiple embedded attributes.",
+    "phase2_likely_failure_mode": "May retrieve general leadership content instead of specific program definition.",
+    "expected_source_hints": ["leading for change", "40-hour", "change agents", "entrepreneurial leadership", "https://docs.google.com/document/d/12gLIAjth2xRUcBZTJABcL7VQ0aQfkaIb/edit"]
   },
   {
     "id": "28",
-    "question":"How can I learn more about what entrepreneurial leadership is and how you train people on it?",
-    "ground_truth": "",
-    "source_doc": "[path/to/answer]",
-    "source_text": "",
-    "why_hard":"",
-    "phase2_likely_failure_mode":"",
-    "expected_source_hints":[]
+    "question": "How can I learn more about what entrepreneurial leadership is and how you train people on it?",
+    "ground_truth": "You can learn about entrepreneurial leadership through the Leading for Change program, which provides research-based training on adaptive, relational leadership for early educators.",
+    "source_doc": "12gLIAjth2xRUcBZTJABcL7VQ0aQfkaIb",
+    "source_text": "Leading for Change teaches entrepreneurial leadership, which seeks adaptive solutions to complex problems... This style of leadership is relational and recognizes expertise at all levels.",
+    "why_hard": "Requires linking concept definition to program offering.",
+    "phase2_likely_failure_mode": "May retrieve generic leadership definitions instead of program linkage.",
+    "expected_source_hints": ["entrepreneurial leadership", "leading for change", "adaptive solutions", "relational leadership", "https://docs.google.com/document/d/12gLIAjth2xRUcBZTJABcL7VQ0aQfkaIb/edit"]
   },
   {
     "id": "29",
-    "question":"How can I become involved in the Institute’s network?",
-    "ground_truth": "",
-    "source_doc": "[path/to/answer]",
-    "source_text": "",
-    "why_hard":"",
-    "phase2_likely_failure_mode":"",
-    "expected_source_hints":[]
+    "question": "How can I become involved in the Institute’s network?",
+    "ground_truth": "You can become involved by participating in programs such as Leading for Change or joining the Leadership and Innovation Network through program graduation and events.",
+    "source_doc": "12gLIAjth2xRUcBZTJABcL7VQ0aQfkaIb",
+    "source_text": "Graduates of our programs join our Leadership and Innovation Network, which sustains emerging and established leaders and expands the reach of their innovations through events and forums.",
+    "why_hard": "Requires understanding implicit pathway (program → network).",
+    "phase2_likely_failure_mode": "May fail to connect participation pathway with network entry.",
+    "expected_source_hints": ["network", "graduates", "leadership forum", "program participation", "https://docs.google.com/document/d/12gLIAjth2xRUcBZTJABcL7VQ0aQfkaIb/edit"]
   },
   {
     "id": "30",
-    "question":"What does coaching look like?",
-    "ground_truth": "",
-    "source_doc": "[path/to/answer]",
-    "source_text": "",
-    "why_hard":"",
-    "phase2_likely_failure_mode":"",
-    "expected_source_hints":[]
+    "question": "What does coaching look like?",
+    "ground_truth": "Coaching involves one-on-one mentoring and consultation that helps early education directors solve operational and administrative challenges by providing practical guidance, policy support, staff training assistance, communication strategies, and responsive problem-solving support.",
+    "source_doc": "https://blogs.umb.edu/earlyed/2021/03/25/with-one-on-one-coaching-help-is-just-a-phone-call-away/",
+    "source_text": "For help, Donnelly turned to the StrongStart Northeast Professional Development Center for one-on-one consultation and mentoring. The coaching helped her put policies and procedures in place, supported onboarding and training new staff members, and helped improve communication with families. The coach reviewed old policies, recommended updates, and provided ongoing support and quick responses when issues arose. Donnelly said she could reach out by email and receive quick help and practical solutions.",
+    "why_hard": "Coaching is described through a narrative case study rather than a definition, requiring synthesis of multiple support functions into a coherent description.",
+    "phase2_likely_failure_mode": "Retrieval may surface general program descriptions instead of the specific case study detailing coaching activities and support mechanisms.",
+    "expected_source_hints": ["coaching", "mentoring", "StrongStart", "policy", "training", "support"]
   }
 
 ]
