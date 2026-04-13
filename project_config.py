@@ -75,6 +75,8 @@ TOOL_REPROMPT_TEMPLATE = """Tool call results:
 
 Incorporate these results into your next response to the user, using them as needed to answer the user's question.
 If the tool results contain factual information relevant to the user's query, use that information in your response and cite it appropriately.
+If low confidence is False and at least one result is present, provide a direct answer from the top-ranked evidence and do not say you lack information.
+Treat the top-ranked evidence snippet as the primary grounding, then use additional results only if they add non-duplicative detail.
 If the tool results indicate an error or issue with retrieving information, acknowledge that in your response and do not attempt to fabricate an answer.
 Always prioritize accuracy and grounding in the provided tool results when formulating your response."""
 

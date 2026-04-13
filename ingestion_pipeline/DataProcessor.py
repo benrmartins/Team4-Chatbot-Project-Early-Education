@@ -115,14 +115,37 @@ class DefaultDataProcessor(DataProcessor):
             output_path=str(DEFAULT_VECTOR_DB_PATH) + "_default.sqlite",
             embedding_method="dummy",
         )
-        # if default web output is not found, run crawler to populate data for chunking and embedding steps
+        drive_output_path = DATA_DIR / "drive_data.json"
+
+        # If default crawler output is present, prefer it and merge with drive output when available.
         if DEFAULT_WEB_OUTPUT.exists():
             with open(DEFAULT_WEB_OUTPUT, "r", encoding="utf-8") as f:
                 web_output = json.load(f)
-                self.web_data = web_output.get("documents", [])
-                self.source_summary = {
-                    "website": web_output.get("summary", {})
+
+            documents = list(web_output.get("documents", []) or [])
+            summary = web_output.get("summary", {}) or {}
+
+            if drive_output_path.exists():
+                with open(drive_output_path, "r", encoding="utf-8") as f:
+                    drive_output = json.load(f)
+
+                drive_docs = list(drive_output.get("documents", []) or [])
+                seen_ids = {doc.get("document_id") for doc in documents if doc.get("document_id")}
+                for doc in drive_docs:
+                    doc_id = doc.get("document_id")
+                    if doc_id and doc_id in seen_ids:
+                        continue
+                    documents.append(doc)
+                    if doc_id:
+                        seen_ids.add(doc_id)
+
+                summary = {
+                    "website": web_output.get("summary", {}),
+                    "google_drive": drive_output.get("summary", {}),
                 }
+
+            self.web_data = documents
+            self.source_summary = summary if isinstance(summary, dict) else {"website": summary}
         else:
             print(f"Default web output not found at {DEFAULT_WEB_OUTPUT}. Running crawler to populate data...")
             self.crawl(output_path=str(DEFAULT_WEB_OUTPUT))
