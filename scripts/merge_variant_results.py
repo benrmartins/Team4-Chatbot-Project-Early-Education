@@ -70,7 +70,7 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Merge shard variant-test JSON artifacts into one ranked report.")
     parser.add_argument(
         "--input-glob",
-        default="outputs/variant_test_results_shard_*_of_*.json",
+        default="outputs/hpc/variant_test_results_shard_*_of_*.json",
         help="Glob pattern (relative to project root unless absolute) for shard artifacts.",
     )
     parser.add_argument(

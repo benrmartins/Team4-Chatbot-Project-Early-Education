@@ -200,10 +200,18 @@ def _stable_shard_for_variant(variant_name: str, num_shards: int) -> int:
 
 
 def _select_shard(specs: list[VariantSpec], cfg: HPCExecutionConfig) -> list[VariantSpec]:
+    if not specs:
+        return []
+
+    # If shards >= variants, map by index: shard i runs specs[i] (or empty if i is out of range).
+    if cfg.num_shards >= len(specs):
+        return [specs[cfg.shard_index]] if cfg.shard_index < len(specs) else []
+
+    # Otherwise distribute evenly and deterministically.
     return [
         spec
-        for spec in specs
-        if _stable_shard_for_variant(spec.name, cfg.num_shards) == cfg.shard_index
+        for idx, spec in enumerate(specs)
+        if idx % cfg.num_shards == cfg.shard_index
     ]
 
 
