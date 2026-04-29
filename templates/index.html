@@ -3,133 +3,461 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{{ bot_name }} Chat</title>
+  <title>{{ bot_name }} | Early Education Leaders Institute</title>
   <style>
-    body {
-      font-family: sans-serif;
-      margin: 0;
-      padding: 0;
-      background: #f6f7fb;
-      color: #222;
+    :root {
+      --ink: #17212b;
+      --muted: #657282;
+      --line: #d9e2ec;
+      --surface: #ffffff;
+      --surface-soft: #f6f9fb;
+      --blue: #1f6f9f;
+      --blue-dark: #174f75;
+      --green: #2f7d5c;
+      --gold: #b56b20;
+      --warning-bg: #fff7e8;
+      --warning-line: #e5b96b;
+      --shadow: 0 18px 55px rgba(25, 52, 72, 0.12);
+      --radius: 8px;
     }
-    .container {
-      max-width: 760px;
-      margin: 32px auto;
-      background: #fff;
-      border: 1px solid #ddd;
-      border-radius: 10px;
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Georgia, "Times New Roman", serif;
+      background:
+        linear-gradient(135deg, rgba(31, 111, 159, 0.12), transparent 38%),
+        linear-gradient(315deg, rgba(47, 125, 92, 0.12), transparent 42%),
+        #f4f8fb;
+      color: var(--ink);
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(255, 255, 255, 0.92);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(12px);
+    }
+
+    .topbar-inner {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 14px 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 230px;
+    }
+
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--blue), var(--green));
+      color: #fff;
+      font-weight: 700;
+      font-size: 17px;
+      letter-spacing: 0;
+      box-shadow: 0 8px 24px rgba(31, 111, 159, 0.25);
+    }
+
+    .brand-title {
+      font-weight: 700;
+      font-size: 18px;
+      line-height: 1.1;
+    }
+
+    .brand-subtitle {
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 3px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: "Trebuchet MS", Verdana, sans-serif;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--muted);
+      padding: 9px 12px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .nav-links a.active,
+    .nav-links a:hover {
+      color: var(--blue-dark);
+      background: #eaf4fa;
+    }
+
+    .page {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 30px 22px 46px;
+    }
+
+    .intro {
+      margin-bottom: 22px;
+    }
+
+    .intro-main {
+      background: rgba(255, 255, 255, 0.84);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 30px;
+    }
+
+    .eyebrow {
+      color: var(--green);
+      font-family: "Trebuchet MS", Verdana, sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0;
+      margin: 0 0 9px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 36px;
+      line-height: 1.08;
+      letter-spacing: 0;
+    }
+
+    .lead {
+      color: var(--muted);
+      font-family: "Trebuchet MS", Verdana, sans-serif;
+      line-height: 1.55;
+      margin: 14px 0 0;
+      max-width: 780px;
+    }
+
+    .chat-shell {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      min-height: 620px;
       overflow: hidden;
     }
-    .header {
-      padding: 14px 16px;
-      border-bottom: 1px solid #eee;
-      background: #fafafa;
-      font-weight: 600;
+
+    .chat-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      padding: 18px 20px;
+      border-bottom: 1px solid var(--line);
+      background: #fbfdfe;
     }
+
+    .chat-heading {
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .chat-note {
+      color: var(--muted);
+      font-family: "Trebuchet MS", Verdana, sans-serif;
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
     .messages {
-      padding: 16px;
-      min-height: 320px;
-      max-height: 480px;
+      padding: 22px;
+      min-height: 430px;
+      max-height: 58vh;
       overflow-y: auto;
+      background:
+        linear-gradient(rgba(31, 111, 159, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(31, 111, 159, 0.05) 1px, transparent 1px),
+        var(--surface-soft);
+      background-size: 28px 28px;
     }
+
     .msg {
-      margin: 8px 0;
-      padding: 10px 12px;
-      border-radius: 8px;
+      max-width: 860px;
+      margin: 0 0 16px;
       white-space: pre-wrap;
     }
-    .user { background: #e8f1ff; }
-    .bot { background: #f1f3f5; }
-    .status { color: #666; font-size: 14px; margin: 8px 0; }
+
+    .msg.user {
+      margin-left: auto;
+      background: var(--blue);
+      color: #fff;
+      border-radius: var(--radius);
+      padding: 13px 15px;
+      font-family: "Trebuchet MS", Verdana, sans-serif;
+      box-shadow: 0 8px 22px rgba(31, 111, 159, 0.18);
+    }
+
+    .msg.bot {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 16px;
+      box-shadow: 0 10px 28px rgba(25, 52, 72, 0.08);
+    }
+
+    .status {
+      color: var(--blue-dark);
+      font-family: "Trebuchet MS", Verdana, sans-serif;
+      font-size: 14px;
+      margin: 4px 0 16px;
+    }
+
     .bot-response {
       display: flex;
       flex-direction: column;
+      gap: 14px;
+    }
+
+    .answer-card,
+    .section-block {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+      padding: 14px;
+    }
+
+    .answer-card {
+      border-left: 4px solid var(--blue);
+    }
+
+    .section-title {
+      font-family: "Trebuchet MS", Verdana, sans-serif;
+      color: var(--blue-dark);
+      font-size: 13px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0;
+      margin-bottom: 9px;
+    }
+
+    .answer {
+      line-height: 1.58;
+      font-size: 16px;
+    }
+
+    .link-list,
+    .evidence-list {
+      display: grid;
       gap: 10px;
     }
-    .answer {
-      font-weight: 500;
+
+    .source-card {
+      border: 1px solid #e2ebf2;
+      border-radius: var(--radius);
+      padding: 12px;
+      background: #fbfdff;
     }
-    .section-block {
-      background: rgba(255, 255, 255, 0.7);
-      border: 1px solid #dde2ea;
-      border-radius: 8px;
-      padding: 10px;
+
+    .source-kicker {
+      font-family: "Trebuchet MS", Verdana, sans-serif;
+      color: var(--green);
+      font-size: 12px;
+      font-weight: 800;
+      margin-bottom: 4px;
     }
-    .section-title {
-      font-size: 13px;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      color: #516072;
-      margin-bottom: 8px;
+
+    .source-title {
+      color: var(--ink);
       font-weight: 700;
-    }
-    .link-list, .evidence-list {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-    .citation-link {
-      color: #1d4ed8;
       text-decoration: none;
       word-break: break-word;
     }
-    .citation-link:hover {
+
+    .source-title:hover {
+      color: var(--blue-dark);
       text-decoration: underline;
     }
-    .evidence-card {
-      border: 1px solid #e3e8ef;
-      border-radius: 8px;
-      padding: 10px;
-      background: #fff;
+
+    .source-date {
+      color: var(--gold);
+      font-family: "Trebuchet MS", Verdana, sans-serif;
+      font-size: 12px;
+      font-weight: 800;
+      margin-top: 4px;
     }
-    .evidence-meta {
-      color: #5f6c7b;
+
+    .source-snippet {
+      color: var(--muted);
+      font-family: "Trebuchet MS", Verdana, sans-serif;
       font-size: 13px;
-      margin-bottom: 6px;
+      line-height: 1.5;
+      margin-top: 7px;
     }
-    .evidence-snippet {
-      color: #1f2937;
-    }
+
     .retrieval-note {
-      color: #92400e;
-      font-size: 13px;
-      font-weight: 600;
-    }
-    .composer {
-      display: flex;
-      gap: 8px;
+      border: 1px solid var(--warning-line);
+      background: var(--warning-bg);
+      color: #6f4b11;
+      border-radius: var(--radius);
       padding: 12px;
-      border-top: 1px solid #eee;
-      background: #fafafa;
-    }
-    input[type="text"] {
-      flex: 1;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
+      font-family: "Trebuchet MS", Verdana, sans-serif;
       font-size: 14px;
+      line-height: 1.45;
     }
-    button {
-      padding: 10px 12px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      background: #fff;
+
+    details {
+      margin-top: 8px;
+      font-family: "Trebuchet MS", Verdana, sans-serif;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    details summary {
       cursor: pointer;
+      color: var(--blue-dark);
+      font-weight: 700;
+    }
+
+    .composer {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto auto;
+      gap: 10px;
+      padding: 16px;
+      border-top: 1px solid var(--line);
+      background: #fff;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 13px 14px;
+      border: 1px solid #b9c8d7;
+      border-radius: var(--radius);
+      font-family: "Trebuchet MS", Verdana, sans-serif;
+      font-size: 15px;
+    }
+
+    input[type="text"]:focus {
+      outline: 3px solid rgba(31, 111, 159, 0.18);
+      border-color: var(--blue);
+    }
+
+    button {
+      min-height: 45px;
+      padding: 0 16px;
+      border: 1px solid #b9c8d7;
+      border-radius: var(--radius);
+      background: #fff;
+      color: var(--ink);
+      cursor: pointer;
+      font-family: "Trebuchet MS", Verdana, sans-serif;
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    button.primary {
+      border-color: var(--blue);
+      background: var(--blue);
+      color: #fff;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+    }
+
+    @media (max-width: 820px) {
+      .topbar-inner,
+      .chat-header {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      h1 {
+        font-size: 30px;
+      }
+
+      .composer {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-links {
+        flex-wrap: wrap;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="header">{{ bot_name }}</div>
-    <div id="messages" class="messages">
-      <div class="msg bot">{{ onboard_prompt }}</div>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <div class="brand-mark">OB</div>
+        <div>
+          <div class="brand-title">Owlbot</div>
+          <div class="brand-subtitle">Early Education Leaders Institute</div>
+        </div>
+      </div>
+      <nav class="nav-links" aria-label="Primary navigation">
+        <a href="/" class="active">Chat</a>
+        <a href="/dashboard">Dashboard</a>
+        <a href="/dashboard#content-library">Sources</a>
+      </nav>
     </div>
-    <form id="chatForm" class="composer">
-      <input id="messageInput" type="text" placeholder="Type your question..." autocomplete="off" required>
-      <button type="submit">Send</button>
-      <button type="button" id="resetBtn">Reset</button>
-    </form>
-  </div>
+  </header>
+
+  <main class="page">
+    <section class="intro" aria-labelledby="page-title">
+      <div class="intro-main">
+        <p class="eyebrow">Institute knowledge assistant</p>
+        <h1 id="page-title">Ask Owlbot about institute programs, resources, and public information.</h1>
+        <p class="lead">Owlbot answers using the project source collection and shows the supporting sources it found. When the match is weak, it will say so clearly so institute staff can verify the answer.</p>
+      </div>
+    </section>
+
+    <section class="chat-shell" aria-label="Owlbot chat">
+      <div class="chat-header">
+        <div>
+          <div class="chat-heading">{{ bot_name }} Chat</div>
+          <div class="chat-note">Ask one question at a time for the clearest source matching.</div>
+        </div>
+        <div class="chat-note">Need to add new information? Visit the Dashboard.</div>
+      </div>
+      <div id="messages" class="messages">
+        <div class="msg bot">
+          <div class="bot-response">
+            <div class="answer-card">
+              <div class="section-title">Welcome</div>
+              <div class="answer">{{ onboard_prompt }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <form id="chatForm" class="composer">
+        <input id="messageInput" type="text" placeholder="Ask about institute programs, resources, or contacts..." autocomplete="off" required>
+        <button class="primary" type="submit">Send</button>
+        <button type="button" id="resetBtn">Reset</button>
+      </form>
+    </section>
+  </main>
 
   <script>
     const form = document.getElementById("chatForm");
@@ -154,6 +482,64 @@
       return div;
     }
 
+    function sourceLabel(rank) {
+      if (rank === 1) return "Most relevant source";
+      if (rank === 2) return "Additional supporting source";
+      return "Related source";
+    }
+
+    function formatSourceDate(url) {
+      const match = String(url || "").match(/\/(\d{4})\/(\d{2})\/(\d{2})(?:\/|$)/);
+      if (!match) return "";
+
+      const year = Number(match[1]);
+      const month = Number(match[2]);
+      const day = Number(match[3]);
+      const date = new Date(year, month - 1, day);
+
+      if (
+        date.getFullYear() !== year ||
+        date.getMonth() !== month - 1 ||
+        date.getDate() !== day
+      ) {
+        return "";
+      }
+
+      return `Published ${date.toLocaleDateString(undefined, {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+      })}`;
+    }
+
+    function appendSourceDate(card, url) {
+      const sourceDate = formatSourceDate(url);
+      if (!sourceDate) return;
+
+      const date = document.createElement("div");
+      date.className = "source-date";
+      date.textContent = sourceDate;
+      card.appendChild(date);
+    }
+
+    function uniqueSourcesByUrl(sources) {
+      const seen = new Set();
+      const unique = [];
+
+      for (const source of sources) {
+        const rawUrl = String(source.url || "").trim();
+        const key = rawUrl
+          ? rawUrl.replace(/#.*$/, "").replace(/\/$/, "").toLowerCase()
+          : `title:${String(source.title || "").trim().toLowerCase()}`;
+
+        if (!key || seen.has(key)) continue;
+        seen.add(key);
+        unique.push(source);
+      }
+
+      return unique;
+    }
+
     function appendBotResponse(payload) {
       const wrapper = document.createElement("div");
       wrapper.className = "msg bot";
@@ -161,73 +547,111 @@
       const response = document.createElement("div");
       response.className = "bot-response";
 
+      const answerCard = document.createElement("div");
+      answerCard.className = "answer-card";
+
+      const answerTitle = document.createElement("div");
+      answerTitle.className = "section-title";
+      answerTitle.textContent = "Answer";
+      answerCard.appendChild(answerTitle);
+
       const answer = document.createElement("div");
       answer.className = "answer";
-      answer.textContent = payload.reply || "";
-      response.appendChild(answer);
+      answer.textContent = payload.reply || "This may be a question for institute staff. Please contact the Early Education Leaders Institute for the most accurate information.";
+      answerCard.appendChild(answer);
+      response.appendChild(answerCard);
 
       const retrieval = payload.retrieval || {};
       if (retrieval.low_confidence) {
         const confidence = document.createElement("div");
         confidence.className = "retrieval-note";
-        confidence.textContent = "Retrieval confidence is low for this question.";
+        confidence.textContent = "We could not find a strong matching institute source for this question. Please verify this answer with institute staff.";
         response.appendChild(confidence);
       }
 
-      if ((payload.citations || []).length) {
+      const evidenceSources = uniqueSourcesByUrl(payload.evidence || []);
+      const citationSources = uniqueSourcesByUrl(payload.citations || []);
+
+      if (evidenceSources.length) {
         const section = document.createElement("div");
         section.className = "section-block";
 
         const title = document.createElement("div");
         title.className = "section-title";
-        title.textContent = "Citations";
-        section.appendChild(title);
-
-        const list = document.createElement("div");
-        list.className = "link-list";
-        for (const citation of payload.citations) {
-          const link = document.createElement("a");
-          link.className = "citation-link";
-          link.href = citation.url || "#";
-          link.target = "_blank";
-          link.rel = "noreferrer";
-          link.textContent = `${citation.title || "Untitled"}${citation.url ? " | " + citation.url : ""}`;
-          list.appendChild(link);
-        }
-        section.appendChild(list);
-        response.appendChild(section);
-      }
-
-      if ((payload.evidence || []).length) {
-        const section = document.createElement("div");
-        section.className = "section-block";
-
-        const title = document.createElement("div");
-        title.className = "section-title";
-        title.textContent = "Retrieved Evidence";
+        title.textContent = "Supporting Sources";
         section.appendChild(title);
 
         const list = document.createElement("div");
         list.className = "evidence-list";
 
-        for (const item of payload.evidence) {
+        for (const item of evidenceSources) {
           const card = document.createElement("div");
-          card.className = "evidence-card";
+          card.className = "source-card";
 
-          const meta = document.createElement("div");
-          meta.className = "evidence-meta";
-          const matchedTerms = (item.matched_terms || []).join(", ") || "n/a";
-          meta.textContent = `Rank ${item.rank || "?"} | ${item.title || "Untitled"} | matched terms: ${matchedTerms}`;
-          card.appendChild(meta);
+          const kicker = document.createElement("div");
+          kicker.className = "source-kicker";
+          kicker.textContent = sourceLabel(Number(item.rank || 0));
+          card.appendChild(kicker);
 
-          const snippet = document.createElement("div");
-          snippet.className = "evidence-snippet";
-          snippet.textContent = item.snippet || "";
-          card.appendChild(snippet);
+          const sourceTitle = document.createElement(item.url ? "a" : "div");
+          sourceTitle.className = "source-title";
+          sourceTitle.textContent = item.title || "Untitled source";
+          if (item.url) {
+            sourceTitle.href = item.url;
+            sourceTitle.target = "_blank";
+            sourceTitle.rel = "noreferrer";
+          }
+          card.appendChild(sourceTitle);
+          appendSourceDate(card, item.url);
+
+          if (item.snippet) {
+            const snippet = document.createElement("div");
+            snippet.className = "source-snippet";
+            snippet.textContent = item.snippet;
+            card.appendChild(snippet);
+          }
+
+          const details = document.createElement("details");
+          const summary = document.createElement("summary");
+          summary.textContent = "Advanced details";
+          details.appendChild(summary);
+          const detailText = document.createElement("div");
+          const matchedTerms = (item.matched_terms || []).join(", ") || "Not available";
+          detailText.textContent = `Matched terms: ${matchedTerms}`;
+          details.appendChild(detailText);
+          card.appendChild(details);
 
           list.appendChild(card);
         }
 
+        section.appendChild(list);
+        response.appendChild(section);
+      } else if (citationSources.length) {
+        const section = document.createElement("div");
+        section.className = "section-block";
+
+        const title = document.createElement("div");
+        title.className = "section-title";
+        title.textContent = "Supporting Sources";
+        section.appendChild(title);
+
+        const list = document.createElement("div");
+        list.className = "link-list";
+        for (const citation of citationSources) {
+          const card = document.createElement("div");
+          card.className = "source-card";
+          const link = document.createElement(citation.url ? "a" : "div");
+          link.className = "source-title";
+          link.textContent = citation.title || "Untitled source";
+          if (citation.url) {
+            link.href = citation.url;
+            link.target = "_blank";
+            link.rel = "noreferrer";
+          }
+          card.appendChild(link);
+          appendSourceDate(card, citation.url);
+          list.appendChild(card);
+        }
         section.appendChild(list);
         response.appendChild(section);
       }
@@ -246,7 +670,7 @@
       input.value = "";
       input.focus();
 
-      const statusEl = appendStatus("thinking...");
+      const statusEl = appendStatus("Owlbot is checking the available sources...");
 
       try {
         const response = await fetch("/chat", {
@@ -273,7 +697,11 @@
     resetBtn.addEventListener("click", async () => {
       await fetch("/reset", { method: "POST" });
       messages.innerHTML = "";
-      appendMessage({{ onboard_prompt|tojson }}, "bot");
+      const wrapper = document.createElement("div");
+      wrapper.className = "msg bot";
+      wrapper.innerHTML = `<div class="bot-response"><div class="answer-card"><div class="section-title">Welcome</div><div class="answer"></div></div></div>`;
+      wrapper.querySelector(".answer").textContent = {{ onboard_prompt|tojson }};
+      messages.appendChild(wrapper);
       input.focus();
     });
   </script>
