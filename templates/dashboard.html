@@ -6,17 +6,29 @@
   <title>Owlbot Dashboard | Early Education Leaders Institute</title>
   <style>
     :root {
-      --ink: #17212b;
-      --muted: #657282;
-      --line: #d9e2ec;
-      --surface: #ffffff;
-      --surface-soft: #f6f9fb;
-      --blue: #1f6f9f;
-      --blue-dark: #174f75;
-      --green: #2f7d5c;
-      --gold: #b56b20;
-      --red: #a0443e;
-      --shadow: 0 18px 55px rgba(25, 52, 72, 0.12);
+      --ink: #1E2732;
+      --muted: #667485;
+      --line: #D8E0E6;
+      --surface: #FFFEFB;
+      --surface-soft: #F6F4EE;
+      --page-bg: #F3F7F6;
+      --blue: #2D5D7B;
+      --blue-dark: #234A63;
+      --green: #5F7D6E;
+      --green-dark: #486355;
+      --gold: #A77733;
+      --gold-soft: #F5EBDD;
+      --red: #8A3F3A;
+      --red-soft: #FBEDEA;
+      --success-text: #2E5E46;
+      --success-bg: #E8F2EC;
+      --review-text: #8A642B;
+      --review-bg: #FBF3E3;
+      --warning-text: #8B5B2B;
+      --warning-bg: #FFF7EA;
+      --error-text: #8A3F3A;
+      --error-bg: #FBEDEA;
+      --shadow: 0 18px 50px rgba(31, 44, 56, 0.10);
       --radius: 8px;
     }
 
@@ -29,9 +41,9 @@
       min-height: 100vh;
       font-family: Georgia, "Times New Roman", serif;
       background:
-        linear-gradient(135deg, rgba(31, 111, 159, 0.12), transparent 36%),
-        linear-gradient(315deg, rgba(47, 125, 92, 0.12), transparent 42%),
-        #f4f8fb;
+        linear-gradient(135deg, rgba(45, 93, 123, 0.08), transparent 38%),
+        linear-gradient(315deg, rgba(95, 125, 110, 0.08), transparent 42%),
+        var(--page-bg);
       color: var(--ink);
     }
 
@@ -43,7 +55,7 @@
       position: sticky;
       top: 0;
       z-index: 10;
-      background: rgba(255, 255, 255, 0.92);
+      background: rgba(255, 254, 251, 0.94);
       border-bottom: 1px solid var(--line);
       backdrop-filter: blur(12px);
     }
@@ -70,17 +82,17 @@
     }
 
     .brand-mark {
-      width: 42px;
-      height: 42px;
-      border-radius: 8px;
-      display: grid;
-      place-items: center;
-      background: linear-gradient(135deg, var(--blue), var(--green));
-      color: #fff;
-      font-weight: 700;
-      font-size: 17px;
-      letter-spacing: 0;
-      box-shadow: 0 8px 24px rgba(31, 111, 159, 0.25);
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .brand-mark img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
     }
 
     .brand-title {
@@ -146,8 +158,8 @@
     .filter-button.active,
     .filter-button:hover {
       color: var(--blue-dark);
-      background: #eaf4fa;
-      border-color: #c8ddea;
+      background: #EEF3F6;
+      border-color: #D8E0E6;
     }
 
     .page {
@@ -155,7 +167,7 @@
     }
 
     .hero {
-      background: rgba(255, 255, 255, 0.86);
+      background: rgba(255, 254, 251, 0.88);
       border: 1px solid var(--line);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
@@ -164,7 +176,7 @@
     }
 
     .eyebrow {
-      color: var(--green);
+      color: var(--green-dark);
       font-family: "Trebuchet MS", Verdana, sans-serif;
       font-size: 13px;
       font-weight: 700;
@@ -217,12 +229,12 @@
     }
 
     .tab-shell {
-      background: rgba(255, 255, 255, 0.72);
+      background: rgba(255, 254, 251, 0.78);
       border: 1px solid var(--line);
       border-radius: var(--radius);
       padding: 10px;
       margin-bottom: 18px;
-      box-shadow: 0 10px 30px rgba(25, 52, 72, 0.08);
+      box-shadow: 0 10px 30px rgba(31, 44, 56, 0.07);
     }
 
     .tab-panel {
@@ -249,7 +261,7 @@
       background: var(--surface);
       border: 1px solid var(--line);
       border-radius: var(--radius);
-      box-shadow: 0 10px 30px rgba(25, 52, 72, 0.08);
+      box-shadow: 0 10px 30px rgba(31, 44, 56, 0.07);
     }
 
     .summary-card {
@@ -311,11 +323,11 @@
     select,
     textarea {
       width: 100%;
-      border: 1px solid #b9c8d7;
+      border: 1px solid #C8D2DB;
       border-radius: var(--radius);
       padding: 12px;
       color: var(--ink);
-      background: #fff;
+      background: #FFFEFB;
       font-size: 14px;
     }
 
@@ -327,7 +339,7 @@
     input:focus,
     select:focus,
     textarea:focus {
-      outline: 3px solid rgba(31, 111, 159, 0.18);
+      outline: 3px solid rgba(45, 93, 123, 0.18);
       border-color: var(--blue);
     }
 
@@ -373,15 +385,15 @@
     }
 
     .alert.success {
-      color: #205a42;
-      background: #eaf7ef;
-      border: 1px solid #9ed4b6;
+      color: var(--success-text);
+      background: var(--success-bg);
+      border: 1px solid #B8D7C4;
     }
 
     .alert.error {
-      color: #7b2e28;
-      background: #fff0ef;
-      border: 1px solid #e2aaa4;
+      color: var(--error-text);
+      background: var(--error-bg);
+      border: 1px solid #E8B9B3;
     }
 
     .source-grid,
@@ -400,11 +412,76 @@
       display: flex;
       flex-direction: column;
       gap: 9px;
-      background: #fbfdff;
+      background: #FFFEFB;
     }
 
     .source-card {
       min-height: 184px;
+      position: relative;
+      background: #FBF8F1;
+      border-color: #E6DDCB;
+      border-left: 4px solid var(--blue);
+    }
+
+    .review-card {
+      background: var(--review-bg);
+      border-color: #E6C98D;
+    }
+
+    .coverage-card {
+      background: #F8FAF8;
+      border-left: 4px solid var(--green);
+    }
+
+    .process-card {
+      background: #FFFEFB;
+      border-left: 4px solid var(--gold);
+    }
+
+    [data-library-item][hidden] {
+      display: none !important;
+    }
+
+    .source-delete-form {
+      margin: 0;
+      opacity: 0;
+      pointer-events: none;
+      position: absolute;
+      right: -10px;
+      top: -10px;
+      transform: scale(0.92);
+      transition: opacity 150ms ease, transform 150ms ease;
+      z-index: 2;
+    }
+
+    .source-card:hover .source-delete-form,
+    .source-card:focus-within .source-delete-form {
+      opacity: 1;
+      pointer-events: auto;
+      transform: scale(1);
+    }
+
+    .source-delete-button {
+      align-items: center;
+      background: #F3A19B;
+      border: 2px solid #F3A19B;
+      border-radius: 999px;
+      color: var(--red);
+      display: inline-flex;
+      font-size: 18px;
+      font-weight: 900;
+      height: 28px;
+      justify-content: center;
+      line-height: 1;
+      min-height: 28px;
+      padding: 0;
+      width: 28px;
+    }
+
+    .source-delete-button:hover {
+      background: #E47D76;
+      border-color: #E47D76;
+      color: #ffffff;
     }
 
     .source-top {
@@ -425,18 +502,18 @@
     }
 
     .badge.ready {
-      color: #205a42;
-      background: #e4f5eb;
+      color: var(--success-text);
+      background: var(--success-bg);
     }
 
     .badge.needs {
-      color: #75500e;
-      background: #fff4d8;
+      color: var(--review-text);
+      background: var(--review-bg);
     }
 
     .badge.failed {
-      color: #7b2e28;
-      background: #fff0ef;
+      color: var(--error-text);
+      background: var(--error-bg);
     }
 
     .badge.other {
@@ -445,8 +522,8 @@
     }
 
     .badge.coverage {
-      color: #174f75;
-      background: #eaf4fa;
+      color: var(--blue-dark);
+      background: #EEF3F6;
     }
 
     .source-link {
@@ -460,10 +537,37 @@
       text-decoration: underline;
     }
 
-    .empty-state {
-      border: 1px dashed #b9c8d7;
+    .source-action-link {
+      align-self: flex-start;
+      background: #EEF3F6;
+      border: 1px solid #C9D8E1;
       border-radius: var(--radius);
-      background: #fbfdff;
+      color: var(--blue-dark);
+      display: inline-flex;
+      font-family: "Trebuchet MS", Verdana, sans-serif;
+      font-size: 13px;
+      font-weight: 800;
+      margin-top: 2px;
+      padding: 8px 10px;
+      text-decoration: none;
+    }
+
+    .source-action-link:hover {
+      background: var(--gold-soft);
+      border-color: #CDBB9C;
+      text-decoration: none;
+    }
+
+    .detail-source-link {
+      text-decoration: underline;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 2px;
+    }
+
+    .empty-state {
+      border: 1px dashed #C8D2DB;
+      border-radius: var(--radius);
+      background: #FFFEFB;
       padding: 22px;
       color: var(--muted);
       line-height: 1.5;
@@ -490,18 +594,18 @@
 
     .delete-button {
       min-height: 40px;
-      border-color: #d7a39e;
-      background: #fff;
-      color: #7b2e28;
+      border-color: #E8B9B3;
+      background: #FFFEFB;
+      color: var(--red);
       padding: 0 14px;
     }
 
     .delete-button:hover {
-      background: #fff0ef;
+      background: var(--red-soft);
     }
 
     .detail-preview {
-      border-top: 1px solid #e2ebf2;
+      border-top: 1px solid #E6DDCB;
       padding-top: 9px;
       margin-top: auto;
       font-family: "Trebuchet MS", Verdana, sans-serif;
@@ -580,10 +684,12 @@
   <header class="topbar">
     <div class="topbar-inner">
       <div class="brand">
-        <div class="brand-mark">OB</div>
+        <div class="brand-mark">
+          <img src="/static/owlbot-logo.png" alt="OWL Bot Logo" />
+        </div>
         <div>
-          <div class="brand-title">Owlbot</div>
-          <div class="brand-subtitle">Early Education Leaders Institute</div>
+          <div class="brand-title">Institute Knowledge Assistant</div>
+          <div class="brand-subtitle">Verified answers from institute sources</div>
         </div>
       </div>
       <nav class="nav-links" aria-label="Primary navigation">
@@ -596,9 +702,9 @@
 
   <main class="page">
     <section class="hero" aria-labelledby="dashboard-title">
-      <p class="eyebrow">Content maintenance dashboard</p>
-      <h1 id="dashboard-title">Keep Owlbot's institute information organized and ready for review.</h1>
-      <p class="lead">Use this dashboard to review current sources, upload new institute materials, and see what still needs attention.</p>
+      <p class="eyebrow">Source collection dashboard</p>
+      <h1 id="dashboard-title">Today's Source Collection Status</h1>
+      <p class="lead">Review the institute source collection, prepare uploaded materials, and keep Owlbot's supporting sources ready for staff review.</p>
     </section>
 
     <nav class="tab-shell" aria-label="Dashboard sections">
@@ -788,6 +894,11 @@
           <div class="source-grid" data-library-list>
             {% for source in sources %}
               <article class="source-card" data-library-item data-filter-group="{{ source.filter_group }}">
+                {% if source.can_delete_from_chatbot %}
+                  <form class="source-delete-form" action="/dashboard/delete/{{ source.id }}" method="post">
+                    <button class="source-delete-button" type="submit" aria-label="Delete {{ source.title }} from chatbot" title="Delete upload">x</button>
+                  </form>
+                {% endif %}
                 <div class="source-top">
                   <div>
                     <h3>{{ source.title }}</h3>
@@ -800,11 +911,27 @@
                   <div class="meta">{{ source.description }}</div>
                 {% endif %}
                 {% if source.link %}
-                  <a class="source-link" href="{{ source.link }}" target="_blank" rel="noreferrer">Open source</a>
+                  {% set action_key = (source.source_type ~ " " ~ source.category ~ " " ~ source.filename) | lower %}
+                  {% if "contact" in action_key %}
+                    {% set action_label = "View contact page" %}
+                  {% elif "faq" in action_key %}
+                    {% set action_label = "View FAQ" %}
+                  {% elif "blog" in action_key %}
+                    {% set action_label = "Read blog post" %}
+                  {% elif "report" in action_key or "pdf" in action_key %}
+                    {% set action_label = "View document" %}
+                  {% elif "uploaded" in action_key %}
+                    {% set action_label = "View uploaded file" %}
+                  {% elif "website" in action_key %}
+                    {% set action_label = "View page" %}
+                  {% else %}
+                    {% set action_label = "View source" %}
+                  {% endif %}
+                  <a class="source-action-link" href="{{ source.link }}" target="_blank" rel="noreferrer">{{ action_label }}</a>
                 {% endif %}
 
                 <details class="detail-preview">
-                  <summary>View source details</summary>
+                  <summary>Source details</summary>
                   <div class="detail-grid">
                     <div>Source status: {{ source.status }}</div>
                     <div>Type: {{ source.source_type }}</div>
@@ -814,7 +941,7 @@
                       <div>Saved file: {{ source.filename }}</div>
                     {% endif %}
                     {% if source.link %}
-                      <div>Public source link: <a class="source-link" href="{{ source.link }}" target="_blank" rel="noreferrer">{{ source.link }}</a></div>
+                      <div>Public source link: <a class="source-link detail-source-link" href="{{ source.link }}" target="_blank" rel="noreferrer">{{ source.link }}</a></div>
                     {% endif %}
                     {% if source.saved_passages %}
                       <div>Saved passages: {{ source.saved_passages }}</div>
@@ -960,13 +1087,18 @@
       libraryItems.forEach((item) => {
         const visible = filter === "all" || item.dataset.filterGroup === filter;
         item.hidden = !visible;
+        item.style.display = visible ? "" : "none";
       });
     }
 
     tabButtons.forEach((button) => {
       button.addEventListener("click", () => {
         const tabId = button.dataset.tabTarget;
-        history.replaceState(null, "", `#${tabId}`);
+        if (tabId === "overview") {
+          history.replaceState(null, "", window.location.pathname + window.location.search);
+        } else {
+          history.replaceState(null, "", `#${tabId}`);
+        }
         showTab(tabId);
       });
     });
@@ -977,7 +1109,7 @@
       });
     });
 
-    showTab((window.location.hash || "#overview").slice(1));
+    showTab((window.location.hash || "overview").replace("#", ""));
     applyLibraryFilter("all");
   </script>
 </body>

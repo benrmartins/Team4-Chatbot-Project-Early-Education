@@ -204,6 +204,8 @@ def _normalize_dashboard_source(source: dict, *, uploaded: bool = False) -> dict
         "description": source.get("description") or "",
         "ready_for_chatbot": bool(source.get("ready_for_chatbot", status == "Ready for Chatbot")),
         "saved_passages": saved_passages,
+        "is_uploaded": uploaded,
+        "can_delete_from_chatbot": uploaded and status == "Ready for Chatbot",
         "filter_group": _library_filter_for_source(
             {
                 "source_type": source_type,
@@ -565,20 +567,20 @@ def dashboard_upload():
 
     if not title:
         flash("Please add a source title before submitting.", "error")
-        return redirect(url_for("dashboard", _anchor="upload"))
+        return redirect(url_for("dashboard"))
     if upload is None or not upload.filename:
         flash("Please choose a file before submitting.", "error")
-        return redirect(url_for("dashboard", _anchor="upload"))
+        return redirect(url_for("dashboard"))
     if not allowed_file(upload.filename):
         flash("This file type is not supported yet.", "error")
-        return redirect(url_for("dashboard", _anchor="upload"))
+        return redirect(url_for("dashboard"))
 
     try:
         DASHBOARD_UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
         saved_filename = _unique_upload_filename(upload.filename)
         if not saved_filename:
             flash("This file type is not supported yet.", "error")
-            return redirect(url_for("dashboard", _anchor="upload"))
+            return redirect(url_for("dashboard"))
         upload.save(str(DASHBOARD_UPLOAD_DIR / saved_filename))
         upload.close()
 
@@ -602,13 +604,13 @@ def dashboard_upload():
     except OSError as exc:
         print(f"Dashboard upload save failed: {exc}")
         flash("Something went wrong while saving the file. Please try again.", "error")
-        return redirect(url_for("dashboard", _anchor="upload"))
+        return redirect(url_for("dashboard"))
 
     flash(
         "Your content was uploaded successfully. This source is saved and waiting to be prepared for the chatbot.",
         "success",
     )
-    return redirect(url_for("dashboard", _anchor="content-library"))
+    return redirect(url_for("dashboard"))
 
 
 @app.post("/dashboard/process/<source_id>")
@@ -616,15 +618,15 @@ def dashboard_process(source_id: str):
     sources, source = _load_dashboard_source_by_id(source_id)
     if source is None:
         flash("We could not find that uploaded source.", "error")
-        return redirect(url_for("dashboard", _anchor="process-queue"))
+        return redirect(url_for("dashboard"))
 
     current_status = str(source.get("status", "")).strip()
     if current_status == "Ready for Chatbot":
         flash("This source is already ready for chatbot answers.", "error")
-        return redirect(url_for("dashboard", _anchor="process-queue"))
+        return redirect(url_for("dashboard"))
     if current_status not in PROCESSABLE_SOURCE_STATUSES:
         flash("This source cannot be processed right now.", "error")
-        return redirect(url_for("dashboard", _anchor="process-queue"))
+        return redirect(url_for("dashboard"))
 
     try:
         saved_passages = process_dashboard_source(source)
@@ -645,7 +647,7 @@ def dashboard_process(source_id: str):
             "error",
         )
 
-    return redirect(url_for("dashboard", _anchor="process-queue"))
+    return redirect(url_for("dashboard"))
 
 
 @app.post("/dashboard/delete/<source_id>")
@@ -653,11 +655,24 @@ def dashboard_delete(source_id: str):
     sources, source = _load_dashboard_source_by_id(source_id)
     if source is None:
         flash("We could not find that uploaded source.", "error")
-        return redirect(url_for("dashboard", _anchor="process-queue"))
+        return redirect(url_for("dashboard"))
 
-    if str(source.get("status", "")).strip() not in PROCESSABLE_SOURCE_STATUSES:
-        flash("Ready sources cannot be deleted from this dashboard queue.", "error")
-        return redirect(url_for("dashboard", _anchor="process-queue"))
+    status = str(source.get("status", "")).strip()
+    is_ready_source = status == "Ready for Chatbot"
+    if status not in PROCESSABLE_SOURCE_STATUSES and not is_ready_source:
+        flash("This source cannot be deleted from the dashboard right now.", "error")
+        return redirect(url_for("dashboard"))
+
+    if is_ready_source:
+        try:
+            _delete_existing_document_rows(
+                DASHBOARD_PROCESS_DB_PATH,
+                f"upload::{source_id}",
+            )
+        except Exception as exc:
+            print(f"Dashboard ready upload delete failed: {exc}")
+            flash("This source could not be removed from the chatbot right now. Please try again.", "error")
+            return redirect(url_for("dashboard"))
 
     filename = str(source.get("filename", "") or "").strip()
     if filename:
@@ -667,7 +682,7 @@ def dashboard_delete(source_id: str):
         except OSError as exc:
             print(f"Dashboard upload delete failed: {exc}")
             flash("This file could not be removed right now. Please try again.", "error")
-            return redirect(url_for("dashboard", _anchor="process-queue"))
+            return redirect(url_for("dashboard"))
 
     remaining_sources = [
         candidate
@@ -675,8 +690,11 @@ def dashboard_delete(source_id: str):
         if str(candidate.get("id", "")) != str(source_id)
     ]
     save_dashboard_sources(remaining_sources)
-    flash("This uploaded file was removed from the dashboard.", "success")
-    return redirect(url_for("dashboard", _anchor="process-queue"))
+    if is_ready_source:
+        flash("This uploaded source was removed from the chatbot.", "success")
+    else:
+        flash("This uploaded file was removed from the dashboard.", "success")
+    return redirect(url_for("dashboard"))
 
 
 @app.post("/chat")

@@ -6,18 +6,29 @@
   <title>{{ bot_name }} | Early Education Leaders Institute</title>
   <style>
     :root {
-      --ink: #17212b;
-      --muted: #657282;
-      --line: #d9e2ec;
-      --surface: #ffffff;
-      --surface-soft: #f6f9fb;
-      --blue: #1f6f9f;
-      --blue-dark: #174f75;
-      --green: #2f7d5c;
-      --gold: #b56b20;
-      --warning-bg: #fff7e8;
-      --warning-line: #e5b96b;
-      --shadow: 0 18px 55px rgba(25, 52, 72, 0.12);
+      --ink: #1E2732;
+      --muted: #667485;
+      --line: #D8E0E6;
+      --surface: #FFFEFB;
+      --surface-soft: #F6F4EE;
+      --page-bg: #F3F7F6;
+      --blue: #2D5D7B;
+      --blue-dark: #234A63;
+      --green: #5F7D6E;
+      --green-dark: #486355;
+      --gold: #A77733;
+      --gold-soft: #F5EBDD;
+      --red: #8A3F3A;
+      --red-soft: #FBEDEA;
+      --success-text: #2E5E46;
+      --success-bg: #E8F2EC;
+      --review-text: #8A642B;
+      --review-bg: #FBF3E3;
+      --warning-text: #8B5B2B;
+      --warning-bg: #FFF7EA;
+      --error-text: #8A3F3A;
+      --error-bg: #FBEDEA;
+      --shadow: 0 18px 50px rgba(31, 44, 56, 0.10);
       --radius: 8px;
     }
 
@@ -30,9 +41,9 @@
       min-height: 100vh;
       font-family: Georgia, "Times New Roman", serif;
       background:
-        linear-gradient(135deg, rgba(31, 111, 159, 0.12), transparent 38%),
-        linear-gradient(315deg, rgba(47, 125, 92, 0.12), transparent 42%),
-        #f4f8fb;
+        linear-gradient(135deg, rgba(45, 93, 123, 0.08), transparent 38%),
+        linear-gradient(315deg, rgba(95, 125, 110, 0.08), transparent 42%),
+        var(--page-bg);
       color: var(--ink);
     }
 
@@ -44,7 +55,7 @@
       position: sticky;
       top: 0;
       z-index: 10;
-      background: rgba(255, 255, 255, 0.92);
+      background: rgba(255, 254, 251, 0.94);
       border-bottom: 1px solid var(--line);
       backdrop-filter: blur(12px);
     }
@@ -67,17 +78,17 @@
     }
 
     .brand-mark {
-      width: 42px;
-      height: 42px;
-      border-radius: 8px;
-      display: grid;
-      place-items: center;
-      background: linear-gradient(135deg, var(--blue), var(--green));
-      color: #fff;
-      font-weight: 700;
-      font-size: 17px;
-      letter-spacing: 0;
-      box-shadow: 0 8px 24px rgba(31, 111, 159, 0.25);
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .brand-mark img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
     }
 
     .brand-title {
@@ -90,6 +101,7 @@
       color: var(--muted);
       font-size: 13px;
       margin-top: 3px;
+      font-family: "Trebuchet MS", Verdana, sans-serif;
     }
 
     .nav-links {
@@ -111,7 +123,7 @@
     .nav-links a.active,
     .nav-links a:hover {
       color: var(--blue-dark);
-      background: #eaf4fa;
+      background: #EEF3F6;
     }
 
     .page {
@@ -125,7 +137,7 @@
     }
 
     .intro-main {
-      background: rgba(255, 255, 255, 0.84);
+      background: rgba(255, 254, 251, 0.88);
       border: 1px solid var(--line);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
@@ -133,7 +145,7 @@
     }
 
     .eyebrow {
-      color: var(--green);
+      color: var(--green-dark);
       font-family: "Trebuchet MS", Verdana, sans-serif;
       font-size: 13px;
       font-weight: 700;
@@ -175,7 +187,7 @@
       gap: 16px;
       padding: 18px 20px;
       border-bottom: 1px solid var(--line);
-      background: #fbfdfe;
+      background: linear-gradient(180deg, #FFFEFB, #F8F6EF);
     }
 
     .chat-heading {
@@ -190,16 +202,89 @@
       line-height: 1.4;
     }
 
+    .chat-kicker,
+    .source-kicker {
+      color: var(--green-dark);
+      font-family: "Trebuchet MS", Verdana, sans-serif;
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .source-guided {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      padding: 6px 10px;
+      background: var(--success-bg);
+      color: var(--success-text);
+      font-family: "Trebuchet MS", Verdana, sans-serif;
+      font-size: 13px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
     .messages {
       padding: 22px;
       min-height: 430px;
       max-height: 58vh;
       overflow-y: auto;
       background:
-        linear-gradient(rgba(31, 111, 159, 0.05) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(31, 111, 159, 0.05) 1px, transparent 1px),
-        var(--surface-soft);
-      background-size: 28px 28px;
+        linear-gradient(rgba(45, 93, 123, 0.035) 1px, transparent 1px),
+        #F7FAF8;
+      background-size: 100% 34px;
+    }
+
+    .empty-state {
+      max-width: 680px;
+      margin: 44px auto;
+      padding: 24px;
+      background: rgba(255, 254, 251, 0.86);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: 0 10px 30px rgba(31, 44, 56, 0.07);
+      text-align: center;
+    }
+
+    .empty-state h2 {
+      margin: 0 0 8px;
+      font-size: 24px;
+      line-height: 1.2;
+      color: var(--ink);
+    }
+
+    .empty-state p {
+      margin: 0 0 16px;
+      color: var(--muted);
+      font-family: "Trebuchet MS", Verdana, sans-serif;
+      line-height: 1.5;
+    }
+
+    .prompt-chips {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .prompt-chip {
+      border: 1px solid #D9D2C4;
+      background: #FFFEFB;
+      color: var(--blue-dark);
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-family: "Trebuchet MS", Verdana, sans-serif;
+      font-weight: 700;
+      cursor: pointer;
+      min-height: auto;
+    }
+
+    .prompt-chip:hover,
+    .prompt-chip:focus {
+      background: var(--gold-soft);
+      border-color: #CDBB9C;
+      outline: none;
+      transform: none;
     }
 
     .msg {
@@ -210,12 +295,13 @@
 
     .msg.user {
       margin-left: auto;
-      background: var(--blue);
-      color: #fff;
+      background: #DCE9F1;
+      color: var(--ink);
+      border: 1px solid #C9DCE8;
       border-radius: var(--radius);
       padding: 13px 15px;
       font-family: "Trebuchet MS", Verdana, sans-serif;
-      box-shadow: 0 8px 22px rgba(31, 111, 159, 0.18);
+      box-shadow: 0 8px 22px rgba(31, 44, 56, 0.10);
     }
 
     .msg.bot {
@@ -243,12 +329,15 @@
     .section-block {
       border: 1px solid var(--line);
       border-radius: var(--radius);
-      background: #fff;
+      background: var(--surface);
       padding: 14px;
     }
 
     .answer-card {
-      border-left: 4px solid var(--blue);
+      background: linear-gradient(180deg, var(--surface), #FFFFFF);
+      border-color: #E0D8C8;
+      border-top: 4px solid var(--green);
+      box-shadow: 0 10px 30px rgba(31, 44, 56, 0.08);
     }
 
     .section-title {
@@ -273,17 +362,15 @@
     }
 
     .source-card {
-      border: 1px solid #e2ebf2;
+      border: 1px solid #E6DDCB;
+      border-left: 4px solid var(--green);
       border-radius: var(--radius);
-      padding: 12px;
-      background: #fbfdff;
+      padding: 14px;
+      background: #FBF8F1;
+      box-shadow: 0 8px 20px rgba(31, 44, 56, 0.06);
     }
 
     .source-kicker {
-      font-family: "Trebuchet MS", Verdana, sans-serif;
-      color: var(--green);
-      font-size: 12px;
-      font-weight: 800;
       margin-bottom: 4px;
     }
 
@@ -316,14 +403,47 @@
     }
 
     .retrieval-note {
-      border: 1px solid var(--warning-line);
+      border: 1px solid #E9C98C;
       background: var(--warning-bg);
-      color: #6f4b11;
+      color: var(--warning-text);
       border-radius: var(--radius);
-      padding: 12px;
+      padding: 12px 14px;
       font-family: "Trebuchet MS", Verdana, sans-serif;
       font-size: 14px;
       line-height: 1.45;
+    }
+
+    .retrieval-note strong {
+      display: block;
+      margin-bottom: 3px;
+      color: var(--warning-text);
+    }
+
+    .source-confidence {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-family: "Trebuchet MS", Verdana, sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      width: fit-content;
+    }
+
+    .source-confidence.strong {
+      background: var(--success-bg);
+      color: var(--success-text);
+    }
+
+    .source-confidence.partial {
+      background: #EEF3F6;
+      color: var(--blue-dark);
+    }
+
+    .source-confidence.limited {
+      background: var(--warning-bg);
+      color: var(--warning-text);
     }
 
     details {
@@ -345,7 +465,7 @@
       gap: 10px;
       padding: 16px;
       border-top: 1px solid var(--line);
-      background: #fff;
+      background: var(--surface);
     }
 
     input[type="text"] {
@@ -381,6 +501,11 @@
       color: #fff;
     }
 
+    button.primary:hover {
+      background: var(--blue-dark);
+      border-color: var(--blue-dark);
+    }
+
     button:hover {
       transform: translateY(-1px);
     }
@@ -410,10 +535,12 @@
   <header class="topbar">
     <div class="topbar-inner">
       <div class="brand">
-        <div class="brand-mark">OB</div>
+        <div class="brand-mark">
+          <img src="/static/owlbot-logo.png" alt="OWL Bot Logo" />
+        </div>
         <div>
-          <div class="brand-title">Owlbot</div>
-          <div class="brand-subtitle">Early Education Leaders Institute</div>
+          <div class="brand-title">Institute Knowledge Assistant</div>
+          <div class="brand-subtitle">Verified answers from institute sources</div>
         </div>
       </div>
       <nav class="nav-links" aria-label="Primary navigation">
@@ -427,27 +554,32 @@
   <main class="page">
     <section class="intro" aria-labelledby="page-title">
       <div class="intro-main">
-        <p class="eyebrow">Institute knowledge assistant</p>
-        <h1 id="page-title">Ask Owlbot about institute programs, resources, and public information.</h1>
-        <p class="lead">Owlbot answers using the project source collection and shows the supporting sources it found. When the match is weak, it will say so clearly so institute staff can verify the answer.</p>
+        <p class="eyebrow">Institute reference desk</p>
+        <h1 id="page-title">Institute Knowledge Assistant</h1>
+        <p class="lead">Ask Owlbot about institute programs, resources, reports, and public information. Owlbot searches the institute source collection, summarizes what it finds, and shows the supporting sources behind each answer.</p>
       </div>
     </section>
 
     <section class="chat-shell" aria-label="Owlbot chat">
       <div class="chat-header">
         <div>
-          <div class="chat-heading">{{ bot_name }} Chat</div>
+          <div class="chat-kicker">Owlbot Reference Desk</div>
+          <div class="chat-heading">Answers from institute sources</div>
           <div class="chat-note">Ask one question at a time for the clearest source matching.</div>
         </div>
-        <div class="chat-note">Need to add new information? Visit the Dashboard.</div>
+        <div class="source-guided">Source-guided</div>
       </div>
       <div id="messages" class="messages">
-        <div class="msg bot">
-          <div class="bot-response">
-            <div class="answer-card">
-              <div class="section-title">Welcome</div>
-              <div class="answer">{{ onboard_prompt }}</div>
-            </div>
+        <div class="empty-state" data-empty-state>
+          <h2>How can Owlbot help?</h2>
+          <p>Try asking about institute programs, application information, educator resources, public reports, events, or source coverage.</p>
+          <div class="prompt-chips" aria-label="Suggested questions">
+            <button class="prompt-chip" type="button" data-prompt="What institute programs are available?">Institute programs</button>
+            <button class="prompt-chip" type="button" data-prompt="Where can I find application information?">Application information</button>
+            <button class="prompt-chip" type="button" data-prompt="What resources are available for educators?">Resources for educators</button>
+            <button class="prompt-chip" type="button" data-prompt="What public reports are available?">Public reports</button>
+            <button class="prompt-chip" type="button" data-prompt="What recent events or updates are listed?">Events and updates</button>
+            <button class="prompt-chip" type="button" data-prompt="What sources does Owlbot currently know about?">Source coverage</button>
           </div>
         </div>
       </div>
@@ -465,7 +597,30 @@
     const messages = document.getElementById("messages");
     const resetBtn = document.getElementById("resetBtn");
 
+    function removeEmptyState() {
+      const emptyState = messages.querySelector("[data-empty-state]");
+      if (emptyState) emptyState.remove();
+    }
+
+    function renderEmptyState() {
+      messages.innerHTML = `
+        <div class="empty-state" data-empty-state>
+          <h2>How can Owlbot help?</h2>
+          <p>Try asking about institute programs, application information, educator resources, public reports, events, or source coverage.</p>
+          <div class="prompt-chips" aria-label="Suggested questions">
+            <button class="prompt-chip" type="button" data-prompt="What institute programs are available?">Institute programs</button>
+            <button class="prompt-chip" type="button" data-prompt="Where can I find application information?">Application information</button>
+            <button class="prompt-chip" type="button" data-prompt="What resources are available for educators?">Resources for educators</button>
+            <button class="prompt-chip" type="button" data-prompt="What public reports are available?">Public reports</button>
+            <button class="prompt-chip" type="button" data-prompt="What recent events or updates are listed?">Events and updates</button>
+            <button class="prompt-chip" type="button" data-prompt="What sources does Owlbot currently know about?">Source coverage</button>
+          </div>
+        </div>
+      `;
+    }
+
     function appendMessage(text, className) {
+      removeEmptyState();
       const div = document.createElement("div");
       div.className = `msg ${className}`;
       div.textContent = text;
@@ -474,6 +629,7 @@
     }
 
     function appendStatus(text) {
+      removeEmptyState();
       const div = document.createElement("div");
       div.className = "status";
       div.textContent = text;
@@ -540,6 +696,31 @@
       return unique;
     }
 
+    function confidenceState(retrieval, evidenceCount) {
+      if (retrieval.low_confidence) {
+        return {
+          className: "limited",
+          label: "Limited source match",
+          description: "Owlbot found only a limited source match. Please verify this answer with institute staff before relying on it.",
+        };
+      }
+      if (evidenceCount >= 2) {
+        return {
+          className: "strong",
+          label: "Strong source match",
+          description: "Based on institute sources found in the source collection.",
+        };
+      }
+      if (evidenceCount === 1) {
+        return {
+          className: "partial",
+          label: "Partial source match",
+          description: "Owlbot found a relevant institute source, but staff may want to review the answer.",
+        };
+      }
+      return null;
+    }
+
     function appendBotResponse(payload) {
       const wrapper = document.createElement("div");
       wrapper.className = "msg bot";
@@ -562,15 +743,23 @@
       response.appendChild(answerCard);
 
       const retrieval = payload.retrieval || {};
-      if (retrieval.low_confidence) {
+      const evidenceSources = uniqueSourcesByUrl(payload.evidence || []);
+      const citationSources = uniqueSourcesByUrl(payload.citations || []);
+      const confidenceStateInfo = confidenceState(retrieval, evidenceSources.length);
+      if (confidenceStateInfo) {
         const confidence = document.createElement("div");
-        confidence.className = "retrieval-note";
-        confidence.textContent = "We could not find a strong matching institute source for this question. Please verify this answer with institute staff.";
+        confidence.className = `source-confidence ${confidenceStateInfo.className}`;
+        confidence.textContent = confidenceStateInfo.label;
+        confidence.title = confidenceStateInfo.description;
         response.appendChild(confidence);
       }
 
-      const evidenceSources = uniqueSourcesByUrl(payload.evidence || []);
-      const citationSources = uniqueSourcesByUrl(payload.citations || []);
+      if (retrieval.low_confidence) {
+        const confidence = document.createElement("div");
+        confidence.className = "retrieval-note";
+        confidence.innerHTML = "<strong>Staff review recommended</strong>Owlbot found only a limited source match. Please verify this answer with institute staff before relying on it.";
+        response.appendChild(confidence);
+      }
 
       if (evidenceSources.length) {
         const section = document.createElement("div");
@@ -590,7 +779,7 @@
 
           const kicker = document.createElement("div");
           kicker.className = "source-kicker";
-          kicker.textContent = sourceLabel(Number(item.rank || 0));
+          kicker.textContent = "Supporting Source";
           card.appendChild(kicker);
 
           const sourceTitle = document.createElement(item.url ? "a" : "div");
@@ -605,6 +794,10 @@
           appendSourceDate(card, item.url);
 
           if (item.snippet) {
+            const snippetLabel = document.createElement("div");
+            snippetLabel.className = "source-kicker";
+            snippetLabel.textContent = "Relevant passage";
+            card.appendChild(snippetLabel);
             const snippet = document.createElement("div");
             snippet.className = "source-snippet";
             snippet.textContent = item.snippet;
@@ -613,7 +806,7 @@
 
           const details = document.createElement("details");
           const summary = document.createElement("summary");
-          summary.textContent = "Advanced details";
+          summary.textContent = "Source details";
           details.appendChild(summary);
           const detailText = document.createElement("div");
           const matchedTerms = (item.matched_terms || []).join(", ") || "Not available";
@@ -690,18 +883,20 @@
         appendBotResponse(payload);
       } catch (error) {
         statusEl.remove();
-        appendMessage("Network error. Please try again.", "bot");
+        appendMessage("Owlbot could not be reached. Please try again in a moment.", "bot");
       }
     });
 
     resetBtn.addEventListener("click", async () => {
       await fetch("/reset", { method: "POST" });
-      messages.innerHTML = "";
-      const wrapper = document.createElement("div");
-      wrapper.className = "msg bot";
-      wrapper.innerHTML = `<div class="bot-response"><div class="answer-card"><div class="section-title">Welcome</div><div class="answer"></div></div></div>`;
-      wrapper.querySelector(".answer").textContent = {{ onboard_prompt|tojson }};
-      messages.appendChild(wrapper);
+      renderEmptyState();
+      input.focus();
+    });
+
+    messages.addEventListener("click", (event) => {
+      const chip = event.target.closest("[data-prompt]");
+      if (!chip) return;
+      input.value = chip.dataset.prompt || "";
       input.focus();
     });
   </script>

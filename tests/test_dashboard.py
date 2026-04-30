@@ -98,6 +98,32 @@ class DashboardTests(unittest.TestCase):
         self.assertIn("Content Review Tracker", body)
         self.assertIn("Not available yet", body)
 
+    def test_library_filters_hide_non_matching_cards(self):
+        self.sources_path.write_text(
+            json.dumps(
+                [
+                    {
+                        "id": "ready-source",
+                        "title": "Ready Source",
+                        "source_type": "Uploaded File",
+                        "category": "FAQ",
+                        "filename": "ready.txt",
+                        "status": "Ready for Chatbot",
+                        "ready_for_chatbot": True,
+                    }
+                ]
+            ),
+            encoding="utf-8",
+        )
+
+        response = self.client.get("/dashboard")
+
+        self.assertEqual(200, response.status_code)
+        body = response.get_data(as_text=True)
+        self.assertIn("[data-library-item][hidden]", body)
+        self.assertIn("item.style.display = visible ? \"\" : \"none\";", body)
+        self.assertIn("data-filter-group=", body)
+
     def test_valid_upload_saves_file_and_needs_processing_metadata(self):
         response = self.client.post(
             "/dashboard/upload",
@@ -205,10 +231,15 @@ class DashboardTests(unittest.TestCase):
         body = response.get_data(as_text=True)
         library_markup = body.split('id="content-library"', 1)[1].split('id="coverage"', 1)[0]
         self.assertIn("Ready Upload", library_markup)
-        self.assertIn("View source details", library_markup)
+        self.assertIn("Source details", library_markup)
+        self.assertIn("View FAQ", library_markup)
+        self.assertIn("source-action-link", library_markup)
+        self.assertNotIn("Open source", library_markup)
         self.assertIn("Saved passages: 3", library_markup)
         self.assertIn("Prepared staff note", library_markup)
         self.assertNotIn(str(self.upload_dir), library_markup)
+        self.assertIn(".source-card:hover .source-delete-form", body)
+        self.assertIn(".source-card:focus-within .source-delete-form", body)
 
     def test_existing_website_sources_show_as_ready_library_content(self):
         self.web_output_path.write_text(
@@ -238,6 +269,71 @@ class DashboardTests(unittest.TestCase):
         self.assertIn("Institute Home", library_markup)
         self.assertIn("Ready for Chatbot", library_markup)
         self.assertIn("Website Page", library_markup)
+        self.assertIn("View page", library_markup)
+
+    def test_content_library_uses_client_friendly_action_labels(self):
+        self.sources_path.write_text(
+            json.dumps(
+                [
+                    {
+                        "id": "report",
+                        "title": "Annual Report",
+                        "source_type": "Uploaded File",
+                        "category": "Report or PDF",
+                        "filename": "annual.pdf",
+                        "source_url": "https://example.org/report.pdf",
+                        "status": "Ready for Chatbot",
+                        "ready_for_chatbot": True,
+                    },
+                    {
+                        "id": "contact",
+                        "title": "Contact Sheet",
+                        "source_type": "Uploaded File",
+                        "category": "Contact Information",
+                        "filename": "contact.txt",
+                        "source_url": "https://example.org/contact",
+                        "status": "Ready for Chatbot",
+                        "ready_for_chatbot": True,
+                    },
+                    {
+                        "id": "upload",
+                        "title": "Uploaded Notes",
+                        "source_type": "Uploaded File",
+                        "category": "Other",
+                        "filename": "notes.txt",
+                        "source_url": "https://example.org/notes",
+                        "status": "Ready for Chatbot",
+                        "ready_for_chatbot": True,
+                    },
+                ]
+            ),
+            encoding="utf-8",
+        )
+        self.web_output_path.write_text(
+            json.dumps(
+                {
+                    "documents": [
+                        {
+                            "document_id": "blog-1",
+                            "title": "Blog Update",
+                            "url": "https://blogs.umb.edu/earlyed/2026/04/01/blog-update/",
+                            "source_type": "website",
+                            "char_count": 1200,
+                        }
+                    ]
+                }
+            ),
+            encoding="utf-8",
+        )
+
+        response = self.client.get("/dashboard")
+
+        self.assertEqual(200, response.status_code)
+        library_markup = response.get_data(as_text=True).split('id="content-library"', 1)[1].split('id="coverage"', 1)[0]
+        self.assertIn("View document", library_markup)
+        self.assertIn("View contact page", library_markup)
+        self.assertIn("View uploaded file", library_markup)
+        self.assertIn("Read blog post", library_markup)
 
     def test_coverage_and_review_tracker_render_friendly_summary(self):
         self.sources_path.write_text(
