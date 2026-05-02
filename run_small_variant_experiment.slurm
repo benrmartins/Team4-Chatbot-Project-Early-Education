@@ -55,8 +55,8 @@ if [[ "$SHARD_INDEX" != "0" ]]; then
   EXTRA_FLAGS+=(--skip-baseline)
 fi
 
-# Keep disk usage low by deleting per-variant SQLite DBs after scoring.
-if [[ "${VARIANT_CLEANUP_DBS:-1}" == "1" ]]; then
+# Optional: delete per-variant SQLite DBs after scoring.
+if [[ "${VARIANT_CLEANUP_DBS:-0}" == "1" ]]; then
   EXTRA_FLAGS+=(--cleanup-variant-dbs)
 fi
 

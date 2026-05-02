@@ -1,0 +1,2041 @@
+{
+  "summary": {
+    "benchmark_path": "/pomplun/share_home/brandon.siscoe001/Team4-Chatbot-Project-Early-Education/evaluation/retrieval_benchmark.json",
+    "max_results": 20,
+    "phase1_source": "/pomplun/share_home/brandon.siscoe001/Team4-Chatbot-Project-Early-Education/data/unified_vector_data.json",
+    "best_variant": {
+      "name": "openai_small_cs500_co60_ed1024_bs64",
+      "database_path": "/pomplun/share_home/brandon.siscoe001/Team4-Chatbot-Project-Early-Education/data/openai_small_cs500_co60_ed1024_bs64.sqlite"
+    },
+    "phase1_metrics": {
+      "accuracy": 0.4,
+      "retrieval_hit_rate": 0.2667,
+      "avg_score": 2.6,
+      "hint_match_rate": 0.8667
+    },
+    "best_variant_metrics": {
+      "accuracy": 0.7333,
+      "retrieval_hit_rate": 0.5333,
+      "avg_score": 3.7333,
+      "hint_match_rate": 0.9
+    },
+    "delta_best_minus_phase1": {
+      "accuracy": 0.3333,
+      "retrieval_hit_rate": 0.2666,
+      "avg_score": 1.1333,
+      "hint_match_rate": 0.0333
+    }
+  },
+  "per_question": [
+    {
+      "question": "What is ExCELS and what does it measure?",
+      "phase1": {
+        "metrics": {
+          "correct": 1,
+          "retrieval_hit": 1,
+          "score": 5,
+          "hint_match": 1,
+          "notes": "why_hard=Acronym lookup where the best answer may appear in specialized research/program pages instead of generic institute descriptions. | likely_failure_mode=Keyword overlap can pull broad institute pages or repeated mentions instead of the chunk that defines ExCELS directly."
+        },
+        "retrieval_status": "failed",
+        "top_results": [
+          "#? Early Education Leaders Brand Guide for CS438.pdf (score=2)",
+          "#? Early Education Leaders Brand Guide for CS438.pdf (score=2)",
+          "#? Persuasive policy.docx (score=2)",
+          "#? Persuasive policy | Early Education Leaders, an Institute at UMass Boston (score=2)",
+          "#? Early Education Leaders Brand Guide for CS438.pdf (score=1)",
+          "#? Early Education Leaders Brand Guide for CS438.pdf (score=1)",
+          "#? Positive Relationships Key to Early Educator Success in Earning Bachelor\u2019s Degree.docx (score=1)",
+          "#? Positive Relationships Key to Early Educator Success in Earning Bachelor\u2019s Degree.docx (score=1)",
+          "#? Leadership Institute Testing Model To Improve Business Operations of Small Business Child Care Providers.docx (score=1)",
+          "#? Leadership Institute Testing Model To Improve Business Operations of Small Business Child Care Providers.docx (score=1)",
+          "#? Advancing Early Care And Education via Scholarship (score=1)",
+          "#? Advancing Early Care And Education via Scholarship (score=1)",
+          "#? Using Mr. Potato Head to learn Plan-Do-Study-Act | Early Education Leaders, an Institute at UMass Boston (score=1)",
+          "#? Early Ed Leadership Institute to publish future editions of Early Care and Education Leadership Development Compendium | Early Education Leaders, an Institute at UMass Boston (score=1)",
+          "#? Leadership Institute Testing Model To Improve Business Operations of Small Business Child Care Providers | Early Education Leaders, an Institute at UMass Boston (score=1)",
+          "#? Leadership Institute Testing Model To Improve Business Operations of Small Business Child Care Providers | Early Education Leaders, an Institute at UMass Boston (score=1)",
+          "#? Automating invoicing, enrollment and applications saves time and money | Early Education Leaders, an Institute at UMass Boston (score=1)",
+          "#? Research Summary: Positive Relationships Key to Early Educator Success in Earning Bachelor\u2019s Degree | Early Education Leaders, an Institute at UMass Boston (score=1)",
+          "#? Research Summary: Positive Relationships Key to Early Educator Success in Earning Bachelor\u2019s Degree | Early Education Leaders, an Institute at UMass Boston (score=1)",
+          "#? Early ed census for the City of Boston offers recommendations for improving access and quality | Early Education Leaders, an Institute at UMass Boston (score=1)"
+        ]
+      },
+      "best_variant": {
+        "metrics": {
+          "correct": 1,
+          "retrieval_hit": 1,
+          "score": 5,
+          "hint_match": 1,
+          "notes": "why_hard=Acronym lookup where the best answer may appear in specialized research/program pages instead of generic institute descriptions. | likely_failure_mode=Keyword overlap can pull broad institute pages or repeated mentions instead of the chunk that defines ExCELS directly."
+        },
+        "retrieval_status": "ok",
+        "top_results": [
+          "#1 Early Education Leaders Brand Guide for CS438.pdf (score=0.5547)",
+          "#2 Early Education Leaders Brand Guide for CS438.pdf (score=0.4394)",
+          "#3 Persuasive policy | Early Education Leaders, an Institute at UMass Boston (score=0.4119)",
+          "#4 Using Mr. Potato Head to learn Plan-Do-Study-Act | Early Education Leaders, an Institute at UMass Boston (score=0.4074)",
+          "#5 Persuasive policy.docx (score=0.3902)",
+          "#6 Meadowbrook Child Garden.docx (score=0.389)",
+          "#7 Adopting the Essential Leadership Model: Meadowbrook Child Garden | Early Education Leaders, an Institute at UMass Boston (score=0.389)",
+          "#8 Using Mr. Potato Head to learn Plan-Do-Study-Act | Early Education Leaders, an Institute at UMass Boston (score=0.3876)",
+          "#9 YWCA of Northeastern MA .docx (score=0.3771)",
+          "#10 Adopting the Essential Leadership Model: Early Learning Center at the YWCA of Northeastern MA\u00a0 | Early Education Leaders, an Institute at UMass Boston (score=0.3771)",
+          "#11 Little Voices Early Education and Care .docx (score=0.3675)",
+          "#12 Adopting the Essential Leadership Model: Little Voices Early Education and Care\u00a0 | Early Education Leaders, an Institute at UMass Boston (score=0.3675)",
+          "#13 Little Voices Early Education and Care .docx (score=0.3667)",
+          "#14 Adopting the Essential Leadership Model: Little Voices Early Education and Care\u00a0 | Early Education Leaders, an Institute at UMass Boston (score=0.3667)",
+          "#15 Little Voices Early Education and Care .docx (score=0.3597)",
+          "#16 Adopting the Essential Leadership Model: Little Voices Early Education and Care\u00a0 | Early Education Leaders, an Institute at UMass Boston (score=0.3597)",
+          "#17 From Leader to Coaching Leaders: A Journey of Personal and Professional Transformation | Early Education Leaders, an Institute at UMass Boston (score=0.3584)",
+          "#18 From Teacher to Coach: Amanda Kelly\u2019s Journey in Early Education Leadership | Early Education Leaders, an Institute at UMass Boston (score=0.3584)",
+          "#19 Meadowbrook Child Garden.docx (score=0.3482)",
+          "#20 Adopting the Essential Leadership Model: Meadowbrook Child Garden | Early Education Leaders, an Institute at UMass Boston (score=0.3482)"
+        ]
+      }
+    },
+    {
+      "question": "How does Early Education Leaders support bilingual or multilingual educators?",
+      "phase1": {
+        "metrics": {
+          "correct": 0,
+          "retrieval_hit": 0,
+          "score": 1,
+          "hint_match": 1,
+          "notes": "why_hard=Paraphrase and synonym matching: bilingual, multilingual, and language-access phrasing vary across sources. | likely_failure_mode=Phase 1 may over-rank generic 'support educators' pages rather than language-specific program details."
+        },
+        "retrieval_status": "failed",
+        "top_results": [
+          "#? Early Education Leaders Announces Incoming Class of Early Educator Leadership Fellows | Early Education Leaders, an Institute at UMass Boston (score=48)",
+          "#? Early Education Leaders Submits Public Comment on Federal Loan Rule That Risks Shutting Out Aspiring Early Educators | Early Education Leaders, an Institute at UMass Boston (score=47)",
+          "#? Powerful cross-institutional collaboration: Early Education Leaders and the Maryland Early Childhood Leadership Program | Early Education Leaders, an Institute at UMass Boston (score=45)",
+          "#? Early Education Leaders Submits Public Comment on Federal Loan Rule That Risks Shutting Out Aspiring Early Educators | Early Education Leaders, an Institute at UMass Boston (score=44)",
+          "#? Early Education Leaders Announces Incoming Class of Early Educator Leadership Fellows | Early Education Leaders, an Institute at UMass Boston (score=43)",
+          "#? Powerful cross-institutional collaboration: Early Education Leaders and the Maryland Early Childhood Leadership Program | Early Education Leaders, an Institute at UMass Boston (score=42)",
+          "#? Early Education Leaders Announces Incoming Class of Early Educator Leadership Fellows | Early Education Leaders, an Institute at UMass Boston (score=41)",
+          "#? Institute for Early Education Leadership and Innovation Awarded $2M to Develop Early Education Workforce in Boston | Early Education Leaders, an Institute at UMass Boston (score=40)",
+          "#? Early Education Leaders Submits Public Comment on Federal Loan Rule That Risks Shutting Out Aspiring Early Educators | Early Education Leaders, an Institute at UMass Boston (score=40)",
+          "#? Early Education Leaders Submits Public Comment on Federal Loan Rule That Risks Shutting Out Aspiring Early Educators | Early Education Leaders, an Institute at UMass Boston (score=40)",
+          "#? Early Education Leaders Submits Public Comment on Federal Loan Rule That Risks Shutting Out Aspiring Early Educators | Early Education Leaders, an Institute at UMass Boston (score=40)",
+          "#? Early Education Leaders Announces Incoming Class of Early Educator Leadership Fellows | Early Education Leaders, an Institute at UMass Boston (score=40)",
+          "#? Representing Early Education Leaders at The Hunt Institute\u2019s Early Childhood Leadership Summit | Early Education Leaders, an Institute at UMass Boston (score=39)",
+          "#? Institute for Early Education Leadership and Innovation Awarded $2M to Develop Early Education Workforce in Boston | Early Education Leaders, an Institute at UMass Boston (score=39)",
+          "#? Institute for Early Education Leadership and Innovation Awarded $2M to Develop Early Education Workforce in Boston | Early Education Leaders, an Institute at UMass Boston (score=38)",
+          "#? Early Education Leaders Announces Incoming Class of Early Educator Leadership Fellows | Early Education Leaders, an Institute at UMass Boston (score=38)",
+          "#? Powerful cross-institutional collaboration: Early Education Leaders and the Maryland Early Childhood Leadership Program | Early Education Leaders, an Institute at UMass Boston (score=38)",
+          "#? Institute for Early Education Leadership and Innovation Awarded $2M to Develop Early Education Workforce in Boston | Early Education Leaders, an Institute at UMass Boston (score=37)",
+          "#? Institute for Early Education Leadership and Innovation Awarded $2M to Develop Early Education Workforce in Boston | Early Education Leaders, an Institute at UMass Boston (score=37)",
+          "#? Early Education Leaders Announces Incoming Class of Early Educator Leadership Fellows | Early Education Leaders, an Institute at UMass Boston (score=37)"
+        ]
+      },
+      "best_variant": {
+        "metrics": {
+          "correct": 1,
+          "retrieval_hit": 0,
+          "score": 4,
+          "hint_match": 1,
+          "notes": "why_hard=Paraphrase and synonym matching: bilingual, multilingual, and language-access phrasing vary across sources. | likely_failure_mode=Phase 1 may over-rank generic 'support educators' pages rather than language-specific program details."
+        },
+        "retrieval_status": "ok",
+        "top_results": [
+          "#1 Supporting English language learners | Early Education Leaders, an Institute at UMass Boston (score=0.7326)",
+          "#2 Supporting English language learners | Early Education Leaders, an Institute at UMass Boston (score=0.7092)",
+          "#3 Early Ed Leadership Institute Statement on Derek Chauvin Trial | Early Education Leaders, an Institute at UMass Boston (score=0.6804)",
+          "#4 Early Education Leaders Brand Guide for CS438.pdf (score=0.6516)",
+          "#5 Early Education Leaders Brand Guide for CS438.pdf (score=0.6427)",
+          "#6 Early Education Leaders Brand Guide for CS438.pdf (score=0.6348)",
+          "#7 Early Education Leaders Brand Guide for CS438.pdf (score=0.6321)",
+          "#8 Stranahan Foundation.docx (score=0.6213)",
+          "#9 Early Education Leaders Receives $250K from Stranahan Foundation | Early Education Leaders, an Institute at UMass Boston (score=0.6213)",
+          "#10 Leadership Development Can Be Scaled Effectively .docx (score=0.6201)",
+          "#11 New Study Shows Leadership Development Can Be Scaled Effectively to Reach Early Educators\u00a0 | Early Education Leaders, an Institute at UMass Boston (score=0.6201)",
+          "#12 Early Education Leaders Brand Guide for CS438.pdf (score=0.6197)",
+          "#13 Early Education Leaders Brand Guide for CS438.pdf (score=0.6149)",
+          "#14 Early Education Leaders Brand Guide for CS438.pdf (score=0.6081)",
+          "#15 Testimony in support of bill to provide affordable and accessible high quality early education and care | Early Education Leaders, an Institute at UMass Boston (score=0.6028)",
+          "#16 Early Education Leaders Brand Guide for CS438.pdf (score=0.6002)",
+          "#17 Early Education Leaders Brand Guide for CS438.pdf (score=0.5978)",
+          "#18 Leadership Institute Testing Model To Improve Business Operations of Small Business Child Care Providers.docx (score=0.5978)",
+          "#19 Looking Back: Early Education Leaders\u2019 Most Impactful Social Media Moments of 2025 | Early Education Leaders, an Institute at UMass Boston (score=0.5967)",
+          "#20 Early Education Leaders Brand Guide for CS438.pdf (score=0.5959)"
+        ]
+      }
+    },
+    {
+      "question": "Is there a fellowship that helps early educators earn a bachelor's degree?",
+      "phase1": {
+        "metrics": {
+          "correct": 0,
+          "retrieval_hit": 1,
+          "score": 3,
+          "hint_match": 1,
+          "notes": "why_hard=Program lookup using indirect phrasing instead of the exact program title. | likely_failure_mode=Phase 1 may retrieve generic degree research summaries because 'bachelor' appears there more often than the fellowship program page."
+        },
+        "retrieval_status": "failed",
+        "top_results": [
+          "#? A Promising Pathway: Early Insights from the Early Childhood Fellowship | Early Education Leaders, an Institute at UMass Boston (score=32)",
+          "#? A Promising Pathway: Early Insights from the Early Childhood Fellowship | Early Education Leaders, an Institute at UMass Boston (score=29)",
+          "#? Early Insights from the Early Childhood Fellowship.docx (score=28)",
+          "#? Building the Future of Early Education: Inside the Early Childhood Fellowship | Early Education Leaders, an Institute at UMass Boston (score=28)",
+          "#? Building the Future of Early Education: Inside the Early Childhood Fellowship | Early Education Leaders, an Institute at UMass Boston (score=26)",
+          "#? Early Insights from the Early Childhood Fellowship.docx (score=25)",
+          "#? Institute for Early Education Leadership and Innovation Awarded $2M to Develop Early Education Workforce in Boston | Early Education Leaders, an Institute at UMass Boston (score=25)",
+          "#? Early Education Leaders Submits Public Comment on Federal Loan Rule That Risks Shutting Out Aspiring Early Educators | Early Education Leaders, an Institute at UMass Boston (score=25)",
+          "#? 15 Fellows Selected for Early Childhood Fellowship | Early Education Leaders, an Institute at UMass Boston (score=25)",
+          "#? Early Education Leaders Submits Public Comment on Federal Loan Rule That Risks Shutting Out Aspiring Early Educators | Early Education Leaders, an Institute at UMass Boston (score=24)",
+          "#? Early Education Leaders Submits Public Comment on Federal Loan Rule That Risks Shutting Out Aspiring Early Educators | Early Education Leaders, an Institute at UMass Boston (score=23)",
+          "#? A Promising Pathway: Early Insights from the Early Childhood Fellowship | Early Education Leaders, an Institute at UMass Boston (score=23)",
+          "#? A Promising Pathway: Early Insights from the Early Childhood Fellowship | Early Education Leaders, an Institute at UMass Boston (score=23)",
+          "#? Building the Future of Early Education: Inside the Early Childhood Fellowship | Early Education Leaders, an Institute at UMass Boston (score=23)",
+          "#? Research Summary: Positive Relationships Key to Early Educator Success in Earning Bachelor\u2019s Degree | Early Education Leaders, an Institute at UMass Boston (score=23)",
+          "#? Leading by Example: Adriana Batista-Guerra Empowers Early Educators | Early Education Leaders, an Institute at UMass Boston (score=22)",
+          "#? A Promising Pathway: Early Insights from the Early Childhood Fellowship | Early Education Leaders, an Institute at UMass Boston (score=22)",
+          "#? Building the Future of Early Education: Inside the Early Childhood Fellowship | Early Education Leaders, an Institute at UMass Boston (score=22)",
+          "#? Building the Future of Early Education: Inside the Early Childhood Fellowship | Early Education Leaders, an Institute at UMass Boston (score=22)",
+          "#? Building the Future of Early Education: Inside the Early Childhood Fellowship | Early Education Leaders, an Institute at UMass Boston (score=22)"
+        ]
+      },
+      "best_variant": {
+        "metrics": {
+          "correct": 1,
+          "retrieval_hit": 1,
+          "score": 5,
+          "hint_match": 1,
+          "notes": "why_hard=Program lookup using indirect phrasing instead of the exact program title. | likely_failure_mode=Phase 1 may retrieve generic degree research summaries because 'bachelor' appears there more often than the fellowship program page."
+        },
+        "retrieval_status": "ok",
+        "top_results": [
+          "#1 Early Education Leaders Brand Guide for CS438.pdf (score=0.7747)",
+          "#2 Offerings (score=0.7687)",
+          "#3 Web Copy.docx (score=0.76)",
+          "#4 Offerings (score=0.76)",
+          "#5 Web Copy.docx (score=0.7493)",
+          "#6 Offerings (score=0.7493)",
+          "#7 Web Copy.docx (score=0.7463)",
+          "#8 Offerings (score=0.7422)",
+          "#9 Web Copy.docx (score=0.7203)",
+          "#10 Web Copy.docx (score=0.7187)",
+          "#11 Offerings (score=0.7187)",
+          "#12 A Promising Pathway: Early Insights from the Early Childhood Fellowship | Early Education Leaders, an Institute at UMass Boston (score=0.7185)",
+          "#13 Early Education Leaders Brand Guide for CS438.pdf (score=0.718)",
+          "#14 Early Insights from the Early Childhood Fellowship.docx (score=0.7152)",
+          "#15 Bri Vines.docx (score=0.7147)",
+          "#16 Congratulations to our first Early Childhood Fellow graduate! | Early Education Leaders, an Institute at UMass Boston (score=0.7147)",
+          "#17 Institute for Early Education Leadership and Innovation Awarded $2M to Develop Early Education Workforce in Boston | Early Education Leaders, an Institute at UMass Boston (score=0.7096)",
+          "#18 Building the Future of Early Education: Inside the Early Childhood Fellowship | Early Education Leaders, an Institute at UMass Boston (score=0.7067)",
+          "#19 Web Copy.docx (score=0.7033)",
+          "#20 Offerings (score=0.7033)"
+        ]
+      }
+    },
+    {
+      "question": "What support do fellows receive besides tuition?",
+      "phase1": {
+        "metrics": {
+          "correct": 1,
+          "retrieval_hit": 0,
+          "score": 4,
+          "hint_match": 1,
+          "notes": "why_hard=Requires fine-grained retrieval within a larger fellowship description. | likely_failure_mode=Phase 1 may find the fellowship page but surface a chunk that emphasizes eligibility rather than support details."
+        },
+        "retrieval_status": "failed",
+        "top_results": [
+          "#? 52 Early Childhood Fellows enrolled at UMass Boston | Early Education Leaders, an Institute at UMass Boston (score=9)",
+          "#? Leadership Institute Creates Early Childhood Support Organization .docx (score=8)",
+          "#? 15 Fellows Selected for Early Childhood Fellowship | Early Education Leaders, an Institute at UMass Boston (score=8)",
+          "#? Testimony in support of bill to provide affordable and accessible high quality early education and care | Early Education Leaders, an Institute at UMass Boston (score=8)",
+          "#? Leadership Institute Creates Early Childhood Support Organization for State\u2019s ECE Programs with $3.75M Grant | Early Education Leaders, an Institute at UMass Boston (score=8)",
+          "#? Leadership Fellows announced | Early Education Leaders, an Institute at UMass Boston (score=8)",
+          "#? Offerings (score=7)",
+          "#? Early Education Leaders Announces Incoming Class of Early Educator Leadership Fellows | Early Education Leaders, an Institute at UMass Boston (score=7)",
+          "#? UMass Boston Announces New Cohort of Early Education Leadership Fellows | Early Education Leaders, an Institute at UMass Boston (score=7)",
+          "#? UMass Boston Announces New Cohort of Early Education Leadership Fellows | Early Education Leaders, an Institute at UMass Boston (score=7)",
+          "#? 52 Early Childhood Fellows enrolled at UMass Boston | Early Education Leaders, an Institute at UMass Boston (score=7)",
+          "#? 52 Early Childhood Fellows enrolled at UMass Boston | Early Education Leaders, an Institute at UMass Boston (score=7)",
+          "#? Testimony in support of bill to provide affordable and accessible high quality early education and care | Early Education Leaders, an Institute at UMass Boston (score=7)",
+          "#? 2021-2023 Early Education Leadership Fellows announced | Early Education Leaders, an Institute at UMass Boston (score=7)",
+          "#? Web Copy.docx (score=6)",
+          "#? Web Copy.docx (score=6)",
+          "#? Web Copy.docx (score=6)",
+          "#? Early Insights from the Early Childhood Fellowship.docx (score=6)",
+          "#? Leadership Institute Creates Early Childhood Support Organization .docx (score=6)",
+          "#? Fifth cohort of Leading for Change Fellows in Maryland is announced.docx (score=6)"
+        ]
+      },
+      "best_variant": {
+        "metrics": {
+          "correct": 1,
+          "retrieval_hit": 1,
+          "score": 5,
+          "hint_match": 1,
+          "notes": "why_hard=Requires fine-grained retrieval within a larger fellowship description. | likely_failure_mode=Phase 1 may find the fellowship page but surface a chunk that emphasizes eligibility rather than support details."
+        },
+        "retrieval_status": "ok",
+        "top_results": [
+          "#1 Offerings (score=0.7256)",
+          "#2 Web Copy.docx (score=0.721)",
+          "#3 Web Copy.docx (score=0.6933)",
+          "#4 Offerings (score=0.6933)",
+          "#5 A Promising Pathway: Early Insights from the Early Childhood Fellowship | Early Education Leaders, an Institute at UMass Boston (score=0.683)",
+          "#6 Early Insights from the Early Childhood Fellowship.docx (score=0.683)",
+          "#7 Institute for Early Education Leadership and Innovation Awarded $2M to Develop Early Education Workforce in Boston | Early Education Leaders, an Institute at UMass Boston (score=0.656)",
+          "#8 Our new Early Childhood Fellowship! | Early Education Leaders, an Institute at UMass Boston (score=0.6269)",
+          "#9 Institute for Early Education Leadership and Innovation Awarded $2M to Develop Early Education Workforce in Boston | Early Education Leaders, an Institute at UMass Boston (score=0.6249)",
+          "#10 Building the Future of Early Education: Inside the Early Childhood Fellowship | Early Education Leaders, an Institute at UMass Boston (score=0.6065)",
+          "#11 Offerings (score=0.6042)",
+          "#12 Web Copy.docx (score=0.6042)",
+          "#13 Institute for Early Education Leadership and Innovation Awarded $2M to Develop Early Education Workforce in Boston | Early Education Leaders, an Institute at UMass Boston (score=0.5904)",
+          "#14 Offerings (score=0.5901)",
+          "#15 Building the Future of Early Education: Inside the Early Childhood Fellowship | Early Education Leaders, an Institute at UMass Boston (score=0.5824)",
+          "#16 Web Copy.docx (score=0.5772)",
+          "#17 Bri Vines.docx (score=0.5716)",
+          "#18 Congratulations to our first Early Childhood Fellow graduate! | Early Education Leaders, an Institute at UMass Boston (score=0.5716)",
+          "#19 Our new Early Childhood Fellowship! | Early Education Leaders, an Institute at UMass Boston (score=0.5597)",
+          "#20 Offerings (score=0.558)"
+        ]
+      }
+    },
+    {
+      "question": "How does Leading for Change help educators become change agents?",
+      "phase1": {
+        "metrics": {
+          "correct": 0,
+          "retrieval_hit": 1,
+          "score": 3,
+          "hint_match": 1,
+          "notes": "why_hard=Conceptual phrasing should connect change agents, leadership mindsets, and project-based improvement. | likely_failure_mode=Phase 1 may return duplicate chunks from the same source instead of distinct evidence about outcomes and program structure."
+        },
+        "retrieval_status": "failed",
+        "top_results": [
+          "#? New Study Finds That Early Educators Trained in Leading for Change Develop Entrepreneurial Mindset and Lead for Change in the Workplace.docx (score=38)",
+          "#? New Study Finds That Early Educators Trained in Leading for Change Develop Entrepreneurial Mindset and Lead for Change in the Workplace | Early Education Leaders, an Institute at UMass Boston (score=38)",
+          "#? New Study Finds That Early Educators Trained in Leading for Change Develop Entrepreneurial Mindset and Lead for Change in the Workplace.docx (score=37)",
+          "#? New Study Finds That Early Educators Trained in Leading for Change Develop Entrepreneurial Mindset and Lead for Change in the Workplace | Early Education Leaders, an Institute at UMass Boston (score=37)",
+          "#? New Study Finds That Early Educators Trained in Leading for Change Develop Entrepreneurial Mindset and Lead for Change in the Workplace.docx (score=36)",
+          "#? New Study Finds That Early Educators Trained in Leading for Change Develop Entrepreneurial Mindset and Lead for Change in the Workplace | Early Education Leaders, an Institute at UMass Boston (score=36)",
+          "#? Leading for Change Now Offered to Family Child Care Educators\u00a0 in New York | Early Education Leaders, an Institute at UMass Boston (score=32)",
+          "#? New Study Finds That Early Educators Trained in Leading for Change Develop Entrepreneurial Mindset and Lead for Change in the Workplace.docx (score=31)",
+          "#? New Study Finds That Early Educators Trained in Leading for Change Develop Entrepreneurial Mindset and Lead for Change in the Workplace | Early Education Leaders, an Institute at UMass Boston (score=31)",
+          "#? New Study Finds That Early Educators Trained in Leading for Change Develop Entrepreneurial Mindset and Lead for Change in the Workplace.docx (score=29)",
+          "#? New Study Finds That Early Educators Trained in Leading for Change Develop Entrepreneurial Mindset and Lead for Change in the Workplace.docx (score=29)",
+          "#? New Study Finds That Early Educators Trained in Leading for Change Develop Entrepreneurial Mindset and Lead for Change in the Workplace.docx (score=29)",
+          "#? Leading for Change Now Offered to Family Child Care Educators\u00a0 in New York | Early Education Leaders, an Institute at UMass Boston (score=29)",
+          "#? New Study Finds That Early Educators Trained in Leading for Change Develop Entrepreneurial Mindset and Lead for Change in the Workplace | Early Education Leaders, an Institute at UMass Boston (score=29)",
+          "#? New Study Finds That Early Educators Trained in Leading for Change Develop Entrepreneurial Mindset and Lead for Change in the Workplace | Early Education Leaders, an Institute at UMass Boston (score=29)",
+          "#? New Study Finds That Early Educators Trained in Leading for Change Develop Entrepreneurial Mindset and Lead for Change in the Workplace | Early Education Leaders, an Institute at UMass Boston (score=29)",
+          "#? New Study Finds That Early Educators Trained in Leading for Change Develop Entrepreneurial Mindset and Lead for Change in the Workplace.docx (score=28)",
+          "#? New Study Finds That Early Educators Trained in Leading for Change Develop Entrepreneurial Mindset and Lead for Change in the Workplace.docx (score=28)",
+          "#? Leading for Change New York.docx (score=28)",
+          "#? New Study Finds That Early Educators Trained in Leading for Change Develop Entrepreneurial Mindset and Lead for Change in the Workplace | Early Education Leaders, an Institute at UMass Boston (score=28)"
+        ]
+      },
+      "best_variant": {
+        "metrics": {
+          "correct": 0,
+          "retrieval_hit": 0,
+          "score": 2,
+          "hint_match": 1,
+          "notes": "why_hard=Conceptual phrasing should connect change agents, leadership mindsets, and project-based improvement. | likely_failure_mode=Phase 1 may return duplicate chunks from the same source instead of distinct evidence about outcomes and program structure."
+        },
+        "retrieval_status": "ok",
+        "top_results": [
+          "#1 Leading for Change New York.docx (score=0.7884)",
+          "#2 Leading for Change Now Offered to Family Child Care Educators\u00a0 in New York | Early Education Leaders, an Institute at UMass Boston (score=0.7859)",
+          "#3 Ninth annual Leadership Forum on Early Education, Research, Policy, and Practice showcases inspiring and innovative Change Projects  \u00a0\ufffc | Early Education Leaders, an Institute at UMass Boston (score=0.7795)",
+          "#4 Early Education Leaders Brand Guide for CS438.pdf (score=0.7648)",
+          "#5 Leading for Change New York.docx (score=0.7626)",
+          "#6 Leading for Change Now Offered to Family Child Care Educators\u00a0 in New York | Early Education Leaders, an Institute at UMass Boston (score=0.7626)",
+          "#7 Pua\u02bbena Vierra-Villanueva .docx (score=0.7514)",
+          "#8 How Pua\u02bbena Vierra-Villanueva is driving systems change to create safe spaces for Hawaiian language learning\u00a0 | Early Education Leaders, an Institute at UMass Boston (score=0.7514)",
+          "#9 Entrepreneurial Leadership Training Catalyzes Change Initiatives in Early Ed Programs.docx (score=0.7505)",
+          "#10 Research Summary: Entrepreneurial Leadership Training Catalyzes Change Initiatives in Early Ed Programs | Early Education Leaders, an Institute at UMass Boston (score=0.7505)",
+          "#11 Early Education Leaders Brand Guide for CS438.pdf (score=0.7308)",
+          "#12 Adriana Batista-Guerra .docx (score=0.7284)",
+          "#13 Leading by Example: Adriana Batista-Guerra Empowers Early Educators | Early Education Leaders, an Institute at UMass Boston (score=0.7284)",
+          "#14 Leading for Change New York.docx (score=0.7278)",
+          "#15 Leading for Change Now Offered to Family Child Care Educators\u00a0 in New York | Early Education Leaders, an Institute at UMass Boston (score=0.7278)",
+          "#16 Leading Loudly.docx (score=0.724)",
+          "#17 Sarah Roebuck .docx (score=0.724)",
+          "#18 How Leading for Change Transformed One Director\u2019s Belief in Herself | Early Education Leaders, an Institute at UMass Boston (score=0.724)",
+          "#19 Leading Loudly, Learning Always: Sarah Roebuck\u2019s Five Lessons for Early Educators | Early Education Leaders, an Institute at UMass Boston (score=0.7234)",
+          "#20 Leading for Change in California: Luis Figueroa | Early Education Leaders, an Institute at UMass Boston (score=0.7176)"
+        ]
+      }
+    },
+    {
+      "question": "What is the Culture of Continuous Learning Project trying to improve?",
+      "phase1": {
+        "metrics": {
+          "correct": 1,
+          "retrieval_hit": 1,
+          "score": 5,
+          "hint_match": 1,
+          "notes": "why_hard=Connects quality improvement, social-emotional learning, and organizational change through an abstract improvement model. | likely_failure_mode=May retrieve general leadership program pages mentioning improvement but miss the specific Breakthrough Series Collaborative mechanism."
+        },
+        "retrieval_status": "failed",
+        "top_results": [
+          "#? Early Education Leaders Brand Guide for CS438.pdf (score=14)",
+          "#? Research & Policy (score=11)",
+          "#? Improving Teacher Quality Early Learning Toolkit (score=11)",
+          "#? Congrats to the graduates of our Instructional Leadership for Continuous Improvement in Early Education\u00a0class | Early Education Leaders, an Institute at UMass Boston (score=10)",
+          "#? Creating a culture of learning | Early Education Leaders, an Institute at UMass Boston (score=10)",
+          "#? Creating a culture of learning | Early Education Leaders, an Institute at UMass Boston (score=10)",
+          "#? Improving Teacher Quality Early Learning Toolkit (score=9)",
+          "#? How Pua\u02bbena Vierra-Villanueva is driving systems change to create safe spaces for Hawaiian language learning\u00a0 | Early Education Leaders, an Institute at UMass Boston (score=9)",
+          "#? New course in instructional leadership for continuous improvement\u00a0 | Early Education Leaders, an Institute at UMass Boston (score=9)",
+          "#? Creating a culture of learning | Early Education Leaders, an Institute at UMass Boston (score=9)",
+          "#? Creating a culture of learning | Early Education Leaders, an Institute at UMass Boston (score=9)",
+          "#? Creating a culture of learning | Early Education Leaders, an Institute at UMass Boston (score=9)",
+          "#? Web Copy.docx (score=8)",
+          "#? Improving Teacher Quality Early Learning Toolkit (score=8)",
+          "#? Improving Teacher Quality Early Learning Toolkit (score=8)",
+          "#? Adopting the Essential Leadership Model: Early Learning Center at the YWCA of Northeastern MA\u00a0 | Early Education Leaders, an Institute at UMass Boston (score=8)",
+          "#? Adopting the Essential Leadership Model: Early Learning Center at the YWCA of Northeastern MA\u00a0 | Early Education Leaders, an Institute at UMass Boston (score=8)",
+          "#? Instructional Leadership for Continuous Improvement in ECE | Early Education Leaders, an Institute at UMass Boston (score=8)",
+          "#? Instructional Leadership for Continuous Improvement in ECE | Early Education Leaders, an Institute at UMass Boston (score=8)",
+          "#? Congrats to the graduates of our Instructional Leadership for Continuous Improvement in Early Education\u00a0class | Early Education Leaders, an Institute at UMass Boston (score=8)"
+        ]
+      },
+      "best_variant": {
+        "metrics": {
+          "correct": 1,
+          "retrieval_hit": 1,
+          "score": 5,
+          "hint_match": 1,
+          "notes": "why_hard=Connects quality improvement, social-emotional learning, and organizational change through an abstract improvement model. | likely_failure_mode=May retrieve general leadership program pages mentioning improvement but miss the specific Breakthrough Series Collaborative mechanism."
+        },
+        "retrieval_status": "ok",
+        "top_results": [
+          "#1 Early Education Leaders Brand Guide for CS438.pdf (score=0.7897)",
+          "#2 Web Copy.docx (score=0.7299)",
+          "#3 Research & Policy (score=0.7299)",
+          "#4 Web Copy.docx (score=0.7276)",
+          "#5 Research & Policy (score=0.7276)",
+          "#6 Early Education Leaders Brand Guide for CS438.pdf (score=0.6977)",
+          "#7 Web Copy.docx (score=0.6492)",
+          "#8 Instructional Leadership for Continuous Improvement in ECE | Early Education Leaders, an Institute at UMass Boston (score=0.6463)",
+          "#9 Web Copy.docx (score=0.6116)",
+          "#10 Research & Policy (score=0.5877)",
+          "#11 Web Copy.docx (score=0.5537)",
+          "#12 Offerings (score=0.5537)",
+          "#13 Congrats to the graduates of our Instructional Leadership for Continuous Improvement in Early Education\u00a0class | Early Education Leaders, an Institute at UMass Boston (score=0.5513)",
+          "#14 Early Education Leaders Brand Guide for CS438.pdf (score=0.5508)",
+          "#15 Apply to become a facilitator for Instructional Leadership for Continuous Improvement in ECE\u00a0 | Early Education Leaders, an Institute at UMass Boston (score=0.5352)",
+          "#16 Instructional Leadership for Continuous Improvement in ECE | Early Education Leaders, an Institute at UMass Boston (score=0.5305)",
+          "#17 Early Education Leaders Brand Guide for CS438.pdf (score=0.526)",
+          "#18 Web Copy.docx (score=0.5179)",
+          "#19 Offerings (score=0.5179)",
+          "#20 Instructional Leadership for Continuous Improvement in ECE | Early Education Leaders, an Institute at UMass Boston (score=0.5178)"
+        ]
+      }
+    },
+    {
+      "question": "How does the institute connect research, policy, and practice?",
+      "phase1": {
+        "metrics": {
+          "correct": 1,
+          "retrieval_hit": 0,
+          "score": 4,
+          "hint_match": 1,
+          "notes": "why_hard=Requires synthesizing across multiple abstract statements about research, partnerships, and systems change. | likely_failure_mode=May return generic mission statements instead of explicit research-policy-practice linkage content."
+        },
+        "retrieval_status": "failed",
+        "top_results": [
+          "#? Applications now open for the Post Master\u2019s Certificate in Early Education Research, Policy & Practice | Early Education Leaders, an Institute at UMass Boston (score=25)",
+          "#? Leading, learning, and networking at the tenth annual Leadership Forum on Early Education, Research, Policy, and Practice\u00a0 | Early Education Leaders, an Institute at UMass Boston (score=24)",
+          "#? Leading, learning, and networking at the tenth annual Leadership Forum on Early Education, Research, Policy, and Practice\u00a0 | Early Education Leaders, an Institute at UMass Boston (score=22)",
+          "#? Ninth annual Leadership Forum on Early Education, Research, Policy, and Practice showcases inspiring and innovative Change Projects  \u00a0\ufffc | Early Education Leaders, an Institute at UMass Boston (score=22)",
+          "#? Photos from the 2021 Leadership Forum on Early Education Research, Policy, and Practice | Early Education Leaders, an Institute at UMass Boston (score=22)",
+          "#? Applications now open for the Post Master\u2019s Certificate in Early Education Research, Policy & Practice | Early Education Leaders, an Institute at UMass Boston (score=20)",
+          "#? Applications now open for the Post Master\u2019s Certificate in Early Education Research, Policy & Practice | Early Education Leaders, an Institute at UMass Boston (score=20)",
+          "#? Research & Policy (score=19)",
+          "#? Applications now open for the Post Master\u2019s Certificate in Early Education Research, Policy & Practice | Early Education Leaders, an Institute at UMass Boston (score=19)",
+          "#? Applications now open for the Post Master\u2019s Certificate in Early Education Research, Policy & Practice | Early Education Leaders, an Institute at UMass Boston (score=19)",
+          "#? Leading, learning, and networking at the tenth annual Leadership Forum on Early Education, Research, Policy, and Practice\u00a0 | Early Education Leaders, an Institute at UMass Boston (score=19)",
+          "#? Ninth annual Leadership Forum on Early Education, Research, Policy, and Practice showcases inspiring and innovative Change Projects  \u00a0\ufffc | Early Education Leaders, an Institute at UMass Boston (score=19)",
+          "#? Leading, learning, and networking at the tenth annual Leadership Forum on Early Education, Research, Policy, and Practice\u00a0 | Early Education Leaders, an Institute at UMass Boston (score=18)",
+          "#? Leading, learning, and networking at the tenth annual Leadership Forum on Early Education, Research, Policy, and Practice\u00a0 | Early Education Leaders, an Institute at UMass Boston (score=18)",
+          "#? Leading, learning, and networking at the tenth annual Leadership Forum on Early Education, Research, Policy, and Practice\u00a0 | Early Education Leaders, an Institute at UMass Boston (score=18)",
+          "#? Ninth annual Leadership Forum on Early Education, Research, Policy, and Practice showcases inspiring and innovative Change Projects  \u00a0\ufffc | Early Education Leaders, an Institute at UMass Boston (score=18)",
+          "#? Leading, learning, and networking at the tenth annual Leadership Forum on Early Education, Research, Policy, and Practice\u00a0 | Early Education Leaders, an Institute at UMass Boston (score=17)",
+          "#? Leading, learning, and networking at the tenth annual Leadership Forum on Early Education, Research, Policy, and Practice\u00a0 | Early Education Leaders, an Institute at UMass Boston (score=17)",
+          "#? Leading, learning, and networking at the tenth annual Leadership Forum on Early Education, Research, Policy, and Practice\u00a0 | Early Education Leaders, an Institute at UMass Boston (score=17)",
+          "#? Ninth annual Leadership Forum on Early Education, Research, Policy, and Practice showcases inspiring and innovative Change Projects  \u00a0\ufffc | Early Education Leaders, an Institute at UMass Boston (score=17)"
+        ]
+      },
+      "best_variant": {
+        "metrics": {
+          "correct": 1,
+          "retrieval_hit": 1,
+          "score": 5,
+          "hint_match": 1,
+          "notes": "why_hard=Requires synthesizing across multiple abstract statements about research, partnerships, and systems change. | likely_failure_mode=May return generic mission statements instead of explicit research-policy-practice linkage content."
+        },
+        "retrieval_status": "ok",
+        "top_results": [
+          "#1 Early Education Leaders Brand Guide for CS438.pdf (score=0.5716)",
+          "#2 UMass Boston-based researcher team to create program to estimate cost of providing quality early care and education for children in MA | Early Education Leaders, an Institute at UMass Boston (score=0.5678)",
+          "#3 UMass Boston Report Proposes Fix for \u2018Cliff Effect\u2019 in Financial Assistance for Child Care | Early Education Leaders, an Institute at UMass Boston (score=0.5466)",
+          "#4 Early Education Leaders Brand Guide for CS438.pdf (score=0.532)",
+          "#5 Early Education Leaders Brand Guide for CS438.pdf (score=0.5317)",
+          "#6 Impact (score=0.5226)",
+          "#7 Leadership Institute Testing Model To Improve Business Operations of Small Business Child Care Providers.docx (score=0.522)",
+          "#8 Professor Anne Douglass appointed Research Co-Director of the National Early Care and Education Workforce Center | Early Education Leaders, an Institute at UMass Boston (score=0.5179)",
+          "#9 UMass Boston-based researcher team to create program to estimate cost of providing quality early care and education for children in MA | Early Education Leaders, an Institute at UMass Boston (score=0.5128)",
+          "#10 Web Copy.docx (score=0.5118)",
+          "#11 Early Education Leaders Brand Guide for CS438.pdf (score=0.5089)",
+          "#12 Early Education Leaders Brand Guide for CS438.pdf (score=0.5056)",
+          "#13 Impact (score=0.5009)",
+          "#14 Web Copy.docx (score=0.5002)",
+          "#15 Looking Back: Early Education Leaders\u2019 Most Impactful Social Media Moments of 2025 | Early Education Leaders, an Institute at UMass Boston (score=0.5001)",
+          "#16 Early Education Leaders Brand Guide for CS438.pdf (score=0.5)",
+          "#17 WATCH: Reducing turnover and increasing retention | Early Education Leaders, an Institute at UMass Boston (score=0.4946)",
+          "#18 We\u2019re hiring! | Early Education Leaders, an Institute at UMass Boston (score=0.492)",
+          "#19 Early Education Leaders Institute (score=0.4913)",
+          "#20 Institute of Early Education Leadership and Innovation Announces New Director of Programs | Early Education Leaders, an Institute at UMass Boston (score=0.4831)"
+        ]
+      }
+    },
+    {
+      "question": "Do they mention opportunities focused on infants and toddlers?",
+      "phase1": {
+        "metrics": {
+          "correct": 0,
+          "retrieval_hit": 0,
+          "score": 1,
+          "hint_match": 1,
+          "notes": "why_hard=Narrow audience/program fit question where exact wording may only appear in a subsection. | likely_failure_mode=Phase 1 may rank pages that mention support or teaching broadly without the infant/toddler focus. | missing_ground_truth | missing_source_doc"
+        },
+        "retrieval_status": "failed",
+        "top_results": [
+          "#? Early Education Leaders, an Institute at UMass Boston | provides the leadership development opportunities and infrastructure that early educators need to support thriving children and families. (score=4)",
+          "#? Early Education Leaders, an Institute at UMass Boston | provides the leadership development opportunities and infrastructure that early educators need to support thriving children and families. (score=4)",
+          "#? Offerings (score=3)",
+          "#? Research Summary: Study finds that teachers\u2019 higher educational attainment correlates with higher wages | Early Education Leaders, an Institute at UMass Boston (score=3)",
+          "#? Alumni Connection | Early Education Leaders, an Institute at UMass Boston (score=3)",
+          "#? Early Education Leaders Brand Guide for CS438.pdf (score=2)",
+          "#? Early Education Leaders Brand Guide for CS438.pdf (score=2)",
+          "#? Web Copy.docx (score=2)",
+          "#? Web Copy.docx (score=2)",
+          "#? Web Copy.docx (score=2)",
+          "#? Pre-pandemic ECE workforce survey released.docx (score=2)",
+          "#? Leadership Institute Creates Early Childhood Support Organization .docx (score=2)",
+          "#? From Survivor to Leader.docx (score=2)",
+          "#? Emilee Johnson.docx (score=2)",
+          "#? Clarence Little .docx (score=2)",
+          "#? Offerings (score=2)",
+          "#? Offerings (score=2)",
+          "#? Offerings (score=2)",
+          "#? From Survivor to Leader: How One Educator Used Leadership Training to Transform Her Approach to Supporting Families | Early Education Leaders, an Institute at UMass Boston (score=2)",
+          "#? Building the Future of Early Education: Inside the Early Childhood Fellowship | Early Education Leaders, an Institute at UMass Boston (score=2)"
+        ]
+      },
+      "best_variant": {
+        "metrics": {
+          "correct": 0,
+          "retrieval_hit": 0,
+          "score": 1,
+          "hint_match": 1,
+          "notes": "why_hard=Narrow audience/program fit question where exact wording may only appear in a subsection. | likely_failure_mode=Phase 1 may rank pages that mention support or teaching broadly without the infant/toddler focus. | missing_ground_truth | missing_source_doc"
+        },
+        "retrieval_status": "ok",
+        "top_results": [
+          "#1 Ninth annual Leadership Forum on Early Education, Research, Policy, and Practice showcases inspiring and innovative Change Projects  \u00a0\ufffc | Early Education Leaders, an Institute at UMass Boston (score=0.5503)",
+          "#2 Media: Early investment in child care workforce may pay big dividends | Early Education Leaders, an Institute at UMass Boston (score=0.55)",
+          "#3 Looking Back: Early Education Leaders\u2019 Most Impactful Social Media Moments of 2025 | Early Education Leaders, an Institute at UMass Boston (score=0.5379)",
+          "#4 Web Copy.docx (score=0.534)",
+          "#5 Offerings (score=0.534)",
+          "#6 Media: Want better child care? Invest in entrepreneurial training for child care workers | Early Education Leaders, an Institute at UMass Boston (score=0.529)",
+          "#7 Media: Want better child care? Invest in entrepreneurial training for child care workers | Early Education Leaders, an Institute at UMass Boston (score=0.5287)",
+          "#8 Media: Early investment in child care workforce may pay big dividends | Early Education Leaders, an Institute at UMass Boston (score=0.5218)",
+          "#9 Family Child Care providers lead for change | Early Education Leaders, an Institute at UMass Boston (score=0.5178)",
+          "#10 Testimony in support of bill to provide affordable and accessible high quality early education and care | Early Education Leaders, an Institute at UMass Boston (score=0.5158)",
+          "#11 Media: Want better child care? Invest in entrepreneurial training for child care workers | Early Education Leaders, an Institute at UMass Boston (score=0.5126)",
+          "#12 Research & Policy (score=0.5101)",
+          "#13 Web Copy.docx (score=0.5074)",
+          "#14 Web Copy.docx (score=0.503)",
+          "#15 Impact (score=0.5018)",
+          "#16 Professor Anne Douglass appointed Research Co-Director of the National Early Care and Education Workforce Center | Early Education Leaders, an Institute at UMass Boston (score=0.4989)",
+          "#17 Early Education Leaders Institute (score=0.4971)",
+          "#18 Family Child Care providers lead for change | Early Education Leaders, an Institute at UMass Boston (score=0.4963)",
+          "#19 Representing Early Education Leaders at The Hunt Institute\u2019s Early Childhood Leadership Summit | Early Education Leaders, an Institute at UMass Boston (score=0.4953)",
+          "#20 Massachusetts Statewide Coaching Collaborative: A Day of Learning and Networking | Early Education Leaders, an Institute at UMass Boston (score=0.493)"
+        ]
+      }
+    },
+    {
+      "question": "How can someone learn more or contact the institute?",
+      "phase1": {
+        "metrics": {
+          "correct": 0,
+          "retrieval_hit": 0,
+          "score": 1,
+          "hint_match": 0,
+          "notes": "why_hard=Contact information is embedded in program-specific sections rather than centralized. | likely_failure_mode=May retrieve general overview pages without contact details. | hint_miss"
+        },
+        "retrieval_status": "failed",
+        "top_results": [
+          "#? Leadership Institute Testing Model To Improve Business Operations of Small Business Child Care Providers | Early Education Leaders, an Institute at UMass Boston (score=13)",
+          "#? Leadership Institute Creates Early Childhood Support Organization for State\u2019s ECE Programs with $3.75M Grant | Early Education Leaders, an Institute at UMass Boston (score=13)",
+          "#? Institute of Early Education Leadership and Innovation Announces New Director of Programs | Early Education Leaders, an Institute at UMass Boston (score=12)",
+          "#? Early Ed Leadership Institute Awarded $3.8M | Early Education Leaders, an Institute at UMass Boston (score=12)",
+          "#? Early Ed Leadership Institute to publish future editions of Early Care and Education Leadership Development Compendium | Early Education Leaders, an Institute at UMass Boston (score=12)",
+          "#? Leadership Institute hosts new commissioner for MA Dept. of Early Education and Care | Early Education Leaders, an Institute at UMass Boston (score=12)",
+          "#? Institute for Early Education Leadership and Innovation Awarded $2M to Develop Early Education Workforce in Boston | Early Education Leaders, an Institute at UMass Boston (score=11)",
+          "#? Institute of Early Education Leadership and Innovation Announces New Director of Programs | Early Education Leaders, an Institute at UMass Boston (score=11)",
+          "#? StrongStart Professional Development Centers Leadership Coaching Institute successfully launches | Early Education Leaders, an Institute at UMass Boston (score=11)",
+          "#? Leadership Institute Testing Model To Improve Business Operations of Small Business Child Care Providers | Early Education Leaders, an Institute at UMass Boston (score=11)",
+          "#? Leadership Institute Creates Early Childhood Support Organization for State\u2019s ECE Programs with $3.75M Grant | Early Education Leaders, an Institute at UMass Boston (score=11)",
+          "#? Representing Early Education Leaders at The Hunt Institute\u2019s Early Childhood Leadership Summit | Early Education Leaders, an Institute at UMass Boston (score=10)",
+          "#? Institute for Early Education Leadership and Innovation Awarded $2M to Develop Early Education Workforce in Boston | Early Education Leaders, an Institute at UMass Boston (score=10)",
+          "#? Using Mr. Potato Head to learn Plan-Do-Study-Act | Early Education Leaders, an Institute at UMass Boston (score=10)",
+          "#? Media: Report: Parents can save, work more with early care subsidies | Early Education Leaders, an Institute at UMass Boston (score=10)",
+          "#? Institute of Early Education Leadership and Innovation Announces New Director of Programs | Early Education Leaders, an Institute at UMass Boston (score=10)",
+          "#? Institute of Early Education Leadership and Innovation Announces New Director of Programs | Early Education Leaders, an Institute at UMass Boston (score=10)",
+          "#? StrongStart Professional Development Centers Leadership Coaching Institute successfully launches | Early Education Leaders, an Institute at UMass Boston (score=10)",
+          "#? StrongStart Professional Development Centers Leadership Coaching Institute successfully launches | Early Education Leaders, an Institute at UMass Boston (score=10)",
+          "#? Institute Receives Federal Grant to Study Early Education Workforce Turnover and Retention | Early Education Leaders, an Institute at UMass Boston (score=10)"
+        ]
+      },
+      "best_variant": {
+        "metrics": {
+          "correct": 0,
+          "retrieval_hit": 1,
+          "score": 3,
+          "hint_match": 1,
+          "notes": "why_hard=Contact information is embedded in program-specific sections rather than centralized. | likely_failure_mode=May retrieve general overview pages without contact details."
+        },
+        "retrieval_status": "ok",
+        "top_results": [
+          "#1 UMass Boston-based researcher team to create program to estimate cost of providing quality early care and education for children in MA | Early Education Leaders, an Institute at UMass Boston (score=0.4735)",
+          "#2 Advancing Early Care And Education via Scholarship (score=0.4716)",
+          "#3 Questions for CS438 teams (score=0.4635)",
+          "#4 Questions for CS438 teams (score=0.4622)",
+          "#5 Media Advisory: Research Brief on Affordable, Quality Child Care and Early Education Expansion in MA To Be Released Oct 11 | Early Education Leaders, an Institute at UMass Boston (score=0.4616)",
+          "#6 11th annual Leadership Forum back in person for first time in four years! | Early Education Leaders, an Institute at UMass Boston (score=0.4439)",
+          "#7 Web Copy.docx (score=0.4436)",
+          "#8 Research & Policy (score=0.4436)",
+          "#9 We\u2019re hiring! | Early Education Leaders, an Institute at UMass Boston (score=0.4412)",
+          "#10 Early Education Leaders Institute (score=0.4408)",
+          "#11 Impact (score=0.4323)",
+          "#12 We\u2019re hiring! | Early Education Leaders, an Institute at UMass Boston (score=0.4307)",
+          "#13 UMass Boston Announces New Cohort of Emerging Leaders in Early Childhood Education.docx (score=0.4266)",
+          "#14 Early Education Leaders Institute (score=0.4242)",
+          "#15 Early Education Leaders Brand Guide for CS438.pdf (score=0.4239)",
+          "#16 Building Political Power (score=0.4238)",
+          "#17 Early Education Leaders Institute (score=0.422)",
+          "#18 Early Education Leaders Brand Guide for CS438.pdf (score=0.4215)",
+          "#19 Early Education Leaders Brand Guide for CS438.pdf (score=0.4187)",
+          "#20 March | 2023 | Early Education Leaders, an Institute at UMass Boston (score=0.4175)"
+        ]
+      }
+    },
+    {
+      "question": "Does the institute say anything about campus parking permits?",
+      "phase1": {
+        "metrics": {
+          "correct": 0,
+          "retrieval_hit": 0,
+          "score": 1,
+          "hint_match": 0,
+          "notes": "why_hard=Out-of-scope question intended to verify weak-match handling rather than answer generation. | likely_failure_mode=Phase 1 may still return weak generic support pages because of partial lexical overlap. | hint_miss | missing_ground_truth | missing_source_doc"
+        },
+        "retrieval_status": "failed",
+        "top_results": [
+          "#? Leadership Institute Creates Early Childhood Support Organization for State\u2019s ECE Programs with $3.75M Grant | Early Education Leaders, an Institute at UMass Boston (score=13)",
+          "#? Institute of Early Education Leadership and Innovation Announces New Director of Programs | Early Education Leaders, an Institute at UMass Boston (score=12)",
+          "#? Institute of Early Education Leadership and Innovation Announces New Director of Programs | Early Education Leaders, an Institute at UMass Boston (score=12)",
+          "#? Early Ed Leadership Institute Awarded $3.8M | Early Education Leaders, an Institute at UMass Boston (score=12)",
+          "#? Early Ed Leadership Institute to publish future editions of Early Care and Education Leadership Development Compendium | Early Education Leaders, an Institute at UMass Boston (score=12)",
+          "#? Leadership Institute hosts new commissioner for MA Dept. of Early Education and Care | Early Education Leaders, an Institute at UMass Boston (score=12)",
+          "#? Institute for Early Education Leadership and Innovation Awarded $2M to Develop Early Education Workforce in Boston | Early Education Leaders, an Institute at UMass Boston (score=11)",
+          "#? StrongStart Professional Development Centers Leadership Coaching Institute successfully launches | Early Education Leaders, an Institute at UMass Boston (score=11)",
+          "#? Leadership Institute Testing Model To Improve Business Operations of Small Business Child Care Providers | Early Education Leaders, an Institute at UMass Boston (score=11)",
+          "#? Leadership Institute Testing Model To Improve Business Operations of Small Business Child Care Providers | Early Education Leaders, an Institute at UMass Boston (score=11)",
+          "#? Leadership Institute Creates Early Childhood Support Organization for State\u2019s ECE Programs with $3.75M Grant | Early Education Leaders, an Institute at UMass Boston (score=11)",
+          "#? Representing Early Education Leaders at The Hunt Institute\u2019s Early Childhood Leadership Summit | Early Education Leaders, an Institute at UMass Boston (score=10)",
+          "#? Institute of Early Education Leadership and Innovation Announces New Director of Programs | Early Education Leaders, an Institute at UMass Boston (score=10)",
+          "#? Institute of Early Education Leadership and Innovation Announces New Director of Programs | Early Education Leaders, an Institute at UMass Boston (score=10)",
+          "#? Institute of Early Education Leadership and Innovation Announces New Director of Programs | Early Education Leaders, an Institute at UMass Boston (score=10)",
+          "#? StrongStart Professional Development Centers Leadership Coaching Institute successfully launches | Early Education Leaders, an Institute at UMass Boston (score=10)",
+          "#? Institute Receives Federal Grant to Study Early Education Workforce Turnover and Retention | Early Education Leaders, an Institute at UMass Boston (score=10)",
+          "#? Early Ed Leadership Institute to publish future editions of Early Care and Education Leadership Development Compendium | Early Education Leaders, an Institute at UMass Boston (score=10)",
+          "#? Leadership Institute Creates Early Childhood Support Organization for State\u2019s ECE Programs with $3.75M Grant | Early Education Leaders, an Institute at UMass Boston (score=10)",
+          "#? Leadership Institute hosts new commissioner for MA Dept. of Early Education and Care | Early Education Leaders, an Institute at UMass Boston (score=10)"
+        ]
+      },
+      "best_variant": {
+        "metrics": {
+          "correct": 0,
+          "retrieval_hit": 0,
+          "score": 1,
+          "hint_match": 0,
+          "notes": "why_hard=Out-of-scope question intended to verify weak-match handling rather than answer generation. | likely_failure_mode=Phase 1 may still return weak generic support pages because of partial lexical overlap. | hint_miss | missing_ground_truth | missing_source_doc"
+        },
+        "retrieval_status": "ok",
+        "top_results": [
+          "#1 Offerings (score=0.3131)",
+          "#2 Web Copy.docx (score=0.3116)",
+          "#3 Apply to become a facilitator for Instructional Leadership for Continuous Improvement in ECE\u00a0 | Early Education Leaders, an Institute at UMass Boston (score=0.3102)",
+          "#4 Advancing Early Care And Education via Scholarship (score=0.2934)",
+          "#5 Institute for Early Education Leadership and Innovation Awarded $2M to Develop Early Education Workforce in Boston | Early Education Leaders, an Institute at UMass Boston (score=0.289)",
+          "#6 Our new Early Childhood Fellowship! | Early Education Leaders, an Institute at UMass Boston (score=0.2881)",
+          "#7 Web Copy.docx (score=0.2875)",
+          "#8 Offerings (score=0.2875)",
+          "#9 Institute for Early Education Leadership and Innovation Awarded $2M to Develop Early Education Workforce in Boston | Early Education Leaders, an Institute at UMass Boston (score=0.2855)",
+          "#10 Media Advisory: Research Brief on Affordable, Quality Child Care and Early Education Expansion in MA To Be Released Oct 11 | Early Education Leaders, an Institute at UMass Boston (score=0.2849)",
+          "#11 Apply to become a facilitator for Instructional Leadership for Continuous Improvement in ECE\u00a0 | Early Education Leaders, an Institute at UMass Boston (score=0.2827)",
+          "#12 Ami Patel and Julie Smith .docx (score=0.2818)",
+          "#13 Two PMC grads team up to provide resources to FCC providers | Early Education Leaders, an Institute at UMass Boston (score=0.2818)",
+          "#14 Institute for Early Education Leadership and Innovation Awarded $2M to Develop Early Education Workforce in Boston | Early Education Leaders, an Institute at UMass Boston (score=0.2803)",
+          "#15 Early Education Leaders Announces Incoming Class of Early Educator Leadership Fellows | Early Education Leaders, an Institute at UMass Boston (score=0.2773)",
+          "#16 Building the Future of Early Education: Inside the Early Childhood Fellowship | Early Education Leaders, an Institute at UMass Boston (score=0.2754)",
+          "#17 2021-2023 Early Education Leadership Fellows announced | Early Education Leaders, an Institute at UMass Boston (score=0.2746)",
+          "#18 We\u2019re hiring! | Early Education Leaders, an Institute at UMass Boston (score=0.2746)",
+          "#19 UMass Boston-based researcher team to create program to estimate cost of providing quality early care and education for children in MA | Early Education Leaders, an Institute at UMass Boston (score=0.2722)",
+          "#20 Early Education Leaders Institute (score=0.2719)"
+        ]
+      }
+    },
+    {
+      "question": "What does Early Education Leaders do?",
+      "phase1": {
+        "metrics": {
+          "correct": 0,
+          "retrieval_hit": 0,
+          "score": 1,
+          "hint_match": 1,
+          "notes": "why_hard=Broad organizational description question where relevant information may be spread across overview, mission, and program pages rather stated in one sentence. | likely_failure_mode=Phase 2 may return a rather narrow program description organizational role and could focus too much on one area such as leadership training."
+        },
+        "retrieval_status": "failed",
+        "top_results": [
+          "#? Early Education Leaders Announces Incoming Class of Early Educator Leadership Fellows | Early Education Leaders, an Institute at UMass Boston (score=73)",
+          "#? Powerful cross-institutional collaboration: Early Education Leaders and the Maryland Early Childhood Leadership Program | Early Education Leaders, an Institute at UMass Boston (score=71)",
+          "#? Early Education Leaders Submits Public Comment on Federal Loan Rule That Risks Shutting Out Aspiring Early Educators | Early Education Leaders, an Institute at UMass Boston (score=68)",
+          "#? Early Education Leaders Announces Incoming Class of Early Educator Leadership Fellows | Early Education Leaders, an Institute at UMass Boston (score=68)",
+          "#? Early Education Leaders Announces Incoming Class of Early Educator Leadership Fellows | Early Education Leaders, an Institute at UMass Boston (score=68)",
+          "#? Powerful cross-institutional collaboration: Early Education Leaders and the Maryland Early Childhood Leadership Program | Early Education Leaders, an Institute at UMass Boston (score=68)",
+          "#? Early Education Leaders Announces Incoming Class of Early Educator Leadership Fellows | Early Education Leaders, an Institute at UMass Boston (score=67)",
+          "#? Representing Early Education Leaders at The Hunt Institute\u2019s Early Childhood Leadership Summit | Early Education Leaders, an Institute at UMass Boston (score=66)",
+          "#? Institute for Early Education Leadership and Innovation Awarded $2M to Develop Early Education Workforce in Boston | Early Education Leaders, an Institute at UMass Boston (score=65)",
+          "#? Early Education Leaders Announces Incoming Class of Early Educator Leadership Fellows | Early Education Leaders, an Institute at UMass Boston (score=65)",
+          "#? Powerful cross-institutional collaboration: Early Education Leaders and the Maryland Early Childhood Leadership Program | Early Education Leaders, an Institute at UMass Boston (score=65)",
+          "#? Early Education Leaders Announces Incoming Class of Early Educator Leadership Fellows | Early Education Leaders, an Institute at UMass Boston (score=64)",
+          "#? Early Education Leaders Submits Public Comment on Federal Loan Rule That Risks Shutting Out Aspiring Early Educators | Early Education Leaders, an Institute at UMass Boston (score=63)",
+          "#? Powerful cross-institutional collaboration: Early Education Leaders and the Maryland Early Childhood Leadership Program | Early Education Leaders, an Institute at UMass Boston (score=63)",
+          "#? UMass Boston Announces New Cohort of Emerging Leaders in Early Childhood Education | Early Education Leaders, an Institute at UMass Boston (score=63)",
+          "#? Early Education Leaders | Early Education Leaders, an Institute at UMass Boston (score=62)",
+          "#? Institute for Early Education Leadership and Innovation Awarded $2M to Develop Early Education Workforce in Boston | Early Education Leaders, an Institute at UMass Boston (score=62)",
+          "#? Early Education Leaders Receives $250K from Stranahan Foundation | Early Education Leaders, an Institute at UMass Boston (score=62)",
+          "#? Institute for Early Education Leadership and Innovation Awarded $2M to Develop Early Education Workforce in Boston | Early Education Leaders, an Institute at UMass Boston (score=61)",
+          "#? Early Education Leaders Submits Public Comment on Federal Loan Rule That Risks Shutting Out Aspiring Early Educators | Early Education Leaders, an Institute at UMass Boston (score=61)"
+        ]
+      },
+      "best_variant": {
+        "metrics": {
+          "correct": 1,
+          "retrieval_hit": 0,
+          "score": 4,
+          "hint_match": 1,
+          "notes": "why_hard=Broad organizational description question where relevant information may be spread across overview, mission, and program pages rather stated in one sentence. | likely_failure_mode=Phase 2 may return a rather narrow program description organizational role and could focus too much on one area such as leadership training."
+        },
+        "retrieval_status": "ok",
+        "top_results": [
+          "#1 Early Education Leaders Brand Guide for CS438.pdf (score=0.7903)",
+          "#2 Early Education Leaders Brand Guide for CS438.pdf (score=0.7882)",
+          "#3 Early Education Leaders Brand Guide for CS438.pdf (score=0.7881)",
+          "#4 Early Education Leaders | Early Education Leaders, an Institute at UMass Boston (score=0.7767)",
+          "#5 Early Education Leaders Brand Guide for CS438.pdf (score=0.7723)",
+          "#6 Early Education Leaders Brand Guide for CS438.pdf (score=0.7691)",
+          "#7 Early Education Leaders Brand Guide for CS438.pdf (score=0.7647)",
+          "#8 Early Education Leaders Brand Guide for CS438.pdf (score=0.7619)",
+          "#9 Leadership Development Can Be Scaled Effectively .docx (score=0.7617)",
+          "#10 New Study Shows Leadership Development Can Be Scaled Effectively to Reach Early Educators\u00a0 | Early Education Leaders, an Institute at UMass Boston (score=0.7617)",
+          "#11 Early Education Leaders Brand Guide for CS438.pdf (score=0.7546)",
+          "#12 Early Education Leaders Brand Guide for CS438.pdf (score=0.7543)",
+          "#13 Early Education Leaders Brand Guide for CS438.pdf (score=0.7411)",
+          "#14 December | 2025 | Early Education Leaders, an Institute at UMass Boston (score=0.7344)",
+          "#15 Early Education Leaders Brand Guide for CS438.pdf (score=0.7291)",
+          "#16 Early Education Leaders Brand Guide for CS438.pdf (score=0.7263)",
+          "#17 Testimony in support of bill to provide affordable and accessible high quality early education and care | Early Education Leaders, an Institute at UMass Boston (score=0.7255)",
+          "#18 Early Education Leaders Brand Guide for CS438.pdf (score=0.725)",
+          "#19 Early Education Leaders Brand Guide for CS438.pdf (score=0.7236)",
+          "#20 Early Education Leaders Brand Guide for CS438.pdf (score=0.7212)"
+        ]
+      }
+    },
+    {
+      "question": "Who do we partner with?",
+      "phase1": {
+        "metrics": {
+          "correct": 1,
+          "retrieval_hit": 1,
+          "score": 5,
+          "hint_match": 1,
+          "notes": "why_hard=Partner information is distributed across impact, program, and sponser pages rather than collected in one clearly labeled section | likely_failure_mode=Phase 2 may retrieve pages that mention collaboration, but don't mention actual partner organizations."
+        },
+        "retrieval_status": "failed",
+        "top_results": [
+          "#? Early Education Leaders Brand Guide for CS438.pdf (score=13)",
+          "#? Questions for CS438 teams (score=13)",
+          "#? Leadership Institute Testing Model To Improve Business Operations of Small Business Child Care Providers.docx (score=13)",
+          "#? Leading for Change New York.docx (score=13)",
+          "#? Leading for Change New York.docx (score=13)",
+          "#? Marcia Gadson-Harris .docx (score=13)",
+          "#? Kelly Cavallini .docx (score=13)",
+          "#? Kelly Cavallini .docx (score=13)",
+          "#? Cultivating Leadership from the Inside Out: the Essential Leadership Model for Early Education | Early Education Leaders, an Institute at UMass Boston (score=13)",
+          "#? Improving Teacher Quality Early Learning Toolkit (score=13)",
+          "#? Professor Anne Douglass appointed Research Co-Director of the National Early Care and Education Workforce Center | Early Education Leaders, an Institute at UMass Boston (score=13)",
+          "#? Leading for Change Now Offered to Family Child Care Educators\u00a0 in New York | Early Education Leaders, an Institute at UMass Boston (score=13)",
+          "#? Leading for Change Now Offered to Family Child Care Educators\u00a0 in New York | Early Education Leaders, an Institute at UMass Boston (score=13)",
+          "#? Harnessing creativity | Early Education Leaders, an Institute at UMass Boston (score=13)",
+          "#? Harnessing creativity | Early Education Leaders, an Institute at UMass Boston (score=13)",
+          "#? Building an anti-stress toolkit for families | Early Education Leaders, an Institute at UMass Boston (score=13)",
+          "#? UMass Boston-based researcher team to create program to estimate cost of providing quality early care and education for children in MA | Early Education Leaders, an Institute at UMass Boston (score=13)",
+          "#? Leadership Institute Testing Model To Improve Business Operations of Small Business Child Care Providers | Early Education Leaders, an Institute at UMass Boston (score=13)",
+          "#? From Massachusetts to Maryland | Early Education Leaders, an Institute at UMass Boston (score=13)",
+          "#? Early Education Leaders Brand Guide for CS438.pdf (score=12)"
+        ]
+      },
+      "best_variant": {
+        "metrics": {
+          "correct": 1,
+          "retrieval_hit": 1,
+          "score": 5,
+          "hint_match": 1,
+          "notes": "why_hard=Partner information is distributed across impact, program, and sponser pages rather than collected in one clearly labeled section | likely_failure_mode=Phase 2 may retrieve pages that mention collaboration, but don't mention actual partner organizations."
+        },
+        "retrieval_status": "ok",
+        "top_results": [
+          "#1 Early Education Leaders Brand Guide for CS438.pdf (score=0.4731)",
+          "#2 Early Education Leaders Brand Guide for CS438.pdf (score=0.4456)",
+          "#3 Early Education Leaders Institute (score=0.4449)",
+          "#4 Early Education Leaders Brand Guide for CS438.pdf (score=0.4397)",
+          "#5 U.S. Department of Health & Human Services to Create National ECE Workforce Center | Early Education Leaders, an Institute at UMass Boston (score=0.4282)",
+          "#6 Join our team! | Early Education Leaders, an Institute at UMass Boston (score=0.4269)",
+          "#7 Adriana Batista-Guerra .docx (score=0.4231)",
+          "#8 Leading by Example: Adriana Batista-Guerra Empowers Early Educators | Early Education Leaders, an Institute at UMass Boston (score=0.4231)",
+          "#9 Early Education Leaders Institute (score=0.4168)",
+          "#10 Join our team! | Early Education Leaders, an Institute at UMass Boston (score=0.4152)",
+          "#11 Early Education Leaders Brand Guide for CS438.pdf (score=0.4141)",
+          "#12 Massachusetts Statewide Coaching Collaborative: A Day of Learning and Networking | Early Education Leaders, an Institute at UMass Boston (score=0.413)",
+          "#13 Early Education Leaders Institute (score=0.4103)",
+          "#14 Early Education Leaders Brand Guide for CS438.pdf (score=0.4032)",
+          "#15 Early Education Leaders Brand Guide for CS438.pdf (score=0.4009)",
+          "#16 Web Copy.docx (score=0.4008)",
+          "#17 Offerings (score=0.4008)",
+          "#18 Early Education Leaders Brand Guide for CS438.pdf (score=0.3974)",
+          "#19 Early Education Leaders Brand Guide for CS438.pdf (score=0.3966)",
+          "#20 Keira Durrett .docx (score=0.3933)"
+        ]
+      }
+    },
+    {
+      "question": "What kinds of leadership programs are offered by the Leadership Institute?",
+      "phase1": {
+        "metrics": {
+          "correct": 0,
+          "retrieval_hit": 0,
+          "score": 1,
+          "hint_match": 1,
+          "notes": "why_hard=Requires synthesizing multiple program components (coaching, training, peer learning, organizational improvement) rather than extracting a single named program. | likely_failure_mode=Phase 2 may retreive only one of the program offering than listing all of them, or key offers."
+        },
+        "retrieval_status": "failed",
+        "top_results": [
+          "#? Early Ed Leadership Institute to publish future editions of Early Care and Education Leadership Development Compendium | Early Education Leaders, an Institute at UMass Boston (score=44)",
+          "#? Early Ed Leadership Institute to publish future editions of Early Care and Education Leadership Development Compendium | Early Education Leaders, an Institute at UMass Boston (score=37)",
+          "#? Institute of Early Education Leadership and Innovation Announces New Director of Programs | Early Education Leaders, an Institute at UMass Boston (score=36)",
+          "#? Institute of Early Education Leadership and Innovation Announces New Director of Programs | Early Education Leaders, an Institute at UMass Boston (score=35)",
+          "#? Early Ed Leadership Institute to publish future editions of Early Care and Education Leadership Development Compendium | Early Education Leaders, an Institute at UMass Boston (score=35)",
+          "#? Leadership Institute Creates Early Childhood Support Organization for State\u2019s ECE Programs with $3.75M Grant | Early Education Leaders, an Institute at UMass Boston (score=35)",
+          "#? Early Ed Leadership Institute to publish future editions of Early Care and Education Leadership Development Compendium | Early Education Leaders, an Institute at UMass Boston (score=34)",
+          "#? Institute of Early Education Leadership and Innovation Announces New Director of Programs | Early Education Leaders, an Institute at UMass Boston (score=32)",
+          "#? Early Ed Leadership Institute to publish future editions of Early Care and Education Leadership Development Compendium | Early Education Leaders, an Institute at UMass Boston (score=32)",
+          "#? Leadership Institute Creates Early Childhood Support Organization for State\u2019s ECE Programs with $3.75M Grant | Early Education Leaders, an Institute at UMass Boston (score=32)",
+          "#? Cultivating Leadership from the Inside Out: the Essential Leadership Model for Early Education | Early Education Leaders, an Institute at UMass Boston (score=31)",
+          "#? Early Ed Leadership Institute to publish future editions of Early Care and Education Leadership Development Compendium | Early Education Leaders, an Institute at UMass Boston (score=31)",
+          "#? A Day of Leadership and Learning: MECLP\u2019s Annual Early Educator Leadership Forum | Early Education Leaders, an Institute at UMass Boston (score=30)",
+          "#? Leading, learning, and networking at the tenth annual Leadership Forum on Early Education, Research, Policy, and Practice\u00a0 | Early Education Leaders, an Institute at UMass Boston (score=30)",
+          "#? Leadership Institute Creates Early Childhood Support Organization for State\u2019s ECE Programs with $3.75M Grant | Early Education Leaders, an Institute at UMass Boston (score=30)",
+          "#? Early Ed Leadership Institute Awarded $3.8M | Early Education Leaders, an Institute at UMass Boston (score=29)",
+          "#? Leadership Institute Creates Early Childhood Support Organization for State\u2019s ECE Programs with $3.75M Grant | Early Education Leaders, an Institute at UMass Boston (score=29)",
+          "#? Leadership Forum Draws Record Participation, Spurs Conversations About Early Care and Education | Early Education Leaders, an Institute at UMass Boston (score=29)",
+          "#? 11th annual Leadership Forum back in person for first time in four years! | Early Education Leaders, an Institute at UMass Boston (score=28)",
+          "#? Meet our Director of Leadership Programs | Early Education Leaders, an Institute at UMass Boston (score=28)"
+        ]
+      },
+      "best_variant": {
+        "metrics": {
+          "correct": 1,
+          "retrieval_hit": 0,
+          "score": 4,
+          "hint_match": 1,
+          "notes": "why_hard=Requires synthesizing multiple program components (coaching, training, peer learning, organizational improvement) rather than extracting a single named program. | likely_failure_mode=Phase 2 may retreive only one of the program offering than listing all of them, or key offers."
+        },
+        "retrieval_status": "ok",
+        "top_results": [
+          "#1 We\u2019re hiring! | Early Education Leaders, an Institute at UMass Boston (score=0.6569)",
+          "#2 Early Education Leaders Institute (score=0.6404)",
+          "#3 Early Education Leaders Institute (score=0.6382)",
+          "#4 Offerings (score=0.6253)",
+          "#5 Marcia Gadson-Harris .docx (score=0.6125)",
+          "#6 Kelly Cavallini .docx (score=0.6125)",
+          "#7 Testimony in support of bill to provide affordable and accessible high quality early education and care | Early Education Leaders, an Institute at UMass Boston (score=0.6108)",
+          "#8 Harnessing creativity | Early Education Leaders, an Institute at UMass Boston (score=0.6105)",
+          "#9 Building an anti-stress toolkit for families | Early Education Leaders, an Institute at UMass Boston (score=0.6105)",
+          "#10 Questions for CS438 teams (score=0.6064)",
+          "#11 Early Education Leaders Institute (score=0.605)",
+          "#12 Early Education Leaders Institute (score=0.6038)",
+          "#13 Questions for CS438 teams (score=0.6022)",
+          "#14 Early Education Leaders Brand Guide for CS438.pdf (score=0.5955)",
+          "#15 Leadership Forum 2021 | Early Education Leaders, an Institute at UMass Boston (score=0.5936)",
+          "#16 Offerings (score=0.5935)",
+          "#17 Web Copy.docx (score=0.5935)",
+          "#18 Alicia Jno-Baptiste.docx (score=0.5926)",
+          "#19 What ECE Advocacy Looks Like | Early Education Leaders, an Institute at UMass Boston (score=0.5893)",
+          "#20 What ECE Advocacy Looks like.docx (score=0.5887)"
+        ]
+      }
+    },
+    {
+      "question": "What kind of research does Early Education Leaders do?",
+      "phase1": {
+        "metrics": {
+          "correct": 1,
+          "retrieval_hit": 0,
+          "score": 4,
+          "hint_match": 1,
+          "notes": "why_hard=Research may be described using contiguous terms such as evaluation, analyzation, studying, or policy rather than using the exact word 'Research'. | likely_failure_mode=Phase 2 may return general program pages that end up failing to identify focused on studies, findings, or evaluations."
+        },
+        "retrieval_status": "failed",
+        "top_results": [
+          "#? Early Education Leaders Announces Incoming Class of Early Educator Leadership Fellows | Early Education Leaders, an Institute at UMass Boston (score=47)",
+          "#? Powerful cross-institutional collaboration: Early Education Leaders and the Maryland Early Childhood Leadership Program | Early Education Leaders, an Institute at UMass Boston (score=45)",
+          "#? Early Education Leaders Announces Incoming Class of Early Educator Leadership Fellows | Early Education Leaders, an Institute at UMass Boston (score=42)",
+          "#? Early Education Leaders Submits Public Comment on Federal Loan Rule That Risks Shutting Out Aspiring Early Educators | Early Education Leaders, an Institute at UMass Boston (score=41)",
+          "#? Early Education Leaders Announces Incoming Class of Early Educator Leadership Fellows | Early Education Leaders, an Institute at UMass Boston (score=41)",
+          "#? Early Education Leaders Announces Incoming Class of Early Educator Leadership Fellows | Early Education Leaders, an Institute at UMass Boston (score=41)",
+          "#? Powerful cross-institutional collaboration: Early Education Leaders and the Maryland Early Childhood Leadership Program | Early Education Leaders, an Institute at UMass Boston (score=41)",
+          "#? Representing Early Education Leaders at The Hunt Institute\u2019s Early Childhood Leadership Summit | Early Education Leaders, an Institute at UMass Boston (score=39)",
+          "#? Institute for Early Education Leadership and Innovation Awarded $2M to Develop Early Education Workforce in Boston | Early Education Leaders, an Institute at UMass Boston (score=38)",
+          "#? Early Education Leaders Submits Public Comment on Federal Loan Rule That Risks Shutting Out Aspiring Early Educators | Early Education Leaders, an Institute at UMass Boston (score=38)",
+          "#? Early Education Leaders Announces Incoming Class of Early Educator Leadership Fellows | Early Education Leaders, an Institute at UMass Boston (score=38)",
+          "#? Early Education Leaders Announces Incoming Class of Early Educator Leadership Fellows | Early Education Leaders, an Institute at UMass Boston (score=38)",
+          "#? Powerful cross-institutional collaboration: Early Education Leaders and the Maryland Early Childhood Leadership Program | Early Education Leaders, an Institute at UMass Boston (score=38)",
+          "#? Institute for Early Education Leadership and Innovation Awarded $2M to Develop Early Education Workforce in Boston | Early Education Leaders, an Institute at UMass Boston (score=37)",
+          "#? Powerful cross-institutional collaboration: Early Education Leaders and the Maryland Early Childhood Leadership Program | Early Education Leaders, an Institute at UMass Boston (score=37)",
+          "#? UMass Boston Announces New Cohort of Emerging Leaders in Early Childhood Education | Early Education Leaders, an Institute at UMass Boston (score=37)",
+          "#? Institute for Early Education Leadership and Innovation Awarded $2M to Develop Early Education Workforce in Boston | Early Education Leaders, an Institute at UMass Boston (score=36)",
+          "#? Early Education Leaders Submits Public Comment on Federal Loan Rule That Risks Shutting Out Aspiring Early Educators | Early Education Leaders, an Institute at UMass Boston (score=36)",
+          "#? A Promising Pathway: Early Insights from the Early Childhood Fellowship | Early Education Leaders, an Institute at UMass Boston (score=36)",
+          "#? Media Advisory: Research Brief on Affordable, Quality Child Care and Early Education Expansion in MA To Be Released Oct 11 | Early Education Leaders, an Institute at UMass Boston (score=36)"
+        ]
+      },
+      "best_variant": {
+        "metrics": {
+          "correct": 1,
+          "retrieval_hit": 1,
+          "score": 5,
+          "hint_match": 1,
+          "notes": "why_hard=Research may be described using contiguous terms such as evaluation, analyzation, studying, or policy rather than using the exact word 'Research'. | likely_failure_mode=Phase 2 may return general program pages that end up failing to identify focused on studies, findings, or evaluations."
+        },
+        "retrieval_status": "ok",
+        "top_results": [
+          "#1 Early Education Leaders Brand Guide for CS438.pdf (score=0.7782)",
+          "#2 Early Education Leaders Brand Guide for CS438.pdf (score=0.7691)",
+          "#3 Leadership Development Can Be Scaled Effectively .docx (score=0.7663)",
+          "#4 New Study Shows Leadership Development Can Be Scaled Effectively to Reach Early Educators\u00a0 | Early Education Leaders, an Institute at UMass Boston (score=0.7663)",
+          "#5 Early Education Leaders Brand Guide for CS438.pdf (score=0.7617)",
+          "#6 Early Education Leaders Brand Guide for CS438.pdf (score=0.7605)",
+          "#7 Early Education Leaders Brand Guide for CS438.pdf (score=0.7459)",
+          "#8 Research & Policy (score=0.7433)",
+          "#9 Leadership Development Can Be Scaled Effectively .docx (score=0.735)",
+          "#10 New Study Shows Leadership Development Can Be Scaled Effectively to Reach Early Educators\u00a0 | Early Education Leaders, an Institute at UMass Boston (score=0.735)",
+          "#11 Testimony in support of bill to provide affordable and accessible high quality early education and care | Early Education Leaders, an Institute at UMass Boston (score=0.7338)",
+          "#12 Early Education Leaders Institute (score=0.7306)",
+          "#13 Web Copy.docx (score=0.7215)",
+          "#14 Early Education Leaders Brand Guide for CS438.pdf (score=0.7165)",
+          "#15 Early Education Leaders Brand Guide for CS438.pdf (score=0.7155)",
+          "#16 Early Education Leaders Brand Guide for CS438.pdf (score=0.7147)",
+          "#17 Early Education Leaders | Early Education Leaders, an Institute at UMass Boston (score=0.714)",
+          "#18 Early Education Leaders Brand Guide for CS438.pdf (score=0.7087)",
+          "#19 Research & Policy (score=0.7076)",
+          "#20 Web Copy.docx (score=0.7076)"
+        ]
+      }
+    },
+    {
+      "question": "What impact do our programs have?",
+      "phase1": {
+        "metrics": {
+          "correct": 0,
+          "retrieval_hit": 1,
+          "score": 3,
+          "hint_match": 1,
+          "notes": "why_hard=Impact can be too broad and repeated in many reports or program pages, making it harder to isolate direct evidence of the impact programs have. | likely_failure_mode=Phase 2 may retrieve promotional language or mission statements instead of pages with definite outcomes or evidence of impact."
+        },
+        "retrieval_status": "failed",
+        "top_results": [
+          "#? Impact (score=8)",
+          "#? Meet our Director of Leadership Programs | Early Education Leaders, an Institute at UMass Boston (score=8)",
+          "#? Questions for CS438 teams (score=7)",
+          "#? FY2024 Impact Report | Early Education Leaders, an Institute at UMass Boston (score=7)",
+          "#? Call for Submissions: 5th Edition of the ECE Leadership Development Compendium | Early Education Leaders, an Institute at UMass Boston (score=7)",
+          "#? Media: Massachusetts early education programs are in peril | Early Education Leaders, an Institute at UMass Boston (score=7)",
+          "#? Questions for CS438 teams (score=6)",
+          "#? Entrepreneurial Leadership Training Catalyzes Change Initiatives in Early Ed Programs.docx (score=6)",
+          "#? Impact (score=6)",
+          "#? FY2024 Impact Report | Early Education Leaders, an Institute at UMass Boston (score=6)",
+          "#? Media: In Healey\u2019s child-care push, advocates have made their voices heard | Early Education Leaders, an Institute at UMass Boston (score=6)",
+          "#? Institute of Early Education Leadership and Innovation Announces New Director of Programs | Early Education Leaders, an Institute at UMass Boston (score=6)",
+          "#? Institute of Early Education Leadership and Innovation Announces New Director of Programs | Early Education Leaders, an Institute at UMass Boston (score=6)",
+          "#? Institute of Early Education Leadership and Innovation Announces New Director of Programs | Early Education Leaders, an Institute at UMass Boston (score=6)",
+          "#? FY22 Impact Report | Early Education Leaders, an Institute at UMass Boston (score=6)",
+          "#? Research Summary: Entrepreneurial Leadership Training Catalyzes Change Initiatives in Early Ed Programs | Early Education Leaders, an Institute at UMass Boston (score=6)",
+          "#? Meet our Director of Leadership Programs | Early Education Leaders, an Institute at UMass Boston (score=6)",
+          "#? Leadership Institute Creates Early Childhood Support Organization for State\u2019s ECE Programs with $3.75M Grant | Early Education Leaders, an Institute at UMass Boston (score=6)",
+          "#? Leadership Institute Creates Early Childhood Support Organization for State\u2019s ECE Programs with $3.75M Grant | Early Education Leaders, an Institute at UMass Boston (score=6)",
+          "#? Media: Why your child\u2019s preschool teacher should have a college degree | Early Education Leaders, an Institute at UMass Boston (score=6)"
+        ]
+      },
+      "best_variant": {
+        "metrics": {
+          "correct": 0,
+          "retrieval_hit": 1,
+          "score": 3,
+          "hint_match": 1,
+          "notes": "why_hard=Impact can be too broad and repeated in many reports or program pages, making it harder to isolate direct evidence of the impact programs have. | likely_failure_mode=Phase 2 may retrieve promotional language or mission statements instead of pages with definite outcomes or evidence of impact."
+        },
+        "retrieval_status": "ok",
+        "top_results": [
+          "#1 Early Education Leaders Brand Guide for CS438.pdf (score=0.5123)",
+          "#2 Early Education Leaders Brand Guide for CS438.pdf (score=0.5096)",
+          "#3 Early Education Leaders Brand Guide for CS438.pdf (score=0.5062)",
+          "#4 Impact (score=0.5032)",
+          "#5 Early Education Leaders Brand Guide for CS438.pdf (score=0.4921)",
+          "#6 Early Education Leaders Brand Guide for CS438.pdf (score=0.4873)",
+          "#7 April 2025 Newsletter | Early Education Leaders, an Institute at UMass Boston (score=0.4853)",
+          "#8 Ninth annual Leadership Forum on Early Education, Research, Policy, and Practice showcases inspiring and innovative Change Projects  \u00a0\ufffc | Early Education Leaders, an Institute at UMass Boston (score=0.4805)",
+          "#9 FY2024 Impact Report | Early Education Leaders, an Institute at UMass Boston (score=0.4768)",
+          "#10 Questions for CS438 teams (score=0.4757)",
+          "#11 Early Education Leaders Brand Guide for CS438.pdf (score=0.4731)",
+          "#12 Early Education Leaders Brand Guide for CS438.pdf (score=0.4728)",
+          "#13 Stranahan Foundation.docx (score=0.4694)",
+          "#14 Early Education Leaders Receives $250K from Stranahan Foundation | Early Education Leaders, an Institute at UMass Boston (score=0.4694)",
+          "#15 Early Education Leaders Brand Guide for CS438.pdf (score=0.4676)",
+          "#16 Sarah Martinez.docx (score=0.4643)",
+          "#17 From Lifeguard to Leader: How the Essential Leadership Model Influenced One Director\u2019s Approach to Early Education | Early Education Leaders, an Institute at UMass Boston (score=0.4643)",
+          "#18 Early Education Leaders Brand Guide for CS438.pdf (score=0.4621)",
+          "#19 Meet a StrongStart PDC Training Specialist: Jody Figuerido, Ph.D. | Early Education Leaders, an Institute at UMass Boston (score=0.4616)",
+          "#20 Ninth annual Leadership Forum on Early Education, Research, Policy, and Practice showcases inspiring and innovative Change Projects  \u00a0\ufffc | Early Education Leaders, an Institute at UMass Boston (score=0.4605)"
+        ]
+      }
+    },
+    {
+      "question": "What do our leaders/graduates/fellows do?",
+      "phase1": {
+        "metrics": {
+          "correct": 0,
+          "retrieval_hit": 0,
+          "score": 1,
+          "hint_match": 1,
+          "notes": "why_hard=The question is broad and can match alumni stories, fellowship outcomes, and general program pages rather than the clearest role breakdown. | likely_failure_mode=Phase 2 may retrieve inspiring individual profiles or policy posts instead of the source that gives the most direct distribution of fellow roles."
+        },
+        "retrieval_status": "failed",
+        "top_results": [
+          "#? Early Education Leaders Announces Incoming Class of Early Educator Leadership Fellows | Early Education Leaders, an Institute at UMass Boston (score=18)",
+          "#? Early Education Leaders Announces Incoming Class of Early Educator Leadership Fellows | Early Education Leaders, an Institute at UMass Boston (score=17)",
+          "#? Early Education Leaders Announces Incoming Class of Early Educator Leadership Fellows | Early Education Leaders, an Institute at UMass Boston (score=16)",
+          "#? Early Education Leaders Announces Incoming Class of Early Educator Leadership Fellows | Early Education Leaders, an Institute at UMass Boston (score=15)",
+          "#? Early Education Leaders Announces Incoming Class of Early Educator Leadership Fellows | Early Education Leaders, an Institute at UMass Boston (score=15)",
+          "#? Early Education Leaders Announces Incoming Class of Early Educator Leadership Fellows | Early Education Leaders, an Institute at UMass Boston (score=15)",
+          "#? Early Education Leaders Announces Incoming Class of Early Educator Leadership Fellows | Early Education Leaders, an Institute at UMass Boston (score=15)",
+          "#? Leadership Fellows announced | Early Education Leaders, an Institute at UMass Boston (score=13)",
+          "#? Early Education Leaders Announces Incoming Class of Early Educator Leadership Fellows | Early Education Leaders, an Institute at UMass Boston (score=12)",
+          "#? 15 Fellows Selected for Early Childhood Fellowship | Early Education Leaders, an Institute at UMass Boston (score=12)",
+          "#? Early Education Leaders | Early Education Leaders, an Institute at UMass Boston (score=11)",
+          "#? Early Education Leaders Submits Public Comment on Federal Loan Rule That Risks Shutting Out Aspiring Early Educators | Early Education Leaders, an Institute at UMass Boston (score=11)",
+          "#? From Leader to Coaching Leaders: A Journey of Personal and Professional Transformation | Early Education Leaders, an Institute at UMass Boston (score=11)",
+          "#? From Leader to Coaching Leaders: A Journey of Personal and Professional Transformation | Early Education Leaders, an Institute at UMass Boston (score=11)",
+          "#? Early Education Leaders Receives $250K from Stranahan Foundation | Early Education Leaders, an Institute at UMass Boston (score=11)",
+          "#? Early Education Leaders Receives $250K from Stranahan Foundation | Early Education Leaders, an Institute at UMass Boston (score=11)",
+          "#? Fifth cohort of Leading for Change Fellows in Maryland is announced | Early Education Leaders, an Institute at UMass Boston (score=11)",
+          "#? UMass Boston Announces New Cohort of Early Education Leadership Fellows | Early Education Leaders, an Institute at UMass Boston (score=11)",
+          "#? UMass Boston Announces New Cohort of Early Education Leadership Fellows | Early Education Leaders, an Institute at UMass Boston (score=11)",
+          "#? UMass Boston Announces New Cohort of Early Education Leadership Fellows | Early Education Leaders, an Institute at UMass Boston (score=11)"
+        ]
+      },
+      "best_variant": {
+        "metrics": {
+          "correct": 1,
+          "retrieval_hit": 1,
+          "score": 4,
+          "hint_match": 1,
+          "notes": "why_hard=The question is broad and can match alumni stories, fellowship outcomes, and general program pages rather than the clearest role breakdown. | likely_failure_mode=Phase 2 may retrieve inspiring individual profiles or policy posts instead of the source that gives the most direct distribution of fellow roles."
+        },
+        "retrieval_status": "ok",
+        "top_results": [
+          "#1 Early Education Leaders Brand Guide for CS438.pdf (score=0.5507)",
+          "#2 Questions for CS438 teams (score=0.5478)",
+          "#3 Early Education Leaders Announces Incoming Class of Early Educator Leadership Fellows | Early Education Leaders, an Institute at UMass Boston (score=0.5451)",
+          "#4 Early Education Leaders Brand Guide for CS438.pdf (score=0.5416)",
+          "#5 UMass Boston Announces New Cohort of Emerging Leaders in Early Childhood Education.docx (score=0.5329)",
+          "#6 Offerings (score=0.5296)",
+          "#7 Early Education Leaders Brand Guide for CS438.pdf (score=0.5292)",
+          "#8 Offerings (score=0.5284)",
+          "#9 Web Copy.docx (score=0.5283)",
+          "#10 Web Copy.docx (score=0.5271)",
+          "#11 Early Insights from the Early Childhood Fellowship.docx (score=0.5235)",
+          "#12 A Promising Pathway: Early Insights from the Early Childhood Fellowship | Early Education Leaders, an Institute at UMass Boston (score=0.5235)",
+          "#13 Building the Future of Early Education: Inside the Early Childhood Fellowship | Early Education Leaders, an Institute at UMass Boston (score=0.5189)",
+          "#14 Web Copy.docx (score=0.5165)",
+          "#15 Offerings (score=0.5165)",
+          "#16 Offerings (score=0.5164)",
+          "#17 Web Copy.docx (score=0.5163)",
+          "#18 Questions for CS438 teams (score=0.5142)",
+          "#19 Early Education Leaders Brand Guide for CS438.pdf (score=0.511)",
+          "#20 Register Now for the 13th Annual Early Educator Leadership Forum | Early Education Leaders, an Institute at UMass Boston (score=0.5076)"
+        ]
+      }
+    },
+    {
+      "question": "What are the key types of positive relationships that support early educators in earning their bachelor's degree?",
+      "phase1": {
+        "metrics": {
+          "correct": 1,
+          "retrieval_hit": 1,
+          "score": 5,
+          "hint_match": 1,
+          "notes": "why_hard=Requires synthesizing multiple qualitative themes from narrative descriptions into a structured categorical answer. | likely_failure_mode=Retrieval may capture only one relationship type (e.g., mentoring) instead of all four categories, leading to incomplete answers."
+        },
+        "retrieval_status": "failed",
+        "top_results": [
+          "#? Research Summary: Positive Relationships Key to Early Educator Success in Earning Bachelor\u2019s Degree | Early Education Leaders, an Institute at UMass Boston (score=49)",
+          "#? Positive Relationships Key to Early Educator Success in Earning Bachelor\u2019s Degree.docx (score=45)",
+          "#? Research Summary: Positive Relationships Key to Early Educator Success in Earning Bachelor\u2019s Degree | Early Education Leaders, an Institute at UMass Boston (score=41)",
+          "#? Research Summary: Positive Relationships Key to Early Educator Success in Earning Bachelor\u2019s Degree | Early Education Leaders, an Institute at UMass Boston (score=39)",
+          "#? Research Summary: Positive Relationships Key to Early Educator Success in Earning Bachelor\u2019s Degree | Early Education Leaders, an Institute at UMass Boston (score=38)",
+          "#? Positive Relationships Key to Early Educator Success in Earning Bachelor\u2019s Degree.docx (score=37)",
+          "#? Positive Relationships Key to Early Educator Success in Earning Bachelor\u2019s Degree.docx (score=35)",
+          "#? Research Summary: Positive Relationships Key to Early Educator Success in Earning Bachelor\u2019s Degree | Early Education Leaders, an Institute at UMass Boston (score=35)",
+          "#? Research Summary: Positive Relationships Key to Early Educator Success in Earning Bachelor\u2019s Degree | Early Education Leaders, an Institute at UMass Boston (score=35)",
+          "#? Positive Relationships Key to Early Educator Success in Earning Bachelor\u2019s Degree.docx (score=34)",
+          "#? Research Summary: Positive Relationships Key to Early Educator Success in Earning Bachelor\u2019s Degree | Early Education Leaders, an Institute at UMass Boston (score=34)",
+          "#? Research Summary: Positive Relationships Key to Early Educator Success in Earning Bachelor\u2019s Degree | Early Education Leaders, an Institute at UMass Boston (score=34)",
+          "#? Research Summary: Positive Relationships Key to Early Educator Success in Earning Bachelor\u2019s Degree | Early Education Leaders, an Institute at UMass Boston (score=34)",
+          "#? Research Summary: Positive Relationships Key to Early Educator Success in Earning Bachelor\u2019s Degree | Early Education Leaders, an Institute at UMass Boston (score=34)",
+          "#? Research Summary: Positive Relationships Key to Early Educator Success in Earning Bachelor\u2019s Degree | Early Education Leaders, an Institute at UMass Boston (score=33)",
+          "#? Research Summary: Positive Relationships Key to Early Educator Success in Earning Bachelor\u2019s Degree | Early Education Leaders, an Institute at UMass Boston (score=32)",
+          "#? Positive Relationships Key to Early Educator Success in Earning Bachelor\u2019s Degree.docx (score=31)",
+          "#? Positive Relationships Key to Early Educator Success in Earning Bachelor\u2019s Degree.docx (score=31)",
+          "#? Positive Relationships Key to Early Educator Success in Earning Bachelor\u2019s Degree.docx (score=30)",
+          "#? Positive Relationships Key to Early Educator Success in Earning Bachelor\u2019s Degree.docx (score=30)"
+        ]
+      },
+      "best_variant": {
+        "metrics": {
+          "correct": 1,
+          "retrieval_hit": 1,
+          "score": 5,
+          "hint_match": 1,
+          "notes": "why_hard=Requires synthesizing multiple qualitative themes from narrative descriptions into a structured categorical answer. | likely_failure_mode=Retrieval may capture only one relationship type (e.g., mentoring) instead of all four categories, leading to incomplete answers."
+        },
+        "retrieval_status": "ok",
+        "top_results": [
+          "#1 Positive Relationships Key to Early Educator Success in Earning Bachelor\u2019s Degree.docx (score=0.7982)",
+          "#2 January | 2020 | Early Education Leaders, an Institute at UMass Boston (score=0.7506)",
+          "#3 Positive Relationships Key to Early Educator Success in Earning Bachelor\u2019s Degree.docx (score=0.7498)",
+          "#4 Positive Relationships Key to Early Educator Success in Earning Bachelor\u2019s Degree.docx (score=0.695)",
+          "#5 Positive Relationships Key to Early Educator Success in Earning Bachelor\u2019s Degree.docx (score=0.6907)",
+          "#6 Positive Relationships Key to Early Educator Success in Earning Bachelor\u2019s Degree.docx (score=0.6586)",
+          "#7 Positive Relationships Key to Early Educator Success in Earning Bachelor\u2019s Degree.docx (score=0.6584)",
+          "#8 Research & Policy (score=0.6482)",
+          "#9 Positive Relationships Key to Early Educator Success in Earning Bachelor\u2019s Degree.docx (score=0.6309)",
+          "#10 Positive Relationships Key to Early Educator Success in Earning Bachelor\u2019s Degree.docx (score=0.6278)",
+          "#11 Web Copy.docx (score=0.6232)",
+          "#12 Offerings (score=0.6232)",
+          "#13 Early Insights from the Early Childhood Fellowship.docx (score=0.6062)",
+          "#14 Early Education Leaders Brand Guide for CS438.pdf (score=0.6055)",
+          "#15 Positive Relationships Key to Early Educator Success in Earning Bachelor\u2019s Degree.docx (score=0.6054)",
+          "#16 Positive Relationships Key to Early Educator Success in Earning Bachelor\u2019s Degree.docx (score=0.6036)",
+          "#17 Positive Relationships Key to Early Educator Success in Earning Bachelor\u2019s Degree.docx (score=0.6017)",
+          "#18 A Promising Pathway: Early Insights from the Early Childhood Fellowship | Early Education Leaders, an Institute at UMass Boston (score=0.5989)",
+          "#19 Positive Relationships Key to Early Educator Success in Earning Bachelor\u2019s Degree.docx (score=0.595)",
+          "#20 Positive Relationships Key to Early Educator Success in Earning Bachelor\u2019s Degree.docx (score=0.5892)"
+        ]
+      }
+    },
+    {
+      "question": "What are the main focus areas of the institute\u2019s work?",
+      "phase1": {
+        "metrics": {
+          "correct": 1,
+          "retrieval_hit": 0,
+          "score": 4,
+          "hint_match": 1,
+          "notes": "why_hard=Requires synthesizing across multiple programs into unified themes. | likely_failure_mode=May retrieve single program pages instead of aggregated institute-wide focus."
+        },
+        "retrieval_status": "failed",
+        "top_results": [
+          "#? Leadership Institute Creates Early Childhood Support Organization for State\u2019s ECE Programs with $3.75M Grant | Early Education Leaders, an Institute at UMass Boston (score=13)",
+          "#? Institute of Early Education Leadership and Innovation Announces New Director of Programs | Early Education Leaders, an Institute at UMass Boston (score=12)",
+          "#? StrongStart Professional Development Centers Leadership Coaching Institute successfully launches | Early Education Leaders, an Institute at UMass Boston (score=12)",
+          "#? Early Ed Leadership Institute Awarded $3.8M | Early Education Leaders, an Institute at UMass Boston (score=12)",
+          "#? Early Ed Leadership Institute to publish future editions of Early Care and Education Leadership Development Compendium | Early Education Leaders, an Institute at UMass Boston (score=12)",
+          "#? Leadership Institute hosts new commissioner for MA Dept. of Early Education and Care | Early Education Leaders, an Institute at UMass Boston (score=12)",
+          "#? Institute for Early Education Leadership and Innovation Awarded $2M to Develop Early Education Workforce in Boston | Early Education Leaders, an Institute at UMass Boston (score=11)",
+          "#? Institute for Early Education Leadership and Innovation Awarded $2M to Develop Early Education Workforce in Boston | Early Education Leaders, an Institute at UMass Boston (score=11)",
+          "#? Institute of Early Education Leadership and Innovation Announces New Director of Programs | Early Education Leaders, an Institute at UMass Boston (score=11)",
+          "#? Early Ed Leadership Institute Awarded $3.8M | Early Education Leaders, an Institute at UMass Boston (score=11)",
+          "#? Early Ed Leadership Institute Statement on Derek Chauvin Trial | Early Education Leaders, an Institute at UMass Boston (score=11)",
+          "#? Leadership Institute Testing Model To Improve Business Operations of Small Business Child Care Providers | Early Education Leaders, an Institute at UMass Boston (score=11)",
+          "#? Leadership Institute Testing Model To Improve Business Operations of Small Business Child Care Providers | Early Education Leaders, an Institute at UMass Boston (score=11)",
+          "#? Leadership Institute Testing Model To Improve Business Operations of Small Business Child Care Providers | Early Education Leaders, an Institute at UMass Boston (score=11)",
+          "#? Leadership Institute Testing Model To Improve Business Operations of Small Business Child Care Providers | Early Education Leaders, an Institute at UMass Boston (score=11)",
+          "#? Leadership Institute Creates Early Childhood Support Organization for State\u2019s ECE Programs with $3.75M Grant | Early Education Leaders, an Institute at UMass Boston (score=11)",
+          "#? Leadership Institute hosts new commissioner for MA Dept. of Early Education and Care | Early Education Leaders, an Institute at UMass Boston (score=11)",
+          "#? Representing Early Education Leaders at The Hunt Institute\u2019s Early Childhood Leadership Summit | Early Education Leaders, an Institute at UMass Boston (score=10)",
+          "#? Institute for Early Education Leadership and Innovation Awarded $2M to Develop Early Education Workforce in Boston | Early Education Leaders, an Institute at UMass Boston (score=10)",
+          "#? Institute for Early Education Leadership and Innovation Awarded $2M to Develop Early Education Workforce in Boston | Early Education Leaders, an Institute at UMass Boston (score=10)"
+        ]
+      },
+      "best_variant": {
+        "metrics": {
+          "correct": 1,
+          "retrieval_hit": 1,
+          "score": 5,
+          "hint_match": 1,
+          "notes": "why_hard=Requires synthesizing across multiple programs into unified themes. | likely_failure_mode=May retrieve single program pages instead of aggregated institute-wide focus."
+        },
+        "retrieval_status": "ok",
+        "top_results": [
+          "#1 Web Copy.docx (score=0.4472)",
+          "#2 Professor Anne Douglass appointed Research Co-Director of the National Early Care and Education Workforce Center | Early Education Leaders, an Institute at UMass Boston (score=0.4404)",
+          "#3 Questions for CS438 teams (score=0.4208)",
+          "#4 UMass Boston Report Proposes Fix for \u2018Cliff Effect\u2019 in Financial Assistance for Child Care | Early Education Leaders, an Institute at UMass Boston (score=0.4176)",
+          "#5 Professor Anne Douglass appointed Research Co-Director of the National Early Care and Education Workforce Center | Early Education Leaders, an Institute at UMass Boston (score=0.4117)",
+          "#6 UMass Boston-based researcher team to create program to estimate cost of providing quality early care and education for children in MA | Early Education Leaders, an Institute at UMass Boston (score=0.4046)",
+          "#7 Early Education Leaders Institute (score=0.4038)",
+          "#8 Early Education Leaders Brand Guide for CS438.pdf (score=0.3965)",
+          "#9 UMass Boston Report Proposes Fix for \u2018Cliff Effect\u2019 in Financial Assistance for Child Care | Early Education Leaders, an Institute at UMass Boston (score=0.3935)",
+          "#10 WATCH: Reducing turnover and increasing retention | Early Education Leaders, an Institute at UMass Boston (score=0.3922)",
+          "#11 Institute of Early Education Leadership and Innovation Announces New Director of Programs | Early Education Leaders, an Institute at UMass Boston (score=0.3921)",
+          "#12 Leadership Institute Testing Model To Improve Business Operations of Small Business Child Care Providers.docx (score=0.3911)",
+          "#13 UMass Boston-based researcher team to create program to estimate cost of providing quality early care and education for children in MA | Early Education Leaders, an Institute at UMass Boston (score=0.3904)",
+          "#14 Web Copy.docx (score=0.3901)",
+          "#15 Professor Anne Douglass appointed Research Co-Director of the National Early Care and Education Workforce Center | Early Education Leaders, an Institute at UMass Boston (score=0.3858)",
+          "#16 Testimony in support of bill to provide affordable and accessible high quality early education and care | Early Education Leaders, an Institute at UMass Boston (score=0.3846)",
+          "#17 U.S. Department of Health & Human Services to Create National ECE Workforce Center | Early Education Leaders, an Institute at UMass Boston (score=0.3826)",
+          "#18 What ECE leadership looks like | Early Education Leaders, an Institute at UMass Boston (score=0.3812)",
+          "#19 Institute of Early Education Leadership and Innovation Announces New Director of Programs | Early Education Leaders, an Institute at UMass Boston (score=0.3791)",
+          "#20 Emilee Johnson.docx (score=0.3779)"
+        ]
+      }
+    },
+    {
+      "question": "What is the Leadership Forum?",
+      "phase1": {
+        "metrics": {
+          "correct": 1,
+          "retrieval_hit": 1,
+          "score": 4,
+          "hint_match": 1,
+          "notes": "why_hard=Several forum-related pages exist, and some focus on a specific year, speaker, or cancellation notice instead of defining what the forum is. | likely_failure_mode=Phase 2 may rank adjacent event announcements higher than the source that best explains the forum's purpose and structure."
+        },
+        "retrieval_status": "failed",
+        "top_results": [
+          "#? 11th annual Leadership Forum back in person for first time in four years! | Early Education Leaders, an Institute at UMass Boston (score=47)",
+          "#? A Day of Leadership and Learning: MECLP\u2019s Annual Early Educator Leadership Forum | Early Education Leaders, an Institute at UMass Boston (score=46)",
+          "#? Leading, learning, and networking at the tenth annual Leadership Forum on Early Education, Research, Policy, and Practice\u00a0 | Early Education Leaders, an Institute at UMass Boston (score=44)",
+          "#? At Leadership Forum, ECE practitioners get a call to action | Early Education Leaders, an Institute at UMass Boston (score=44)",
+          "#? Leadership Forum Draws Record Participation, Spurs Conversations About Early Care and Education | Early Education Leaders, an Institute at UMass Boston (score=44)",
+          "#? Register Now for the 13th Annual Early Educator Leadership Forum | Early Education Leaders, an Institute at UMass Boston (score=43)",
+          "#? MECLP Annual Early Educator Leadership Forum.docx (score=42)",
+          "#? Leadership Forum 2021 | Early Education Leaders, an Institute at UMass Boston (score=42)",
+          "#? Leadership Forum My Best Self.docx (score=41)",
+          "#? Leadership Forum 2024.docx (score=41)",
+          "#? Save the Date for the 2026 Leadership Forum | Early Education Leaders, an Institute at UMass Boston (score=41)",
+          "#? An inspiring day at the 11th annual Leadership Forum | Early Education Leaders, an Institute at UMass Boston (score=41)",
+          "#? Leadership Forum: My Best Self | Early Education Leaders, an Institute at UMass Boston (score=41)",
+          "#? 2025 Early Educator Leadership Forum.docx (score=40)",
+          "#? 2025 Early Educator Leadership Forum.docx (score=40)",
+          "#? Register Now for the 13th Annual Early Educator Leadership Forum | Early Education Leaders, an Institute at UMass Boston (score=40)",
+          "#? 2025 Early Educator Leadership Forum: A Day of Power, Purpose, and Possibility | Early Education Leaders, an Institute at UMass Boston (score=40)",
+          "#? 2025 Early Educator Leadership Forum: A Day of Power, Purpose, and Possibility | Early Education Leaders, an Institute at UMass Boston (score=40)",
+          "#? Ninth annual Leadership Forum on Early Education, Research, Policy, and Practice showcases inspiring and innovative Change Projects  \u00a0\ufffc | Early Education Leaders, an Institute at UMass Boston (score=40)",
+          "#? Ninth annual Leadership Forum on Early Education, Research, Policy, and Practice showcases inspiring and innovative Change Projects  \u00a0\ufffc | Early Education Leaders, an Institute at UMass Boston (score=40)"
+        ]
+      },
+      "best_variant": {
+        "metrics": {
+          "correct": 1,
+          "retrieval_hit": 0,
+          "score": 3,
+          "hint_match": 1,
+          "notes": "why_hard=Several forum-related pages exist, and some focus on a specific year, speaker, or cancellation notice instead of defining what the forum is. | likely_failure_mode=Phase 2 may rank adjacent event announcements higher than the source that best explains the forum's purpose and structure."
+        },
+        "retrieval_status": "ok",
+        "top_results": [
+          "#1 11th annual Leadership Forum back in person for first time in four years! | Early Education Leaders, an Institute at UMass Boston (score=0.7926)",
+          "#2 Register Now for the 13th Annual Early Educator Leadership Forum | Early Education Leaders, an Institute at UMass Boston (score=0.7671)",
+          "#3 Early Education Leaders Brand Guide for CS438.pdf (score=0.7423)",
+          "#4 Early Education Leaders Brand Guide for CS438.pdf (score=0.7414)",
+          "#5 Early Education Leaders Brand Guide for CS438.pdf (score=0.7413)",
+          "#6 Early Education Leaders Brand Guide for CS438.pdf (score=0.7413)",
+          "#7 Leadership Forum 2021 | Early Education Leaders, an Institute at UMass Boston (score=0.7386)",
+          "#8 Leading, learning, and networking at the tenth annual Leadership Forum on Early Education, Research, Policy, and Practice\u00a0 | Early Education Leaders, an Institute at UMass Boston (score=0.7369)",
+          "#9 Early Education Leaders Brand Guide for CS438.pdf (score=0.7297)",
+          "#10 Early Education Leaders Brand Guide for CS438.pdf (score=0.7227)",
+          "#11 Early Education Leaders Brand Guide for CS438.pdf (score=0.7213)",
+          "#12 Questions for CS438 teams (score=0.7063)",
+          "#13 Early Education Leaders Brand Guide for CS438.pdf (score=0.7027)",
+          "#14 Early Education Leaders Brand Guide for CS438.pdf (score=0.7014)",
+          "#15 Early Education Leaders Brand Guide for CS438.pdf (score=0.6941)",
+          "#16 Register Now for the 13th Annual Early Educator Leadership Forum | Early Education Leaders, an Institute at UMass Boston (score=0.6939)",
+          "#17 Early Education Leaders Brand Guide for CS438.pdf (score=0.6883)",
+          "#18 Early Education Leaders Brand Guide for CS438.pdf (score=0.6845)",
+          "#19 Early Education Leaders Brand Guide for CS438.pdf (score=0.6823)",
+          "#20 June | 2021 | Early Education Leaders, an Institute at UMass Boston (score=0.6791)"
+        ]
+      }
+    },
+    {
+      "question": "Why is the Leadership Forum so special?",
+      "phase1": {
+        "metrics": {
+          "correct": 0,
+          "retrieval_hit": 0,
+          "score": 1,
+          "hint_match": 1,
+          "notes": "why_hard=Requires interpreting value/importance rather than factual definition. | likely_failure_mode=May retrieve event logistics instead of significance/impact framing."
+        },
+        "retrieval_status": "failed",
+        "top_results": [
+          "#? Questions for CS438 teams (score=23)",
+          "#? 11th annual Leadership Forum back in person for first time in four years! | Early Education Leaders, an Institute at UMass Boston (score=20)",
+          "#? A Day of Leadership and Learning: MECLP\u2019s Annual Early Educator Leadership Forum | Early Education Leaders, an Institute at UMass Boston (score=19)",
+          "#? Leading, learning, and networking at the tenth annual Leadership Forum on Early Education, Research, Policy, and Practice\u00a0 | Early Education Leaders, an Institute at UMass Boston (score=17)",
+          "#? At Leadership Forum, ECE practitioners get a call to action | Early Education Leaders, an Institute at UMass Boston (score=17)",
+          "#? Leadership Forum Draws Record Participation, Spurs Conversations About Early Care and Education | Early Education Leaders, an Institute at UMass Boston (score=17)",
+          "#? Register Now for the 13th Annual Early Educator Leadership Forum | Early Education Leaders, an Institute at UMass Boston (score=16)",
+          "#? A Day of Leadership and Learning: MECLP\u2019s Annual Early Educator Leadership Forum | Early Education Leaders, an Institute at UMass Boston (score=16)",
+          "#? Leadership Forum 2021 | Early Education Leaders, an Institute at UMass Boston (score=16)",
+          "#? Early Ed Leadership Institute to publish future editions of Early Care and Education Leadership Development Compendium | Early Education Leaders, an Institute at UMass Boston (score=16)",
+          "#? Leadership Forum 2024.docx (score=15)",
+          "#? MECLP Annual Early Educator Leadership Forum.docx (score=15)",
+          "#? An inspiring day at the 11th annual Leadership Forum | Early Education Leaders, an Institute at UMass Boston (score=15)",
+          "#? Ninth annual Leadership Forum on Early Education, Research, Policy, and Practice showcases inspiring and innovative Change Projects  \u00a0\ufffc | Early Education Leaders, an Institute at UMass Boston (score=15)",
+          "#? Early Education Leaders Brand Guide for CS438.pdf (score=14)",
+          "#? Leadership Forum My Best Self.docx (score=14)",
+          "#? A Day of Leadership and Learning: MECLP\u2019s Annual Early Educator Leadership Forum | Early Education Leaders, an Institute at UMass Boston (score=14)",
+          "#? Save the Date for the 2026 Leadership Forum | Early Education Leaders, an Institute at UMass Boston (score=14)",
+          "#? Leadership Forum: My Best Self | Early Education Leaders, an Institute at UMass Boston (score=14)",
+          "#? 2025 Early Educator Leadership Forum.docx (score=13)"
+        ]
+      },
+      "best_variant": {
+        "metrics": {
+          "correct": 1,
+          "retrieval_hit": 0,
+          "score": 4,
+          "hint_match": 1,
+          "notes": "why_hard=Requires interpreting value/importance rather than factual definition. | likely_failure_mode=May retrieve event logistics instead of significance/impact framing."
+        },
+        "retrieval_status": "ok",
+        "top_results": [
+          "#1 Questions for CS438 teams (score=0.7453)",
+          "#2 Early Education Leaders Brand Guide for CS438.pdf (score=0.7229)",
+          "#3 11th annual Leadership Forum back in person for first time in four years! | Early Education Leaders, an Institute at UMass Boston (score=0.7149)",
+          "#4 Register Now for the 13th Annual Early Educator Leadership Forum | Early Education Leaders, an Institute at UMass Boston (score=0.7039)",
+          "#5 Early Education Leaders Brand Guide for CS438.pdf (score=0.7005)",
+          "#6 Early Education Leaders Brand Guide for CS438.pdf (score=0.6974)",
+          "#7 Early Education Leaders Brand Guide for CS438.pdf (score=0.6847)",
+          "#8 Early Education Leaders Brand Guide for CS438.pdf (score=0.6806)",
+          "#9 Early Education Leaders Brand Guide for CS438.pdf (score=0.6787)",
+          "#10 Early Education Leaders Brand Guide for CS438.pdf (score=0.6778)",
+          "#11 Early Education Leaders Brand Guide for CS438.pdf (score=0.6778)",
+          "#12 Leading, learning, and networking at the tenth annual Leadership Forum on Early Education, Research, Policy, and Practice\u00a0 | Early Education Leaders, an Institute at UMass Boston (score=0.6718)",
+          "#13 Early Education Leaders Brand Guide for CS438.pdf (score=0.6691)",
+          "#14 Early Education Leaders Brand Guide for CS438.pdf (score=0.6641)",
+          "#15 Leadership Forum 2021 | Early Education Leaders, an Institute at UMass Boston (score=0.6593)",
+          "#16 Early Education Leaders Brand Guide for CS438.pdf (score=0.6558)",
+          "#17 Register Now for the 13th Annual Early Educator Leadership Forum | Early Education Leaders, an Institute at UMass Boston (score=0.6549)",
+          "#18 Early Education Leaders Brand Guide for CS438.pdf (score=0.6542)",
+          "#19 Early Education Leaders Brand Guide for CS438.pdf (score=0.6421)",
+          "#20 Questions for CS438 teams (score=0.6419)"
+        ]
+      }
+    },
+    {
+      "question": "Who should attend the Leadership Forum?",
+      "phase1": {
+        "metrics": {
+          "correct": 1,
+          "retrieval_hit": 0,
+          "score": 4,
+          "hint_match": 1,
+          "notes": "why_hard=Audience is implied rather than explicitly listed. | likely_failure_mode=May miss implied stakeholder groups and only return partial audience description."
+        },
+        "retrieval_status": "failed",
+        "top_results": [
+          "#? 11th annual Leadership Forum back in person for first time in four years! | Early Education Leaders, an Institute at UMass Boston (score=20)",
+          "#? A Day of Leadership and Learning: MECLP\u2019s Annual Early Educator Leadership Forum | Early Education Leaders, an Institute at UMass Boston (score=19)",
+          "#? Leading, learning, and networking at the tenth annual Leadership Forum on Early Education, Research, Policy, and Practice\u00a0 | Early Education Leaders, an Institute at UMass Boston (score=17)",
+          "#? At Leadership Forum, ECE practitioners get a call to action | Early Education Leaders, an Institute at UMass Boston (score=17)",
+          "#? Leadership Forum Draws Record Participation, Spurs Conversations About Early Care and Education | Early Education Leaders, an Institute at UMass Boston (score=17)",
+          "#? Register Now for the 13th Annual Early Educator Leadership Forum | Early Education Leaders, an Institute at UMass Boston (score=16)",
+          "#? Early Ed Leadership Institute to publish future editions of Early Care and Education Leadership Development Compendium | Early Education Leaders, an Institute at UMass Boston (score=16)",
+          "#? MECLP Annual Early Educator Leadership Forum.docx (score=15)",
+          "#? A Day of Leadership and Learning: MECLP\u2019s Annual Early Educator Leadership Forum | Early Education Leaders, an Institute at UMass Boston (score=15)",
+          "#? Leadership Forum 2021 | Early Education Leaders, an Institute at UMass Boston (score=15)",
+          "#? Early Education Leaders Brand Guide for CS438.pdf (score=14)",
+          "#? Leadership Forum My Best Self.docx (score=14)",
+          "#? Leadership Forum 2024.docx (score=14)",
+          "#? A Day of Leadership and Learning: MECLP\u2019s Annual Early Educator Leadership Forum | Early Education Leaders, an Institute at UMass Boston (score=14)",
+          "#? Save the Date for the 2026 Leadership Forum | Early Education Leaders, an Institute at UMass Boston (score=14)",
+          "#? An inspiring day at the 11th annual Leadership Forum | Early Education Leaders, an Institute at UMass Boston (score=14)",
+          "#? Leadership Forum: My Best Self | Early Education Leaders, an Institute at UMass Boston (score=14)",
+          "#? 2025 Early Educator Leadership Forum.docx (score=13)",
+          "#? 2025 Early Educator Leadership Forum.docx (score=13)",
+          "#? Register Now for the 13th Annual Early Educator Leadership Forum | Early Education Leaders, an Institute at UMass Boston (score=13)"
+        ]
+      },
+      "best_variant": {
+        "metrics": {
+          "correct": 1,
+          "retrieval_hit": 0,
+          "score": 4,
+          "hint_match": 1,
+          "notes": "why_hard=Audience is implied rather than explicitly listed. | likely_failure_mode=May miss implied stakeholder groups and only return partial audience description."
+        },
+        "retrieval_status": "ok",
+        "top_results": [
+          "#1 Early Education Leaders Brand Guide for CS438.pdf (score=0.6958)",
+          "#2 Early Education Leaders Brand Guide for CS438.pdf (score=0.6894)",
+          "#3 Early Education Leaders Brand Guide for CS438.pdf (score=0.6889)",
+          "#4 Register Now for the 13th Annual Early Educator Leadership Forum | Early Education Leaders, an Institute at UMass Boston (score=0.6851)",
+          "#5 Questions for CS438 teams (score=0.6804)",
+          "#6 11th annual Leadership Forum back in person for first time in four years! | Early Education Leaders, an Institute at UMass Boston (score=0.6783)",
+          "#7 Leadership Forum 2024.docx (score=0.664)",
+          "#8 An inspiring day at the 11th annual Leadership Forum | Early Education Leaders, an Institute at UMass Boston (score=0.664)",
+          "#9 Early Education Leaders Brand Guide for CS438.pdf (score=0.6621)",
+          "#10 Early Education Leaders Brand Guide for CS438.pdf (score=0.6616)",
+          "#11 Register Now for the 13th Annual Early Educator Leadership Forum | Early Education Leaders, an Institute at UMass Boston (score=0.6511)",
+          "#12 Early Education Leaders Brand Guide for CS438.pdf (score=0.6504)",
+          "#13 Register Now for the 13th Annual Early Educator Leadership Forum | Early Education Leaders, an Institute at UMass Boston (score=0.6492)",
+          "#14 Leadership Forum 2021 | Early Education Leaders, an Institute at UMass Boston (score=0.6485)",
+          "#15 Early Education Leaders Brand Guide for CS438.pdf (score=0.6451)",
+          "#16 Leading, learning, and networking at the tenth annual Leadership Forum on Early Education, Research, Policy, and Practice\u00a0 | Early Education Leaders, an Institute at UMass Boston (score=0.6441)",
+          "#17 Early Education Leaders Brand Guide for CS438.pdf (score=0.6421)",
+          "#18 Early Education Leaders Brand Guide for CS438.pdf (score=0.6411)",
+          "#19 Leadership Forum: My Best Self | Early Education Leaders, an Institute at UMass Boston (score=0.6361)",
+          "#20 Early Education Leaders Brand Guide for CS438.pdf (score=0.6352)"
+        ]
+      }
+    },
+    {
+      "question": "What do our leadership development program graduates/alumni say about developing and strengthening their leadership?",
+      "phase1": {
+        "metrics": {
+          "correct": 0,
+          "retrieval_hit": 0,
+          "score": 1,
+          "hint_match": 0,
+          "notes": "why_hard=The question asks for testimonial-style evidence, which is often embedded in alumni stories instead of overview pages. | likely_failure_mode=Phase 2 may surface leadership program descriptions without the strongest first-person evidence about how alumni describe their own growth. | hint_miss"
+        },
+        "retrieval_status": "failed",
+        "top_results": [
+          "#? Early Ed Leadership Institute to publish future editions of Early Care and Education Leadership Development Compendium | Early Education Leaders, an Institute at UMass Boston (score=39)",
+          "#? Early Ed Leadership Institute to publish future editions of Early Care and Education Leadership Development Compendium | Early Education Leaders, an Institute at UMass Boston (score=33)",
+          "#? Early Ed Leadership Institute to publish future editions of Early Care and Education Leadership Development Compendium | Early Education Leaders, an Institute at UMass Boston (score=33)",
+          "#? Early Ed Leadership Institute to publish future editions of Early Care and Education Leadership Development Compendium | Early Education Leaders, an Institute at UMass Boston (score=33)",
+          "#? Early Ed Leadership Institute to publish future editions of Early Care and Education Leadership Development Compendium | Early Education Leaders, an Institute at UMass Boston (score=31)",
+          "#? Call for Submissions: 5th Edition of the ECE Leadership Development Compendium | Early Education Leaders, an Institute at UMass Boston (score=28)",
+          "#? Early Ed Leadership Institute to publish future editions of Early Care and Education Leadership Development Compendium | Early Education Leaders, an Institute at UMass Boston (score=28)",
+          "#? A Day of Leadership and Learning: MECLP\u2019s Annual Early Educator Leadership Forum | Early Education Leaders, an Institute at UMass Boston (score=27)",
+          "#? Cultivating Leadership from the Inside Out: the Essential Leadership Model for Early Education | Early Education Leaders, an Institute at UMass Boston (score=27)",
+          "#? Leadership Development Can Be Scaled Effectively .docx (score=26)",
+          "#? New Study Shows Leadership Development Can Be Scaled Effectively to Reach Early Educators\u00a0 | Early Education Leaders, an Institute at UMass Boston (score=26)",
+          "#? Apply to become a facilitator for Instructional Leadership for Continuous Improvement in ECE\u00a0 | Early Education Leaders, an Institute at UMass Boston (score=25)",
+          "#? Leadership Development Can Be Scaled Effectively .docx (score=24)",
+          "#? New Study Shows Leadership Development Can Be Scaled Effectively to Reach Early Educators\u00a0 | Early Education Leaders, an Institute at UMass Boston (score=24)",
+          "#? Call for Submissions: 5th Edition of the ECE Leadership Development Compendium | Early Education Leaders, an Institute at UMass Boston (score=24)",
+          "#? Leading, learning, and networking at the tenth annual Leadership Forum on Early Education, Research, Policy, and Practice\u00a0 | Early Education Leaders, an Institute at UMass Boston (score=23)",
+          "#? Research Summary: Pathways to Leadership for Early Educators | Early Education Leaders, an Institute at UMass Boston (score=23)",
+          "#? Leadership Forum Draws Record Participation, Spurs Conversations About Early Care and Education | Early Education Leaders, an Institute at UMass Boston (score=23)",
+          "#? A Day of Leadership and Learning: MECLP\u2019s Annual Early Educator Leadership Forum | Early Education Leaders, an Institute at UMass Boston (score=22)",
+          "#? Institute for Early Education Leadership and Innovation Awarded $2M to Develop Early Education Workforce in Boston | Early Education Leaders, an Institute at UMass Boston (score=22)"
+        ]
+      },
+      "best_variant": {
+        "metrics": {
+          "correct": 0,
+          "retrieval_hit": 0,
+          "score": 1,
+          "hint_match": 0,
+          "notes": "why_hard=The question asks for testimonial-style evidence, which is often embedded in alumni stories instead of overview pages. | likely_failure_mode=Phase 2 may surface leadership program descriptions without the strongest first-person evidence about how alumni describe their own growth. | hint_miss"
+        },
+        "retrieval_status": "ok",
+        "top_results": [
+          "#1 Questions for CS438 teams (score=0.6528)",
+          "#2 Early Education Leaders Brand Guide for CS438.pdf (score=0.627)",
+          "#3 Entrepreneurial Leadership Training Catalyzes Change Initiatives in Early Ed Programs.docx (score=0.6136)",
+          "#4 Research Summary: Entrepreneurial Leadership Training Catalyzes Change Initiatives in Early Ed Programs | Early Education Leaders, an Institute at UMass Boston (score=0.6136)",
+          "#5 New Study Finds That Early Educators Trained in Leading for Change Develop Entrepreneurial Mindset and Lead for Change in the Workplace | Early Education Leaders, an Institute at UMass Boston (score=0.604)",
+          "#6 New Study Finds That Early Educators Trained in Leading for Change Develop Entrepreneurial Mindset and Lead for Change in the Workplace.docx (score=0.6039)",
+          "#7 Alicia Pugh.docx (score=0.5894)",
+          "#8 How One Maryland Educator Found Her Voice\u2014and Her Leadership\u2014Through Leading for Change | Early Education Leaders, an Institute at UMass Boston (score=0.5894)",
+          "#9 Offerings (score=0.5883)",
+          "#10 Early Education Leaders Brand Guide for CS438.pdf (score=0.5845)",
+          "#11 Early Education Leaders Brand Guide for CS438.pdf (score=0.5833)",
+          "#12 Sarah Martinez.docx (score=0.582)",
+          "#13 From Lifeguard to Leader: How the Essential Leadership Model Influenced One Director\u2019s Approach to Early Education | Early Education Leaders, an Institute at UMass Boston (score=0.582)",
+          "#14 From Survivor to Leader.docx (score=0.5803)",
+          "#15 From Survivor to Leader: How One Educator Used Leadership Training to Transform Her Approach to Supporting Families | Early Education Leaders, an Institute at UMass Boston (score=0.5803)",
+          "#16 New Study Finds That Early Educators Trained in Leading for Change Develop Entrepreneurial Mindset and Lead for Change in the Workplace | Early Education Leaders, an Institute at UMass Boston (score=0.5796)",
+          "#17 New Study Finds That Early Educators Trained in Leading for Change Develop Entrepreneurial Mindset and Lead for Change in the Workplace.docx (score=0.5796)",
+          "#18 Register Now for the 13th Annual Early Educator Leadership Forum | Early Education Leaders, an Institute at UMass Boston (score=0.5753)",
+          "#19 Early Education Leaders Brand Guide for CS438.pdf (score=0.573)",
+          "#20 Looking Back: Early Education Leaders\u2019 Most Impactful Social Media Moments of 2025 | Early Education Leaders, an Institute at UMass Boston (score=0.5714)"
+        ]
+      }
+    },
+    {
+      "question": "How do our programs impact early educators?",
+      "phase1": {
+        "metrics": {
+          "correct": 0,
+          "retrieval_hit": 0,
+          "score": 1,
+          "hint_match": 1,
+          "notes": "why_hard=The impact is described across training pages, participant stories, and fellowship posts, so retrieval can easily grab a partial answer. | likely_failure_mode=Phase 2 may retrieve general offerings pages that mention professional development but miss the clearest language about how participants themselves are changed."
+        },
+        "retrieval_status": "failed",
+        "top_results": [
+          "#? Early Education Leaders Submits Public Comment on Federal Loan Rule That Risks Shutting Out Aspiring Early Educators | Early Education Leaders, an Institute at UMass Boston (score=25)",
+          "#? Questions for CS438 teams (score=24)",
+          "#? Early Education Leaders Submits Public Comment on Federal Loan Rule That Risks Shutting Out Aspiring Early Educators | Early Education Leaders, an Institute at UMass Boston (score=24)",
+          "#? New Study Shows Leadership Development Can Be Scaled Effectively to Reach Early Educators\u00a0 | Early Education Leaders, an Institute at UMass Boston (score=23)",
+          "#? A Promising Pathway: Early Insights from the Early Childhood Fellowship | Early Education Leaders, an Institute at UMass Boston (score=23)",
+          "#? Leading by Example: Adriana Batista-Guerra Empowers Early Educators | Early Education Leaders, an Institute at UMass Boston (score=22)",
+          "#? A Promising Pathway: Early Insights from the Early Childhood Fellowship | Early Education Leaders, an Institute at UMass Boston (score=22)",
+          "#? Early Education Leaders Announces Incoming Class of Early Educator Leadership Fellows | Early Education Leaders, an Institute at UMass Boston (score=22)",
+          "#? Research Summary: Pathways to Leadership for Early Educators | Early Education Leaders, an Institute at UMass Boston (score=22)",
+          "#? Questions for CS438 teams (score=21)",
+          "#? Institute for Early Education Leadership and Innovation Awarded $2M to Develop Early Education Workforce in Boston | Early Education Leaders, an Institute at UMass Boston (score=21)",
+          "#? Early Education Leaders Submits Public Comment on Federal Loan Rule That Risks Shutting Out Aspiring Early Educators | Early Education Leaders, an Institute at UMass Boston (score=21)",
+          "#? Building the Future of Early Education: Inside the Early Childhood Fellowship | Early Education Leaders, an Institute at UMass Boston (score=21)",
+          "#? New Study Finds That Early Educators Trained in Leading for Change Develop Entrepreneurial Mindset and Lead for Change in the Workplace | Early Education Leaders, an Institute at UMass Boston (score=21)",
+          "#? New Study Finds That Early Educators Trained in Leading for Change Develop Entrepreneurial Mindset and Lead for Change in the Workplace | Early Education Leaders, an Institute at UMass Boston (score=21)",
+          "#? Institute for Early Education Leadership and Innovation Awarded $2M to Develop Early Education Workforce in Boston | Early Education Leaders, an Institute at UMass Boston (score=20)",
+          "#? Institute for Early Education Leadership and Innovation Awarded $2M to Develop Early Education Workforce in Boston | Early Education Leaders, an Institute at UMass Boston (score=20)",
+          "#? Early Education Leaders Submits Public Comment on Federal Loan Rule That Risks Shutting Out Aspiring Early Educators | Early Education Leaders, an Institute at UMass Boston (score=20)",
+          "#? Early Education Leaders Submits Public Comment on Federal Loan Rule That Risks Shutting Out Aspiring Early Educators | Early Education Leaders, an Institute at UMass Boston (score=20)",
+          "#? Building the Future of Early Education: Inside the Early Childhood Fellowship | Early Education Leaders, an Institute at UMass Boston (score=20)"
+        ]
+      },
+      "best_variant": {
+        "metrics": {
+          "correct": 0,
+          "retrieval_hit": 0,
+          "score": 1,
+          "hint_match": 0,
+          "notes": "why_hard=The impact is described across training pages, participant stories, and fellowship posts, so retrieval can easily grab a partial answer. | likely_failure_mode=Phase 2 may retrieve general offerings pages that mention professional development but miss the clearest language about how participants themselves are changed. | hint_miss"
+        },
+        "retrieval_status": "ok",
+        "top_results": [
+          "#1 Early Education Leaders Brand Guide for CS438.pdf (score=0.6757)",
+          "#2 Institute for Early Education Leadership and Innovation Awarded $2M to Develop Early Education Workforce in Boston | Early Education Leaders, an Institute at UMass Boston (score=0.6721)",
+          "#3 Early Education Leaders Brand Guide for CS438.pdf (score=0.6637)",
+          "#4 Early Education Leaders Brand Guide for CS438.pdf (score=0.6528)",
+          "#5 Early Education Leaders Brand Guide for CS438.pdf (score=0.6503)",
+          "#6 Early Education Leaders Brand Guide for CS438.pdf (score=0.6475)",
+          "#7 Early Education Leaders Brand Guide for CS438.pdf (score=0.6474)",
+          "#8 Early Education Leaders Submits Public Comment on Federal Loan Rule That Risks Shutting Out Aspiring Early Educators | Early Education Leaders, an Institute at UMass Boston (score=0.6369)",
+          "#9 Stranahan Foundation.docx (score=0.6356)",
+          "#10 Early Education Leaders Receives $250K from Stranahan Foundation | Early Education Leaders, an Institute at UMass Boston (score=0.6356)",
+          "#11 Web Copy.docx (score=0.6308)",
+          "#12 Impact (score=0.6308)",
+          "#13 Early Education Leaders Brand Guide for CS438.pdf (score=0.6297)",
+          "#14 Impact (score=0.6283)",
+          "#15 Early Education Leaders Brand Guide for CS438.pdf (score=0.627)",
+          "#16 Early Education Leaders Brand Guide for CS438.pdf (score=0.6264)",
+          "#17 Web Copy.docx (score=0.6256)",
+          "#18 Offerings (score=0.6256)",
+          "#19 Building the Future of Early Education: Inside the Early Childhood Fellowship | Early Education Leaders, an Institute at UMass Boston (score=0.6249)",
+          "#20 Early Education Leaders Brand Guide for CS438.pdf (score=0.6235)"
+        ]
+      }
+    },
+    {
+      "question": "What kinds of things do our program graduates/alumni (early educators) do as a result of our leadership programs?",
+      "phase1": {
+        "metrics": {
+          "correct": 0,
+          "retrieval_hit": 0,
+          "score": 2,
+          "hint_match": 1,
+          "notes": "why_hard=This asks for post-program actions, which are spread across alumni success stories and may be phrased differently from the question. | likely_failure_mode=Phase 2 may retrieve a canonical program description instead of a concrete alumni example showing what graduates actually go on to do."
+        },
+        "retrieval_status": "failed",
+        "top_results": [
+          "#? Early Ed Leadership Institute to publish future editions of Early Care and Education Leadership Development Compendium | Early Education Leaders, an Institute at UMass Boston (score=35)",
+          "#? Powerful cross-institutional collaboration: Early Education Leaders and the Maryland Early Childhood Leadership Program | Early Education Leaders, an Institute at UMass Boston (score=33)",
+          "#? Research Summary: Pathways to Leadership for Early Educators | Early Education Leaders, an Institute at UMass Boston (score=33)",
+          "#? Early Education Leaders Announces Incoming Class of Early Educator Leadership Fellows | Early Education Leaders, an Institute at UMass Boston (score=31)",
+          "#? Early Ed Leadership Institute to publish future editions of Early Care and Education Leadership Development Compendium | Early Education Leaders, an Institute at UMass Boston (score=30)",
+          "#? Early Ed Leadership Institute to publish future editions of Early Care and Education Leadership Development Compendium | Early Education Leaders, an Institute at UMass Boston (score=30)",
+          "#? A Day of Leadership and Learning: MECLP\u2019s Annual Early Educator Leadership Forum | Early Education Leaders, an Institute at UMass Boston (score=29)",
+          "#? Institute for Early Education Leadership and Innovation Awarded $2M to Develop Early Education Workforce in Boston | Early Education Leaders, an Institute at UMass Boston (score=29)",
+          "#? New Study Shows Leadership Development Can Be Scaled Effectively to Reach Early Educators\u00a0 | Early Education Leaders, an Institute at UMass Boston (score=29)",
+          "#? Powerful cross-institutional collaboration: Early Education Leaders and the Maryland Early Childhood Leadership Program | Early Education Leaders, an Institute at UMass Boston (score=29)",
+          "#? Research Summary: Entrepreneurial Leadership Training Catalyzes Change Initiatives in Early Ed Programs | Early Education Leaders, an Institute at UMass Boston (score=29)",
+          "#? Cultivating Leadership from the Inside Out: the Essential Leadership Model for Early Education | Early Education Leaders, an Institute at UMass Boston (score=28)",
+          "#? Institute for Early Education Leadership and Innovation Awarded $2M to Develop Early Education Workforce in Boston | Early Education Leaders, an Institute at UMass Boston (score=28)",
+          "#? New Study Shows Leadership Development Can Be Scaled Effectively to Reach Early Educators\u00a0 | Early Education Leaders, an Institute at UMass Boston (score=28)",
+          "#? Powerful cross-institutional collaboration: Early Education Leaders and the Maryland Early Childhood Leadership Program | Early Education Leaders, an Institute at UMass Boston (score=28)",
+          "#? UMass Boston Announces New Cohort of Early Education Leadership Fellows | Early Education Leaders, an Institute at UMass Boston (score=28)",
+          "#? Research Summary: Entrepreneurial Leadership Training Catalyzes Change Initiatives in Early Ed Programs | Early Education Leaders, an Institute at UMass Boston (score=28)",
+          "#? Early Ed Leadership Institute to publish future editions of Early Care and Education Leadership Development Compendium | Early Education Leaders, an Institute at UMass Boston (score=28)",
+          "#? Early Ed Leadership Institute to publish future editions of Early Care and Education Leadership Development Compendium | Early Education Leaders, an Institute at UMass Boston (score=28)",
+          "#? Institute for Early Education Leadership and Innovation Awarded $2M to Develop Early Education Workforce in Boston | Early Education Leaders, an Institute at UMass Boston (score=27)"
+        ]
+      },
+      "best_variant": {
+        "metrics": {
+          "correct": 1,
+          "retrieval_hit": 0,
+          "score": 4,
+          "hint_match": 1,
+          "notes": "why_hard=This asks for post-program actions, which are spread across alumni success stories and may be phrased differently from the question. | likely_failure_mode=Phase 2 may retrieve a canonical program description instead of a concrete alumni example showing what graduates actually go on to do."
+        },
+        "retrieval_status": "ok",
+        "top_results": [
+          "#1 Early Education Leaders Brand Guide for CS438.pdf (score=0.74)",
+          "#2 Early Education Leaders Brand Guide for CS438.pdf (score=0.7031)",
+          "#3 Questions for CS438 teams (score=0.6802)",
+          "#4 Register Now for the 13th Annual Early Educator Leadership Forum | Early Education Leaders, an Institute at UMass Boston (score=0.6636)",
+          "#5 UMass Boston Announces New Cohort of Emerging Leaders in Early Childhood Education.docx (score=0.6633)",
+          "#6 Leading for Change New York.docx (score=0.6628)",
+          "#7 Questions for CS438 teams (score=0.6616)",
+          "#8 Early Education Leaders Brand Guide for CS438.pdf (score=0.6606)",
+          "#9 Early Education Leaders Brand Guide for CS438.pdf (score=0.6559)",
+          "#10 Early Education Leaders Brand Guide for CS438.pdf (score=0.6524)",
+          "#11 Leading for Change Now Offered to Family Child Care Educators\u00a0 in New York | Early Education Leaders, an Institute at UMass Boston (score=0.6518)",
+          "#12 Early Education Leaders Brand Guide for CS438.pdf (score=0.6482)",
+          "#13 Leading, learning, and networking at the tenth annual Leadership Forum on Early Education, Research, Policy, and Practice\u00a0 | Early Education Leaders, an Institute at UMass Boston (score=0.6477)",
+          "#14 Leadership Forum: My Best Self | Early Education Leaders, an Institute at UMass Boston (score=0.6438)",
+          "#15 Building the Future of Early Education: Inside the Early Childhood Fellowship | Early Education Leaders, an Institute at UMass Boston (score=0.6422)",
+          "#16 Questions for CS438 teams (score=0.6418)",
+          "#17 An inspiring day at the 11th annual Leadership Forum | Early Education Leaders, an Institute at UMass Boston (score=0.6409)",
+          "#18 Web Copy.docx (score=0.6395)",
+          "#19 Early Insights from the Early Childhood Fellowship.docx (score=0.6386)",
+          "#20 A Promising Pathway: Early Insights from the Early Childhood Fellowship | Early Education Leaders, an Institute at UMass Boston (score=0.6385)"
+        ]
+      }
+    },
+    {
+      "question": "What impact do our early educator alums have on early childhood programs, practices, systems, and policies?",
+      "phase1": {
+        "metrics": {
+          "correct": 0,
+          "retrieval_hit": 0,
+          "score": 1,
+          "hint_match": 1,
+          "notes": "why_hard=Requires synthesis across impact statements and program outcomes. | likely_failure_mode=May retrieve program descriptions instead of alumni impact synthesis."
+        },
+        "retrieval_status": "failed",
+        "top_results": [
+          "#? A Promising Pathway: Early Insights from the Early Childhood Fellowship | Early Education Leaders, an Institute at UMass Boston (score=53)",
+          "#? Representing Early Education Leaders at The Hunt Institute\u2019s Early Childhood Leadership Summit | Early Education Leaders, an Institute at UMass Boston (score=48)",
+          "#? Early Education Leaders Announces Incoming Class of Early Educator Leadership Fellows | Early Education Leaders, an Institute at UMass Boston (score=48)",
+          "#? Building the Future of Early Education: Inside the Early Childhood Fellowship | Early Education Leaders, an Institute at UMass Boston (score=46)",
+          "#? Powerful cross-institutional collaboration: Early Education Leaders and the Maryland Early Childhood Leadership Program | Early Education Leaders, an Institute at UMass Boston (score=46)",
+          "#? Early Insights from the Early Childhood Fellowship.docx (score=45)",
+          "#? Early Education Leaders Announces Incoming Class of Early Educator Leadership Fellows | Early Education Leaders, an Institute at UMass Boston (score=45)",
+          "#? Early Education Leaders Announces Incoming Class of Early Educator Leadership Fellows | Early Education Leaders, an Institute at UMass Boston (score=43)",
+          "#? Powerful cross-institutional collaboration: Early Education Leaders and the Maryland Early Childhood Leadership Program | Early Education Leaders, an Institute at UMass Boston (score=43)",
+          "#? Institute for Early Education Leadership and Innovation Awarded $2M to Develop Early Education Workforce in Boston | Early Education Leaders, an Institute at UMass Boston (score=42)",
+          "#? A Promising Pathway: Early Insights from the Early Childhood Fellowship | Early Education Leaders, an Institute at UMass Boston (score=42)",
+          "#? 52 Early Childhood Fellows enrolled at UMass Boston | Early Education Leaders, an Institute at UMass Boston (score=42)",
+          "#? Building the Future of Early Education: Inside the Early Childhood Fellowship | Early Education Leaders, an Institute at UMass Boston (score=41)",
+          "#? Institute for Early Education Leadership and Innovation Awarded $2M to Develop Early Education Workforce in Boston | Early Education Leaders, an Institute at UMass Boston (score=40)",
+          "#? Powerful cross-institutional collaboration: Early Education Leaders and the Maryland Early Childhood Leadership Program | Early Education Leaders, an Institute at UMass Boston (score=40)",
+          "#? Early Education Leaders Submits Public Comment on Federal Loan Rule That Risks Shutting Out Aspiring Early Educators | Early Education Leaders, an Institute at UMass Boston (score=39)",
+          "#? Early Education Leaders Announces Incoming Class of Early Educator Leadership Fellows | Early Education Leaders, an Institute at UMass Boston (score=39)",
+          "#? Early Education Leaders Announces Incoming Class of Early Educator Leadership Fellows | Early Education Leaders, an Institute at UMass Boston (score=39)",
+          "#? 52 Early Childhood Fellows enrolled at UMass Boston | Early Education Leaders, an Institute at UMass Boston (score=39)",
+          "#? Early Ed Leadership Institute to publish future editions of Early Care and Education Leadership Development Compendium | Early Education Leaders, an Institute at UMass Boston (score=39)"
+        ]
+      },
+      "best_variant": {
+        "metrics": {
+          "correct": 1,
+          "retrieval_hit": 1,
+          "score": 4,
+          "hint_match": 1,
+          "notes": "why_hard=Requires synthesis across impact statements and program outcomes. | likely_failure_mode=May retrieve program descriptions instead of alumni impact synthesis."
+        },
+        "retrieval_status": "ok",
+        "top_results": [
+          "#1 Early Education Leaders Brand Guide for CS438.pdf (score=0.6681)",
+          "#2 Questions for CS438 teams (score=0.6647)",
+          "#3 Early Education Leaders Brand Guide for CS438.pdf (score=0.6608)",
+          "#4 Early Education Leaders Brand Guide for CS438.pdf (score=0.6605)",
+          "#5 Early Education Leaders Brand Guide for CS438.pdf (score=0.649)",
+          "#6 Positive Relationships Key to Early Educator Success in Earning Bachelor\u2019s Degree.docx (score=0.6379)",
+          "#7 Early Education Leaders Submits Public Comment on Federal Loan Rule That Risks Shutting Out Aspiring Early Educators | Early Education Leaders, an Institute at UMass Boston (score=0.6357)",
+          "#8 Early Education Leaders Brand Guide for CS438.pdf (score=0.6334)",
+          "#9 Early Education Leaders Brand Guide for CS438.pdf (score=0.6264)",
+          "#10 Early Education Leaders Brand Guide for CS438.pdf (score=0.6257)",
+          "#11 announcing our new name.docx (score=0.6251)",
+          "#12 Announcing our new name! | Early Education Leaders, an Institute at UMass Boston (score=0.6251)",
+          "#13 Early Education Leaders Brand Guide for CS438.pdf (score=0.623)",
+          "#14 Impact (score=0.6192)",
+          "#15 Early Education Leaders Brand Guide for CS438.pdf (score=0.6178)",
+          "#16 Web Copy.docx (score=0.6169)",
+          "#17 Impact (score=0.6161)",
+          "#18 Building the Future of Early Education: Inside the Early Childhood Fellowship | Early Education Leaders, an Institute at UMass Boston (score=0.6153)",
+          "#19 Building the Future of Early Education: Inside the Early Childhood Fellowship | Early Education Leaders, an Institute at UMass Boston (score=0.6144)",
+          "#20 Early Insights from the Early Childhood Fellowship.docx (score=0.6144)"
+        ]
+      }
+    },
+    {
+      "question": "Why does leadership matter in early care and education?",
+      "phase1": {
+        "metrics": {
+          "correct": 0,
+          "retrieval_hit": 0,
+          "score": 2,
+          "hint_match": 1,
+          "notes": "why_hard=Abstract conceptual reasoning across multiple program goals. | likely_failure_mode=May return program descriptions instead of conceptual synthesis."
+        },
+        "retrieval_status": "failed",
+        "top_results": [
+          "#? Early Ed Leadership Institute to publish future editions of Early Care and Education Leadership Development Compendium | Early Education Leaders, an Institute at UMass Boston (score=52)",
+          "#? Early Ed Leadership Institute to publish future editions of Early Care and Education Leadership Development Compendium | Early Education Leaders, an Institute at UMass Boston (score=48)",
+          "#? Early Ed Leadership Institute to publish future editions of Early Care and Education Leadership Development Compendium | Early Education Leaders, an Institute at UMass Boston (score=46)",
+          "#? Early Ed Leadership Institute to publish future editions of Early Care and Education Leadership Development Compendium | Early Education Leaders, an Institute at UMass Boston (score=45)",
+          "#? Early Ed Leadership Institute to publish future editions of Early Care and Education Leadership Development Compendium | Early Education Leaders, an Institute at UMass Boston (score=43)",
+          "#? Early Ed Leadership Institute to publish future editions of Early Care and Education Leadership Development Compendium | Early Education Leaders, an Institute at UMass Boston (score=42)",
+          "#? Leadership Forum Draws Record Participation, Spurs Conversations About Early Care and Education | Early Education Leaders, an Institute at UMass Boston (score=42)",
+          "#? Institute for Early Education Leadership and Innovation Awarded $2M to Develop Early Education Workforce in Boston | Early Education Leaders, an Institute at UMass Boston (score=41)",
+          "#? Early Education Leaders Announces Incoming Class of Early Educator Leadership Fellows | Early Education Leaders, an Institute at UMass Boston (score=41)",
+          "#? Powerful cross-institutional collaboration: Early Education Leaders and the Maryland Early Childhood Leadership Program | Early Education Leaders, an Institute at UMass Boston (score=41)",
+          "#? Leadership Institute hosts new commissioner for MA Dept. of Early Education and Care | Early Education Leaders, an Institute at UMass Boston (score=40)",
+          "#? Institute for Early Education Leadership and Innovation Awarded $2M to Develop Early Education Workforce in Boston | Early Education Leaders, an Institute at UMass Boston (score=38)",
+          "#? Institute for Early Education Leadership and Innovation Awarded $2M to Develop Early Education Workforce in Boston | Early Education Leaders, an Institute at UMass Boston (score=38)",
+          "#? Powerful cross-institutional collaboration: Early Education Leaders and the Maryland Early Childhood Leadership Program | Early Education Leaders, an Institute at UMass Boston (score=38)",
+          "#? UMass Boston Announces New Cohort of Early Education Leadership Fellows | Early Education Leaders, an Institute at UMass Boston (score=38)",
+          "#? Testimony in support of bill to provide affordable and accessible high quality early education and care | Early Education Leaders, an Institute at UMass Boston (score=38)",
+          "#? Cultivating Leadership from the Inside Out: the Essential Leadership Model for Early Education | Early Education Leaders, an Institute at UMass Boston (score=37)",
+          "#? Representing Early Education Leaders at The Hunt Institute\u2019s Early Childhood Leadership Summit | Early Education Leaders, an Institute at UMass Boston (score=37)",
+          "#? Institute for Early Education Leadership and Innovation Awarded $2M to Develop Early Education Workforce in Boston | Early Education Leaders, an Institute at UMass Boston (score=37)",
+          "#? Early Education Leaders Announces Incoming Class of Early Educator Leadership Fellows | Early Education Leaders, an Institute at UMass Boston (score=37)"
+        ]
+      },
+      "best_variant": {
+        "metrics": {
+          "correct": 1,
+          "retrieval_hit": 0,
+          "score": 4,
+          "hint_match": 1,
+          "notes": "why_hard=Abstract conceptual reasoning across multiple program goals. | likely_failure_mode=May return program descriptions instead of conceptual synthesis."
+        },
+        "retrieval_status": "ok",
+        "top_results": [
+          "#1 Early Education Leaders Brand Guide for CS438.pdf (score=0.802)",
+          "#2 Early Education Leaders Brand Guide for CS438.pdf (score=0.7744)",
+          "#3 Early Education Leaders Brand Guide for CS438.pdf (score=0.6947)",
+          "#4 Entrepreneurial Leadership Training Catalyzes Change Initiatives in Early Ed Programs.docx (score=0.6929)",
+          "#5 Research Summary: Entrepreneurial Leadership Training Catalyzes Change Initiatives in Early Ed Programs | Early Education Leaders, an Institute at UMass Boston (score=0.6929)",
+          "#6 Early Education Leaders Brand Guide for CS438.pdf (score=0.6894)",
+          "#7 Leadership Institute Testing Model To Improve Business Operations of Small Business Child Care Providers.docx (score=0.6881)",
+          "#8 Early Education Leaders Brand Guide for CS438.pdf (score=0.688)",
+          "#9 Early Education Leaders Brand Guide for CS438.pdf (score=0.6843)",
+          "#10 Leadership Institute Testing Model To Improve Business Operations of Small Business Child Care Providers.docx (score=0.6834)",
+          "#11 Early Education Leaders Brand Guide for CS438.pdf (score=0.6819)",
+          "#12 Early Education Leaders Brand Guide for CS438.pdf (score=0.6795)",
+          "#13 Early Education Leaders Brand Guide for CS438.pdf (score=0.6738)",
+          "#14 Sarah Roebuck .docx (score=0.6671)",
+          "#15 How Leading for Change Transformed One Director\u2019s Belief in Herself | Early Education Leaders, an Institute at UMass Boston (score=0.6671)",
+          "#16 Cultivating Leadership from the Inside Out: the Essential Leadership Model for Early Education | Early Education Leaders, an Institute at UMass Boston (score=0.6652)",
+          "#17 Early Education Leaders Brand Guide for CS438.pdf (score=0.6647)",
+          "#18 New Study Finds That Early Educators Trained in Leading for Change Develop Entrepreneurial Mindset and Lead for Change in the Workplace | Early Education Leaders, an Institute at UMass Boston (score=0.6624)",
+          "#19 New Study Finds That Early Educators Trained in Leading for Change Develop Entrepreneurial Mindset and Lead for Change in the Workplace.docx (score=0.6624)",
+          "#20 Powerful cross-institutional collaboration: Early Education Leaders and the Maryland Early Childhood Leadership Program | Early Education Leaders, an Institute at UMass Boston (score=0.66)"
+        ]
+      }
+    },
+    {
+      "question": "What is Leading for Change in ECE?",
+      "phase1": {
+        "metrics": {
+          "correct": 1,
+          "retrieval_hit": 0,
+          "score": 4,
+          "hint_match": 1,
+          "notes": "why_hard=Dense program definition with multiple embedded attributes. | likely_failure_mode=May retrieve general leadership content instead of specific program definition."
+        },
+        "retrieval_status": "failed",
+        "top_results": [
+          "#? New Study Finds That Early Educators Trained in Leading for Change Develop Entrepreneurial Mindset and Lead for Change in the Workplace.docx (score=19)",
+          "#? New Study Finds That Early Educators Trained in Leading for Change Develop Entrepreneurial Mindset and Lead for Change in the Workplace | Early Education Leaders, an Institute at UMass Boston (score=19)",
+          "#? New Study Finds That Early Educators Trained in Leading for Change Develop Entrepreneurial Mindset and Lead for Change in the Workplace.docx (score=18)",
+          "#? Leading for Change in Pennsylvania: Janine Pagano | Early Education Leaders, an Institute at UMass Boston (score=18)",
+          "#? New Study Finds That Early Educators Trained in Leading for Change Develop Entrepreneurial Mindset and Lead for Change in the Workplace | Early Education Leaders, an Institute at UMass Boston (score=18)",
+          "#? New Study Finds That Early Educators Trained in Leading for Change Develop Entrepreneurial Mindset and Lead for Change in the Workplace.docx (score=17)",
+          "#? Leading for Change New York.docx (score=17)",
+          "#? Leading for Change in Pennsylvania: Janine Pagano | Early Education Leaders, an Institute at UMass Boston (score=17)",
+          "#? Leading for Change Now Offered to Family Child Care Educators\u00a0 in New York | Early Education Leaders, an Institute at UMass Boston (score=17)",
+          "#? New Study Finds That Early Educators Trained in Leading for Change Develop Entrepreneurial Mindset and Lead for Change in the Workplace | Early Education Leaders, an Institute at UMass Boston (score=17)",
+          "#? Leading for Change in Pennsylvania: Janine Pagano | Early Education Leaders, an Institute at UMass Boston (score=16)",
+          "#? Leading for Change reunion! | Early Education Leaders, an Institute at UMass Boston (score=16)",
+          "#? New Study Finds That Early Educators Trained in Leading for Change Develop Entrepreneurial Mindset and Lead for Change in the Workplace.docx (score=15)",
+          "#? How Leading for Change Transformed One Director\u2019s Belief in Herself | Early Education Leaders, an Institute at UMass Boston (score=15)",
+          "#? Leading for Change | Early Education Leaders, an Institute at UMass Boston (score=15)",
+          "#? Leading for Change in California: Deo Agustin | Early Education Leaders, an Institute at UMass Boston (score=15)",
+          "#? Leading for Change in California: Roxana Flores | Early Education Leaders, an Institute at UMass Boston (score=15)",
+          "#? New Study Finds That Early Educators Trained in Leading for Change Develop Entrepreneurial Mindset and Lead for Change in the Workplace | Early Education Leaders, an Institute at UMass Boston (score=15)",
+          "#? New Study Finds That Early Educators Trained in Leading for Change Develop Entrepreneurial Mindset and Lead for Change in the Workplace.docx (score=14)",
+          "#? Leading for Change New York.docx (score=14)"
+        ]
+      },
+      "best_variant": {
+        "metrics": {
+          "correct": 1,
+          "retrieval_hit": 0,
+          "score": 4,
+          "hint_match": 1,
+          "notes": "why_hard=Dense program definition with multiple embedded attributes. | likely_failure_mode=May retrieve general leadership content instead of specific program definition."
+        },
+        "retrieval_status": "ok",
+        "top_results": [
+          "#1 Leading Loudly.docx (score=0.7721)",
+          "#2 Sarah Roebuck .docx (score=0.7721)",
+          "#3 How Leading for Change Transformed One Director\u2019s Belief in Herself | Early Education Leaders, an Institute at UMass Boston (score=0.7721)",
+          "#4 Leading Loudly, Learning Always: Sarah Roebuck\u2019s Five Lessons for Early Educators | Early Education Leaders, an Institute at UMass Boston (score=0.7711)",
+          "#5 Entrepreneurial Leadership Training Catalyzes Change Initiatives in Early Ed Programs.docx (score=0.762)",
+          "#6 Research Summary: Entrepreneurial Leadership Training Catalyzes Change Initiatives in Early Ed Programs | Early Education Leaders, an Institute at UMass Boston (score=0.762)",
+          "#7 Early Education Leaders Brand Guide for CS438.pdf (score=0.7607)",
+          "#8 Leading for Change Now Offered to Family Child Care Educators\u00a0 in New York | Early Education Leaders, an Institute at UMass Boston (score=0.7567)",
+          "#9 Holding the Circle.docx (score=0.7555)",
+          "#10 Holding the Circle: Christina Lopez on Belonging, Leadership, and the Power of Showing Up | Early Education Leaders, an Institute at UMass Boston (score=0.7555)",
+          "#11 Leading for Change New York.docx (score=0.7525)",
+          "#12 Adriana Batista-Guerra .docx (score=0.7507)",
+          "#13 Leading by Example: Adriana Batista-Guerra Empowers Early Educators | Early Education Leaders, an Institute at UMass Boston (score=0.7507)",
+          "#14 Leading for Change reunion! | Early Education Leaders, an Institute at UMass Boston (score=0.7459)",
+          "#15 Belinda Jones.docx (score=0.7428)",
+          "#16 Leading for Change: Belinda Jones\u00a0 | Early Education Leaders, an Institute at UMass Boston (score=0.7428)",
+          "#17 Leading for Change in California: Luis Figueroa | Early Education Leaders, an Institute at UMass Boston (score=0.7413)",
+          "#18 Leading for Change in California: Deo Agustin | Early Education Leaders, an Institute at UMass Boston (score=0.7413)",
+          "#19 Leading for Change in California: Roxana Flores | Early Education Leaders, an Institute at UMass Boston (score=0.7413)",
+          "#20 Leading for Change New York.docx (score=0.7408)"
+        ]
+      }
+    },
+    {
+      "question": "How can I learn more about what entrepreneurial leadership is and how you train people on it?",
+      "phase1": {
+        "metrics": {
+          "correct": 1,
+          "retrieval_hit": 0,
+          "score": 4,
+          "hint_match": 1,
+          "notes": "why_hard=Requires linking concept definition to program offering. | likely_failure_mode=May retrieve generic leadership definitions instead of program linkage."
+        },
+        "retrieval_status": "failed",
+        "top_results": [
+          "#? Defining entrepreneurial leadership | Early Education Leaders, an Institute at UMass Boston (score=19)",
+          "#? Entrepreneurial Leadership Training Catalyzes Change Initiatives in Early Ed Programs.docx (score=16)",
+          "#? Research Summary: Entrepreneurial Leadership Training Catalyzes Change Initiatives in Early Ed Programs | Early Education Leaders, an Institute at UMass Boston (score=16)",
+          "#? Early Ed Leadership Institute to publish future editions of Early Care and Education Leadership Development Compendium | Early Education Leaders, an Institute at UMass Boston (score=16)",
+          "#? Entrepreneurial Leadership Training Catalyzes Change Initiatives in Early Ed Programs.docx (score=15)",
+          "#? Entrepreneurial Leadership Training Catalyzes Change Initiatives in Early Ed Programs.docx (score=15)",
+          "#? Research Summary: Entrepreneurial Leadership Training Catalyzes Change Initiatives in Early Ed Programs | Early Education Leaders, an Institute at UMass Boston (score=15)",
+          "#? Research Summary: Entrepreneurial Leadership Training Catalyzes Change Initiatives in Early Ed Programs | Early Education Leaders, an Institute at UMass Boston (score=15)",
+          "#? Early Ed Leadership Institute to publish future editions of Early Care and Education Leadership Development Compendium | Early Education Leaders, an Institute at UMass Boston (score=14)",
+          "#? Defining entrepreneurial leadership | Early Education Leaders, an Institute at UMass Boston (score=14)",
+          "#? A Day of Leadership and Learning: MECLP\u2019s Annual Early Educator Leadership Forum | Early Education Leaders, an Institute at UMass Boston (score=13)",
+          "#? Cultivating Leadership from the Inside Out: the Essential Leadership Model for Early Education | Early Education Leaders, an Institute at UMass Boston (score=13)",
+          "#? Early Ed Leadership Institute to publish future editions of Early Care and Education Leadership Development Compendium | Early Education Leaders, an Institute at UMass Boston (score=13)",
+          "#? Early Ed Leadership Institute to publish future editions of Early Care and Education Leadership Development Compendium | Early Education Leaders, an Institute at UMass Boston (score=13)",
+          "#? Early Ed Leadership Institute to publish future editions of Early Care and Education Leadership Development Compendium | Early Education Leaders, an Institute at UMass Boston (score=13)",
+          "#? Defining entrepreneurial leadership | Early Education Leaders, an Institute at UMass Boston (score=13)",
+          "#? Leadership Forum Draws Record Participation, Spurs Conversations About Early Care and Education | Early Education Leaders, an Institute at UMass Boston (score=13)",
+          "#? Entrepreneurial Leadership Training Catalyzes Change Initiatives in Early Ed Programs.docx (score=12)",
+          "#? Entrepreneurial Leadership Training Catalyzes Change Initiatives in Early Ed Programs.docx (score=12)",
+          "#? Cultivating Leadership from the Inside Out: the Essential Leadership Model for Early Education | Early Education Leaders, an Institute at UMass Boston (score=12)"
+        ]
+      },
+      "best_variant": {
+        "metrics": {
+          "correct": 1,
+          "retrieval_hit": 1,
+          "score": 5,
+          "hint_match": 1,
+          "notes": "why_hard=Requires linking concept definition to program offering. | likely_failure_mode=May retrieve generic leadership definitions instead of program linkage."
+        },
+        "retrieval_status": "ok",
+        "top_results": [
+          "#1 Entrepreneurial Leadership Training Catalyzes Change Initiatives in Early Ed Programs.docx (score=0.6787)",
+          "#2 Research Summary: Entrepreneurial Leadership Training Catalyzes Change Initiatives in Early Ed Programs | Early Education Leaders, an Institute at UMass Boston (score=0.6787)",
+          "#3 Research Summary: Entrepreneurial Leadership Training Catalyzes Change Initiatives in Early Ed Programs | Early Education Leaders, an Institute at UMass Boston (score=0.6633)",
+          "#4 Entrepreneurial Leadership Training Catalyzes Change Initiatives in Early Ed Programs.docx (score=0.6627)",
+          "#5 Entrepreneurial Leadership Training Catalyzes Change Initiatives in Early Ed Programs.docx (score=0.661)",
+          "#6 Research Summary: Entrepreneurial Leadership Training Catalyzes Change Initiatives in Early Ed Programs | Early Education Leaders, an Institute at UMass Boston (score=0.661)",
+          "#7 Web Copy.docx (score=0.6456)",
+          "#8 Leading for Change Now Offered to Family Child Care Educators\u00a0 in New York | Early Education Leaders, an Institute at UMass Boston (score=0.6437)",
+          "#9 Leading for Change New York.docx (score=0.6436)",
+          "#10 Questions for CS438 teams (score=0.6332)",
+          "#11 March | 2022 | Early Education Leaders, an Institute at UMass Boston (score=0.6264)",
+          "#12 Media: Want better child care? Invest in entrepreneurial training for child care workers | Early Education Leaders, an Institute at UMass Boston (score=0.6217)",
+          "#13 Research Summary: Entrepreneurial Leadership Training Catalyzes Change Initiatives in Early Ed Programs | Early Education Leaders, an Institute at UMass Boston (score=0.612)",
+          "#14 Entrepreneurial Leadership Training Catalyzes Change Initiatives in Early Ed Programs.docx (score=0.6119)",
+          "#15 Web Copy.docx (score=0.6031)",
+          "#16 Offerings (score=0.6)",
+          "#17 New Study Finds That Early Educators Trained in Leading for Change Develop Entrepreneurial Mindset and Lead for Change in the Workplace | Early Education Leaders, an Institute at UMass Boston (score=0.5963)",
+          "#18 New Study Finds That Early Educators Trained in Leading for Change Develop Entrepreneurial Mindset and Lead for Change in the Workplace.docx (score=0.5954)",
+          "#19 New Study Finds That Early Educators Trained in Leading for Change Develop Entrepreneurial Mindset and Lead for Change in the Workplace | Early Education Leaders, an Institute at UMass Boston (score=0.5954)",
+          "#20 New Study Finds That Early Educators Trained in Leading for Change Develop Entrepreneurial Mindset and Lead for Change in the Workplace.docx (score=0.5951)"
+        ]
+      }
+    },
+    {
+      "question": "How can I become involved in the Institute\u2019s network?",
+      "phase1": {
+        "metrics": {
+          "correct": 0,
+          "retrieval_hit": 0,
+          "score": 1,
+          "hint_match": 0,
+          "notes": "why_hard=Requires understanding implicit pathway (program \u2192 network). | likely_failure_mode=May fail to connect participation pathway with network entry. | hint_miss"
+        },
+        "retrieval_status": "failed",
+        "top_results": [
+          "#? Leadership Institute Creates Early Childhood Support Organization for State\u2019s ECE Programs with $3.75M Grant | Early Education Leaders, an Institute at UMass Boston (score=13)",
+          "#? Institute of Early Education Leadership and Innovation Announces New Director of Programs | Early Education Leaders, an Institute at UMass Boston (score=12)",
+          "#? Early Ed Leadership Institute Awarded $3.8M | Early Education Leaders, an Institute at UMass Boston (score=12)",
+          "#? Early Ed Leadership Institute to publish future editions of Early Care and Education Leadership Development Compendium | Early Education Leaders, an Institute at UMass Boston (score=12)",
+          "#? Leadership Institute hosts new commissioner for MA Dept. of Early Education and Care | Early Education Leaders, an Institute at UMass Boston (score=12)",
+          "#? Institute for Early Education Leadership and Innovation Awarded $2M to Develop Early Education Workforce in Boston | Early Education Leaders, an Institute at UMass Boston (score=11)",
+          "#? Institute of Early Education Leadership and Innovation Announces New Director of Programs | Early Education Leaders, an Institute at UMass Boston (score=11)",
+          "#? Apply to become a facilitator for Instructional Leadership for Continuous Improvement in ECE\u00a0 | Early Education Leaders, an Institute at UMass Boston (score=11)",
+          "#? StrongStart Professional Development Centers Leadership Coaching Institute successfully launches | Early Education Leaders, an Institute at UMass Boston (score=11)",
+          "#? Leadership Institute Testing Model To Improve Business Operations of Small Business Child Care Providers | Early Education Leaders, an Institute at UMass Boston (score=11)",
+          "#? Leadership Institute Testing Model To Improve Business Operations of Small Business Child Care Providers | Early Education Leaders, an Institute at UMass Boston (score=11)",
+          "#? Leadership Institute Creates Early Childhood Support Organization for State\u2019s ECE Programs with $3.75M Grant | Early Education Leaders, an Institute at UMass Boston (score=11)",
+          "#? Representing Early Education Leaders at The Hunt Institute\u2019s Early Childhood Leadership Summit | Early Education Leaders, an Institute at UMass Boston (score=10)",
+          "#? Institute of Early Education Leadership and Innovation Announces New Director of Programs | Early Education Leaders, an Institute at UMass Boston (score=10)",
+          "#? Institute of Early Education Leadership and Innovation Announces New Director of Programs | Early Education Leaders, an Institute at UMass Boston (score=10)",
+          "#? Apply to become a facilitator for Instructional Leadership for Continuous Improvement in ECE\u00a0 | Early Education Leaders, an Institute at UMass Boston (score=10)",
+          "#? StrongStart Professional Development Centers Leadership Coaching Institute successfully launches | Early Education Leaders, an Institute at UMass Boston (score=10)",
+          "#? Institute Receives Federal Grant to Study Early Education Workforce Turnover and Retention | Early Education Leaders, an Institute at UMass Boston (score=10)",
+          "#? Early Ed Leadership Institute Awarded $3.8M | Early Education Leaders, an Institute at UMass Boston (score=10)",
+          "#? Early Ed Leadership Institute Awarded $3.8M | Early Education Leaders, an Institute at UMass Boston (score=10)"
+        ]
+      },
+      "best_variant": {
+        "metrics": {
+          "correct": 1,
+          "retrieval_hit": 1,
+          "score": 5,
+          "hint_match": 1,
+          "notes": "why_hard=Requires understanding implicit pathway (program \u2192 network). | likely_failure_mode=May fail to connect participation pathway with network entry."
+        },
+        "retrieval_status": "ok",
+        "top_results": [
+          "#1 Web Copy.docx (score=0.5142)",
+          "#2 Offerings (score=0.5073)",
+          "#3 Offerings (score=0.5046)",
+          "#4 Questions for CS438 teams (score=0.4748)",
+          "#5 Early Education Leaders Brand Guide for CS438.pdf (score=0.4718)",
+          "#6 Early Education Leaders Brand Guide for CS438.pdf (score=0.4702)",
+          "#7 Early Education Leaders Brand Guide for CS438.pdf (score=0.4666)",
+          "#8 UMass Boston Announces New Cohort of Emerging Leaders in Early Childhood Education.docx (score=0.4612)",
+          "#9 UMass Boston Announces New Cohort of Early Education Leadership Fellows | Early Education Leaders, an Institute at UMass Boston (score=0.4528)",
+          "#10 Call for Submissions: 5th Edition of the ECE Leadership Development Compendium | Early Education Leaders, an Institute at UMass Boston (score=0.4515)",
+          "#11 Early Education Leaders Brand Guide for CS438.pdf (score=0.4489)",
+          "#12 Questions for CS438 teams (score=0.4486)",
+          "#13 UMass Boston-based researcher team to create program to estimate cost of providing quality early care and education for children in MA | Early Education Leaders, an Institute at UMass Boston (score=0.4475)",
+          "#14 Early Education Leaders Brand Guide for CS438.pdf (score=0.4475)",
+          "#15 Early Education Leaders Brand Guide for CS438.pdf (score=0.4403)",
+          "#16 Early Education Leaders Brand Guide for CS438.pdf (score=0.4368)",
+          "#17 Web Copy.docx (score=0.4367)",
+          "#18 We\u2019re hiring! | Early Education Leaders, an Institute at UMass Boston (score=0.4356)",
+          "#19 Early Education Leaders Brand Guide for CS438.pdf (score=0.4333)",
+          "#20 UMass Boston Report Proposes Fix for \u2018Cliff Effect\u2019 in Financial Assistance for Child Care | Early Education Leaders, an Institute at UMass Boston (score=0.4321)"
+        ]
+      }
+    },
+    {
+      "question": "What does coaching look like?",
+      "phase1": {
+        "metrics": {
+          "correct": 0,
+          "retrieval_hit": 0,
+          "score": 1,
+          "hint_match": 1,
+          "notes": "why_hard=Coaching is described through a narrative case study rather than a definition, requiring synthesis of multiple support functions into a coherent description. | likely_failure_mode=Retrieval may surface general program descriptions instead of the specific case study detailing coaching activities and support mechanisms."
+        },
+        "retrieval_status": "failed",
+        "top_results": [
+          "#? Questions for CS438 teams (score=15)",
+          "#? Questions for CS438 teams (score=15)",
+          "#? StrongStart Professional Development Centers Leadership Coaching Institute successfully launches | Early Education Leaders, an Institute at UMass Boston (score=10)",
+          "#? StrongStart Professional Development Centers Leadership Coaching Institute successfully launches | Early Education Leaders, an Institute at UMass Boston (score=9)",
+          "#? StrongStart Professional Development Centers Leadership Coaching Institute successfully launches | Early Education Leaders, an Institute at UMass Boston (score=8)",
+          "#? From Struggle to Success: How Coaching Transformed One Young Provider\u2019s Early Education Journey | Early Education Leaders, an Institute at UMass Boston (score=7)",
+          "#? Massachusetts Statewide Coaching Collaborative: A Day of Learning and Networking | Early Education Leaders, an Institute at UMass Boston (score=7)",
+          "#? StrongStart Professional Development Centers Leadership Coaching Institute successfully launches | Early Education Leaders, an Institute at UMass Boston (score=7)",
+          "#? From Struggle to Success: How Coaching Transformed One Young Provider\u2019s Early Education Journey | Early Education Leaders, an Institute at UMass Boston (score=6)",
+          "#? From Struggle to Success: How Coaching Transformed One Young Provider\u2019s Early Education Journey | Early Education Leaders, an Institute at UMass Boston (score=6)",
+          "#? From Struggle to Success: How Coaching Transformed One Young Provider\u2019s Early Education Journey | Early Education Leaders, an Institute at UMass Boston (score=6)",
+          "#? From Leader to Coaching Leaders: A Journey of Personal and Professional Transformation | Early Education Leaders, an Institute at UMass Boston (score=6)",
+          "#? From Leader to Coaching Leaders: A Journey of Personal and Professional Transformation | Early Education Leaders, an Institute at UMass Boston (score=6)",
+          "#? Massachusetts Statewide Coaching Collaborative: A Day of Learning and Networking | Early Education Leaders, an Institute at UMass Boston (score=6)",
+          "#? What ECE Advocacy Looks like.docx (score=5)",
+          "#? From Struggle to Success: How Coaching Transformed One Young Provider\u2019s Early Education Journey | Early Education Leaders, an Institute at UMass Boston (score=5)",
+          "#? From Struggle to Success: How Coaching Transformed One Young Provider\u2019s Early Education Journey | Early Education Leaders, an Institute at UMass Boston (score=5)",
+          "#? From Struggle to Success: How Coaching Transformed One Young Provider\u2019s Early Education Journey | Early Education Leaders, an Institute at UMass Boston (score=5)",
+          "#? From Leader to Coaching Leaders: A Journey of Personal and Professional Transformation | Early Education Leaders, an Institute at UMass Boston (score=5)",
+          "#? From Leader to Coaching Leaders: A Journey of Personal and Professional Transformation | Early Education Leaders, an Institute at UMass Boston (score=5)"
+        ]
+      },
+      "best_variant": {
+        "metrics": {
+          "correct": 0,
+          "retrieval_hit": 1,
+          "score": 2,
+          "hint_match": 1,
+          "notes": "why_hard=Coaching is described through a narrative case study rather than a definition, requiring synthesis of multiple support functions into a coherent description. | likely_failure_mode=Retrieval may surface general program descriptions instead of the specific case study detailing coaching activities and support mechanisms."
+        },
+        "retrieval_status": "ok",
+        "top_results": [
+          "#1 StrongStart Professional Development Centers Leadership Coaching Institute successfully launches | Early Education Leaders, an Institute at UMass Boston (score=0.6085)",
+          "#2 From Leader to Coaching Leaders: A Journey of Personal and Professional Transformation | Early Education Leaders, an Institute at UMass Boston (score=0.5725)",
+          "#3 Meet a StrongStart PDC Coach: Shauna Trick | Early Education Leaders, an Institute at UMass Boston (score=0.5687)",
+          "#4 Meet a StrongStart PDC Coach: Shauna Trick | Early Education Leaders, an Institute at UMass Boston (score=0.5551)",
+          "#5 From Leader to Coaching Leaders: A Journey of Personal and Professional Transformation | Early Education Leaders, an Institute at UMass Boston (score=0.5514)",
+          "#6 From Leader to Coaching Leaders: A Journey of Personal and Professional Transformation | Early Education Leaders, an Institute at UMass Boston (score=0.54)",
+          "#7 Advancing scholarship in early ed leadership: Amanda Wiehe Lopes | Early Education Leaders, an Institute at UMass Boston (score=0.5351)",
+          "#8 Deanna Donnelly.docx (score=0.5348)",
+          "#9 With one-on-one coaching, help is just a phone call away | Early Education Leaders, an Institute at UMass Boston (score=0.5348)",
+          "#10 Clarence Little .docx (score=0.5309)",
+          "#11 Building leaders within ECE\u00a0 | Early Education Leaders, an Institute at UMass Boston (score=0.5309)",
+          "#12 StrongStart Professional Development Centers Leadership Coaching Institute successfully launches | Early Education Leaders, an Institute at UMass Boston (score=0.5297)",
+          "#13 StrongStart Professional Development Centers Leadership Coaching Institute successfully launches | Early Education Leaders, an Institute at UMass Boston (score=0.5279)",
+          "#14 From Teacher to Coach: Amanda Kelly\u2019s Journey in Early Education Leadership | Early Education Leaders, an Institute at UMass Boston (score=0.5275)",
+          "#15 Clarence Little .docx (score=0.5252)",
+          "#16 Building leaders within ECE\u00a0 | Early Education Leaders, an Institute at UMass Boston (score=0.5252)",
+          "#17 Clarence Little .docx (score=0.525)",
+          "#18 Building leaders within ECE\u00a0 | Early Education Leaders, an Institute at UMass Boston (score=0.525)",
+          "#19 From Teacher to Coach: Amanda Kelly\u2019s Journey in Early Education Leadership | Early Education Leaders, an Institute at UMass Boston (score=0.5243)",
+          "#20 From Teacher to Coach: Amanda Kelly\u2019s Journey in Early Education Leadership | Early Education Leaders, an Institute at UMass Boston (score=0.5199)"
+        ]
+      }
+    }
+  ]
+}
