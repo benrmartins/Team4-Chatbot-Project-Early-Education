@@ -4,7 +4,7 @@
 #SBATCH --error=outputs/hpc/%x-%A_%a.err
 #SBATCH --cpus-per-task=4
 #SBATCH --mem=8G
-#SBATCH --array=0-1
+#SBATCH --array=0-2
 #SBATCH --partition=pomplun         # Specify the partition
 #SBATCH --gres=gpu:1                # Request 1 GPU
 #SBATCH --time=01:00:00             # Time limit hrs:min:sec
@@ -23,6 +23,8 @@ cd "$REPO_ROOT"
 
 OUTPUT_DIR="$REPO_ROOT/outputs/hpc"
 mkdir -p "$OUTPUT_DIR"
+
+source .venv/bin/activate
 
 PYTHON_BIN="$REPO_ROOT/.venv/bin/python"
 if [[ ! -x "$PYTHON_BIN" ]]; then
@@ -47,16 +49,18 @@ else
   GPUS_PER_JOB="0"
 fi
 
+OUTPUT_JSON="$OUTPUT_DIR/variant_test_results_shard_${SHARD_INDEX}_of_${NUM_SHARDS}.json"
+
+MAX_RESULTS=3
 DISPLAY_SHARD_INDEX=$((SHARD_INDEX + 1))
-OUTPUT_JSON="$OUTPUT_DIR/variant_test_results_shard_${DISPLAY_SHARD_INDEX}_of_${NUM_SHARDS}.json"
 
 EXTRA_FLAGS=()
 if [[ "$SHARD_INDEX" != "0" ]]; then
   EXTRA_FLAGS+=(--skip-baseline)
 fi
 
-# Optional: delete per-variant SQLite DBs after scoring.
-if [[ "${VARIANT_CLEANUP_DBS:-0}" == "1" ]]; then
+# Keep disk usage low by deleting per-variant SQLite DBs after scoring.
+if [[ "${VARIANT_CLEANUP_DBS:-1}" == "1" ]]; then
   EXTRA_FLAGS+=(--cleanup-variant-dbs)
 fi
 
@@ -75,6 +79,5 @@ echo "Writing artifact: ${OUTPUT_JSON}"
   --hpc-node-count "$NODE_COUNT" \
   --hpc-cpus-per-job "$CPUS_PER_JOB" \
   --hpc-gpus-per-job "$GPUS_PER_JOB" \
-  --limit 1 \
-  --include-dummy-variant \
+  --max-results "$MAX_RESULTS" \
   "${EXTRA_FLAGS[@]}"
