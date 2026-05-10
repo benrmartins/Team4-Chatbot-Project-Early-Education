@@ -67,4 +67,5 @@ echo "Writing artifact: ${OUTPUT_JSON}"
   --hpc-node-count "$NODE_COUNT" \
   --hpc-cpus-per-job "$CPUS_PER_JOB" \
   --hpc-gpus-per-job "$GPUS_PER_JOB" \
+  --limit 0 \
   "${EXTRA_FLAGS[@]}"

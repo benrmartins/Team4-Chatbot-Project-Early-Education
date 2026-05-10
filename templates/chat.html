@@ -1,0 +1,1035 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ bot_name }} | Early Education Leaders Institute</title>
+  <style>
+    :root {
+      --ink: #1E2732;
+      --muted: #667485;
+      --line: #D8E0E6;
+      --surface: #FFFEFB;
+      --surface-soft: #F6F4EE;
+      --page-bg: #F3F7F6;
+      --blue: #2D5D7B;
+      --blue-dark: #234A63;
+      --green: #5F7D6E;
+      --green-dark: #486355;
+      --gold: #A77733;
+      --gold-soft: #F5EBDD;
+      --red: #8A3F3A;
+      --red-soft: #FBEDEA;
+      --success-text: #2E5E46;
+      --success-bg: #E8F2EC;
+      --review-text: #8A642B;
+      --review-bg: #FBF3E3;
+      --warning-text: #8B5B2B;
+      --warning-bg: #FFF7EA;
+      --error-text: #8A3F3A;
+      --error-bg: #FBEDEA;
+      --shadow: 0 18px 50px rgba(31, 44, 56, 0.10);
+      --radius: 8px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Georgia, "Times New Roman", serif;
+      background:
+        linear-gradient(135deg, rgba(45, 93, 123, 0.08), transparent 38%),
+        linear-gradient(315deg, rgba(95, 125, 110, 0.08), transparent 42%),
+        var(--page-bg);
+      color: var(--ink);
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(255, 254, 251, 0.94);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(12px);
+    }
+
+    .topbar-inner {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 14px 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 230px;
+    }
+
+    .brand-mark {
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .brand-mark img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .brand-title {
+      font-weight: 700;
+      font-size: 18px;
+      line-height: 1.1;
+    }
+
+    .brand-subtitle {
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 3px;
+      font-family: "Trebuchet MS", Verdana, sans-serif;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: "Trebuchet MS", Verdana, sans-serif;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--muted);
+      padding: 9px 12px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .nav-links a.active,
+    .nav-links a:hover {
+      color: var(--blue-dark);
+      background: #EEF3F6;
+    }
+
+    .page {
+      max-width: 100%;
+      margin: 0;
+      padding: 30px 22px 46px;
+      display: flex;
+      flex-direction: column;
+      min-height: 100%;
+    }
+
+    .intro {
+      margin-bottom: 22px;
+    }
+
+    .intro-main {
+      background: rgba(255, 254, 251, 0.88);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 30px;
+    }
+
+    .eyebrow {
+      color: var(--green-dark);
+      font-family: "Trebuchet MS", Verdana, sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0;
+      margin: 0 0 9px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 36px;
+      line-height: 1.08;
+      letter-spacing: 0;
+    }
+
+    .lead {
+      color: var(--muted);
+      font-family: "Trebuchet MS", Verdana, sans-serif;
+      line-height: 1.55;
+      margin: 14px 0 0;
+      max-width: 780px;
+    }
+
+    .chat-shell {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      min-height: 620px;
+      overflow: hidden;
+    }
+
+    .chat-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      padding: 18px 20px;
+      border-bottom: 1px solid var(--line);
+      background: linear-gradient(180deg, #FFFEFB, #F8F6EF);
+    }
+
+    .chat-heading {
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .chat-note {
+      color: var(--muted);
+      font-family: "Trebuchet MS", Verdana, sans-serif;
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    .chat-kicker,
+    .source-kicker {
+      color: var(--green-dark);
+      font-family: "Trebuchet MS", Verdana, sans-serif;
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .source-guided {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      padding: 6px 10px;
+      background: var(--success-bg);
+      color: var(--success-text);
+      font-family: "Trebuchet MS", Verdana, sans-serif;
+      font-size: 13px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .messages {
+      padding: 22px;
+      min-height: 430px;
+      max-height: 58vh;
+      overflow-y: auto;
+      background:
+        linear-gradient(rgba(45, 93, 123, 0.035) 1px, transparent 1px),
+        #F7FAF8;
+      background-size: 100% 34px;
+    }
+
+    .empty-state {
+      max-width: 680px;
+      margin: 44px auto;
+      padding: 24px;
+      background: rgba(255, 254, 251, 0.86);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: 0 10px 30px rgba(31, 44, 56, 0.07);
+      text-align: center;
+    }
+
+    .empty-state h2 {
+      margin: 0 0 8px;
+      font-size: 24px;
+      line-height: 1.2;
+      color: var(--ink);
+    }
+
+    .empty-state p {
+      margin: 0 0 16px;
+      color: var(--muted);
+      font-family: "Trebuchet MS", Verdana, sans-serif;
+      line-height: 1.5;
+    }
+
+    .prompt-chips {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .prompt-chip {
+      border: 1px solid #D9D2C4;
+      background: #FFFEFB;
+      color: var(--blue-dark);
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-family: "Trebuchet MS", Verdana, sans-serif;
+      font-weight: 700;
+      cursor: pointer;
+      min-height: auto;
+    }
+
+    .prompt-chip:hover,
+    .prompt-chip:focus {
+      background: var(--gold-soft);
+      border-color: #CDBB9C;
+      outline: none;
+      transform: none;
+    }
+
+    .msg {
+      max-width: 860px;
+      margin: 0 0 16px;
+      white-space: pre-wrap;
+    }
+
+    .msg.user {
+      margin-left: auto;
+      background: #DCE9F1;
+      color: var(--ink);
+      border: 1px solid #C9DCE8;
+      border-radius: var(--radius);
+      padding: 13px 15px;
+      font-family: "Trebuchet MS", Verdana, sans-serif;
+      box-shadow: 0 8px 22px rgba(31, 44, 56, 0.10);
+    }
+
+    .msg.bot {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 16px;
+      box-shadow: 0 10px 28px rgba(25, 52, 72, 0.08);
+    }
+
+    .status {
+      color: var(--blue-dark);
+      font-family: "Trebuchet MS", Verdana, sans-serif;
+      font-size: 14px;
+      margin: 4px 0 16px;
+    }
+
+    .bot-response {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .answer-card,
+    .section-block {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--surface);
+      padding: 14px;
+    }
+
+    .answer-card {
+      background: linear-gradient(180deg, var(--surface), #FFFFFF);
+      border-color: #E0D8C8;
+      border-top: 4px solid var(--green);
+      box-shadow: 0 10px 30px rgba(31, 44, 56, 0.08);
+    }
+
+    .section-title {
+      font-family: "Trebuchet MS", Verdana, sans-serif;
+      color: var(--blue-dark);
+      font-size: 13px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0;
+      margin-bottom: 9px;
+    }
+
+    .answer {
+      line-height: 1.58;
+      font-size: 16px;
+    }
+
+    .link-list,
+    .evidence-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .source-card {
+      border: 1px solid #E6DDCB;
+      border-left: 4px solid var(--green);
+      border-radius: var(--radius);
+      padding: 14px;
+      background: #FBF8F1;
+      box-shadow: 0 8px 20px rgba(31, 44, 56, 0.06);
+    }
+
+    .source-kicker {
+      margin-bottom: 4px;
+    }
+
+    .source-title {
+      color: var(--ink);
+      font-weight: 700;
+      text-decoration: none;
+      word-break: break-word;
+    }
+
+    .source-title:hover {
+      color: var(--blue-dark);
+      text-decoration: underline;
+    }
+
+    .source-date {
+      color: var(--gold);
+      font-family: "Trebuchet MS", Verdana, sans-serif;
+      font-size: 12px;
+      font-weight: 800;
+      margin-top: 4px;
+    }
+
+    .source-snippet {
+      color: var(--muted);
+      font-family: "Trebuchet MS", Verdana, sans-serif;
+      font-size: 13px;
+      line-height: 1.5;
+      margin-top: 7px;
+    }
+
+    .retrieval-note {
+      border: 1px solid #E9C98C;
+      background: var(--warning-bg);
+      color: var(--warning-text);
+      border-radius: var(--radius);
+      padding: 12px 14px;
+      font-family: "Trebuchet MS", Verdana, sans-serif;
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    .retrieval-note strong {
+      display: block;
+      margin-bottom: 3px;
+      color: var(--warning-text);
+    }
+
+    .source-confidence {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-family: "Trebuchet MS", Verdana, sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      width: fit-content;
+    }
+
+    .source-confidence.strong {
+      background: var(--success-bg);
+      color: var(--success-text);
+    }
+
+    .source-confidence.partial {
+      background: #EEF3F6;
+      color: var(--blue-dark);
+    }
+
+    .source-confidence.limited {
+      background: var(--warning-bg);
+      color: var(--warning-text);
+    }
+
+    details {
+      margin-top: 8px;
+      font-family: "Trebuchet MS", Verdana, sans-serif;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    details summary {
+      cursor: pointer;
+      color: var(--blue-dark);
+      font-weight: 700;
+    }
+
+    .composer {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto auto;
+      gap: 10px;
+      padding: 16px;
+      border-top: 1px solid var(--line);
+      background: var(--surface);
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 13px 14px;
+      border: 1px solid #b9c8d7;
+      border-radius: var(--radius);
+      font-family: "Trebuchet MS", Verdana, sans-serif;
+      font-size: 15px;
+    }
+
+    input[type="text"]:focus {
+      outline: 3px solid rgba(31, 111, 159, 0.18);
+      border-color: var(--blue);
+    }
+
+    button {
+      min-height: 45px;
+      padding: 0 16px;
+      border: 1px solid #b9c8d7;
+      border-radius: var(--radius);
+      background: #fff;
+      color: var(--ink);
+      cursor: pointer;
+      font-family: "Trebuchet MS", Verdana, sans-serif;
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    button.primary {
+      border-color: var(--blue);
+      background: var(--blue);
+      color: #fff;
+    }
+
+    button.primary:hover {
+      background: var(--blue-dark);
+      border-color: var(--blue-dark);
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+    }
+
+    .sidebar {
+      display: block;
+      width: 240px;
+      border-right: 1px solid var(--line);
+      padding: 20px;
+      background: var(--surface);
+      overflow-y: auto;
+      max-height: calc(100vh - 80px);
+    }
+
+    .sidebar-section {
+      margin-bottom: 30px;
+    }
+
+    .sidebar-section-title {
+      font-family: "Trebuchet MS", Verdana, sans-serif;
+      color: var(--blue-dark);
+      font-size: 13px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0;
+      margin-bottom: 12px;
+    }
+
+    .sidebar-section-content {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .sidebar-section-content a {
+      text-decoration: none;
+      color: var(--blue);
+      padding: 8px 10px;
+      border-radius: var(--radius);
+      font-family: "Trebuchet MS", Verdana, sans-serif;
+      font-size: 14px;
+      transition: background 120ms ease, color 120ms ease;
+      word-break: break-word;
+    }
+
+    .sidebar-section-content a:hover {
+      background: #EEF3F6;
+      color: var(--blue-dark);
+    }
+
+    .sidebar-section-content p {
+      margin: 0;
+      color: var(--muted);
+      font-family: "Trebuchet MS", Verdana, sans-serif;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .chat-wrapper {
+      display: grid;
+      grid-template-columns: 240px minmax(0, 1fr);
+      min-height: calc(100vh - 80px);
+      gap: 0;
+    }
+
+    @media (max-width: 820px) {
+      .topbar-inner,
+      .chat-header {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      h1 {
+        font-size: 30px;
+      }
+
+      .composer {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-links {
+        flex-wrap: wrap;
+      }
+
+      .sidebar {
+        display: none;
+      }
+
+      .chat-wrapper {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <div class="brand-mark">
+          <img src="/static/owlbot-logo.png" alt="OWL Bot Logo" />
+        </div>
+        <div>
+          <div class="brand-title">Institute Knowledge Assistant</div>
+          <div class="brand-subtitle">Verified answers from institute sources</div>
+        </div>
+      </div>
+      <nav class="nav-links" aria-label="Primary navigation">
+        <a href="/" class="active">Chat</a>
+        {% if is_logged_in %}
+          <a href="/dashboard">Dashboard</a>
+          <a href="/logout" style="margin-left: auto; color: #8a3f3a;">Sign out</a>
+        {% else %}
+          <a href="/login">Sign in</a>
+        {% endif %}
+      </nav>
+    </div>
+  </header>
+
+  <div class="chat-wrapper">
+    <aside class="sidebar" aria-label="Chat history and controls">
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">Chat history</div>
+        <div class="sidebar-section-content"></div>
+      </div>
+    </aside>
+
+    <main class="page">
+    <section class="intro" aria-labelledby="page-title">
+      <div class="intro-main">
+        <p class="eyebrow">Institute reference desk</p>
+        <h1 id="page-title">Institute Knowledge Assistant</h1>
+        <p class="lead">Ask Owlbot about institute programs, resources, reports, and public information. Owlbot searches the institute source collection, summarizes what it finds, and shows the supporting sources behind each answer.</p>
+      </div>
+    </section>
+
+    <section class="chat-shell" aria-label="Owlbot chat">
+      <div class="chat-header">
+        <div>
+          <div class="chat-kicker">Owlbot Reference Desk</div>
+          <div class="chat-heading">Answers from institute sources</div>
+          <div class="chat-note">Ask one question at a time for the clearest source matching.</div>
+        </div>
+        <div class="source-guided">Source-guided</div>
+      </div>
+      <div id="messages" class="messages">
+      </div>
+      <form id="chatForm" class="composer">
+        <input id="messageInput" type="text" placeholder="Ask about institute programs, resources, or contacts..." autocomplete="off" required>
+        <button class="primary" type="submit">Send</button>
+        <button type="button" id="resetBtn">Reset</button>
+      </form>
+    </section>
+  </main>
+  </div>
+
+  <script>
+    const form = document.getElementById("chatForm");
+    const input = document.getElementById("messageInput");
+    const messages = document.getElementById("messages");
+    const resetBtn = document.getElementById("resetBtn");
+    const suggestions = {{ prompt_suggestions | tojson }}
+    const previousChats = {{ chats | tojson }}
+    const chatHistory = {{ chat_history | tojson }}.filter(item => item.role !== "system");
+    const chatId = {{ chat_id | tojson }};
+
+    function removeEmptyState() {
+      const emptyState = messages.querySelector("[data-empty-state]");
+      if (emptyState) emptyState.remove();
+    }
+
+    function renderSidebar(previousChats) {
+      let sidebarContent = document.querySelector(".sidebar .sidebar-section-content");
+      if (sidebarContent && previousChats.length !== 0) {
+        sidebarContent.innerHTML = "";
+        for (const chat of previousChats) {
+          const link = document.createElement("a");
+          link.href = `/chat/${chat.chat_id}`;
+          link.textContent = chat.name || `Chat ${chat.chat_id.slice(0, 8)}`;
+          sidebarContent.appendChild(link);
+        }
+      }
+
+      if (sidebarContent.innerHTML.trim() === "") {
+        sidebarContent.innerHTML = "<p>No previous chats found. Start a conversation to see it listed here.</p>";
+      }
+    }
+
+    function renderEmptyState(prompts = []) {
+      let emptyState = `
+        <div class="empty-state" data-empty-state>
+          <h2>How can Owlbot help?</h2>
+          <p>Try asking about institute programs, application information, educator resources, public reports, events, or source coverage.</p>
+          <div class="prompt-chips" aria-label="Suggested questions">
+      `;
+
+      for (const item of prompts) {
+        emptyState += `<button class="prompt-chip" type="button" data-prompt="${item}">${item}</button>`;
+      }
+
+      emptyState += `
+          </div>
+        </div>
+      `;
+
+      
+      messages.innerHTML = emptyState;
+    }
+
+    function renderHistory(history) {
+      for (const turn of history) {
+        if (turn.role === "user") {
+          appendMessage(turn.content, "user");
+        } else if (turn.role === "assistant") {
+          appendBotResponse(turn);
+        }
+      }
+    }
+
+    function renderPage() {
+      renderSidebar(previousChats);
+      if (chatHistory.length > 0) {
+        renderHistory(chatHistory);
+      } else {
+        renderEmptyState(suggestions);
+      }
+    }
+
+    function getLoginState() {
+        return fetch("/login_status")
+          .then((response) => response.json())
+          .catch(() => ({ logged_in: false }))
+    }
+
+    function appendMessage(text, className) {
+      removeEmptyState();
+      const div = document.createElement("div");
+      div.className = `msg ${className}`;
+      div.textContent = text;
+      messages.appendChild(div);
+      messages.scrollTop = messages.scrollHeight;
+    }
+
+    function appendStatus(text) {
+      removeEmptyState();
+      const div = document.createElement("div");
+      div.className = "status";
+      div.textContent = text;
+      messages.appendChild(div);
+      messages.scrollTop = messages.scrollHeight;
+      return div;
+    }
+
+    function sourceLabel(rank) {
+      if (rank === 1) return "Most relevant source";
+      if (rank === 2) return "Additional supporting source";
+      return "Related source";
+    }
+
+    function formatSourceDate(url) {
+      const match = String(url || "").match(/\/(\d{4})\/(\d{2})\/(\d{2})(?:\/|$)/);
+      if (!match) return "";
+
+      const year = Number(match[1]);
+      const month = Number(match[2]);
+      const day = Number(match[3]);
+      const date = new Date(year, month - 1, day);
+
+      if (
+        date.getFullYear() !== year ||
+        date.getMonth() !== month - 1 ||
+        date.getDate() !== day
+      ) {
+        return "";
+      }
+
+      return `Published ${date.toLocaleDateString(undefined, {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+      })}`;
+    }
+
+    function appendSourceDate(card, url) {
+      const sourceDate = formatSourceDate(url);
+      if (!sourceDate) return;
+
+      const date = document.createElement("div");
+      date.className = "source-date";
+      date.textContent = sourceDate;
+      card.appendChild(date);
+    }
+
+    function uniqueSourcesByUrl(sources) {
+      const seen = new Set();
+      const unique = [];
+
+      for (const source of sources) {
+        const rawUrl = String(source.url || "").trim();
+        const key = rawUrl
+          ? rawUrl.replace(/#.*$/, "").replace(/\/$/, "").toLowerCase()
+          : `title:${String(source.title || "").trim().toLowerCase()}`;
+
+        if (!key || seen.has(key)) continue;
+        seen.add(key);
+        unique.push(source);
+      }
+
+      return unique;
+    }
+
+    function confidenceState(retrieval, evidenceCount) {
+      if (retrieval.low_confidence) {
+        return {
+          className: "limited",
+          label: "Limited source match",
+          description: "Owlbot found only a limited source match. Please verify this answer with institute staff before relying on it.",
+        };
+      }
+      if (evidenceCount >= 2) {
+        return {
+          className: "strong",
+          label: "Strong source match",
+          description: "Based on institute sources found in the source collection.",
+        };
+      }
+      if (evidenceCount === 1) {
+        return {
+          className: "partial",
+          label: "Partial source match",
+          description: "Owlbot found a relevant institute source, but staff may want to review the answer.",
+        };
+      }
+      return null;
+    }
+
+    function appendBotResponse(payload) {
+      const wrapper = document.createElement("div");
+      wrapper.className = "msg bot";
+
+      const response = document.createElement("div");
+      response.className = "bot-response";
+
+      const answerCard = document.createElement("div");
+      answerCard.className = "answer-card";
+
+      const answerTitle = document.createElement("div");
+      answerTitle.className = "section-title";
+      answerTitle.textContent = "Answer";
+      answerCard.appendChild(answerTitle);
+
+      const answer = document.createElement("div");
+      answer.className = "answer";
+      answer.textContent = payload.content || "This may be a question for institute staff. Please contact the Early Education Leaders Institute at earlyedleaders@umb.edu.";
+      answerCard.appendChild(answer);
+      response.appendChild(answerCard);
+
+      const retrieval = payload.retrieval || {};
+      const evidenceSources = uniqueSourcesByUrl(payload.evidence || []);
+      const citationSources = uniqueSourcesByUrl(payload.citations || []);
+      const confidenceStateInfo = confidenceState(retrieval, evidenceSources.length);
+      if (confidenceStateInfo) {
+        const confidence = document.createElement("div");
+        confidence.className = `source-confidence ${confidenceStateInfo.className}`;
+        confidence.textContent = confidenceStateInfo.label;
+        confidence.title = confidenceStateInfo.description;
+        response.appendChild(confidence);
+      }
+
+      if (retrieval.low_confidence) {
+        const confidence = document.createElement("div");
+        confidence.className = "retrieval-note";
+        confidence.innerHTML = "<strong>Staff review recommended</strong>Owlbot found only a limited source match. Please verify this answer with institute staff before relying on it.";
+        response.appendChild(confidence);
+      }
+
+      if (evidenceSources.length) {
+        const section = document.createElement("div");
+        section.className = "section-block";
+
+        const title = document.createElement("div");
+        title.className = "section-title";
+        title.textContent = "Supporting Sources";
+        section.appendChild(title);
+
+        const list = document.createElement("div");
+        list.className = "evidence-list";
+
+        for (const item of evidenceSources) {
+          const card = document.createElement("div");
+          card.className = "source-card";
+
+          const kicker = document.createElement("div");
+          kicker.className = "source-kicker";
+          kicker.textContent = "Supporting Source";
+          card.appendChild(kicker);
+
+          const sourceTitle = document.createElement(item.url ? "a" : "div");
+          sourceTitle.className = "source-title";
+          sourceTitle.textContent = item.title || "Untitled source";
+          if (item.url) {
+            sourceTitle.href = item.url;
+            sourceTitle.target = "_blank";
+            sourceTitle.rel = "noreferrer";
+          }
+          card.appendChild(sourceTitle);
+          appendSourceDate(card, item.url);
+
+          if (item.snippet) {
+            const snippetLabel = document.createElement("div");
+            snippetLabel.className = "source-kicker";
+            snippetLabel.textContent = "Relevant passage";
+            card.appendChild(snippetLabel);
+            const snippet = document.createElement("div");
+            snippet.className = "source-snippet";
+            snippet.textContent = item.snippet;
+            card.appendChild(snippet);
+          }
+
+          const details = document.createElement("details");
+          const summary = document.createElement("summary");
+          summary.textContent = "Source details";
+          details.appendChild(summary);
+          const detailText = document.createElement("div");
+          const matchedTerms = (item.matched_terms || []).join(", ") || "Not available";
+          detailText.textContent = `Matched terms: ${matchedTerms}`;
+          details.appendChild(detailText);
+          card.appendChild(details);
+
+          list.appendChild(card);
+        }
+
+        section.appendChild(list);
+        response.appendChild(section);
+      } else if (citationSources.length) {
+        const section = document.createElement("div");
+        section.className = "section-block";
+
+        const title = document.createElement("div");
+        title.className = "section-title";
+        title.textContent = "Supporting Sources";
+        section.appendChild(title);
+
+        const list = document.createElement("div");
+        list.className = "link-list";
+        for (const citation of citationSources) {
+          const card = document.createElement("div");
+          card.className = "source-card";
+          const link = document.createElement(citation.url ? "a" : "div");
+          link.className = "source-title";
+          link.textContent = citation.title || "Untitled source";
+          if (citation.url) {
+            link.href = citation.url;
+            link.target = "_blank";
+            link.rel = "noreferrer";
+          }
+          card.appendChild(link);
+          appendSourceDate(card, citation.url);
+          list.appendChild(card);
+        }
+        section.appendChild(list);
+        response.appendChild(section);
+      }
+
+      wrapper.appendChild(response);
+      messages.appendChild(wrapper);
+      messages.scrollTop = messages.scrollHeight;
+    }
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const message = input.value.trim();
+      if (!message) return;
+
+      appendMessage(message, "user");
+      input.value = "";
+      input.focus();
+
+      const statusEl = appendStatus("Owlbot is checking the available sources...");
+
+      try {
+        const response = await fetch(`/chat`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message }),
+        });
+
+        const payload = await response.json();
+        statusEl.remove();
+
+        if (!response.ok) {
+          appendMessage(payload.error || "Request failed.", "assistant");
+          return;
+        }
+
+        appendBotResponse(payload);
+      } catch (error) {
+        statusEl.remove();
+        appendMessage("Owlbot could not be reached. Please try again in a moment.", "assistant");
+      }
+
+      // change href to current chat after first message is sent
+      const newUrl = `/chat/${chatId}`;
+      window.history.pushState({ path: newUrl }, '', newUrl);
+    });
+
+    resetBtn.addEventListener("click", async () => {
+      await fetch(`/reset/${chatId}`, { method: "POST" });
+      renderPage();
+      input.focus();
+    });
+
+    messages.addEventListener("click", (event) => {
+      const chip = event.target.closest("[data-prompt]");
+      if (!chip) return;
+      input.value = chip.dataset.prompt || "";
+      input.focus();
+    });
+
+    window.addEventListener("DOMContentLoaded", async () => {
+      renderPage();
+    });
+  </script>
+</body>
+</html>
