@@ -1,18 +1,23 @@
+from dataclasses import asdict
 import io
 import json
+import random
 import shutil
 import sqlite3
 from datetime import datetime, timezone
+from functools import wraps
 from pathlib import Path
 from uuid import uuid4
 
 from flask import Flask, flash, jsonify, redirect, render_template, request, session, url_for
+from werkzeug.security import check_password_hash, generate_password_hash
 from werkzeug.utils import secure_filename
 import pandas as pd
 from PyPDF2 import PdfReader
 from docx import Document
 
 from chatbot import Chatbot
+from chatbot.chatbot_api import ChatTurnPayload
 from ingestion_pipeline.scripts.build_chunk_payload import build_chunk_payload, normalize_text
 from ingestion_pipeline.services.vector_store import (
     get_embedder_with_dimension,
@@ -23,6 +28,7 @@ from ingestion_pipeline.services.vector_store import (
 
 from scripts.run_retrieval_benchmark import _load_best_variant
 from project_config import (
+    PROJECT_ROOT,
     DATA_DIR,
     DEFAULT_BATCH_SIZE,
     DEFAULT_CHUNK_OVERLAP,
@@ -35,6 +41,19 @@ from project_config import (
 
 app = Flask(__name__)
 app.secret_key = "change-me-in-production"
+
+# Session configuration for security
+app.config["PERMANENT_SESSION_LIFETIME"] = 3600  # 1 hour session timeout
+app.config["SESSION_COOKIE_SECURE"] = False  # Set to True in production with HTTPS
+app.config["SESSION_COOKIE_HTTPONLY"] = True  # Prevent JavaScript access
+app.config["SESSION_COOKIE_SAMESITE"] = "Lax"  # CSRF protection
+
+# Demo user credentials. For production, use a proper database with proper auth (e.g., Auth0, AWS Cognito).
+# These are intentionally simple for demonstration purposes.
+DEMO_USERS = {
+    "demo@example.edu": generate_password_hash("demo-password-123"),
+    "admin@example.edu": generate_password_hash("admin-password-456"),
+}
 
 # In-memory chat state keyed by browser session id.
 _CHATBOTS = {}
@@ -55,37 +74,69 @@ DASHBOARD_CATEGORIES = [
 PROCESSABLE_SOURCE_STATUSES = {"Needs Processing", "Processing Failed"}
 REVIEW_STALE_DAYS = 365
 
-def _load_benchmark_chatbot() -> Chatbot:
+def _load_benchmark_chatbot(chat_id: str | None = None) -> Chatbot:
     try:
         variant = _load_best_variant(UNIFIED_HPC_RESULTS_PATH)
     except (FileNotFoundError, ValueError) as exc:
         print(f"Could not load benchmark variant; using local default database. Reason: {exc}")
-        return Chatbot()
+        return Chatbot(chat_id=chat_id)
 
     if not variant:
         print("No benchmark variant found; using local default database.")
-        return Chatbot()
+        return Chatbot(chat_id=chat_id)
     output_path = variant.get("output_path")
     if not output_path:
         print("Benchmark variant does not specify a knowledge base path; using local default database.")
-        return Chatbot()
-    return Chatbot(database_path=output_path)
+        return Chatbot(chat_id=chat_id)
+    return Chatbot(database_path=output_path, chat_id=chat_id)
 
-def _get_chatbot() -> Chatbot:
-    chat_id = session.get("chat_id")
+def _get_chatbot(chat_id: str | None = None) -> Chatbot:
     if not chat_id:
         chat_id = str(uuid4())
         session["chat_id"] = chat_id
 
     bot = _CHATBOTS.get(chat_id)
     if bot is None:
-        bot = _load_benchmark_chatbot()
+        bot = _load_benchmark_chatbot(chat_id=chat_id)
         _CHATBOTS[chat_id] = bot
     return bot
 
+def _get_all_chatbots():
+    bots = _CHATBOTS.values()
+    named_bots = [bot for bot in bots if bot.name]
+    return [
+        {"name": bot.name, "chat_id": bot.chat_id}
+        for bot in named_bots
+    ]
 
 def allowed_file(filename: str) -> bool:
     return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_UPLOAD_EXTENSIONS
+
+
+def _is_logged_in() -> bool:
+    """Check if the current user is logged in."""
+    return "user_email" in session and "user_id" in session
+
+
+def _get_current_user() -> dict | None:
+    """Get the current logged-in user info, or None if not logged in."""
+    if _is_logged_in():
+        return {
+            "user_id": session.get("user_id"),
+            "user_email": session.get("user_email"),
+        }
+    return None
+
+
+def login_required(f):
+    """Decorator to protect routes. Redirects to login if not authenticated."""
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if not _is_logged_in():
+            flash("Please log in to access this page.", "info")
+            return redirect(url_for("login_page"))
+        return f(*args, **kwargs)
+    return decorated_function
 
 
 def load_dashboard_sources() -> list[dict]:
@@ -531,19 +582,63 @@ def process_dashboard_source(source: dict) -> None:
         embedder=embedder,
         batch_size=DEFAULT_BATCH_SIZE,
     )
-    return len(payload.get("chunks", []))
+    # return len(payload.get("chunks", []))
 
+def getSamplePrompts(count: int = 3) -> list[str]:
+    # use evaluation/retrieval_benchmark.json as inspiration for sample prompts, but make them relevant to an early education context
+    full_sample_set = json.loads((PROJECT_ROOT / "evaluation" / "retrieval_benchmark.json").read_text(encoding="utf-8"))
+
+    if count >= len(full_sample_set):
+        return full_sample_set
+
+    selected_prompts = []
+
+    while len(selected_prompts) < count:
+        prompt = random.choice(full_sample_set)
+        question = prompt.get("question", "").strip()
+        answer = prompt.get("ground_truth", "").strip()
+        if question and answer and question not in selected_prompts:
+            selected_prompts.append(question)
+
+    return selected_prompts
+
+def _get_fake_chatbots() -> list[str]:
+    # This is a placeholder for demonstration. In a real application, this would pull from actual chatbot instances or a database.
+    return ["chatbot_1", "chatbot_2", "chatbot_3"]
 
 @app.get("/")
 def index():
-    bot = _get_chatbot()
-    return render_template("index.html", bot_name=bot.name, onboard_prompt=bot.onboard_prompt)
+    return chat()
 
+@app.get("/chat/<chat_id>")
+def chat(chat_id: str | None = None):
+    bot = _get_chatbot(chat_id)
+    return render_template(
+        "chat.html",
+        bot_name=bot.name,
+        chat_id=bot.chat_id,
+        chat_history=bot.get_history(),
+        onboard_prompt=bot.onboard_prompt,
+        is_logged_in=_is_logged_in(),
+        current_user=_get_current_user(),
+        prompt_suggestions=getSamplePrompts(3),
+        chats=_get_all_chatbots()
+    )
+
+
+@app.get("/login")
+def login_page():
+    """Render the login page. Redirect to home if already logged in."""
+    if _is_logged_in():
+        return redirect(url_for("index"))
+    return render_template("login.html")
 
 @app.get("/dashboard")
+@login_required
 def dashboard():
     sources = build_content_library()
     review_items = build_review_items()
+    user = _get_current_user()
     return render_template(
         "dashboard.html",
         summary=build_dashboard_summary(),
@@ -554,10 +649,14 @@ def dashboard():
         review_items=review_items,
         library_filters=build_library_filters(),
         categories=DASHBOARD_CATEGORIES,
+        current_user=user,
+        is_logged_in = _is_logged_in(),
+        chats=_get_all_chatbots(),
     )
 
 
 @app.post("/dashboard/upload")
+@login_required
 def dashboard_upload():
     title = (request.form.get("title") or "").strip()
     category = (request.form.get("category") or "Other").strip() or "Other"
@@ -614,6 +713,7 @@ def dashboard_upload():
 
 
 @app.post("/dashboard/process/<source_id>")
+@login_required
 def dashboard_process(source_id: str):
     sources, source = _load_dashboard_source_by_id(source_id)
     if source is None:
@@ -651,6 +751,7 @@ def dashboard_process(source_id: str):
 
 
 @app.post("/dashboard/delete/<source_id>")
+@login_required
 def dashboard_delete(source_id: str):
     sources, source = _load_dashboard_source_by_id(source_id)
     if source is None:
@@ -696,34 +797,92 @@ def dashboard_delete(source_id: str):
         flash("This uploaded file was removed from the dashboard.", "success")
     return redirect(url_for("dashboard"))
 
+@app.post("/dashboard/reset")
+@login_required
+def dashboard_reset():
+    try:
+        backup_path = _create_dashboard_db_backup()
+        init_db(DASHBOARD_PROCESS_DB_PATH)
+        flash(
+            "The chatbot's knowledge base has been reset. A backup of the previous state was saved at "
+            f"{backup_path}. You can restore from this backup by replacing the current database file with the backup file.",
+            "success",
+        )
+    except Exception as exc:
+        print(f"Dashboard reset failed: {exc}")
+        flash("The chatbot's knowledge base could not be reset right now. Please try again.", "error")
+    return redirect(url_for("dashboard"))
+
+@app.post("/dashboard/restore_backup")
+@login_required
+def dashboard_restore_backup():
+    try:
+        backup_path = _dashboard_backup_path()
+        if not backup_path.exists():
+            flash("No backup file could be found to restore.", "error")
+            return redirect(url_for("dashboard"))
+        shutil.copy2(backup_path, DASHBOARD_PROCESS_DB_PATH)
+        flash(
+            "A backup has been restored to the chatbot's knowledge base. If you are still seeing issues, please try resetting the knowledge base.",
+            "success",
+        )
+    except Exception as exc:
+        print(f"Dashboard restore backup failed: {exc}")
+        flash("The backup could not be restored right now. Please try again.", "error")
+    return redirect(url_for("dashboard"))
+
+@app.post("/login")
+def login():
+    """Handle login form submission. Validate credentials and set session."""
+    email = (request.form.get("email") or "").strip().lower()
+    password = request.form.get("password") or ""
+
+    # Validate input
+    if not email or not password:
+        flash("Email and password are required.", "error")
+        return redirect(url_for("login_page"))
+
+    # Check credentials against demo users
+    is_valid_password = check_password_hash(DEMO_USERS[email], password)
+    if email not in DEMO_USERS or not is_valid_password:
+        flash("Invalid email or password. Please try again.", "error")
+        return redirect(url_for("login_page"))
+
+    # Create session
+    session["user_id"] = email
+    session["user_email"] = email
+    session.permanent = request.form.get("remember") == "on"
+
+    flash(f"Welcome back, {email.split('@')[0]}!", "success")
+    return redirect(url_for("index"))
+
+
+@app.get("/logout")
+def logout():
+    """Log out the current user and clear the session."""
+    session.clear()
+    flash(f"You have been logged out. Goodbye!", "info")
+    return redirect(url_for("login_page"))
 
 @app.post("/chat")
-def chat():
+def chatAPI():
     payload = request.get_json(silent=True) or {}
     user_input = (payload.get("message") or "").strip()
 
     if not user_input:
         return jsonify({"error": "Message cannot be empty."}), 400
 
-    bot = _get_chatbot()
+    bot = _get_chatbot(session.get("chat_id"))
     status_events = []
 
     def _status_callback(status: str) -> None:
         status_events.append(status)
 
-    response_payload = bot.create_response(user_input, status_callback=_status_callback)
-    return jsonify({
-        "reply": response_payload["reply"],
-        "citations": response_payload["citations"],
-        "evidence": response_payload["evidence"],
-        "retrieval": response_payload["retrieval"],
-        "status_events": status_events,
-    })
+    return bot.create_response(user_input, status_callback=_status_callback)
 
 
-@app.post("/reset")
-def reset():
-    chat_id = session.get("chat_id")
+@app.post("/delete/<chat_id>")
+def reset(chat_id):
     if chat_id and chat_id in _CHATBOTS:
         del _CHATBOTS[chat_id]
     session.pop("chat_id", None)
@@ -732,7 +891,7 @@ def reset():
 
 @app.get("/health")
 def health():
-    return jsonify({"status": "ok"})
+    return jsonify({"status": "ok", "chatbot_count": len(_CHATBOTS)})
 
 
 if __name__ == "__main__":

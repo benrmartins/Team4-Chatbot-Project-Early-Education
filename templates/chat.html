@@ -127,9 +127,12 @@
     }
 
     .page {
-      max-width: 1180px;
-      margin: 0 auto;
+      max-width: 100%;
+      margin: 0;
       padding: 30px 22px 46px;
+      display: flex;
+      flex-direction: column;
+      min-height: 100%;
     }
 
     .intro {
@@ -510,6 +513,67 @@
       transform: translateY(-1px);
     }
 
+    .sidebar {
+      display: block;
+      width: 240px;
+      border-right: 1px solid var(--line);
+      padding: 20px;
+      background: var(--surface);
+      overflow-y: auto;
+      max-height: calc(100vh - 80px);
+    }
+
+    .sidebar-section {
+      margin-bottom: 30px;
+    }
+
+    .sidebar-section-title {
+      font-family: "Trebuchet MS", Verdana, sans-serif;
+      color: var(--blue-dark);
+      font-size: 13px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0;
+      margin-bottom: 12px;
+    }
+
+    .sidebar-section-content {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .sidebar-section-content a {
+      text-decoration: none;
+      color: var(--blue);
+      padding: 8px 10px;
+      border-radius: var(--radius);
+      font-family: "Trebuchet MS", Verdana, sans-serif;
+      font-size: 14px;
+      transition: background 120ms ease, color 120ms ease;
+      word-break: break-word;
+    }
+
+    .sidebar-section-content a:hover {
+      background: #EEF3F6;
+      color: var(--blue-dark);
+    }
+
+    .sidebar-section-content p {
+      margin: 0;
+      color: var(--muted);
+      font-family: "Trebuchet MS", Verdana, sans-serif;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .chat-wrapper {
+      display: grid;
+      grid-template-columns: 240px minmax(0, 1fr);
+      min-height: calc(100vh - 80px);
+      gap: 0;
+    }
+
     @media (max-width: 820px) {
       .topbar-inner,
       .chat-header {
@@ -528,6 +592,14 @@
       .nav-links {
         flex-wrap: wrap;
       }
+
+      .sidebar {
+        display: none;
+      }
+
+      .chat-wrapper {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
@@ -545,13 +617,25 @@
       </div>
       <nav class="nav-links" aria-label="Primary navigation">
         <a href="/" class="active">Chat</a>
-        <a href="/dashboard">Dashboard</a>
-        <a href="/dashboard#content-library">Sources</a>
+        {% if is_logged_in %}
+          <a href="/dashboard">Dashboard</a>
+          <a href="/logout" style="margin-left: auto; color: #8a3f3a;">Sign out</a>
+        {% else %}
+          <a href="/login">Sign in</a>
+        {% endif %}
       </nav>
     </div>
   </header>
 
-  <main class="page">
+  <div class="chat-wrapper">
+    <aside class="sidebar" aria-label="Chat history and controls">
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">Chat history</div>
+        <div class="sidebar-section-content"></div>
+      </div>
+    </aside>
+
+    <main class="page">
     <section class="intro" aria-labelledby="page-title">
       <div class="intro-main">
         <p class="eyebrow">Institute reference desk</p>
@@ -570,18 +654,6 @@
         <div class="source-guided">Source-guided</div>
       </div>
       <div id="messages" class="messages">
-        <div class="empty-state" data-empty-state>
-          <h2>How can Owlbot help?</h2>
-          <p>Try asking about institute programs, application information, educator resources, public reports, events, or source coverage.</p>
-          <div class="prompt-chips" aria-label="Suggested questions">
-            <button class="prompt-chip" type="button" data-prompt="What institute programs are available?">Institute programs</button>
-            <button class="prompt-chip" type="button" data-prompt="Where can I find application information?">Application information</button>
-            <button class="prompt-chip" type="button" data-prompt="What resources are available for educators?">Resources for educators</button>
-            <button class="prompt-chip" type="button" data-prompt="What public reports are available?">Public reports</button>
-            <button class="prompt-chip" type="button" data-prompt="What recent events or updates are listed?">Events and updates</button>
-            <button class="prompt-chip" type="button" data-prompt="What sources does Owlbot currently know about?">Source coverage</button>
-          </div>
-        </div>
       </div>
       <form id="chatForm" class="composer">
         <input id="messageInput" type="text" placeholder="Ask about institute programs, resources, or contacts..." autocomplete="off" required>
@@ -590,33 +662,84 @@
       </form>
     </section>
   </main>
+  </div>
 
   <script>
     const form = document.getElementById("chatForm");
     const input = document.getElementById("messageInput");
     const messages = document.getElementById("messages");
     const resetBtn = document.getElementById("resetBtn");
+    const suggestions = {{ prompt_suggestions | tojson }}
+    const previousChats = {{ chats | tojson }}
+    const chatHistory = {{ chat_history | tojson }}.filter(item => item.role !== "system");
+    const chatId = {{ chat_id | tojson }};
 
     function removeEmptyState() {
       const emptyState = messages.querySelector("[data-empty-state]");
       if (emptyState) emptyState.remove();
     }
 
-    function renderEmptyState() {
-      messages.innerHTML = `
+    function renderSidebar(previousChats) {
+      let sidebarContent = document.querySelector(".sidebar .sidebar-section-content");
+      if (sidebarContent && previousChats.length !== 0) {
+        sidebarContent.innerHTML = "";
+        for (const chat of previousChats) {
+          const link = document.createElement("a");
+          link.href = `/chat/${chat.chat_id}`;
+          link.textContent = chat.name || `Chat ${chat.chat_id.slice(0, 8)}`;
+          sidebarContent.appendChild(link);
+        }
+      }
+
+      if (sidebarContent.innerHTML.trim() === "") {
+        sidebarContent.innerHTML = "<p>No previous chats found. Start a conversation to see it listed here.</p>";
+      }
+    }
+
+    function renderEmptyState(prompts = []) {
+      let emptyState = `
         <div class="empty-state" data-empty-state>
           <h2>How can Owlbot help?</h2>
           <p>Try asking about institute programs, application information, educator resources, public reports, events, or source coverage.</p>
           <div class="prompt-chips" aria-label="Suggested questions">
-            <button class="prompt-chip" type="button" data-prompt="What institute programs are available?">Institute programs</button>
-            <button class="prompt-chip" type="button" data-prompt="Where can I find application information?">Application information</button>
-            <button class="prompt-chip" type="button" data-prompt="What resources are available for educators?">Resources for educators</button>
-            <button class="prompt-chip" type="button" data-prompt="What public reports are available?">Public reports</button>
-            <button class="prompt-chip" type="button" data-prompt="What recent events or updates are listed?">Events and updates</button>
-            <button class="prompt-chip" type="button" data-prompt="What sources does Owlbot currently know about?">Source coverage</button>
+      `;
+
+      for (const item of prompts) {
+        emptyState += `<button class="prompt-chip" type="button" data-prompt="${item}">${item}</button>`;
+      }
+
+      emptyState += `
           </div>
         </div>
       `;
+
+      
+      messages.innerHTML = emptyState;
+    }
+
+    function renderHistory(history) {
+      for (const turn of history) {
+        if (turn.role === "user") {
+          appendMessage(turn.content, "user");
+        } else if (turn.role === "assistant") {
+          appendBotResponse(turn);
+        }
+      }
+    }
+
+    function renderPage() {
+      renderSidebar(previousChats);
+      if (chatHistory.length > 0) {
+        renderHistory(chatHistory);
+      } else {
+        renderEmptyState(suggestions);
+      }
+    }
+
+    function getLoginState() {
+        return fetch("/login_status")
+          .then((response) => response.json())
+          .catch(() => ({ logged_in: false }))
     }
 
     function appendMessage(text, className) {
@@ -738,7 +861,7 @@
 
       const answer = document.createElement("div");
       answer.className = "answer";
-      answer.textContent = payload.reply || "This may be a question for institute staff. Please contact the Early Education Leaders Institute for the most accurate information.";
+      answer.textContent = payload.content || "This may be a question for institute staff. Please contact the Early Education Leaders Institute at earlyedleaders@umb.edu.";
       answerCard.appendChild(answer);
       response.appendChild(answerCard);
 
@@ -866,7 +989,7 @@
       const statusEl = appendStatus("Owlbot is checking the available sources...");
 
       try {
-        const response = await fetch("/chat", {
+        const response = await fetch(`/chat`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ message }),
@@ -876,20 +999,24 @@
         statusEl.remove();
 
         if (!response.ok) {
-          appendMessage(payload.error || "Request failed.", "bot");
+          appendMessage(payload.error || "Request failed.", "assistant");
           return;
         }
 
         appendBotResponse(payload);
       } catch (error) {
         statusEl.remove();
-        appendMessage("Owlbot could not be reached. Please try again in a moment.", "bot");
+        appendMessage("Owlbot could not be reached. Please try again in a moment.", "assistant");
       }
+
+      // change href to current chat after first message is sent
+      const newUrl = `/chat/${chatId}`;
+      window.history.pushState({ path: newUrl }, '', newUrl);
     });
 
     resetBtn.addEventListener("click", async () => {
-      await fetch("/reset", { method: "POST" });
-      renderEmptyState();
+      await fetch(`/reset/${chatId}`, { method: "POST" });
+      renderPage();
       input.focus();
     });
 
@@ -898,6 +1025,10 @@
       if (!chip) return;
       input.value = chip.dataset.prompt || "";
       input.focus();
+    });
+
+    window.addEventListener("DOMContentLoaded", async () => {
+      renderPage();
     });
   </script>
 </body>

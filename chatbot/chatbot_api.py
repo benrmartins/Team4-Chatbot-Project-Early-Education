@@ -22,10 +22,11 @@ from project_config import (
     TOOL_REPROMPT_TEMPLATE,
 )
 
+ALLOWED_MESSAGE_ROLES = {"system", "user", "assistant", "tool"}
+
 load_dotenv()
 
 client = OpenAI(api_key=os.getenv("OPENROUTER_API_KEY"), base_url=OPENROUTER_BASE_URL)
-
 
 def get_open_ai_response(messages, tool_choice: str = "auto"):
     request_kwargs = {
@@ -51,54 +52,57 @@ def get_open_ai_response(messages, tool_choice: str = "auto"):
 
     return response
 
+def get_name_from_query(query: str) -> str | None:
+    prompt = """Create a Conversation Name for the following query: {query}. 
+    The name should be concise (ideally under 5 words), descriptive of the query, 
+    and engaging. Avoid generic names like 'Chat' or 'Conversation'. If the query is 
+    about a specific topic, try to include that in the name. If the query is a question,
+    consider phrasing the name as a question as well. 
+    Return only the name without any additional text.""".format(query=query)
+    
+    response = client.chat.completions.create(
+        model="openai/gpt-oss-20b:free",
+        messages=[{"role": "system", "content": prompt}],
+    )
+    name = response.choices[0].message.content
 
-ALLOWED_MESSAGE_ROLES = {"system", "user", "assistant", "tool"}
-
-
-@dataclass
-class ChatMessage:
-    role: str
-    content: str
-
-    def to_dict(self) -> dict[str, str]:
-        return {"role": self.role, "content": self.content}
-
+    return name
 
 @dataclass
 class ChatTurnPayload:
-    reply: str
+    role: str
+    content: str
     citations: list[dict[str, str]]
     evidence: list[JSONDict]
     retrieval: JSONDict | None
 
-    def to_dict(self) -> JSONDict:
-        return asdict(self)
-
 
 class ConversationHistory:
     def __init__(self, context_limit: int = CHAT_CONTEXT_LIMIT):
-        self.messages: list[ChatMessage] = []
+        self.messages: list[ChatTurnPayload] = []
         self.context_limit = context_limit
 
-    def add_message(self, role: str, content: str) -> None:
-        if role not in ALLOWED_MESSAGE_ROLES:
+    def add_message(self, message: ChatTurnPayload) -> None:
+
+        if message.role not in ALLOWED_MESSAGE_ROLES:
             raise ValueError(
-                f"Invalid role: {role}. Must be 'system', 'user', 'assistant', or 'tool'."
+                f"Invalid role: {message.role}. Must be 'system', 'user', 'assistant', or 'tool'."
             )
-        if not isinstance(content, str):
+        if not isinstance(message.content, str):
             raise ValueError("Content must be a string.")
-        if not content.strip():
+        if not message.content.strip():
             raise ValueError("Content cannot be empty or whitespace.")
-        if len(content) > CHAT_MAX_MESSAGE_CHARS:
+        if len(message.content) > CHAT_MAX_MESSAGE_CHARS:
             raise ValueError(f"Content is too long. Must be less than {CHAT_MAX_MESSAGE_CHARS:,} characters.")
         if len(self.messages) >= self.context_limit:
             self.summarize()
-        self.messages.append(ChatMessage(role, content))
+        self.messages.append(message)
 
     def to_list(self) -> list[dict[str, str]]:
-        return [msg.to_dict() for msg in self.messages]
+        return [asdict(msg) for msg in self.messages]
 
     def summarize(self) -> None:
+        # TO DO: Implement a summarization method to condense conversation history when context limit is reached.
         self.messages = self.messages[-self.context_limit // 2 :]
 
 
@@ -111,13 +115,18 @@ class Chatbot:
             input_prompt=CHAT_INPUT_PROMPT, 
             onboard_prompt=ONBOARD_PROMPT,
             database_path: str = str(DEFAULT_VECTOR_DB_PATH) + "_default.sqlite",
+            chat_id: str | None = None,
         ):
-        self.name = name
+        self.name = None
+        self.chat_id = chat_id
         self.history = ConversationHistory(context_limit=context_limit)
-        self.history.add_message("system", system_prompt)
+        self.history.add_message(ChatTurnPayload(role="system", content=system_prompt, citations=[], evidence=[], retrieval=None))
         self.input_prompt = input_prompt
         self.onboard_prompt = onboard_prompt
         self.database_path = database_path
+
+    def get_history(self) -> list[dict[str, str]]:
+        return self.history.to_list()
 
     def create_response(
         self,
@@ -125,21 +134,22 @@ class Chatbot:
         status_callback: Callable[[str], None] | None = None,
     ) -> JSONDict:
         if not isinstance(user_input, str) or not user_input.strip():
-            return ChatTurnPayload(
-                reply="Please enter a non-empty question.",
+            return asdict(ChatTurnPayload(
+                role="assistant",
+                content="Please enter a non-empty question.",
                 citations=[],
                 evidence=[],
                 retrieval=None,
-            ).to_dict()
+            ))
 
-        self.history.add_message("user", user_input)
-
+        self.history.add_message(ChatTurnPayload(role="user", content=user_input, citations=[], evidence=[], retrieval=None))
+        self.get_name_from_query(user_input)
         request_messages = self.history.to_list()
         response = get_open_ai_response(request_messages, tool_choice="auto")
         assistant_message = response.choices[0].message
 
         payload = self._handle_response_payload(assistant_message, status_callback=status_callback)
-        return payload.to_dict()
+        return asdict(payload)
 
     def _handle_response_payload(
         self,
@@ -149,8 +159,9 @@ class Chatbot:
         tool_calls = message.tool_calls or []
         if not tool_calls:
             reply = self._sanitize_reply(message.content)
-            self.history.add_message("assistant", reply)
-            return ChatTurnPayload(reply=reply, citations=[], evidence=[], retrieval=None)
+            payload = ChatTurnPayload(role="assistant", content=reply, citations=[], evidence=[], retrieval=None)
+            self.history.add_message(payload)
+            return payload
 
         if status_callback:
             status_callback("running_tools")
@@ -193,20 +204,16 @@ class Chatbot:
         if status_callback:
             status_callback("generating_final")
 
-        self.history.add_message("system", generated_reprompt)
+        self.history.add_message(ChatTurnPayload(role="system", content=generated_reprompt, citations=[], evidence=[], retrieval=None))
         reprompt_messages = self.history.to_list()
         response = get_open_ai_response(reprompt_messages, tool_choice="none")
         final_message = response.choices[0].message
         reply = self._sanitize_reply(final_message.content)
 
         citations, evidence, retrieval = self._build_evidence_payload(tool_results)
-        self.history.add_message("assistant", reply)
-        return ChatTurnPayload(
-            reply=reply,
-            citations=citations,
-            evidence=evidence,
-            retrieval=retrieval,
-        )
+        payload = ChatTurnPayload(role="assistant", content=reply, citations=citations, evidence=evidence, retrieval=retrieval)
+        self.history.add_message(payload)
+        return payload
 
     def _sanitize_reply(self, content: str | None) -> str:
         reply = (content or "").strip()
@@ -291,3 +298,8 @@ class Chatbot:
             )
 
         return citations, evidence, retrieval
+    
+    def get_name_from_query(self, query: str) -> str | None:
+        if self.name is not None:
+            return
+        self.name = get_name_from_query(query)

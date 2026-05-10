@@ -695,7 +695,9 @@
       <nav class="nav-links" aria-label="Primary navigation">
         <a href="/">Chat</a>
         <a href="/dashboard" class="active">Dashboard</a>
-        <a href="#content-library">Sources</a>
+        {% if is_logged_in %}
+          <a href="/logout" style="margin-left: auto; color: #8a3f3a;">Sign out</a>
+        {% endif %}
       </nav>
     </div>
   </header>
