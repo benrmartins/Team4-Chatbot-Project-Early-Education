@@ -568,11 +568,11 @@ def process_dashboard_source(source: dict) -> None:
 
     _create_dashboard_db_backup(DASHBOARD_PROCESS_DB_PATH)
 
-    method, dim = read_db_embedding_config(
-        DASHBOARD_PROCESS_DB_PATH,
-        default_method="dummy",
-        default_dim=DEFAULT_EMBEDDING_DIM,
-    )
+    # use best variant instead of default embedding config for better performance and relevance in the dashboard context
+    variant = _load_best_variant(UNIFIED_HPC_RESULTS_PATH)
+    method = variant.get("embedding_method", str("dummy"))
+    dim = variant.get("embedding_dimension", DEFAULT_EMBEDDING_DIM) 
+
     embedder = get_embedder_with_dimension(dim=dim, embedding_method=method)
 
     _delete_existing_document_rows(DASHBOARD_PROCESS_DB_PATH, document["document_id"])
@@ -586,25 +586,30 @@ def process_dashboard_source(source: dict) -> None:
 
 def getSamplePrompts(count: int = 3) -> list[str]:
     # use evaluation/retrieval_benchmark.json as inspiration for sample prompts, but make them relevant to an early education context
-    full_sample_set = json.loads((PROJECT_ROOT / "evaluation" / "retrieval_benchmark.json").read_text(encoding="utf-8"))
+    # full_sample_set = json.loads((PROJECT_ROOT / "evaluation" / "retrieval_benchmark.json").read_text(encoding="utf-8"))
 
-    if count >= len(full_sample_set):
-        return full_sample_set
+    variant_file = json.loads((PROJECT_ROOT / "outputs" / "hpc" / "unified_variant_results.json").read_text(encoding="utf-8"))
 
-    selected_prompts = []
+    prompts = variant_file.get("variants", [])[0].get("details", {})
+
+    # filter anything with low scores or errors to ensure the sample prompts are high quality and relevant to the context, 
+    prompts = [prompt for prompt in prompts if prompt.get("error_code", None) is None]
+    prompts = [prompt for prompt in prompts if prompt.get("retrieval_hit") == 1] # focus on the best retrieval method for relevance
+    prompts = [prompt for prompt in prompts if prompt.get("hint_match") == 1] # focus on the best embedding method for relevance
+    prompts = [prompt for prompt in prompts if prompt.get("retrieval_status") == "ok"]
+    prompts = [prompt for prompt in prompts if prompt.get("grounding_verified") == 1]
+    prompts = [prompt for prompt in prompts if prompt.get("correct") == 1]
+    prompts = [prompt for prompt in prompts if prompt.get("score", 0) >= 4]
+
+    selected_prompts = ["What does Early Education Leaders do?"] # start with a fixed prompt that's relevant to the context, then add random ones after
 
     while len(selected_prompts) < count:
-        prompt = random.choice(full_sample_set)
+        prompt = random.choice(prompts)
         question = prompt.get("question", "").strip()
-        answer = prompt.get("ground_truth", "").strip()
-        if question and answer and question not in selected_prompts:
+        if question and question not in selected_prompts:
             selected_prompts.append(question)
 
     return selected_prompts
-
-def _get_fake_chatbots() -> list[str]:
-    # This is a placeholder for demonstration. In a real application, this would pull from actual chatbot instances or a database.
-    return ["chatbot_1", "chatbot_2", "chatbot_3"]
 
 @app.get("/")
 def index():
