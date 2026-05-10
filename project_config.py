@@ -144,28 +144,8 @@ VARIANT_TEST_BENCHMARK_PATH = PROJECT_ROOT / "evaluation" / "retrieval_benchmark
 VARIANT_TEST_MAX_RESULTS = 20
 
 # Retrieval tuning
-RETRIEVAL_CANDIDATE_POOL = 40
-RETRIEVAL_MAX_RESULTS_PER_DOCUMENT = 1
-RETRIEVAL_LOW_CONFIDENCE_MIN_SCORE = 3.5
-RETRIEVAL_LOW_CONFIDENCE_MIN_COVERAGE = 0.34
 RETRIEVAL_SNIPPET_MAX_CHARS = 320
-RETRIEVAL_SYNONYM_MAP = {
-    "multilingual": ["bilingual", "language", "languages", "linguistically"],
-    "bilingual": ["multilingual", "language", "languages", "linguistically"],
-    "teachers": ["educators", "teacher", "instructors"],
-    "teacher": ["educator", "teachers", "instructor"],
-    "educators": ["teacher", "teachers", "workforce"],
-    "support": ["help", "supports", "supporting", "assistance"],
-    "fellowship": ["fellow", "fellows", "scholarship"],
-    "fellows": ["fellowship", "fellow", "scholarship"],
-    "bachelor": ["degree", "ba", "undergraduate"],
-    "degree": ["bachelor", "undergraduate", "college"],
-    "change": ["improvement", "improve", "innovation"],
-    "policy": ["systems", "advocacy", "policymakers"],
-    "infants": ["infant", "toddler", "toddlers"],
-    "toddlers": ["toddler", "infant", "infants"],
-    "contact": ["email", "reach", "learn", "information"],
-}
+
 
 
 __all__ = [
@@ -197,12 +177,7 @@ __all__ = [
     "DEFAULT_CHUNK_SIZE",
     "DEFAULT_CHUNK_OVERLAP",
     "DEFAULT_MIN_CHUNK_SIZE",
-    "RETRIEVAL_CANDIDATE_POOL",
-    "RETRIEVAL_MAX_RESULTS_PER_DOCUMENT",
-    "RETRIEVAL_LOW_CONFIDENCE_MIN_SCORE",
-    "RETRIEVAL_LOW_CONFIDENCE_MIN_COVERAGE",
     "RETRIEVAL_SNIPPET_MAX_CHARS",
-    "RETRIEVAL_SYNONYM_MAP",
     "VARIANT_TEST_CHUNK_SIZES",
     "VARIANT_TEST_CHUNK_OVERLAPS",
     "VARIANT_TEST_EMBEDDING_DIMS",
