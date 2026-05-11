@@ -17,16 +17,24 @@ from project_config import (
     DEFAULT_VECTOR_DB_PATH,
     OPENROUTER_BASE_URL,
     OPENROUTER_MODEL,
+    OPENROUTER_TITLE_MODEL,
     ONBOARD_PROMPT,
+    PROJECT_ROOT,
     SYSTEM_PROMPT,
     TOOL_REPROMPT_TEMPLATE,
 )
 
 ALLOWED_MESSAGE_ROLES = {"system", "user", "assistant", "tool"}
 
-load_dotenv()
+# Load environment variables from .env file explicitly
+load_dotenv(str(PROJECT_ROOT / ".env"), override=True)
 
-client = OpenAI(api_key=os.getenv("OPENROUTER_API_KEY"), base_url=OPENROUTER_BASE_URL)
+api_key = os.getenv("OPENROUTER_API_KEY")
+if not api_key:
+    raise ValueError("OPENROUTER_API_KEY environment variable is not set. Please check your .env file.")
+
+# Primary client for authenticated requests
+client = OpenAI(api_key=api_key, base_url=OPENROUTER_BASE_URL)
 
 def get_open_ai_response(messages, tool_choice: str = "auto"):
     request_kwargs = {
@@ -62,15 +70,15 @@ def get_name_from_query(query: str) -> str | None:
     
     try:
         response = client.chat.completions.create(
-            model="openai/gpt-oss-20b:free",
+            model=OPENROUTER_TITLE_MODEL,
             messages=[{"role": "system", "content": prompt}],
         )
         name = response.choices[0].message.content
+        return name
     except Exception as e:
-        print(f"Error occurred while fetching conversation name: {e}")
-        name = "Unnamed Conversation"
-
-    return name
+        # Fallback: use a simple truncated version of the query as name
+        print(f"Warning: Failed to generate conversation name: {e}")
+        return query[:50] if query else "New Conversation"
 
 @dataclass
 class ChatTurnPayload:

@@ -658,21 +658,50 @@
       <form id="chatForm" class="composer">
         <input id="messageInput" type="text" placeholder="Ask about institute programs, resources, or contacts..." autocomplete="off" required>
         <button class="primary" type="submit">Send</button>
-        <button type="button" id="resetBtn">Reset</button>
+        <button type="button" id="resetBtn">New Chat</button>
       </form>
     </section>
   </main>
   </div>
+
+  <script id="promptSuggestionsData" type="application/json">{{ prompt_suggestions | tojson }}</script>
+  <script id="previousChatsData" type="application/json">{{ chats | tojson }}</script>
+  <script id="chatHistoryData" type="application/json">{{ chat_history | tojson }}</script>
+  <script id="chatIdData" type="application/json">{{ chat_id | tojson }}</script>
 
   <script>
     const form = document.getElementById("chatForm");
     const input = document.getElementById("messageInput");
     const messages = document.getElementById("messages");
     const resetBtn = document.getElementById("resetBtn");
-    const suggestions = {{ prompt_suggestions | tojson }}
-    const previousChats = {{ chats | tojson }}
-    const chatHistory = {{ chat_history | tojson }}.filter(item => item.role !== "system");
-    const chatId = {{ chat_id | tojson }};
+    const suggestions = JSON.parse(document.getElementById("promptSuggestionsData").textContent || "[]");
+    let previousChats = JSON.parse(document.getElementById("previousChatsData").textContent || "[]");
+    const chatHistory = JSON.parse(document.getElementById("chatHistoryData").textContent || "[]").filter(item => item.role !== "system");
+    const chatId = JSON.parse(document.getElementById("chatIdData").textContent || "null");
+    let isResetting = false;
+    let hasChatActivity = chatHistory.length > 0;
+
+    function compactTitle(value) {
+      const cleaned = String(value || "").replace(/\s+/g, " ").trim();
+      if (!cleaned) return "";
+      return cleaned.length > 60 ? `${cleaned.slice(0, 60)}...` : cleaned;
+    }
+
+    function ensureCurrentChatInSidebar(preferredTitle = "") {
+      if (!chatId) return;
+
+      const title = compactTitle(preferredTitle) || "New chat";
+      const existing = previousChats.find(chat => String(chat.chat_id) === String(chatId));
+
+      if (existing) {
+        if (!existing.name || existing.name.startsWith("New chat")) {
+          existing.name = title;
+        }
+        return;
+      }
+
+      previousChats.unshift({ chat_id: chatId, name: title });
+    }
 
     function removeEmptyState() {
       const emptyState = messages.querySelector("[data-empty-state]");
@@ -686,7 +715,7 @@
         for (const chat of previousChats) {
           const link = document.createElement("a");
           link.href = `/chat/${chat.chat_id}`;
-          link.textContent = chat.name || `Chat ${chat.chat_id.slice(0, 8)}`;
+          link.textContent = chat.name || "New chat";
           sidebarContent.appendChild(link);
         }
       }
@@ -729,6 +758,10 @@
     }
 
     function renderPage() {
+      if (chatHistory.length > 0) {
+        ensureCurrentChatInSidebar();
+      }
+
       renderSidebar(previousChats);
       if (chatHistory.length > 0) {
         renderHistory(chatHistory);
@@ -984,6 +1017,7 @@
       if (!message) return;
 
       appendMessage(message, "user");
+      hasChatActivity = true;
       input.value = "";
       input.focus();
 
@@ -1005,6 +1039,8 @@
         }
 
         appendBotResponse(payload);
+        ensureCurrentChatInSidebar(payload.chat_name || "");
+        renderSidebar(previousChats);
       } catch (error) {
         statusEl.remove();
         appendMessage("Owlbot could not be reached. Please try again in a moment.", "assistant");
@@ -1016,9 +1052,27 @@
     });
 
     resetBtn.addEventListener("click", async () => {
-      await fetch(`/reset/${chatId}`, { method: "POST" });
-      renderPage();
-      input.focus();
+      if (!hasChatActivity) {
+        input.focus();
+        return;
+      }
+      if (isResetting) return;
+      isResetting = true;
+      resetBtn.disabled = true;
+
+      try {
+        const response = await fetch(`/new_chat`, { method: "POST" });
+        const payload = await response.json();
+        if (!response.ok || !payload.chat_id) {
+          throw new Error("Failed to create a new chat session.");
+        }
+        window.location.assign(`/chat/${payload.chat_id}`);
+      } catch (error) {
+        isResetting = false;
+        resetBtn.disabled = false;
+        appendMessage("Could not start a new chat right now. Please try again.", "assistant");
+        input.focus();
+      }
     });
 
     messages.addEventListener("click", (event) => {
