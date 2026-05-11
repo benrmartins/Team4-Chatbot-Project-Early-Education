@@ -4,7 +4,7 @@ from pathlib import Path
 PROJECT_ROOT = Path(__file__).resolve().parent
 # Folder containing pipeline outputs and retrieval datasets.
 DATA_DIR = PROJECT_ROOT / "data"
-COST_LOG_PATH = PROJECT_ROOT / "cost_events.jsonl"
+COST_LOG_PATH = PROJECT_ROOT / "logs" / "cost_events.jsonl"
 
 # OAuth client credentials JSON used by Google Drive ingestion.
 CREDENTIALS_PATH = PROJECT_ROOT / "credentials.json"
@@ -24,7 +24,7 @@ UNIFIED_KNOWLEDGE_BASE_FALLBACK_PATH = PROJECT_ROOT / "unified_chunk_data.json"
 
 # Benchmark and HPC results paths. These are used by the retrieval benchmark script and can also be used to load a chatbot with the best performing variant for demo purposes.
 BENCHMARK_PATH = PROJECT_ROOT / "evaluation" / "retrieval_benchmark.json"
-UNIFIED_HPC_RESULTS_PATH = PROJECT_ROOT / "outputs" / "hpc" / "unified_variant_results.json"
+UNIFIED_HPC_RESULTS_PATH = PROJECT_ROOT / "HPC" / "HPC_results.json"
 
 # OpenRouter API endpoint and model used by chatbot completions.
 OPENROUTER_BASE_URL = "https://openrouter.ai/api/v1"

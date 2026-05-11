@@ -5,7 +5,7 @@ from typing import Any, Callable
 
 from dotenv import load_dotenv
 from openai import OpenAI
-from cost_logger import log_api_usage
+from logs.cost import log_api_usage
 
 from chatbot.tool_calls import TOOLS, execute_tool_call
 from ingestion_pipeline.schema import JSONDict

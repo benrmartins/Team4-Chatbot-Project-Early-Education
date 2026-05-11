@@ -26,7 +26,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional
 from ingestion_pipeline.schema import JSONDict
-from cost_logger import log_api_usage
+from logs.cost import log_api_usage
 from project_config import DEFAULT_BATCH_SIZE, OPENROUTER_BASE_URL, DEFAULT_EMBEDDING_DIM
 from abc import ABC, abstractmethod
 
