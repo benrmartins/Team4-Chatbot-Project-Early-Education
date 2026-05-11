@@ -58,7 +58,7 @@ REVIEW_STALE_DAYS = 365
 def _compute_sources_fingerprint(sources: list[dict]) -> str:
     """Compute a hash fingerprint of source URLs to detect changes."""
     urls = sorted([
-        source.get("url") or source.get("link") or ""
+        source.get("source_url") or source.get("url") or source.get("link") or ""
         for source in sources
         if isinstance(source, dict)
     ])
@@ -567,6 +567,42 @@ def _unique_upload_filename(filename: str) -> str:
     return f"{stem}_{uuid4().hex[:8]}{suffix}"
 
 
+def _save_uploaded_file(file_obj, filename: str) -> None:
+    """Save uploaded file to dashboard_uploads directory with error handling and OneDrive compatibility."""
+    DASHBOARD_UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
+    file_path = DASHBOARD_UPLOAD_DIR / filename
+    try:
+        # Use stream-based writing for better OneDrive compatibility
+        file_obj.seek(0)
+        with open(str(file_path), "wb") as f:
+            f.write(file_obj.read())
+    except (IOError, OSError) as exc:
+        # Clean up partial file if write failed
+        try:
+            file_path.unlink(missing_ok=True)
+        except OSError:
+            pass
+        raise ValueError(f"Failed to save uploaded file '{filename}': {str(exc)}")
+
+
+def _save_url_source_record(*, source_id: str, title: str, source_url: str, description: str, category: str) -> str:
+    """Save a small JSON record for a URL-only upload inside dashboard_uploads."""
+    DASHBOARD_UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
+    timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
+    record_filename = f"url_source_{timestamp}_{uuid4().hex[:8]}.json"
+    record_path = DASHBOARD_UPLOAD_DIR / record_filename
+    payload = {
+        "id": source_id,
+        "title": title,
+        "source_url": source_url,
+        "description": description,
+        "category": category,
+        "saved_at_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+    }
+    record_path.write_text(json.dumps(payload, indent=2, ensure_ascii=False), encoding="utf-8")
+    return record_filename
+
+
 def _extract_uploaded_text(file_path: Path, filename: str) -> str:
     suffix = file_path.suffix.lower()
 
@@ -668,18 +704,22 @@ def _build_url_document(source: dict, url: str, crawled_text: str) -> dict:
     }
 
 
-def _dashboard_uploaded_documents(sources: list[dict]) -> list[dict]:
+def _dashboard_file_documents(sources: list[dict]) -> list[dict]:
     documents: list[dict] = []
-    
-    # Process uploaded files
     for source in sources:
         filename = str(source.get("filename", "") or "").strip()
-        if filename:
-            file_path = DASHBOARD_UPLOAD_DIR / filename
-            if not file_path.exists():
-                continue
-            documents.append(_build_uploaded_document(source))
-    
+        if not filename:
+            continue
+        file_path = DASHBOARD_UPLOAD_DIR / filename
+        if not file_path.exists():
+            continue
+        documents.append(_build_uploaded_document(source))
+    return documents
+
+
+def _dashboard_uploaded_documents(sources: list[dict]) -> list[dict]:
+    documents: list[dict] = _dashboard_file_documents(sources)
+
     # Collect seeds from URL-only sources and crawl them
     web_seeds = []
     drive_links = []
@@ -693,7 +733,7 @@ def _dashboard_uploaded_documents(sources: list[dict]) -> list[dict]:
         
         # Collect URL seeds
         if source_url and source_url.startswith("http"):
-            if "drive.google.com/drive/folders/" in source_url:
+            if "drive.google.com/drive/" in source_url:
                 if source_url not in drive_links:
                     drive_links.append(source_url)
             else:
@@ -815,8 +855,43 @@ def process_dashboard_sources(*, use_defaults: bool = False) -> tuple[int, bool,
     else:
         # User uploads with incremental logic
         dashboard_sources = load_dashboard_sources()
-        uploaded_documents = _dashboard_uploaded_documents(dashboard_sources)
-        all_documents = uploaded_documents
+        file_documents = _dashboard_file_documents(dashboard_sources)
+        web_seeds, drive_links = _collect_dashboard_seed_links()
+        current_fingerprint = _compute_sources_fingerprint(dashboard_sources)
+        latest_cache = _load_latest_user_cache()
+        latest_fingerprint = latest_cache.get("_source_fingerprint", "")
+
+        url_documents: list[dict] = []
+        if web_seeds or drive_links:
+            if current_fingerprint == latest_fingerprint:
+                cached_documents = latest_cache.get("documents", [])
+                if isinstance(cached_documents, list):
+                    url_documents = [doc for doc in cached_documents if isinstance(doc, dict)]
+            else:
+                try:
+                    DASHBOARD_CACHE_DIR.mkdir(parents=True, exist_ok=True)
+                    output_path = str(DASHBOARD_CACHE_DIR / _generate_user_cache_filename())
+                    crawled_documents, crawled_summary = run_crawlers(
+                        web_seeds=web_seeds,
+                        drive_links=drive_links,
+                        web_output_path=output_path,
+                    )
+                    if isinstance(crawled_documents, list):
+                        url_documents = crawled_documents
+                        payload = {
+                            "documents": url_documents,
+                            "summary": crawled_summary or {},
+                            "_source_fingerprint": current_fingerprint,
+                            "generated_at_utc": datetime.now(timezone.utc).isoformat(),
+                        }
+                        Path(output_path).write_text(json.dumps(payload, indent=2, ensure_ascii=False), encoding="utf-8")
+                except Exception as exc:
+                    print(f"Failed to crawl user URL sources: {exc}")
+                    cached_documents = latest_cache.get("documents", [])
+                    if isinstance(cached_documents, list):
+                        url_documents = [doc for doc in cached_documents if isinstance(doc, dict)]
+
+        all_documents = file_documents + url_documents
 
         if not all_documents:
             raise ValueError(
@@ -834,24 +909,6 @@ def process_dashboard_sources(*, use_defaults: bool = False) -> tuple[int, bool,
             session["db_path"] = str(db_path)
             session["current_db_path"] = str(db_path)
             return 0, False, db_path
-
-        # Check if sources differ from latest cache before saving
-        current_fingerprint = _compute_sources_fingerprint(dashboard_sources)
-        latest_cache = _load_latest_user_cache()
-        latest_fingerprint = latest_cache.get("_source_fingerprint", "")
-        
-        # Only write new user cache if sources have changed
-        if current_fingerprint != latest_fingerprint:
-            payload = {
-                "documents": all_documents,
-                "summary": latest_cache.get("summary") or {},
-                "_source_fingerprint": current_fingerprint,
-                "generated_at_utc": datetime.now(timezone.utc).isoformat(),
-            }
-            DASHBOARD_CACHE_DIR.mkdir(parents=True, exist_ok=True)
-            cache_filename = _generate_user_cache_filename()
-            cache_path = DASHBOARD_CACHE_DIR / cache_filename
-            cache_path.write_text(json.dumps(payload, indent=2, ensure_ascii=False), encoding="utf-8")
 
         # Use DataProcessor to chunk and embed only the new documents
         processor = DataProcessor(

@@ -36,6 +36,8 @@ from dashboard_support import (
     _reset_database,
     _reset_web_payload,
     _restore_dashboard_backup,
+    _save_url_source_record,
+    _save_uploaded_file,
     _unique_upload_filename,
 )
 
@@ -269,6 +271,7 @@ def dashboard_upload():
     source_url = (request.form.get("source_url") or "").strip()
     upload = request.files.get("file")
     upload_filename = (upload.filename if upload else "") or ""
+    source_id = str(uuid4())
 
     if not title:
         flash("Please add a source title before submitting.", "error")
@@ -284,43 +287,55 @@ def dashboard_upload():
     try:
         saved_filename = ""
         if has_file:
-            DASHBOARD_UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
             saved_filename = _unique_upload_filename(upload_filename)
             if not saved_filename:
                 flash("This file type is not supported yet.", "error")
                 return redirect(url_for("dashboard"))
             assert upload is not None
-            upload.save(str(DASHBOARD_UPLOAD_DIR / saved_filename))
+            _save_uploaded_file(upload, saved_filename)
             upload.close()
+        else:
+            saved_record_filename = _save_url_source_record(
+                source_id=source_id,
+                title=title,
+                source_url=source_url,
+                description=description,
+                category=category or "Other",
+            )
 
         source_type = "Uploaded File" if has_file else _friendly_source_type({"url": source_url})
 
         sources = load_dashboard_sources()
-        sources.insert(
-            0,
-            {
-                "id": str(uuid4()),
-                "title": title,
-                "source_type": source_type,
-                "category": category or source_type,
-                "filename": saved_filename,
-                "source_url": source_url,
-                "description": description,
-                "status": "Needs Processing",
-                "uploaded_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
-                "ready_for_chatbot": False,
-            },
-        )
+        new_source = {
+            "id": source_id,
+            "title": title,
+            "source_type": source_type,
+            "category": category or source_type,
+            "filename": saved_filename,
+            "saved_record_filename": saved_record_filename if not has_file else "",
+            "source_url": source_url,
+            "description": description,
+            "status": "Needs Processing",
+            "uploaded_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+            "ready_for_chatbot": False,
+        }
+        sources.insert(0, new_source)
         save_dashboard_sources(sources)
-    except OSError as exc:
+    except (OSError, ValueError) as exc:
         print(f"Dashboard upload save failed: {exc}")
         flash("Something went wrong while saving the file. Please try again.", "error")
         return redirect(url_for("dashboard"))
 
-    flash(
-        "Your content was uploaded successfully. This source is saved and waiting to be prepared for the chatbot.",
-        "success",
-    )
+    if has_file:
+        flash(
+            "Your file was uploaded successfully. This source is saved and waiting to be prepared for the chatbot.",
+            "success",
+        )
+    else:
+        flash(
+            "Your URL source was saved successfully. This source is waiting to be prepared for the chatbot.",
+            "success",
+        )
     return redirect(url_for("dashboard"))
 
 @app.post("/dashboard/process")
@@ -429,6 +444,14 @@ def dashboard_delete(source_id: str):
             print(f"Dashboard upload delete failed: {exc}")
             flash("This file could not be removed right now. Please try again.", "error")
             return redirect(url_for("dashboard"))
+
+    saved_record_filename = str(source.get("saved_record_filename", "") or "").strip()
+    if saved_record_filename:
+        record_path = DASHBOARD_UPLOAD_DIR / saved_record_filename
+        try:
+            record_path.unlink(missing_ok=True)
+        except OSError as exc:
+            print(f"Dashboard URL record delete failed: {exc}")
 
     remaining_sources = [
         candidate

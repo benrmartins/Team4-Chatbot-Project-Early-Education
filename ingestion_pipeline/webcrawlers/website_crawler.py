@@ -71,12 +71,8 @@ def build_web_payload(documents: list[dict], skipped_pages: list[dict], pages_se
 class WebsiteCrawler:
     def __init__(self, seeds: Iterable[str], max_depth: int = CRAWLER_DEPTH_LIMIT, max_pages: int = 500) -> None:
         # Use provided seeds, fall back to DEFAULT_WEBSITE_SEED_URLS only if seeds is None
-        seed_list = seeds if seeds is not None else DEFAULT_WEBSITE_SEED_URLS
-        configured_seeds = [url.strip() for url in (seed_list or []) if url and url.strip()]
-        if not configured_seeds:
-            raise ValueError(
-                "No website seed URLs configured. Provide seeds or set DEFAULT_WEBSITE_SEED_URLS in project_config.py"
-            )
+        seed_list = seeds if seeds is not None else []
+        configured_seeds = [url.strip() for url in (seed_list or []) if url and url.strip()] or []
 
         self.headers = {
             "User-Agent": (
@@ -87,9 +83,6 @@ class WebsiteCrawler:
 
         # Normalize and deduplicate seed URLs to create a consistent set of starting points for crawling
         self.seed_prefixes = list(dict.fromkeys(filter(None, (self._canonicalize_url(seed) for seed in configured_seeds))))
-
-        if not self.seed_prefixes:
-            raise ValueError("No valid website seed URLs found after normalization.")
 
         self.allowed_domains = {urlparse(seed_prefix).netloc for seed_prefix in self.seed_prefixes}
         self.seed_prefix_set = set(self.seed_prefixes)
