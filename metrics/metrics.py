@@ -627,17 +627,18 @@ if __name__ == "__main__":
     
     # Sample evaluations based on demo questions
     # Format: (q_id, q_text, answer_q, ground_q, help_q, answer_corr, cit_pres, rel_ret, corr_ref, notes)
+    # corr_ref is True/False only for refusal-eligible prompts, otherwise None (N/A).
     evaluations_data = [
-        (1, "What does Early Education Leaders do?", 5, 5, 5, True, True, True, False, "Comprehensive and well-sourced"),
-        (2, "What kinds of leadership programs does Early Education Leaders offer?", 4, 5, 4, True, True, True, False, "Good detail, clear structure"),
-        (3, "How can someone get involved with Early Education Leaders or learn more?", 5, 4, 5, True, True, True, False, "Actionable contact info provided"),
-        (4, "What do graduates actually do after completing Early Education Leaders programs?", 3, 3, 4, True, False, True, False, "Some examples but limited detail"),
-        (5, "What kinds of partnerships or collaborations does Early Education Leaders mention?", 5, 5, 5, True, True, True, False, "Well-explained partnerships"),
-        (6, "What research does Anne Douglass do?", 4, 4, 4, True, True, True, False, "Good overview of research areas"),
+        (1, "What does Early Education Leaders do?", 5, 5, 5, True, True, True, None, "Comprehensive and well-sourced"),
+        (2, "What kinds of leadership programs does Early Education Leaders offer?", 4, 5, 4, True, True, True, None, "Good detail, clear structure"),
+        (3, "How can someone get involved with Early Education Leaders or learn more?", 5, 4, 5, True, True, True, None, "Actionable contact info provided"),
+        (4, "What do graduates actually do after completing Early Education Leaders programs?", 3, 3, 4, True, False, True, None, "Some examples but limited detail"),
+        (5, "What kinds of partnerships or collaborations does Early Education Leaders mention?", 5, 5, 5, True, True, True, None, "Well-explained partnerships"),
+        (6, "What research does Anne Douglass do?", 4, 4, 4, True, True, True, None, "Good overview of research areas"),
         (7, "What is the ExCELS study and why does it matter?", 1, 1, 1, False, False, False, True, "ERROR: Content empty - correct refusal"),
-        (8, "How is Early Education Leaders different from a normal training program?", 5, 5, 5, True, True, True, False, "Clear differentiation points"),
-        (9, "What is the Culture of Continuous Learning Project trying to improve?", 4, 4, 4, True, True, True, False, "Well-articulated goals"),
-        (10, "What is the Essential Leadership Model?", 4, 4, 4, True, True, True, False, "Good explanation of model")
+        (8, "How is Early Education Leaders different from a normal training program?", 5, 5, 5, True, True, True, None, "Clear differentiation points"),
+        (9, "What is the Culture of Continuous Learning Project trying to improve?", 4, 4, 4, True, True, True, None, "Well-articulated goals"),
+        (10, "What is the Essential Leadership Model?", 4, 4, 4, True, True, True, None, "Good explanation of model")
     ]
     
     for q_id, q_text, answer_q, ground_q, help_q, answer_corr, cit_pres, rel_ret, corr_ref, notes in evaluations_data:
@@ -661,7 +662,10 @@ if __name__ == "__main__":
     classification = metrics.get_classification_metrics()
     for metric, stats in classification.items():
         if metric != "total_responses_evaluated":
-            print(f"\n{metric.upper().replace('_', ' ')}:")
+            header = metric.upper().replace('_', ' ')
+            if metric == "correct_refusal":
+                header = "CORRECT REFUSAL (WHEN APPLICABLE)"
+            print(f"\n{header}:")
             for key, value in stats.items():
                 print(f"  {key}: {value}")
     
@@ -689,6 +693,11 @@ if __name__ == "__main__":
         # Add classification summary
         eval_obj = next(e for e in metrics.evaluations if e.question_id == summary['question_id'])
         class_summary = eval_obj.get_classification_summary()
-        print(f"     Classification: Correct={'Pass' if class_summary['answer_correctness'] else 'Fail'}, Citations={'Pass' if class_summary['citation_presence'] else 'Fail'}, Retrieval={'Pass' if class_summary['relevant_retrieval'] else 'Fail'}, Refusal={'Pass' if class_summary['correct_refusal'] else 'Fail'}")
+        refusal_status = (
+            "N/A"
+            if class_summary["correct_refusal"] is None
+            else ("Pass" if class_summary["correct_refusal"] else "Fail")
+        )
+        print(f"     Classification: Correct={'Pass' if class_summary['answer_correctness'] else 'Fail'}, Citations={'Pass' if class_summary['citation_presence'] else 'Fail'}, Retrieval={'Pass' if class_summary['relevant_retrieval'] else 'Fail'}, Refusal={refusal_status}")
         if summary['evaluator_notes']:
             print(f"     Notes: {summary['evaluator_notes']}")
