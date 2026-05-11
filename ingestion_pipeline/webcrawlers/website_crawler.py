@@ -70,10 +70,12 @@ def build_web_payload(documents: list[dict], skipped_pages: list[dict], pages_se
 
 class WebsiteCrawler:
     def __init__(self, seeds: Iterable[str], max_depth: int = CRAWLER_DEPTH_LIMIT, max_pages: int = 500) -> None:
-        configured_seeds = [url.strip() for url in (seeds or DEFAULT_WEBSITE_SEED_URLS) if url and url.strip()]
+        # Use provided seeds, fall back to DEFAULT_WEBSITE_SEED_URLS only if seeds is None
+        seed_list = seeds if seeds is not None else DEFAULT_WEBSITE_SEED_URLS
+        configured_seeds = [url.strip() for url in (seed_list or []) if url and url.strip()]
         if not configured_seeds:
             raise ValueError(
-                "No website seed URLs configured. Set DEFAULT_WEBSITE_SEED_URLS in project_config.py"
+                "No website seed URLs configured. Provide seeds or set DEFAULT_WEBSITE_SEED_URLS in project_config.py"
             )
 
         self.headers = {

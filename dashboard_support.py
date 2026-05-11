@@ -1,3 +1,4 @@
+import hashlib
 import io
 import json
 import random
@@ -21,6 +22,7 @@ from ingestion_pipeline.services.vector_store import (
     ingest_payload_to_sqlite,
     init_db,
 )
+from ingestion_pipeline.DataProcessor import DataProcessor
 from HPC.load_best_variant import load_best_variant
 from project_config import (
     PROJECT_ROOT,
@@ -38,6 +40,7 @@ from project_config import (
 
 DASHBOARD_UPLOAD_DIR = DATA_DIR / "dashboard_uploads"
 DASHBOARD_SOURCES_PATH = DATA_DIR / "dashboard_sources.json"
+DASHBOARD_CACHE_DIR = DATA_DIR / "dashboard_cache"  # User cache directory with timestamped files
 ALLOWED_UPLOAD_EXTENSIONS = {"txt", "md", "pdf", "docx", "csv", "json"}
 DASHBOARD_CATEGORIES = [
     "Institute Page",
@@ -50,6 +53,46 @@ DASHBOARD_CATEGORIES = [
 ]
 PROCESSABLE_SOURCE_STATUSES = {"Needs Processing", "Processing Failed"}
 REVIEW_STALE_DAYS = 365
+
+
+def _compute_sources_fingerprint(sources: list[dict]) -> str:
+    """Compute a hash fingerprint of source URLs to detect changes."""
+    urls = sorted([
+        source.get("url") or source.get("link") or ""
+        for source in sources
+        if isinstance(source, dict)
+    ])
+    url_string = "|".join(urls)
+    return hashlib.md5(url_string.encode()).hexdigest()
+
+
+def _find_latest_user_cache() -> Path | None:
+    """Find the most recently created user cache file."""
+    if not DASHBOARD_CACHE_DIR.exists():
+        return None
+    cache_files = sorted(
+        list(DASHBOARD_CACHE_DIR.glob("user_cache_*.json")),
+        reverse=True,
+    )
+    return cache_files[0] if cache_files else None
+
+
+def _load_latest_user_cache() -> dict:
+    """Load the most recent user cache file if it exists."""
+    latest_cache = _find_latest_user_cache()
+    if not latest_cache:
+        return {}
+    try:
+        payload = json.loads(latest_cache.read_text(encoding="utf-8"))
+        return payload if isinstance(payload, dict) else {}
+    except (OSError, json.JSONDecodeError):
+        return {}
+
+
+def _generate_user_cache_filename() -> str:
+    """Generate a timestamped user cache filename."""
+    timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
+    return f"user_cache_{timestamp}.json"
 
 
 def allowed_file(filename: str | None) -> bool:
@@ -70,7 +113,6 @@ def load_dashboard_sources() -> list[dict]:
     if isinstance(payload, dict) and isinstance(payload.get("sources"), list):
         return [source for source in payload["sources"] if isinstance(source, dict)]
     return []
-
 
 def save_dashboard_sources(sources: list[dict]) -> None:
     DASHBOARD_SOURCES_PATH.parent.mkdir(parents=True, exist_ok=True)
@@ -137,29 +179,16 @@ def _collect_dashboard_seed_links() -> tuple[list[str], list[str]]:
     return web_seeds, drive_links
 
 
-def _web_crawl(force: bool = False) -> None:
-    if force and DEFAULT_WEB_OUTPUT.exists():
-        DEFAULT_WEB_OUTPUT.unlink()
-
-    web_seeds, drive_links = _collect_dashboard_seed_links()
-
-    if not web_seeds:
-        web_seeds = list()
-    if not drive_links:
-        drive_links = list()
-
-    run_crawlers(
-        web_seeds=web_seeds,
-        drive_links=drive_links,
-        run_web=bool(web_seeds),
-        run_drive=bool(drive_links),
-        web_output_path=str(DEFAULT_WEB_OUTPUT),
-    )
-
 
 def _reset_web_payload() -> None:
     if DEFAULT_WEB_OUTPUT.exists():
         DEFAULT_WEB_OUTPUT.unlink()
+    if DASHBOARD_CACHE_DIR.exists():
+        for cache_file in DASHBOARD_CACHE_DIR.glob("*.json"):
+            try:
+                cache_file.unlink()
+            except OSError:
+                pass
 
 
 def _reset_database() -> None:
@@ -185,20 +214,32 @@ def _reset_dashboard_source_states() -> None:
         save_dashboard_sources(sources)
 
 
-def _load_web_payload(force: bool = False) -> dict:
-    if force or not DEFAULT_WEB_OUTPUT.exists():
+def _load_web_payload(force: bool = False, use_defaults: bool = False) -> dict:
+    # For defaults: use cache if it exists (unless force=True); respects DEFAULT_WEB_OUTPUT
+    # For regular (user uploads): load latest user cache (no web crawl)
+    if use_defaults:
+        if force or not DEFAULT_WEB_OUTPUT.exists():
+            try:
+                if force and DEFAULT_WEB_OUTPUT.exists():
+                    DEFAULT_WEB_OUTPUT.unlink()
+                documents, summary = run_crawlers(
+                    web_seeds=list(DEFAULT_WEBSITE_SEED_URLS),
+                    drive_links=list(DEFAULT_DRIVE_FOLDER_URLS),
+                    web_output_path=str(DEFAULT_WEB_OUTPUT),
+                )
+                return {"documents": documents, "summary": summary}
+            except Exception as exc:
+                print(f"Web crawl failed while building payload: {exc}")
+                return {}
+        # Use existing default cache
         try:
-            _web_crawl(force=force)
-        except Exception as exc:
-            print(f"Web crawl failed while building payload: {exc}")
+            payload = json.loads(DEFAULT_WEB_OUTPUT.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
             return {}
-    if not DEFAULT_WEB_OUTPUT.exists():
-        return {}
-    try:
-        payload = json.loads(DEFAULT_WEB_OUTPUT.read_text(encoding="utf-8"))
-    except (OSError, json.JSONDecodeError):
-        return {}
-    return payload if isinstance(payload, dict) else {}
+        return payload if isinstance(payload, dict) else {}
+    else:
+        # For user uploads: load latest user cache (no crawl, just load)
+        return _load_latest_user_cache()
 
 
 def _friendly_source_type(source: dict) -> str:
@@ -309,7 +350,7 @@ def _review_reasons_for_source(source: dict, *, uploaded: bool = False) -> list[
 
 def summarize_existing_sources() -> dict:
     # Dashboard reads the cached crawl output; explicit re-crawls happen only during processing.
-    payload = _load_web_payload(force=False)
+    payload = _load_web_payload(force=False, use_defaults=False)
     documents = payload.get("documents", [])
     documents = documents if isinstance(documents, list) else []
     summary = payload.get("summary", {})
@@ -601,16 +642,79 @@ def _delete_existing_document_rows(db_path: Path, document_id: str) -> None:
         conn.close()
 
 
+def _build_url_document(source: dict, url: str, crawled_text: str) -> dict:
+    """Build a document from a crawled URL source."""
+    source_id = str(source.get("id", "")).strip()
+    if not source_id:
+        raise ValueError("URL source is missing its dashboard id.")
+    
+    text = normalize_text(crawled_text)
+    if not text:
+        raise ValueError(f"URL {url} did not contain usable text for the chatbot.")
+    
+    return {
+        "document_id": f"url::{source_id}",
+        "source_type": "web_url",
+        "source_name": "dashboard_url",
+        "source_locator": url,
+        "title": source.get("title") or url,
+        "mime_type": "text/html",
+        "url": url,
+        "modified_time": source.get("uploaded_at"),
+        "size_bytes": len(crawled_text.encode()),
+        "folder_path": "dashboard_urls",
+        "text": text,
+        "char_count": len(text),
+    }
+
+
 def _dashboard_uploaded_documents(sources: list[dict]) -> list[dict]:
     documents: list[dict] = []
+    
+    # Process uploaded files
     for source in sources:
         filename = str(source.get("filename", "") or "").strip()
-        if not filename:
+        if filename:
+            file_path = DASHBOARD_UPLOAD_DIR / filename
+            if not file_path.exists():
+                continue
+            documents.append(_build_uploaded_document(source))
+    
+    # Collect seeds from URL-only sources and crawl them
+    web_seeds = []
+    drive_links = []
+    for source in sources:
+        filename = str(source.get("filename", "") or "").strip()
+        source_url = str(source.get("source_url", "") or "").strip()
+        
+        # Skip if it has a file (already processed above)
+        if filename:
             continue
-        file_path = DASHBOARD_UPLOAD_DIR / filename
-        if not file_path.exists():
-            continue
-        documents.append(_build_uploaded_document(source))
+        
+        # Collect URL seeds
+        if source_url and source_url.startswith("http"):
+            if "drive.google.com/drive/folders/" in source_url:
+                if source_url not in drive_links:
+                    drive_links.append(source_url)
+            else:
+                if source_url not in web_seeds:
+                    web_seeds.append(source_url)
+    
+    # If there are URL sources, crawl them
+    if web_seeds or drive_links:
+        try:
+            DASHBOARD_CACHE_DIR.mkdir(parents=True, exist_ok=True)
+            output_path = str(DASHBOARD_CACHE_DIR / _generate_user_cache_filename())
+            crawled_documents, crawled_summary = run_crawlers(
+                web_seeds=web_seeds,
+                drive_links=drive_links,
+                web_output_path=output_path,
+            )
+            if isinstance(crawled_documents, list):
+                documents.extend(crawled_documents)
+        except Exception as exc:
+            print(f"Failed to crawl user URL sources: {exc}")
+    
     return documents
 
 
@@ -631,82 +735,145 @@ def _get_existing_document_ids(db_path: Path) -> set[str]:
         return set()
 
 
-def process_dashboard_sources() -> tuple[int, bool, Path]:
+def process_dashboard_sources(*, use_defaults: bool = False) -> tuple[int, bool, Path]:
     # Build from the best benchmark variant settings when available, otherwise use defaults.
-    try:
-        variant = load_best_variant(UNIFIED_HPC_RESULTS_PATH)
-    except (FileNotFoundError, ValueError):
+    if use_defaults:
         variant = {}
+        db_path = DEFAULT_VECTOR_DB_PATH
+    else:
+        try:
+            variant = load_best_variant(UNIFIED_HPC_RESULTS_PATH)
+        except (FileNotFoundError, ValueError):
+            variant = {}
 
-    output_path = str((variant or {}).get("output_path", "")).strip()
-    db_path = Path(output_path) if output_path else _resolve_dashboard_db_path()
+        output_path = str((variant or {}).get("output_path", "")).strip()
+        db_path = Path(output_path) if output_path else _resolve_dashboard_db_path()
     if not db_path.is_absolute():
         db_path = PROJECT_ROOT / db_path
 
     # Get existing document IDs to avoid re-processing
     existing_doc_ids = _get_existing_document_ids(db_path)
 
-    payload = _load_web_payload()
-    web_documents = payload.get("documents", []) if isinstance(payload, dict) else []
-    web_documents = web_documents if isinstance(web_documents, list) else []
-
-    dashboard_sources = load_dashboard_sources()
-    uploaded_documents = _dashboard_uploaded_documents(dashboard_sources)
-
-    all_documents = web_documents + uploaded_documents
-    if not all_documents:
-        raise ValueError("No ingestion sources are available in data/web_data.json or dashboard uploads.")
-
-    # Filter to only NEW documents (not already in DB)
-    new_documents = [
-        doc for doc in all_documents
-        if doc.get("document_id") not in existing_doc_ids
-    ]
-
-    if not new_documents:
-        # No new documents to process, but return success with existing DB
-        session["db_path"] = str(db_path)
-        session["current_db_path"] = str(db_path)
-        return 0, False, db_path
-
-    payload = payload if isinstance(payload, dict) else {}
-    payload["documents"] = all_documents
-    payload["summary"] = payload.get("summary") or payload.get("source_summary") or {}
-    DEFAULT_WEB_OUTPUT.parent.mkdir(parents=True, exist_ok=True)
-    DEFAULT_WEB_OUTPUT.write_text(json.dumps(payload, indent=2, ensure_ascii=False), encoding="utf-8")
-
-    # Build chunks only for new documents
-    chunk_payload = build_chunk_payload(
-        documents=new_documents,
-        source={
-            "type": "dashboard_ingestion",
-            "source_id": "dashboard-batch",
-            "filename": "web_data.json",
-        },
-        chunk_size=int(variant.get("chunk_size", DEFAULT_CHUNK_SIZE)),
-        chunk_overlap=int(variant.get("chunk_overlap", DEFAULT_CHUNK_OVERLAP)),
-    )
-
-    if not chunk_payload.get("chunks"):
-        raise ValueError("New ingestion data could not be converted into chatbot-ready chunks.")
-
-    db_path.parent.mkdir(parents=True, exist_ok=True)
-    init_db(db_path)
-
-    method = str((variant or {}).get("embedding_method", "dummy"))
+    # Extract variant parameters
+    method = str((variant or {}).get("embedding_method", "openai_small"))
     dim = int((variant or {}).get("embedding_dim", DEFAULT_EMBEDDING_DIM))
     batch_size = int((variant or {}).get("batch_size", DEFAULT_BATCH_SIZE))
-    embedder = get_embedder_with_dimension(dim=dim, embedding_method=method)
+    chunk_size = int((variant or {}).get("chunk_size", DEFAULT_CHUNK_SIZE))
+    chunk_overlap = int((variant or {}).get("chunk_overlap", DEFAULT_CHUNK_OVERLAP))
 
-    # Ingest new chunks to existing DB (append, not replace)
-    ingest_payload_to_sqlite(
-        chunk_payload,
-        db_path,
-        embedder=embedder,
-        batch_size=batch_size,
-    )
+    if use_defaults:
+        # Use DataProcessor for defaults since no incremental logic needed
+        processor = DataProcessor(
+            name="dashboard_defaults",
+            chunk_size=chunk_size,
+            chunk_overlap=chunk_overlap,
+            embedding_dim=dim,
+            batch_size=batch_size,
+            output_path=str(db_path),
+            embedding_method=method,
+        )
+        
+        # Crawl with default seeds
+        if not DEFAULT_WEB_OUTPUT.exists():
+            processor.crawl(
+                output_path=str(DEFAULT_WEB_OUTPUT),
+                web_seeds=list(DEFAULT_WEBSITE_SEED_URLS),
+                drive_links=list(DEFAULT_DRIVE_FOLDER_URLS),
+            )
+        else:
+            processor.web_data = _load_web_payload(force=False, use_defaults=True).get("documents", [])
+        
+        # Get all documents
+        all_documents = processor.web_data or []
+        
+        # Filter to only NEW documents for incremental ingestion
+        new_documents = [
+            doc for doc in all_documents
+            if doc.get("document_id") not in existing_doc_ids
+        ]
+        
+        if not new_documents:
+            session["db_path"] = str(db_path)
+            session["current_db_path"] = str(db_path)
+            return 0, False, db_path
+        
+        # Use DataProcessor to chunk and embed only the new documents
+        processor.web_data = new_documents
+        processor.source_summary = processor.source_summary or {}
+        processor.chunk()
+        if not processor.chunk_payload or not processor.chunk_payload.get("chunks"):
+            raise ValueError("New ingestion data could not be converted into chatbot-ready chunks.")
+        processor.embed()
+
+        # Cache the payload
+        payload = {
+            "documents": all_documents,
+            "summary": processor.source_summary or {},
+        }
+        DEFAULT_WEB_OUTPUT.parent.mkdir(parents=True, exist_ok=True)
+        DEFAULT_WEB_OUTPUT.write_text(json.dumps(payload, indent=2, ensure_ascii=False), encoding="utf-8")
+    else:
+        # User uploads with incremental logic
+        dashboard_sources = load_dashboard_sources()
+        uploaded_documents = _dashboard_uploaded_documents(dashboard_sources)
+        all_documents = uploaded_documents
+
+        if not all_documents:
+            raise ValueError(
+                "No ingestion sources are available in project defaults or dashboard uploads."
+            )
+
+        # Filter to only NEW documents (not already in DB)
+        new_documents = [
+            doc for doc in all_documents
+            if doc.get("document_id") not in existing_doc_ids
+        ]
+
+        if not new_documents:
+            # No new documents to process, but return success with existing DB
+            session["db_path"] = str(db_path)
+            session["current_db_path"] = str(db_path)
+            return 0, False, db_path
+
+        # Check if sources differ from latest cache before saving
+        current_fingerprint = _compute_sources_fingerprint(dashboard_sources)
+        latest_cache = _load_latest_user_cache()
+        latest_fingerprint = latest_cache.get("_source_fingerprint", "")
+        
+        # Only write new user cache if sources have changed
+        if current_fingerprint != latest_fingerprint:
+            payload = {
+                "documents": all_documents,
+                "summary": latest_cache.get("summary") or {},
+                "_source_fingerprint": current_fingerprint,
+                "generated_at_utc": datetime.now(timezone.utc).isoformat(),
+            }
+            DASHBOARD_CACHE_DIR.mkdir(parents=True, exist_ok=True)
+            cache_filename = _generate_user_cache_filename()
+            cache_path = DASHBOARD_CACHE_DIR / cache_filename
+            cache_path.write_text(json.dumps(payload, indent=2, ensure_ascii=False), encoding="utf-8")
+
+        # Use DataProcessor to chunk and embed only the new documents
+        processor = DataProcessor(
+            name="dashboard_user",
+            chunk_size=chunk_size,
+            chunk_overlap=chunk_overlap,
+            embedding_dim=dim,
+            batch_size=batch_size,
+            output_path=str(db_path),
+            embedding_method=method,
+        )
+        # Assign prepared new documents and an empty summary (uploads have no website summary)
+        processor.web_data = new_documents
+        processor.source_summary = {}
+        processor.chunk()
+        if not processor.chunk_payload or not processor.chunk_payload.get("chunks"):
+            raise ValueError("New ingestion data could not be converted into chatbot-ready chunks.")
+
+        processor.embed()
 
     session["db_path"] = str(db_path)
     session["current_db_path"] = str(db_path)
 
-    return len(chunk_payload.get("chunks", [])), False, db_path
+    return len(processor.chunk_payload.get("chunks", [])), False, db_path
+

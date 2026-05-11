@@ -83,6 +83,8 @@ def get_new_db_from_variant(variant: dict[str, Any]) -> Path:
         return target_path
 
     base_processor = DefaultDataProcessor()
+    # Do not run the embed step synchronously during variant resolution to avoid
+    # triggering the full ingestion pipeline on simple page loads (e.g. /chat/).
     created_variant = base_processor.create_variant(
         name=name,
         chunk_size=chunk_size,
@@ -91,6 +93,7 @@ def get_new_db_from_variant(variant: dict[str, Any]) -> Path:
         batch_size=batch_size,
         output_path=str(target_path),
         embedding_method=embedding_method,
+        run_embed=False,
     )
     return Path(created_variant.output_path)
 

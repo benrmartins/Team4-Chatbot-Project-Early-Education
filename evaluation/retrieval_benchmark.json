@@ -83,9 +83,9 @@
     "id": "9",
     "question": "How can someone learn more or contact the institute?",
     "ground_truth": "People can learn more or get information by visiting our websites https://www.umb.edu/early-education-leaders-institute/, https://blogs.umb.edu/earlyed/, or contacting EarlyEdLeaders@umb.edu.",
-    "source_doc": "",
-    "source_text": "",
-    "why_hard": "Must reply with contact information, and no extra information that is out of context. Retrieval should largely be unecessary for this question, but if it is used, it should be used to verify the contact information rather than to pull in extra information about the institute.",
+    "source_doc": "[NO_ANSWER]",
+    "source_text": "[NO_ANSWER]",
+    "why_hard": "Must reply with contact information, and no extra information that is out of context. Retrieval should largely be unecessary for this question. ",
     "phase1_likely_failure_mode": "May retrieve general overview pages without contact details.",
     "expected_source_hints": ["contact", "email", "learn more", "information"]
   },
@@ -94,7 +94,7 @@
     "question": "Does the institute say anything about campus parking permits?",
     "ground_truth": "[NO_ANSWER]",
     "source_doc": "[NO_ANSWER]",
-    "source_text": "",
+    "source_text": "[NO_ANSWER]",
     "why_hard": "Out-of-scope question intended to verify weak-match handling rather than answer generation.",
     "phase1_likely_failure_mode": "Phase 1 may still return weak generic support pages because of partial lexical overlap.",
     "expected_source_hints": ["parking permits"]

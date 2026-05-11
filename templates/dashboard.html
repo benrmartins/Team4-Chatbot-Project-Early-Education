@@ -599,6 +599,65 @@
       padding: 0 14px;
     }
 
+    .build-progress-shell {
+      display: grid;
+      gap: 10px;
+      margin: 14px 0 16px;
+    }
+
+    .build-progress {
+      display: grid;
+      gap: 6px;
+      padding: 12px 14px;
+      border: 1px solid #D8E2EE;
+      border-radius: 14px;
+      background: #FBFCFE;
+      box-shadow: 0 8px 20px rgba(31, 47, 71, 0.04);
+    }
+
+    .build-progress[hidden] {
+      display: none;
+    }
+
+    .build-progress-label {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--blue-dark);
+    }
+
+    .build-progress-track {
+      position: relative;
+      height: 10px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: #E8EEF5;
+    }
+
+    .build-progress-fill {
+      position: absolute;
+      inset: 0;
+      width: 38%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--blue), #7CB6E8, var(--blue));
+      background-size: 200% 100%;
+      animation: build-progress-slide 1.1s linear infinite;
+    }
+
+    .build-progress-status {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+    @keyframes build-progress-slide {
+      0% {
+        transform: translateX(-72%);
+      }
+      100% {
+        transform: translateX(260%);
+      }
+    }
+
     .maintenance-grid .process-card {
       min-height: 132px;
     }
@@ -823,9 +882,22 @@
               <h2 id="process-title">Process for Chatbot</h2>
               <p class="body-copy">Prepare all stored uploads and crawled URLs so Owlbot can use them in future answers.</p>
             </div>
-            <form action="/dashboard/process" method="post">
+            <form action="/dashboard/process" method="post" data-build-form data-build-label="Building database from uploaded sources">
               <button class="process-button" type="submit">Process All Sources</button>
             </form>
+            <form action="/dashboard/process_defaults" method="post" data-build-form data-build-label="Building defaults database from project_config">
+              <button class="process-button" type="submit">Build Defaults Database</button>
+            </form>
+          </div>
+
+          <div class="build-progress-shell" aria-live="polite">
+            <div class="build-progress" data-build-progress hidden>
+              <div class="build-progress-label">Building database</div>
+              <div class="build-progress-track" aria-hidden="true">
+                <div class="build-progress-fill"></div>
+              </div>
+              <div class="build-progress-status">Please keep this page open while Owlbot builds the database.</div>
+            </div>
           </div>
 
           <div class="maintenance-grid">
@@ -1087,6 +1159,8 @@
     const tabPanels = document.querySelectorAll(".tab-panel");
     const filterButtons = document.querySelectorAll("[data-library-filter]");
     const libraryItems = document.querySelectorAll("[data-library-item]");
+    const buildProgress = document.querySelector("[data-build-progress]");
+    const buildForms = document.querySelectorAll("[data-build-form]");
 
     function showTab(tabId) {
       const selected = document.getElementById(tabId) ? tabId : "overview";
@@ -1111,6 +1185,22 @@
       });
     }
 
+    function showBuildProgress(label) {
+      if (!buildProgress) {
+        return;
+      }
+
+      const title = buildProgress.querySelector(".build-progress-label");
+      const status = buildProgress.querySelector(".build-progress-status");
+      if (title) {
+        title.textContent = label || "Building database";
+      }
+      if (status) {
+        status.textContent = "Please keep this page open while Owlbot builds the database.";
+      }
+      buildProgress.hidden = false;
+    }
+
 
     tabButtons.forEach((button) => {
       button.addEventListener("click", () => {
@@ -1127,6 +1217,27 @@
     filterButtons.forEach((button) => {
       button.addEventListener("click", () => {
         applyLibraryFilter(button.dataset.libraryFilter);
+      });
+    });
+
+    buildForms.forEach((form) => {
+      form.addEventListener("submit", (event) => {
+        if (form.dataset.buildLocked === "true") {
+          event.preventDefault();
+          return;
+        }
+
+        event.preventDefault();
+        form.dataset.buildLocked = "true";
+        showBuildProgress(form.dataset.buildLabel);
+        const button = form.querySelector("button[type='submit']");
+        if (button) {
+          button.disabled = true;
+        }
+
+        window.setTimeout(() => {
+          form.submit();
+        }, 125);
       });
     });
 

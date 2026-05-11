@@ -44,6 +44,7 @@ class DataProcessor():
             batch_size: int,
             output_path: str | None = None,
             embedding_method: str = "default",
+            run_embed: bool = True,
     ) -> 'DataProcessor':
         path_to_db = output_path or self.build_variant_output_path(name)
         if not str(path_to_db).lower().endswith(".sqlite"):
@@ -63,7 +64,8 @@ class DataProcessor():
 
         copy.web_data = self.web_data
         copy.source_summary = self.source_summary
-        copy.embed()
+        if run_embed:
+            copy.embed()
         return copy
 
     def process(self):
@@ -71,8 +73,18 @@ class DataProcessor():
         self.chunk()
         self.embed()
 
-    def crawl(self, output_path: str | None = None):
-        self.web_data, self.source_summary = run_crawlers(web_output_path=output_path)
+    def crawl(self, output_path: str | None = None, web_seeds: list[str] | None = None, drive_links: list[str] | None = None):
+        """Crawl with optional custom seeds. If not provided, uses defaults."""
+        if web_seeds is None and drive_links is None:
+            # Use defaults
+            self.web_data, self.source_summary = run_crawlers(web_output_path=output_path)
+        else:
+            # Use provided seeds (even if empty list)
+            self.web_data, self.source_summary = run_crawlers(
+                web_seeds=web_seeds or [],
+                drive_links=drive_links or [],
+                web_output_path=output_path,
+            )
         if self.web_data is None or self.source_summary is None:
             raise ProcessLookupError("Crawling failed to retrieve data.")
         return self.web_data, self.source_summary
@@ -146,6 +158,6 @@ class DefaultDataProcessor(DataProcessor):
 
             self.web_data = documents
             self.source_summary = summary if isinstance(summary, dict) else {"website": summary}
-        else:
-            print(f"Default web output not found at {DEFAULT_WEB_OUTPUT}. Running crawler to populate data...")
-            self.crawl(output_path=str(DEFAULT_WEB_OUTPUT))
+        # else:
+        #     print(f"Default web output not found at {DEFAULT_WEB_OUTPUT}. Running crawler to populate data...")
+        #     self.crawl(output_path=str(DEFAULT_WEB_OUTPUT))
