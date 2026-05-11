@@ -72,9 +72,9 @@
   {
     "id": "8",
     "question": "Do they mention opportunities focused on infants and toddlers?",
-    "ground_truth": "",
-    "source_doc": "[path/to/answer]",
-    "source_text": "",
+    "ground_truth": "Yes, the institute prioritizes applicants working with infants and toddlers in their leadership development programs to address the greatest need in the field.",
+    "source_doc": "https://docs.google.com/document/d/12gLIAjth2xRUcBZTJABcL7VQ0aQfkaIb/edit",
+    "source_text": "We will prioritize applicants who are interested in working with Infants and Toddlers because this is an area of greatest need.",
     "why_hard": "Narrow audience/program fit question where exact wording may only appear in a subsection.",
     "phase1_likely_failure_mode": "Phase 1 may rank pages that mention support or teaching broadly without the infant/toddler focus.",
     "expected_source_hints": ["infants", "toddlers", "prioritize applicants", "greatest need"]
@@ -82,18 +82,18 @@
   {
     "id": "9",
     "question": "How can someone learn more or contact the institute?",
-    "ground_truth": "People can learn more or get information by visiting program pages and contacting program staff via listed emails such as Chelsea.Cleary@umb.edu or Chelsea Cleary for fellowship inquiries.",
-    "source_doc": "12gLIAjth2xRUcBZTJABcL7VQ0aQfkaIb",
-    "source_text": "For additional information please contact Chelsea.Cleary@umb.edu. Contact Chelsea Cleary, Program Coordinator.",
-    "why_hard": "Contact information is embedded in program-specific sections rather than centralized.",
+    "ground_truth": "People can learn more or get information by visiting our websites https://www.umb.edu/early-education-leaders-institute/, https://blogs.umb.edu/earlyed/, or contacting EarlyEdLeaders@umb.edu.",
+    "source_doc": "",
+    "source_text": "",
+    "why_hard": "Must reply with contact information, and no extra information that is out of context. Retrieval should largely be unecessary for this question, but if it is used, it should be used to verify the contact information rather than to pull in extra information about the institute.",
     "phase1_likely_failure_mode": "May retrieve general overview pages without contact details.",
-    "expected_source_hints": ["contact", "email", "learn more", "information", "https://docs.google.com/document/d/12gLIAjth2xRUcBZTJABcL7VQ0aQfkaIb/edit"]
+    "expected_source_hints": ["contact", "email", "learn more", "information"]
   },
   {
     "id": "10",
     "question": "Does the institute say anything about campus parking permits?",
-    "ground_truth": "",
-    "source_doc": "[path/to/answer]",
+    "ground_truth": "[NO_ANSWER]",
+    "source_doc": "[NO_ANSWER]",
     "source_text": "",
     "why_hard": "Out-of-scope question intended to verify weak-match handling rather than answer generation.",
     "phase1_likely_failure_mode": "Phase 1 may still return weak generic support pages because of partial lexical overlap.",
