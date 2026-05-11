@@ -755,7 +755,7 @@ def process_dashboard_sources(*, use_defaults: bool = False) -> tuple[int, bool,
     existing_doc_ids = _get_existing_document_ids(db_path)
 
     # Extract variant parameters
-    method = str((variant or {}).get("embedding_method", "dummy"))
+    method = str((variant or {}).get("embedding_method", "openai_small"))
     dim = int((variant or {}).get("embedding_dim", DEFAULT_EMBEDDING_DIM))
     batch_size = int((variant or {}).get("batch_size", DEFAULT_BATCH_SIZE))
     chunk_size = int((variant or {}).get("chunk_size", DEFAULT_CHUNK_SIZE))
@@ -774,11 +774,14 @@ def process_dashboard_sources(*, use_defaults: bool = False) -> tuple[int, bool,
         )
         
         # Crawl with default seeds
-        processor.crawl(
-            output_path=str(DEFAULT_WEB_OUTPUT),
-            web_seeds=list(DEFAULT_WEBSITE_SEED_URLS),
-            drive_links=list(DEFAULT_DRIVE_FOLDER_URLS),
-        )
+        if not DEFAULT_WEB_OUTPUT.exists():
+            processor.crawl(
+                output_path=str(DEFAULT_WEB_OUTPUT),
+                web_seeds=list(DEFAULT_WEBSITE_SEED_URLS),
+                drive_links=list(DEFAULT_DRIVE_FOLDER_URLS),
+            )
+        else:
+            processor.web_data = _load_web_payload(force=False, use_defaults=True).get("documents", [])
         
         # Get all documents
         all_documents = processor.web_data or []

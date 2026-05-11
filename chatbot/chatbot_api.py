@@ -60,11 +60,15 @@ def get_name_from_query(query: str) -> str | None:
     consider phrasing the name as a question as well. 
     Return only the name without any additional text.""".format(query=query)
     
-    response = client.chat.completions.create(
-        model="openai/gpt-oss-20b:free",
-        messages=[{"role": "system", "content": prompt}],
-    )
-    name = response.choices[0].message.content
+    try:
+        response = client.chat.completions.create(
+            model="openai/gpt-oss-20b:free",
+            messages=[{"role": "system", "content": prompt}],
+        )
+        name = response.choices[0].message.content
+    except Exception as e:
+        print(f"Error occurred while fetching conversation name: {e}")
+        name = "Unnamed Conversation"
 
     return name
 

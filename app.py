@@ -69,6 +69,11 @@ print(f"Demo users loaded: {list(DEMO_USERS.keys())}")
 _CHATBOTS = {}
 
 def _load_benchmark_chatbot(chat_id: str | None = None) -> Chatbot:
+    path = session.get("db_path") or session.get("current_db_path")
+    if path and Path(path).exists():
+        print("Info: Session already has a database path set. Benchmark chatbot will use the existing path instead of loading from HPC variant.")
+        return Chatbot(database_path=path, chat_id=chat_id)
+    
     try:
         variant = load_best_variant(UNIFIED_HPC_RESULTS_PATH)
     except (FileNotFoundError, ValueError) as exc:
