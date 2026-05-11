@@ -29,6 +29,7 @@ UNIFIED_HPC_RESULTS_PATH = PROJECT_ROOT / "HPC" / "HPC_results.json"
 # OpenRouter API endpoint and model used by chatbot completions.
 OPENROUTER_BASE_URL = "https://openrouter.ai/api/v1"
 OPENROUTER_MODEL = "openai/gpt-4o-mini"
+OPENROUTER_TITLE_MODEL = "openai/gpt-oss-20b:free"
 
 # Conversation history policy and CLI experience settings.
 CHAT_CONTEXT_LIMIT = 10
