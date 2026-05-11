@@ -26,7 +26,7 @@ from ingestion_pipeline.services.vector_store import (
     read_db_embedding_config,
 )
 
-from scripts.run_retrieval_benchmark import _load_best_variant
+from HPC.load_best_variant import load_best_variant
 from project_config import (
     PROJECT_ROOT,
     DATA_DIR,
@@ -51,8 +51,8 @@ app.config["SESSION_COOKIE_SAMESITE"] = "Lax"  # CSRF protection
 # Demo user credentials. For production, use a proper database with proper auth (e.g., Auth0, AWS Cognito).
 # These are intentionally simple for demonstration purposes.
 DEMO_USERS = {
-    "demo@example.edu": generate_password_hash("demo-password-123"),
-    "admin@example.edu": generate_password_hash("admin-password-456"),
+    "lauren@umb.edu": generate_password_hash("demo-password-123"),
+    "anne@example.edu": generate_password_hash("admin-password-456"),
 }
 
 # In-memory chat state keyed by browser session id.
@@ -76,7 +76,7 @@ REVIEW_STALE_DAYS = 365
 
 def _load_benchmark_chatbot(chat_id: str | None = None) -> Chatbot:
     try:
-        variant = _load_best_variant(UNIFIED_HPC_RESULTS_PATH)
+        variant = load_best_variant(UNIFIED_HPC_RESULTS_PATH)
     except (FileNotFoundError, ValueError) as exc:
         print(f"Could not load benchmark variant; using local default database. Reason: {exc}")
         return Chatbot(chat_id=chat_id)
@@ -569,7 +569,7 @@ def process_dashboard_source(source: dict) -> None:
     _create_dashboard_db_backup(DASHBOARD_PROCESS_DB_PATH)
 
     # use best variant instead of default embedding config for better performance and relevance in the dashboard context
-    variant = _load_best_variant(UNIFIED_HPC_RESULTS_PATH)
+    variant = load_best_variant(UNIFIED_HPC_RESULTS_PATH)
     method = variant.get("embedding_method", str("dummy"))
     dim = variant.get("embedding_dimension", DEFAULT_EMBEDDING_DIM) 
 
@@ -588,14 +588,14 @@ def getSamplePrompts(count: int = 3) -> list[str]:
     # use evaluation/retrieval_benchmark.json as inspiration for sample prompts, but make them relevant to an early education context
     # full_sample_set = json.loads((PROJECT_ROOT / "evaluation" / "retrieval_benchmark.json").read_text(encoding="utf-8"))
 
-    variant_file = json.loads((PROJECT_ROOT / "outputs" / "hpc" / "unified_variant_results.json").read_text(encoding="utf-8"))
+    variant_file = json.loads((UNIFIED_HPC_RESULTS_PATH).read_text(encoding="utf-8"))
 
     prompts = variant_file.get("variants", [])[0].get("details", {})
 
     # filter anything with low scores or errors to ensure the sample prompts are high quality and relevant to the context, 
     prompts = [prompt for prompt in prompts if prompt.get("error_code", None) is None]
-    prompts = [prompt for prompt in prompts if prompt.get("retrieval_hit") == 1] # focus on the best retrieval method for relevance
-    prompts = [prompt for prompt in prompts if prompt.get("hint_match") == 1] # focus on the best embedding method for relevance
+    prompts = [prompt for prompt in prompts if prompt.get("retrieval_hit") == 1]
+    prompts = [prompt for prompt in prompts if prompt.get("hint_match") == 1]
     prompts = [prompt for prompt in prompts if prompt.get("retrieval_status") == "ok"]
     prompts = [prompt for prompt in prompts if prompt.get("grounding_verified") == 1]
     prompts = [prompt for prompt in prompts if prompt.get("correct") == 1]
@@ -848,7 +848,7 @@ def login():
         return redirect(url_for("login_page"))
 
     # Check credentials against demo users
-    is_valid_password = check_password_hash(DEMO_USERS[email], password)
+    is_valid_password = check_password_hash(DEMO_USERS.get(email, ""), password) # ALWAYS hash to ensure secure timing consistency, even for invalid emails
     if email not in DEMO_USERS or not is_valid_password:
         flash("Invalid email or password. Please try again.", "error")
         return redirect(url_for("login_page"))
