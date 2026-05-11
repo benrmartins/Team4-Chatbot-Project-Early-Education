@@ -69,7 +69,7 @@ def build_web_payload(documents: list[dict], skipped_pages: list[dict], pages_se
 
 
 class WebsiteCrawler:
-    def __init__(self, seeds: Iterable[str], max_depth: int = CRAWLER_DEPTH_LIMIT) -> None:
+    def __init__(self, seeds: Iterable[str], max_depth: int = CRAWLER_DEPTH_LIMIT, max_pages: int = 500) -> None:
         configured_seeds = [url.strip() for url in (seeds or DEFAULT_WEBSITE_SEED_URLS) if url and url.strip()]
         if not configured_seeds:
             raise ValueError(
@@ -93,6 +93,7 @@ class WebsiteCrawler:
         self.seed_prefix_set = set(self.seed_prefixes)
         self.seed_scope_prefixes = tuple(f"{seed_prefix}/" for seed_prefix in self.seed_prefixes)
         self.max_depth = max_depth
+        self.max_pages = max_pages
         self.queue = deque((url, 0) for url in self.seed_prefixes)
         self.queued_urls = set(self.seed_prefixes)
         self.visited = set()
@@ -163,6 +164,11 @@ class WebsiteCrawler:
 
         try:
             while self.queue:
+                # Stop if we've reached the maximum number of pages
+                if page_index >= self.max_pages:
+                    print(f"Reached maximum page limit ({self.max_pages}). Stopping crawl.")
+                    break
+                
                 url, depth = self.queue.popleft()
                 self.queued_urls.discard(url)
                 if url in self.visited:
@@ -196,6 +202,7 @@ class WebsiteCrawler:
                         title = title or "Untitled"
                         self.documents.append(build_web_document_record(page_index, title, url, text))
                         page_index += 1
+                        print(f"Indexed page {page_index}/{self.max_pages}: {title}")
 
                     if depth < self.max_depth:
                         link_depth = depth + 1

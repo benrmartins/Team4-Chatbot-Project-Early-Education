@@ -579,6 +579,13 @@
       gap: 12px;
     }
 
+    .maintenance-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
     .process-actions {
       display: flex;
       align-items: center;
@@ -590,6 +597,10 @@
     .process-button {
       min-height: 40px;
       padding: 0 14px;
+    }
+
+    .maintenance-grid .process-card {
+      min-height: 132px;
     }
 
     .delete-button {
@@ -657,6 +668,10 @@
       .dashboard-grid {
         grid-template-columns: 1fr;
       }
+
+      .maintenance-grid {
+        grid-template-columns: 1fr;
+      }
     }
 
     @media (max-width: 720px) {
@@ -670,7 +685,8 @@
       .source-grid,
       .coverage-grid,
       .review-grid,
-      .guidance-grid {
+      .guidance-grid,
+      .maintenance-grid {
         grid-template-columns: 1fr;
       }
 
@@ -805,8 +821,39 @@
           <div class="panel-header">
             <div>
               <h2 id="process-title">Process for Chatbot</h2>
-              <p class="body-copy">Prepare uploaded files so Owlbot can use them in future answers.</p>
+              <p class="body-copy">Prepare all stored uploads and crawled URLs so Owlbot can use them in future answers.</p>
             </div>
+            <form action="/dashboard/process" method="post">
+              <button class="process-button" type="submit">Process All Sources</button>
+            </form>
+          </div>
+
+          <div class="maintenance-grid">
+            <article class="process-card">
+              <h3>Current Database</h3>
+              {{ current_db }}
+            </article>
+            <article class="process-card">
+              <h3>Last Backup</h3>
+              <div class="meta">{{ current_backup_path or "No backup has been created yet." }}</div>
+              {% if current_backup_dir %}
+                <div class="meta">Backup folder: {{ current_backup_dir }}</div>
+              {% endif %}
+            </article>
+            <article class="process-card">
+              <h3>Maintenance</h3>
+              <div class="process-actions">
+                <form action="/dashboard/reset_sources" method="post">
+                  <button class="delete-button" type="submit">Reset Sources</button>
+                </form>
+                <form action="/dashboard/reset" method="post">
+                  <button class="delete-button" type="submit">Reset Database</button>
+                </form>
+                <form action="/dashboard/restore_backup" method="post">
+                  <button class="process-button" type="submit">Restore Last Backup</button>
+                </form>
+              </div>
+            </article>
           </div>
 
           {% if processing_queue %}
@@ -827,9 +874,6 @@
                   {% endif %}
                   <div class="process-actions">
                     <div class="meta">Last uploaded: {{ source.uploaded_at or "Not available yet" }}</div>
-                    <form action="/dashboard/process/{{ source.id }}" method="post">
-                      <button class="process-button" type="submit">{{ source.button_label }}</button>
-                    </form>
                     <form action="/dashboard/delete/{{ source.id }}" method="post">
                       <button class="delete-button" type="submit">Delete Upload</button>
                     </form>
@@ -1066,6 +1110,7 @@
         item.style.display = visible ? "" : "none";
       });
     }
+
 
     tabButtons.forEach((button) => {
       button.addEventListener("click", () => {
