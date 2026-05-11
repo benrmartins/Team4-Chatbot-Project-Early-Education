@@ -31,6 +31,7 @@ from project_config import (
     DEFAULT_CHUNK_OVERLAP,
     DEFAULT_CHUNK_SIZE,
     DEFAULT_EMBEDDING_DIM,
+    DEFAULT_EMBEDDING_MODEL,
     DEFAULT_VECTOR_DB_PATH,
     DEFAULT_WEB_OUTPUT,
     DEFAULT_WEBSITE_SEED_URLS,
@@ -170,7 +171,7 @@ def _collect_dashboard_seed_links() -> tuple[list[str], list[str]]:
         for link in candidates:
             if not link or not link.startswith("http"):
                 continue
-            if "drive.google.com/drive/folders/" in link:
+            if "drive.google.com" in link:
                 if link not in drive_links:
                     drive_links.append(link)
             else:
@@ -733,7 +734,7 @@ def _dashboard_uploaded_documents(sources: list[dict]) -> list[dict]:
         
         # Collect URL seeds
         if source_url and source_url.startswith("http"):
-            if "drive.google.com/drive/" in source_url:
+            if "drive.google.com" in source_url:
                 if source_url not in drive_links:
                     drive_links.append(source_url)
             else:
@@ -795,7 +796,7 @@ def process_dashboard_sources(*, use_defaults: bool = False) -> tuple[int, bool,
     existing_doc_ids = _get_existing_document_ids(db_path)
 
     # Extract variant parameters
-    method = str((variant or {}).get("embedding_method", "openai_small"))
+    method = str((variant or {}).get("embedding_method", DEFAULT_EMBEDDING_MODEL))
     dim = int((variant or {}).get("embedding_dim", DEFAULT_EMBEDDING_DIM))
     batch_size = int((variant or {}).get("batch_size", DEFAULT_BATCH_SIZE))
     chunk_size = int((variant or {}).get("chunk_size", DEFAULT_CHUNK_SIZE))

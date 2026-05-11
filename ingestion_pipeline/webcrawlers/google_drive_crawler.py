@@ -142,11 +142,23 @@ class GoogleDriveCrawler:
         if match:
             return match.group(1)
 
+        match = re.search(r"/file/d/([a-zA-Z0-9_-]+)", cleaned)
+        if match:
+            return match.group(1)
+
+        match = re.search(r"/document/d/([a-zA-Z0-9_-]+)", cleaned)
+        if match:
+            return match.group(1)
+
         parsed = urlparse(cleaned)
         query_params = parse_qs(parsed.query)
         open_id = query_params.get("id", [])
         if open_id:
             return open_id[0]
+
+        resource_id = query_params.get("resourcekey", [])
+        if resource_id and re.fullmatch(r"[a-zA-Z0-9_-]{10,}", resource_id[0]):
+            return resource_id[0]
 
         if re.fullmatch(r"[a-zA-Z0-9_-]{10,}", cleaned):
             return cleaned

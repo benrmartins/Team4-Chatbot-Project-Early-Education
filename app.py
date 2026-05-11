@@ -94,7 +94,7 @@ print(f"Demo users loaded: {list(DEMO_USERS.keys())}")
 
 # In-memory chat state keyed by browser session id.
 _CHATBOTS = {}
-DASHBOARD_PROCESS_DB_PATH = Path(str(DEFAULT_VECTOR_DB_PATH) + "_default.sqlite")
+DASHBOARD_PROCESS_DB_PATH = Path(str(DEFAULT_VECTOR_DB_PATH))
 
 def _load_benchmark_chatbot(chat_id: str | None = None) -> Chatbot:
     path = session.get("db_path") or session.get("current_db_path")
@@ -131,12 +131,12 @@ def _get_chatbot(chat_id: str | None = None) -> Chatbot:
     return bot
 
 def _get_all_chatbots():
-    bots = list(_CHATBOTS.values())
-    bots.reverse()  # show most recently created chats first
+    bots = _CHATBOTS.values()
+    named_bots = [bot for bot in bots if bot.name]
+    named_bots.reverse()  # show most recently created chats first
     return [
-        {"name": bot.name or "New chat", "chat_id": bot.chat_id}
-        for bot in bots
-        if bot.chat_id
+        {"name": bot.name, "chat_id": bot.chat_id}
+        for bot in named_bots
     ]
 
 
