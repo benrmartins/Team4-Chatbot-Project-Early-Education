@@ -68,10 +68,11 @@ macOS/Linux/Git Bash:
 source .venv/bin/activate
 ```
 
-Set your OpenRouter key in `.env`:
+Set your OpenRouter key and admin account in `.env`:
 
 ```env
 OPENROUTER_API_KEY="YOUR_OPENROUTER_KEY"
+ADMIN_ACCOUNT="user: [change-to-your-name]\npassword: [set-your-password]"
 ```
 
 Non-sensitive runtime defaults live in `project_config.py`, including:
@@ -332,6 +333,6 @@ Benchmark questions live in `evaluation/retrieval_benchmark.json`.
 - `tests/` - regression and integration tests
 - `evaluation/retrieval_benchmark.json` - retrieval-focused benchmark questions for demos
 - `data/`
-  - `db_store_default.sqlite` (created on first embed)
+  - `default_[metadata].sqlite` (created on first embed)
 - `templates/index.html` - Flask chat UI
 

@@ -19,7 +19,7 @@ def run_crawlers(
         drive_links: List[str] = DEFAULT_DRIVE_FOLDER_URLS,
         run_drive: bool = PIPELINE_RUN_DRIVE, 
         run_web: bool = PIPELINE_RUN_WEB,
-        web_output_path: str | None = str(DEFAULT_WEB_OUTPUT)
+        web_output_path: str | None = None,
     ) -> tuple[List[JSONDict], Dict[str, JSONDict]]:
     all_documents: List[JSONDict] = []
     source_summary: Dict[str, JSONDict] = {}

@@ -1,3 +1,4 @@
+import hashlib
 import io
 import json
 import random
@@ -38,6 +39,7 @@ from project_config import (
 
 DASHBOARD_UPLOAD_DIR = DATA_DIR / "dashboard_uploads"
 DASHBOARD_SOURCES_PATH = DATA_DIR / "dashboard_sources.json"
+DASHBOARD_CACHE_DIR = DATA_DIR / "dashboard_cache"  # User cache directory with timestamped files
 ALLOWED_UPLOAD_EXTENSIONS = {"txt", "md", "pdf", "docx", "csv", "json"}
 DASHBOARD_CATEGORIES = [
     "Institute Page",
@@ -50,6 +52,43 @@ DASHBOARD_CATEGORIES = [
 ]
 PROCESSABLE_SOURCE_STATUSES = {"Needs Processing", "Processing Failed"}
 REVIEW_STALE_DAYS = 365
+
+
+def _compute_sources_fingerprint(sources: list[dict]) -> str:
+    """Compute a hash fingerprint of source URLs to detect changes."""
+    urls = sorted([
+        source.get("url") or source.get("link") or ""
+        for source in sources
+        if isinstance(source, dict)
+    ])
+    url_string = "|".join(urls)
+    return hashlib.md5(url_string.encode()).hexdigest()
+
+
+def _find_latest_user_cache() -> Path | None:
+    """Find the most recently created user cache file."""
+    if not DASHBOARD_CACHE_DIR.exists():
+        return None
+    cache_files = sorted(DASHBOARD_CACHE_DIR.glob("user_cache_*.json"), reverse=True)
+    return cache_files[0] if cache_files else None
+
+
+def _load_latest_user_cache() -> dict:
+    """Load the most recent user cache file if it exists."""
+    latest_cache = _find_latest_user_cache()
+    if not latest_cache:
+        return {}
+    try:
+        payload = json.loads(latest_cache.read_text(encoding="utf-8"))
+        return payload if isinstance(payload, dict) else {}
+    except (OSError, json.JSONDecodeError):
+        return {}
+
+
+def _generate_user_cache_filename() -> str:
+    """Generate a timestamped user cache filename."""
+    timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
+    return f"user_cache_{timestamp}.json"
 
 
 def allowed_file(filename: str | None) -> bool:
@@ -70,7 +109,6 @@ def load_dashboard_sources() -> list[dict]:
     if isinstance(payload, dict) and isinstance(payload.get("sources"), list):
         return [source for source in payload["sources"] if isinstance(source, dict)]
     return []
-
 
 def save_dashboard_sources(sources: list[dict]) -> None:
     DASHBOARD_SOURCES_PATH.parent.mkdir(parents=True, exist_ok=True)
@@ -137,24 +175,25 @@ def _collect_dashboard_seed_links() -> tuple[list[str], list[str]]:
     return web_seeds, drive_links
 
 
-def _web_crawl(force: bool = False) -> None:
+def _web_crawl(force: bool = False, web_seeds: list[str] | None = None, drive_links: list[str] | None = None, use_defaults: bool = False):
     if force and DEFAULT_WEB_OUTPUT.exists():
         DEFAULT_WEB_OUTPUT.unlink()
 
-    web_seeds, drive_links = _collect_dashboard_seed_links()
+    if use_defaults:
+        web_seeds = list(DEFAULT_WEBSITE_SEED_URLS)
+        drive_links = list(DEFAULT_DRIVE_FOLDER_URLS)
+    elif web_seeds is None or drive_links is None:
+        web_seeds, drive_links = _collect_dashboard_seed_links()
 
-    if not web_seeds:
-        web_seeds = list()
-    if not drive_links:
-        drive_links = list()
-
-    run_crawlers(
+    output_path = str(DEFAULT_WEB_OUTPUT) if use_defaults else str(DEFAULT_WEB_OUTPUT.parent / f"web_crawl_{datetime.now().strftime('%Y%m%d-%H%M%S')}.json")
+    documents, summary = run_crawlers(
         web_seeds=web_seeds,
         drive_links=drive_links,
         run_web=bool(web_seeds),
         run_drive=bool(drive_links),
-        web_output_path=str(DEFAULT_WEB_OUTPUT),
+        web_output_path=output_path,
     )
+    return { "documents": documents, "summary": summary }
 
 
 def _reset_web_payload() -> None:
@@ -185,20 +224,25 @@ def _reset_dashboard_source_states() -> None:
         save_dashboard_sources(sources)
 
 
-def _load_web_payload(force: bool = False) -> dict:
-    if force or not DEFAULT_WEB_OUTPUT.exists():
+def _load_web_payload(force: bool = False, use_defaults: bool = False) -> dict:
+    # For defaults: use cache if it exists (unless force=True); respects DEFAULT_WEB_OUTPUT
+    # For regular (user uploads): load latest user cache (no web crawl)
+    if use_defaults:
+        if force or not DEFAULT_WEB_OUTPUT.exists():
+            try:
+                return _web_crawl(force=force, use_defaults=use_defaults)
+            except Exception as exc:
+                print(f"Web crawl failed while building payload: {exc}")
+                return {}
+        # Use existing default cache
         try:
-            _web_crawl(force=force)
-        except Exception as exc:
-            print(f"Web crawl failed while building payload: {exc}")
+            payload = json.loads(DEFAULT_WEB_OUTPUT.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
             return {}
-    if not DEFAULT_WEB_OUTPUT.exists():
-        return {}
-    try:
-        payload = json.loads(DEFAULT_WEB_OUTPUT.read_text(encoding="utf-8"))
-    except (OSError, json.JSONDecodeError):
-        return {}
-    return payload if isinstance(payload, dict) else {}
+        return payload if isinstance(payload, dict) else {}
+    else:
+        # For user uploads: load latest user cache (no crawl, just load)
+        return _load_latest_user_cache()
 
 
 def _friendly_source_type(source: dict) -> str:
@@ -309,7 +353,7 @@ def _review_reasons_for_source(source: dict, *, uploaded: bool = False) -> list[
 
 def summarize_existing_sources() -> dict:
     # Dashboard reads the cached crawl output; explicit re-crawls happen only during processing.
-    payload = _load_web_payload(force=False)
+    payload = _load_web_payload(force=False, use_defaults=False)
     documents = payload.get("documents", [])
     documents = documents if isinstance(documents, list) else []
     summary = payload.get("summary", {})
@@ -631,31 +675,40 @@ def _get_existing_document_ids(db_path: Path) -> set[str]:
         return set()
 
 
-def process_dashboard_sources() -> tuple[int, bool, Path]:
+def process_dashboard_sources(*, use_defaults: bool = False) -> tuple[int, bool, Path]:
     # Build from the best benchmark variant settings when available, otherwise use defaults.
-    try:
-        variant = load_best_variant(UNIFIED_HPC_RESULTS_PATH)
-    except (FileNotFoundError, ValueError):
+    if use_defaults:
         variant = {}
+        db_path = DEFAULT_VECTOR_DB_PATH
+    else:
+        try:
+            variant = load_best_variant(UNIFIED_HPC_RESULTS_PATH)
+        except (FileNotFoundError, ValueError):
+            variant = {}
 
-    output_path = str((variant or {}).get("output_path", "")).strip()
-    db_path = Path(output_path) if output_path else _resolve_dashboard_db_path()
+        output_path = str((variant or {}).get("output_path", "")).strip()
+        db_path = Path(output_path) if output_path else _resolve_dashboard_db_path()
     if not db_path.is_absolute():
         db_path = PROJECT_ROOT / db_path
 
     # Get existing document IDs to avoid re-processing
     existing_doc_ids = _get_existing_document_ids(db_path)
 
-    payload = _load_web_payload()
-    web_documents = payload.get("documents", []) if isinstance(payload, dict) else []
-    web_documents = web_documents if isinstance(web_documents, list) else []
+    if use_defaults:
+        payload = _load_web_payload(force=True, use_defaults=True)
+        web_documents = payload.get("documents", []) if isinstance(payload, dict) else []
+        web_documents = web_documents if isinstance(web_documents, list) else []
+        all_documents = web_documents
+    else:
+        payload = {}
+        dashboard_sources = load_dashboard_sources()
+        uploaded_documents = _dashboard_uploaded_documents(dashboard_sources)
+        all_documents = uploaded_documents
 
-    dashboard_sources = load_dashboard_sources()
-    uploaded_documents = _dashboard_uploaded_documents(dashboard_sources)
-
-    all_documents = web_documents + uploaded_documents
     if not all_documents:
-        raise ValueError("No ingestion sources are available in data/web_data.json or dashboard uploads.")
+        raise ValueError(
+            "No ingestion sources are available in project defaults or dashboard uploads."
+        )
 
     # Filter to only NEW documents (not already in DB)
     new_documents = [
@@ -669,11 +722,33 @@ def process_dashboard_sources() -> tuple[int, bool, Path]:
         session["current_db_path"] = str(db_path)
         return 0, False, db_path
 
-    payload = payload if isinstance(payload, dict) else {}
-    payload["documents"] = all_documents
-    payload["summary"] = payload.get("summary") or payload.get("source_summary") or {}
-    DEFAULT_WEB_OUTPUT.parent.mkdir(parents=True, exist_ok=True)
-    DEFAULT_WEB_OUTPUT.write_text(json.dumps(payload, indent=2, ensure_ascii=False), encoding="utf-8")
+    if use_defaults:
+        payload = payload if isinstance(payload, dict) else {}
+        payload["documents"] = all_documents
+        payload["summary"] = payload.get("summary") or payload.get("source_summary") or {}
+        DEFAULT_WEB_OUTPUT.parent.mkdir(parents=True, exist_ok=True)
+        DEFAULT_WEB_OUTPUT.write_text(json.dumps(payload, indent=2, ensure_ascii=False), encoding="utf-8")
+    else:
+        # For user uploads: check if sources differ from latest cache before saving
+        dashboard_sources = load_dashboard_sources()
+        current_fingerprint = _compute_sources_fingerprint(dashboard_sources)
+        
+        # Read fingerprint from latest user cache metadata
+        latest_cache = _load_latest_user_cache()
+        latest_fingerprint = latest_cache.get("_source_fingerprint", "")
+        
+        # Only write new user cache if sources have changed
+        if current_fingerprint != latest_fingerprint:
+            payload = {
+                "documents": all_documents,
+                "summary": payload.get("summary") or payload.get("source_summary") or {},
+                "_source_fingerprint": current_fingerprint,  # Store fingerprint for future comparisons
+                "generated_at_utc": datetime.now(timezone.utc).isoformat(),
+            }
+            DASHBOARD_CACHE_DIR.mkdir(parents=True, exist_ok=True)
+            cache_filename = _generate_user_cache_filename()
+            cache_path = DASHBOARD_CACHE_DIR / cache_filename
+            cache_path.write_text(json.dumps(payload, indent=2, ensure_ascii=False), encoding="utf-8")
 
     # Build chunks only for new documents
     chunk_payload = build_chunk_payload(

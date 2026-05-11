@@ -3,7 +3,7 @@ import re
 from pathlib import Path
 from typing import List, Tuple, Dict, Any
 
-from metrics import RegressionMetrics
+from metrics.metrics import RegressionMetrics
 
 
 def parse_args() -> argparse.Namespace:

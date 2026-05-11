@@ -319,9 +319,8 @@ def dashboard_upload():
     return redirect(url_for("dashboard"))
 
 @app.post("/dashboard/process")
-@app.post("/dashboard/process/<source_id>")
 @login_required
-def dashboard_process(source_id: str | None = None):
+def dashboard_process():
     sources = load_dashboard_sources()
     processable_sources = [
         item
@@ -361,6 +360,31 @@ def dashboard_process(source_id: str | None = None):
         save_dashboard_sources(sources)
         flash(
             "These sources could not be prepared for the chatbot. Please check the files and try again.",
+            "error",
+        )
+
+    return redirect(url_for("dashboard"))
+
+
+@app.post("/dashboard/process_defaults")
+@login_required
+def dashboard_process_defaults():
+    try:
+        saved_passages, _, db_path = process_dashboard_sources(use_defaults=True)
+        if saved_passages > 0:
+            flash(
+                f"Built a database from project defaults and added {saved_passages} passages at {db_path}.",
+                "success",
+            )
+        else:
+            flash(
+                f"The project defaults database was refreshed at {db_path}.",
+                "info",
+            )
+    except Exception as exc:
+        error_message = str(exc).strip()[:300] or "Processing failed."
+        flash(
+            f"The project defaults database could not be built right now. {error_message}",
             "error",
         )
 
