@@ -1,59 +1,90 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Small helper to start the app with interactive prompts and safe defaults.
+# Unified setup + run script: combines setup.sh, config, and app startup in one workflow.
 # Usage: ./run.sh [--no-run]
-#   --no-run : perform initialization (create data/logs/outputs and default files) but do not start app
+#   --no-run : perform setup and initialization only, do not start app
 
 NO_RUN=0
 if [[ "${1:-}" == "--no-run" ]]; then
   NO_RUN=1
 fi
 
-echo "This helper will prepare the environment and start the Flask app."
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "$ROOT_DIR"
+
+# Detect OS and set venv paths accordingly
+if [[ "$OSTYPE" == "msys" || "$OSTYPE" == "win32" || "$OSTYPE" == "cygwin" ]]; then
+  # Windows (Git Bash, WSL, or Cygwin)
+  VENV_PYTHON=".venv/Scripts/python.exe"
+else
+  # Unix-like (Linux, macOS)
+  VENV_PYTHON=".venv/bin/python"
+fi
+
+# Ensure virtual environment exists; run setup.sh if needed
+if ! "$VENV_PYTHON" --version >/dev/null 2>&1; then
+  echo "Virtual environment not found or not working. Running setup.sh..."
+  bash setup.sh
+else
+  echo "Virtual environment found and working at $VENV_PYTHON"
+fi
+
+VENV_PY="$VENV_PYTHON"
+
+echo ""
+echo "========================================="
+echo "Chatbot Setup & Configuration"
+echo "========================================="
+echo ""
+echo "This will prepare the environment and start the Flask app."
 read -p "Admin username (default: admin): " ADMIN_USER
 ADMIN_USER=${ADMIN_USER:-admin}
 read -s -p "Admin password (default: password): " ADMIN_PASS
 echo
 ADMIN_PASS=${ADMIN_PASS:-password}
-read -p "Python command to run the app (default: py): " PY_CMD
-PY_CMD=${PY_CMD:-py}
-read -s -p "OpenRouter API key (leave blank to skip): " OPENROUTER_API_KEY
+read -p "OpenRouter API key: " OPENROUTER_API_KEY
 echo
 OPENROUTER_API_KEY=${OPENROUTER_API_KEY:-}
 
-export ADMIN_ACCOUNT="user:[${ADMIN_USER}]|||password:[${ADMIN_PASS}]"
 export FLASK_ENV=development
-if [[ -n "${OPENROUTER_API_KEY}" ]]; then
-  # create .env file with OPENROUTER_API_KEY for the app to pick up
-  ENV_FILE="$ROOT_DIR/.env"
-  printf "OPENROUTER_API_KEY=%s\n" "$OPENROUTER_API_KEY" > "$ENV_FILE"
-  echo "Wrote API key to $ENV_FILE"
-  export OPENROUTER_API_KEY
-fi
 
-ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-DATA_DIR="$ROOT_DIR/data"
+# Set up directories
 LOGS_DIR="$ROOT_DIR/logs"
-OUTPUTS_DIR="$ROOT_DIR/outputs"
 
 echo "Ensuring project directories exist..."
-mkdir -p "$DATA_DIR" "$LOGS_DIR" "$OUTPUTS_DIR"
+mkdir -p "$LOGS_DIR"
 
-# Create minimal default files so the app can start with an empty data dir.
-touch "$DATA_DIR/web_data.json"
-touch "$DATA_DIR/unified_chunk_data.json"
-touch "$LOGS_DIR/cost_events.jsonl"
+# Create minimal default files so the app can start with an empty log dir.
+[[ ! -f "$LOGS_DIR/cost_events.jsonl" ]] && touch "$LOGS_DIR/cost_events.jsonl"
 
 echo "Created/verified:"
-echo " - $DATA_DIR/web_data.json"
-echo " - $DATA_DIR/unified_chunk_data.json"
 echo " - $LOGS_DIR/cost_events.jsonl"
 
+# Create or update .env with OpenRouter API key
+ENV_FILE="$ROOT_DIR/.env"
+if [[ -n "${OPENROUTER_API_KEY}" ]]; then
+  printf 'OPENROUTER_API_KEY="%s"\n' "$OPENROUTER_API_KEY" > "$ENV_FILE"
+  printf 'ADMIN_ACCOUNT="user:[%s]|||password:[%s]"\n' "$ADMIN_USER" "$ADMIN_PASS" >> "$ENV_FILE"
+  echo "Wrote API key to $ENV_FILE"
+  export OPENROUTER_API_KEY
+else
+  # If .env doesn't exist, create a template
+  if [[ ! -f "$ENV_FILE" ]]; then
+    printf 'OPENROUTER_API_KEY="YOUR_OPENROUTER_KEY"\n' > "$ENV_FILE"
+    printf 'ADMIN_ACCOUNT="user:[your-username]|||password:[your-password]"\n' >> "$ENV_FILE"
+    echo "Created .env template at $ENV_FILE"
+  fi
+fi
+
+echo ""
 if [[ "$NO_RUN" -eq 1 ]]; then
-  echo "Initialization complete (no run). Exiting."
+  echo "✓ Setup complete. Environment ready for app start."
+  echo "  To run the app, execute: bash run.sh"
   exit 0
 fi
 
-echo "Starting app using command: $PY_CMD app.py"
-exec "$PY_CMD" app.py
+echo "Starting app using: $VENV_PY app.py"
+echo "App will be available at: http://0.0.0.0:8000"
+echo ""
+exec "$VENV_PY" app.py

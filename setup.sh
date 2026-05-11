@@ -3,6 +3,17 @@ set -euo pipefail
 
 cd "$(dirname "$0")"
 
+# Detect OS and set venv paths accordingly
+if [[ "$OSTYPE" == "msys" || "$OSTYPE" == "win32" || "$OSTYPE" == "cygwin" ]]; then
+  # Windows (Git Bash, WSL, or Cygwin)
+  VENV_PYTHON=".venv/Scripts/python.exe"
+  VENV_ACTIVATE=".venv/Scripts/activate"
+else
+  # Unix-like (Linux, macOS)
+  VENV_PYTHON=".venv/bin/python"
+  VENV_ACTIVATE=".venv/bin/activate"
+fi
+
 if [[ ! -f requirements.txt ]]; then
   echo "ERROR: requirements.txt not found. Run this script from the project root."
   exit 1
@@ -60,18 +71,18 @@ if [[ -z "$PYTHON_BIN" ]]; then
   exit 1
 fi
 
-if [[ -x .venv/bin/python ]] && ! is_supported_python .venv/bin/python; then
-  echo "Existing .venv uses unsupported Python: $(.venv/bin/python -V 2>&1)"
+if [[ -f "$VENV_PYTHON" ]] && ! is_supported_python "$VENV_PYTHON"; then
+  echo "Existing .venv uses unsupported Python: $($VENV_PYTHON -V 2>&1)"
   echo "Recreating .venv with: $PYTHON_BIN"
   rm -rf .venv
 fi
 
-if [[ ! -x .venv/bin/python ]]; then
+if ! "$VENV_PYTHON" --version >/dev/null 2>&1; then
   echo "Creating virtual environment with: $PYTHON_BIN"
   "$PYTHON_BIN" -m venv .venv
 fi
 
-VENV_PY=".venv/bin/python"
+VENV_PY="$VENV_PYTHON"
 
 echo "Upgrading pip..."
 "$VENV_PY" -m pip install --upgrade pip
@@ -91,7 +102,11 @@ else
   echo "Skipping dependency smoke test (--skip-smoke-test)."
 fi
 
-source .venv/bin/activate
+if [[ -f "$VENV_ACTIVATE" ]]; then
+  source "$VENV_ACTIVATE"
+else
+  echo "Warning: Could not source venv activate script at $VENV_ACTIVATE"
+fi
 
 if [[ "$INIT_DATA_DIRS" -eq 1 ]]; then
   echo "Initializing data directories..."
