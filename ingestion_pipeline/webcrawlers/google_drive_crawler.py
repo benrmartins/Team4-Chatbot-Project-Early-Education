@@ -258,9 +258,10 @@ class GoogleDriveCrawler:
         payload["indexed_files"] = indexed_files
         return payload
 
-    def scrape(self, drive_links: List[str] = DEFAULT_DRIVE_FOLDER_URLS) -> DrivePayload:
+    def scrape(self) -> DrivePayload:
+        # Use instance drive_links set in __init__
         drive_data = {}
-        for link in (drive_links):
+        for link in (self.drive_links or []):
             try:
                 folder_id = self.resolve_folder_id(link)
                 print(f"Starting crawl for Google Drive folder: {folder_id}")
