@@ -71,8 +71,7 @@ def _find_latest_user_cache() -> Path | None:
     if not DASHBOARD_CACHE_DIR.exists():
         return None
     cache_files = sorted(
-        list(DASHBOARD_CACHE_DIR.glob("user_cache_*.json"))
-        + list(DASHBOARD_CACHE_DIR.glob("web_crawl_*.json")),
+        list(DASHBOARD_CACHE_DIR.glob("user_cache_*.json")),
         reverse=True,
     )
     return cache_files[0] if cache_files else None
@@ -184,6 +183,12 @@ def _collect_dashboard_seed_links() -> tuple[list[str], list[str]]:
 def _reset_web_payload() -> None:
     if DEFAULT_WEB_OUTPUT.exists():
         DEFAULT_WEB_OUTPUT.unlink()
+    if DASHBOARD_CACHE_DIR.exists():
+        for cache_file in DASHBOARD_CACHE_DIR.glob("*.json"):
+            try:
+                cache_file.unlink()
+            except OSError:
+                pass
 
 
 def _reset_database() -> None:
