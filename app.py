@@ -94,7 +94,6 @@ print(f"Demo users loaded: {list(DEMO_USERS.keys())}")
 
 # In-memory chat state keyed by browser session id.
 _CHATBOTS = {}
-DASHBOARD_PROCESS_DB_PATH = Path(str(DEFAULT_VECTOR_DB_PATH))
 
 def _load_benchmark_chatbot(chat_id: str | None = None) -> Chatbot:
     path = session.get("db_path") or session.get("current_db_path")
@@ -476,12 +475,12 @@ def build_library_filters() -> list[dict]:
 
 
 def _dashboard_backup_path(db_path: Path | None = None) -> Path:
-    target = Path(db_path or DASHBOARD_PROCESS_DB_PATH)
+    target = Path(db_path or DEFAULT_VECTOR_DB_PATH)
     return target.with_name(f"{target.stem}.backup_before_dashboard_processing{target.suffix}")
 
 
 def _create_dashboard_db_backup(target_path: Path | None = None) -> dict[str, str]:
-    target = Path(target_path or DASHBOARD_PROCESS_DB_PATH)
+    target = Path(target_path or DEFAULT_VECTOR_DB_PATH)
     if not target.exists():
         raise FileNotFoundError(f"Active database not found: {target}")
 
@@ -591,40 +590,6 @@ def _delete_existing_document_rows(db_path: Path, document_id: str) -> None:
     finally:
         conn.close()
 
-
-def process_dashboard_source(source: dict) -> None:
-    document = _build_uploaded_document(source)
-    payload = build_chunk_payload(
-        [document],
-        source={
-            "type": "dashboard_upload",
-            "source_id": source.get("id"),
-            "filename": source.get("filename", ""),
-        },
-        chunk_size=DEFAULT_CHUNK_SIZE,
-        chunk_overlap=DEFAULT_CHUNK_OVERLAP,
-    )
-
-    if not payload.get("chunks"):
-        raise ValueError("This file could not be broken into chatbot-ready sections.")
-
-    _create_dashboard_db_backup(DASHBOARD_PROCESS_DB_PATH)
-
-    # use best variant instead of default embedding config for better performance and relevance in the dashboard context
-    variant = load_best_variant(UNIFIED_HPC_RESULTS_PATH)
-    method = variant.get("embedding_method", str("dummy"))
-    dim = variant.get("embedding_dimension", DEFAULT_EMBEDDING_DIM) 
-
-    embedder = get_embedder_with_dimension(dim=dim, embedding_method=method)
-
-    _delete_existing_document_rows(DASHBOARD_PROCESS_DB_PATH, document["document_id"])
-    ingest_payload_to_sqlite(
-        payload,
-        DASHBOARD_PROCESS_DB_PATH,
-        embedder=embedder,
-        batch_size=DEFAULT_BATCH_SIZE,
-    )
-    # return len(payload.get("chunks", []))
 
 def getSamplePrompts(count: int = 3) -> list[str]:
     variant = load_best_variant(UNIFIED_HPC_RESULTS_PATH)
