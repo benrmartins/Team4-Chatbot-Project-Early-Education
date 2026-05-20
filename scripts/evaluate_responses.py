@@ -2,6 +2,7 @@ import argparse
 import re
 from pathlib import Path
 from typing import List, Tuple, Dict, Any
+from datetime import datetime
 
 from metrics.metrics import RegressionMetrics
 
@@ -227,6 +228,69 @@ def get_manual_scores(question: str, answer: str) -> Tuple[int, int, int, bool, 
     return answer_quality, grounding_quality, helpfulness, answer_correctness, citation_presence, relevant_retrieval, correct_refusal
 
 
+def make_metrics_output_path() -> Path:
+    stamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    return Path(__file__).resolve().parent.parent / "outputs" / f"evaluation_metrics_{stamp}.txt"
+
+
+def write_metrics_summary(
+    output_path: Path,
+    input_path: Path,
+    combined_metrics: dict[str, Any],
+    summaries: list[dict[str, Any]],
+    metrics_obj: RegressionMetrics,
+) -> None:
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    with output_path.open("w", encoding="utf-8") as f:
+        f.write("Chatbot Evaluation Metrics Summary\n")
+        f.write(f"Generated: {datetime.now().isoformat(timespec='seconds')}\n")
+        f.write(f"Input file: {input_path}\n")
+        f.write("=" * 80 + "\n\n")
+
+        f.write("REGRESSION METRICS:\n")
+        f.write("-" * 80 + "\n")
+        regression = combined_metrics["regression"]
+        for key, value in regression.items():
+            f.write(f"{key}: {value}\n")
+
+        f.write("\nCLASSIFICATION METRICS:\n")
+        f.write("-" * 80 + "\n")
+        classification = combined_metrics["classification"]
+        for metric, stats in classification.items():
+            if metric == "total_responses_evaluated":
+                f.write(f"{metric}: {stats}\n")
+                continue
+            f.write(f"\n{metric.upper().replace('_', ' ')}:\n")
+            for stat_key, stat_value in stats.items():
+                f.write(f"  {stat_key}: {stat_value}\n")
+
+        f.write("\nINDIVIDUAL RESPONSE SUMMARIES:\n")
+        f.write("-" * 80 + "\n")
+        for summary in summaries:
+            status = "PASS" if summary["average_score"] >= 4.0 else "WARN" if summary["average_score"] >= 3.0 else "FAIL"
+            f.write(f"Question {summary['question_id']} ({status}): {summary['average_score']}/5\n")
+            f.write(f"  Question: {summary['question']}\n")
+            f.write(
+                f"  Regression: Quality={summary['answer_quality']}, "
+                f"Grounding={summary['grounding_quality']}, Helpfulness={summary['helpfulness']}\n"
+            )
+
+            eval_obj = next((e for e in metrics_obj.evaluations if e.question_id == summary["question_id"]), None)
+            if eval_obj:
+                class_summary = eval_obj.get_classification_summary()
+                refusal_status = "N/A" if class_summary["correct_refusal"] is None else "Pass" if class_summary["correct_refusal"] else "Fail"
+                f.write(
+                    f"  Classification: Correct={'Pass' if class_summary['answer_correctness'] else 'Fail'}, "
+                    f"Citations={'Pass' if class_summary['citation_presence'] else 'Fail'}, "
+                    f"Retrieval={'Pass' if class_summary['relevant_retrieval'] else 'Fail'}, "
+                    f"Refusal={refusal_status}\n"
+                )
+
+            if summary.get("evaluator_notes"):
+                f.write(f"  Notes: {summary['evaluator_notes']}\n")
+            f.write("\n")
+
+
 def main() -> None:
     args = parse_args()
     input_path = Path(args.input)
@@ -338,6 +402,10 @@ def main() -> None:
         )
         if summary['evaluator_notes']:
             print(f"     Notes: {summary['evaluator_notes']}")
+
+    metrics_file = make_metrics_output_path()
+    write_metrics_summary(metrics_file, input_path, combined, summaries, metrics)
+    print(f"\nSaved metrics summary to: {metrics_file}")
 
 if __name__ == "__main__":
     main()

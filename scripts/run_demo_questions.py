@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import importlib.util
 import json
 import sys
 from datetime import datetime
@@ -12,7 +13,36 @@ if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
 from chatbot import Chatbot
-from metrics import score_final_answer_benchmark_item
+
+def _load_score_function():
+    for module_name in ("evaluation.benchmark_scoring", "metrics"):
+        try:
+            module = __import__(module_name, fromlist=["score_final_answer_benchmark_item"])
+            return module.score_final_answer_benchmark_item
+        except (ImportError, AttributeError):
+            continue
+
+    benchmark_module_path = PROJECT_ROOT / "evaluation" / "benchmark_scoring.py"
+    if benchmark_module_path.exists():
+        spec = importlib.util.spec_from_file_location(
+            "benchmark_scoring", benchmark_module_path
+        )
+        if spec and spec.loader:
+            module = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(module)
+            if hasattr(module, "score_final_answer_benchmark_item"):
+                return module.score_final_answer_benchmark_item
+
+    # Instead of raising, print a warning and return a dummy function
+    print(
+        "WARNING: Could not import score_final_answer_benchmark_item from evaluation.benchmark_scoring or metrics. "
+        "Scoring will be skipped."
+    )
+    def dummy_score_final_answer_benchmark_item(*args, **kwargs):
+        return None
+    return dummy_score_final_answer_benchmark_item
+
+score_final_answer_benchmark_item = _load_score_function()
 
 
 def parse_args() -> argparse.Namespace:
@@ -220,6 +250,12 @@ def write_results(
             f.write("-" * 80 + "\n")
 
 
+def load_questions_from_benchmark(benchmark_items: list[dict[str, Any]] | None) -> list[str]:
+    if not benchmark_items:
+        return []
+    return [str(item.get("question", "")).strip() for item in benchmark_items if item.get("question")]
+
+
 def main() -> None:
     args = parse_args()
     questions_path = Path(args.questions)
@@ -232,13 +268,25 @@ def main() -> None:
     
     output_path = make_output_path(args.output)
 
-    questions = load_questions(questions_path)
     benchmark_items = load_benchmark(benchmark_path)
+
+    if questions_path.exists() and questions_path.name != "demo_questions.txt":
+        questions = load_questions(questions_path)
+        question_source = questions_path
+    elif benchmark_items:
+        questions = load_questions_from_benchmark(benchmark_items)
+        question_source = benchmark_path
+        print(f"Using all {len(questions)} benchmark questions from: {benchmark_path}")
+    else:
+        raise FileNotFoundError(
+            f"Questions file not found: {questions_path} and no benchmark available to derive questions."
+        )
+    
     bot = Chatbot()
     status_cb = status_callback_factory(bot)
 
     print(bot.onboard_prompt)
-    print(f"Loaded {len(questions)} questions from: {questions_path}")
+    print(f"Loaded {len(questions)} questions from: {question_source}")
     if benchmark_items:
         print(f"Loaded {len(benchmark_items)} benchmark items from: {benchmark_path}")
     else:

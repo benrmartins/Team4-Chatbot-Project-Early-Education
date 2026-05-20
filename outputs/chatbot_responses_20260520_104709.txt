@@ -1,0 +1,537 @@
+Automated Chatbot Responses with Scoring
+Generated: 2026-05-20T10:51:16
+================================================================================
+
+Question 1: What is ExCELS and what does it measure?
+Answer 1: 
+Citations:
+- Leading for Change in Maryland: Asim Yousafzai | Early Education Leaders, an Institute at UMass Boston | https://blogs.umb.edu/earlyed/2026/04/15/leading-for-change-in-maryland-asim-yousafzai
+- Persuasive policy | Early Education Leaders, an Institute at UMass Boston | https://blogs.umb.edu/earlyed/2023/01/09/popular-policy
+- Early Education Leaders Announces Incoming Class of Early Educator Leadership Fellows | Early Education Leaders, an Institute at UMass Boston | https://blogs.umb.edu/earlyed/2024/10/21/early-education-leaders-announces-incoming-class-of-early-education-leadership-fellows
+- Leadership Fellows announced | Early Education Leaders, an Institute at UMass Boston | https://blogs.umb.edu/earlyed/2019/09/10/leadership-fellows-announced
+- Early Education Leaders Receives $250K from Stranahan Foundation | Early Education Leaders, an Institute at UMass Boston | https://blogs.umb.edu/earlyed/2025/02/24/early-education-leaders-receives-250k-from-stranahan-foundation
+Evidence:
+- Rank 1 | Leading for Change in Maryland: Asim Yousafzai | Early Education Leaders, an Institute at UMass Boston | matched: excels
+  Snippet: “Frontier with frontiers.” With Frontiers, Yousafzai moved quickly. The program is enrolled in Maryland Excels, the state’s quality rating and improvement system, and within its first year had reached Level 4 on the five-point scale. The program is now on the verge of reaching Level 5 and earning accreditation through...
+- Rank 2 | Persuasive policy | Early Education Leaders, an Institute at UMass Boston | matched: excels
+  Snippet: ...you can see here . This research was conducted as part of the Early Care and Education Leadership Study (ExCELS), a multi-phase project now in its fifth and final year, which seeks to help the early childhood field understand how effective leaders can improve quality experiences for children in ECE settings. Learn mor...
+- Rank 3 | Early Education Leaders Announces Incoming Class of Early Educator Leadership Fellows | Early Education Leaders, an Institute at UMass Boston | matched: n/a
+  Snippet: The program culminates in a capstone project that addresses a significant challenge or opportunity within early education, which Fellows present at the annual Early Educator Leadership Forum at UMass Boston. “We are thrilled to welcome this exceptional group of early education professionals to our Post-Master’s Cert...
+- Rank 4 | Leadership Fellows announced | Early Education Leaders, an Institute at UMass Boston | matched: n/a
+  Snippet: “We’re proud of our new Fellows, who have proven experience in the classroom and demonstrated interest in advancing the field of early education and care,” said Dr. Anne Douglass, founder and executive director of the Leadership Institute.
+- Rank 5 | Early Education Leaders Receives $250K from Stranahan Foundation | Early Education Leaders, an Institute at UMass Boston | matched: n/a
+  Snippet: “This evaluation will help us understand what works, for whom, and under what conditions,” said Professor Anne Douglass, PhD, Executive Director of Early Education Leaders. “The evidence we gather will not only help us improve our program but could also inform other higher education institutions interested in increa...
+Retrieval confidence: normal
+--------------------------------------------------------------------------------
+Question 2: How does Early Education Leaders support bilingual or multilingual educators?
+Answer 2: 
+Citations:
+- Early Education Leaders, an Institute at UMass Boston | provides the leadership development opportunities and infrastructure that early educators need to support thriving children and families. | https://blogs.umb.edu/earlyed
+- Looking Back: Early Education Leaders’ Most Impactful Social Media Moments of 2025 | Early Education Leaders, an Institute at UMass Boston | https://blogs.umb.edu/earlyed/2025/12/23/looking-back-early-education-leaders-most-impactful-social-media-moments-of-2025
+Evidence:
+- Rank 1 | Early Education Leaders, an Institute at UMass Boston | provides the leadership development opportunities and infrastructure that early educators need to support thriving children and families. | matched: support, educators
+  Snippet: Growing up, her position was firm: “No way am I ever going to be a teacher.” Born in the United States to Portuguese parents, Amorim moved to Portugal at age 12, earned a law degree, and worked in consumer law before moving to Belgium for advocacy work. It was a professional path that made sense—until she had her fi...
+- Rank 2 | Early Education Leaders, an Institute at UMass Boston | provides the leadership development opportunities and infrastructure that early educators need to support thriving children and families. | matched: support, educators
+  Snippet: “I started to research early childhood education and learn more about child development,” Amorim says. “It just blew my mind how important it was, and how little people know about it, and how much of the problems that I see in the world and in grown-ups can be eliminated if people have strong starts.” Continue Readi...
+- Rank 3 | Early Education Leaders, an Institute at UMass Boston | provides the leadership development opportunities and infrastructure that early educators need to support thriving children and families. | matched: support, educators
+  Snippet: May 15, 2026 by earlyedinstitute Comments Off on From Law to Early Learning: How One Educator Found Her Voice Through Leading for Change From Law to Early Learning: How One Educator Found Her Voice Through Leading for Change Sandra Amorim never planned to become an early childhood educator.
+- Rank 4 | Looking Back: Early Education Leaders’ Most Impactful Social Media Moments of 2025 | Early Education Leaders, an Institute at UMass Boston | matched: support, multilingual, educators
+  Snippet: ...Fellowship research, demonstrating how targeted academic advising, leadership development, and financial support can create meaningful pathways to higher education—particularly for multilingual educators and those specializing in high-need areas like infant and toddler care. Engagement with this post underscored the i...
+- Rank 5 | Looking Back: Early Education Leaders’ Most Impactful Social Media Moments of 2025 | Early Education Leaders, an Institute at UMass Boston | matched: support, multilingual, educators
+  Snippet: ...Fellowship research, demonstrating how targeted academic advising, leadership development, and financial support can create meaningful pathways to higher education—particularly for multilingual educators and those specializing in high-need areas like infant and toddler care.
+Retrieval confidence: normal
+--------------------------------------------------------------------------------
+Question 3: Is there a fellowship that helps early educators earn a bachelor's degree?
+Answer 3: 
+Citations:
+- Our new Early Childhood Fellowship! | Early Education Leaders, an Institute at UMass Boston | https://blogs.umb.edu/earlyed/2022/11/23/our-new-early-childhood-fellowship
+- 15 Fellows Selected for Early Childhood Fellowship | Early Education Leaders, an Institute at UMass Boston | https://blogs.umb.edu/earlyed/2024/09/05/15-fellows-selected-for-early-childhood-fellowship
+- A Promising Pathway: Early Insights from the Early Childhood Fellowship | Early Education Leaders, an Institute at UMass Boston | https://blogs.umb.edu/earlyed/2025/04/11/a-promising-pathway-early-insights-from-the-early-childhood-fellowship
+Evidence:
+- Rank 1 | Our new Early Childhood Fellowship! | Early Education Leaders, an Institute at UMass Boston | matched: fellowship, early, educators, degree
+  Snippet: Our new Early Childhood Fellowship! November 23, 2022 by earlyedinstitute | 0 comments The Institute for Early Education Leadership and Innovation is launching a new Early Childhood Fellowship program at UMass Boston for early educators seeking to complete their bachelor’s degree. Students will receive training in entr...
+- Rank 2 | 15 Fellows Selected for Early Childhood Fellowship | Early Education Leaders, an Institute at UMass Boston | matched: fellowship, early, educators, degree
+  Snippet: In some cases, you save them.” Douglass noted the contributions the Fellowship will make to the city’s pool of qualified, experienced early educators by removing many of the obstacles faced by early educators seeking their bachelor’s degree, the most significant of which are the financial costs of an undergraduate degr...
+- Rank 3 | A Promising Pathway: Early Insights from the Early Childhood Fellowship | Early Education Leaders, an Institute at UMass Boston | matched: fellowship, early, educators, degree
+  Snippet: ...zed on a poster titled “ Supporting Bachelor’s Degree Completion for Early Educators: The Early Childhood Fellowship Model ,” highlighted how the program is successfully addressing critical workforce needs in Boston by creating pathways for racially, linguistically, and culturally diverse early educators to complete th...
+- Rank 4 | 15 Fellows Selected for Early Childhood Fellowship | Early Education Leaders, an Institute at UMass Boston | matched: fellowship, early, educators, degree
+  Snippet: The Fellowship is funded with a grant from the city of Boston to develop a pipeline of racially, linguistically, and culturally diverse early educators. All of the Fellows have committed to work in the city of Boston as early educators for at least three years after graduating with their degree. The Fellowship currentl...
+- Rank 5 | 15 Fellows Selected for Early Childhood Fellowship | Early Education Leaders, an Institute at UMass Boston | matched: fellowship, early, educators, degree
+  Snippet: ...make a difference. You change lives. In some cases, you save them.” Douglass noted the contributions the Fellowship will make to the city’s pool of qualified, experienced early educators by removing many of the obstacles faced by early educators seeking their bachelor’s degree, the most significant of which are the fi...
+Retrieval confidence: normal
+--------------------------------------------------------------------------------
+Question 4: What support do fellows receive besides tuition?
+Answer 4: 
+Citations:
+- Early Education Leaders, an Institute at UMass Boston | provides the leadership development opportunities and infrastructure that early educators need to support thriving children and families. | https://blogs.umb.edu/earlyed
+- Building the Future of Early Education: Inside the Early Childhood Fellowship | Early Education Leaders, an Institute at UMass Boston | https://blogs.umb.edu/earlyed/2025/04/04/building-the-future-of-early-education-inside-the-early-childhood-fellowship
+- Statewide Survey of Early Care and Education Workforce Aims to Improve Quality of Commonwealth’s Childcare | Early Education Leaders, an Institute at UMass Boston | https://blogs.umb.edu/earlyed/2019/04/10/statewide-survey-of-early-care-and-education-workforce-aims-to-improve-quality-of-commonwealths-childcare
+Evidence:
+- Rank 1 | Early Education Leaders, an Institute at UMass Boston | provides the leadership development opportunities and infrastructure that early educators need to support thriving children and families. | matched: support, early, educators
+  Snippet: “I started to research early childhood education and learn more about child development,” Amorim says. “It just blew my mind how important it was, and how little people know about it, and how much of the problems that I see in the world and in grown-ups can be eliminated if people have strong starts.” Continue Reading...
+- Rank 2 | Early Education Leaders, an Institute at UMass Boston | provides the leadership development opportunities and infrastructure that early educators need to support thriving children and families. | matched: support, early, educators
+  Snippet: May 15, 2026 by earlyedinstitute Comments Off on From Law to Early Learning: How One Educator Found Her Voice Through Leading for Change From Law to Early Learning: How One Educator Found Her Voice Through Leading for Change Sandra Amorim never planned to become an early childhood educator.
+- Rank 3 | Early Education Leaders, an Institute at UMass Boston | provides the leadership development opportunities and infrastructure that early educators need to support thriving children and families. | matched: support, early, educators
+  Snippet: ...cy work. It was a professional path that made sense—until she had her first child. “I started to research early childhood education and learn more about child development,” Amorim says.
+- Rank 4 | Building the Future of Early Education: Inside the Early Childhood Fellowship | Early Education Leaders, an Institute at UMass Boston | matched: support, early, educators, fellowship, tuition
+  Snippet: ...ical barriers that often prevent early educators from completing their degrees and provides comprehensive support through five key components: Tuition coverage and stipends to ensure Fellows can earn their degree without accumulating debt Personalized tutoring and academic support Regular mentoring and a learning commu...
+- Rank 5 | Statewide Survey of Early Care and Education Workforce Aims to Improve Quality of Commonwealth’s Childcare | Early Education Leaders, an Institute at UMass Boston | matched: support, early, educators
+  Snippet: ...s are compensated fairly, we need data from the field. Only then can we develop public policies that both support early educators and benefit the youngest children in our commonwealth.”
+Retrieval confidence: normal
+--------------------------------------------------------------------------------
+Question 5: How does Leading for Change help educators become change agents?
+Answer 5: 
+Citations:
+- New Study Finds That Early Educators Trained in Leading for Change Develop Entrepreneurial Mindset and Lead for Change in the Workplace | Early Education Leaders, an Institute at UMass Boston | https://blogs.umb.edu/earlyed/2022/02/25/preparing-early-educators
+Evidence:
+- Rank 1 | New Study Finds That Early Educators Trained in Leading for Change Develop Entrepreneurial Mindset and Lead for Change in the Workplace | Early Education Leaders, an Institute at UMass Boston | matched: leading, change, educators, change, agents
+  Snippet: ...as frontline leaders and change agents with a leadership development initiative,” assessed the impact of Leading for Change on 31 early educators.
+- Rank 2 | New Study Finds That Early Educators Trained in Leading for Change Develop Entrepreneurial Mindset and Lead for Change in the Workplace | Early Education Leaders, an Institute at UMass Boston | matched: leading, change, educators, change, agents
+  Snippet: “Preparing early educators as frontline leaders and change agents with a leadership development initiative,” is available online .
+- Rank 3 | New Study Finds That Early Educators Trained in Leading for Change Develop Entrepreneurial Mindset and Lead for Change in the Workplace | Early Education Leaders, an Institute at UMass Boston | matched: leading, change, educators, change, agents
+  Snippet: ...as frontline leaders and change agents with a leadership development initiative,” assessed the impact of Leading for Change on 31 early educators.
+- Rank 4 | New Study Finds That Early Educators Trained in Leading for Change Develop Entrepreneurial Mindset and Lead for Change in the Workplace | Early Education Leaders, an Institute at UMass Boston | matched: leading, change, educators, change, agents
+  Snippet: Surveys filled out by early educators before and after completing Leading for Change showed significant increases in participants’ perceptions of themselves as leaders and change agents after completing the training. Participants also demonstrated significant increases in leadership competencies ranging from having the...
+- Rank 5 | New Study Finds That Early Educators Trained in Leading for Change Develop Entrepreneurial Mindset and Lead for Change in the Workplace | Early Education Leaders, an Institute at UMass Boston | matched: leading, change, educators, change, agents
+  Snippet: ...ty improvement in early care and education settings.” “Preparing early educators as frontline leaders and change agents with a leadership development initiative,” is the latest research from the Institute of Early Education Leadership and Innovation contributing new knowledge about early educator entrepreneurial leader...
+Retrieval confidence: normal
+--------------------------------------------------------------------------------
+Question 6: What is the Culture of Continuous Learning Project trying to improve?
+Answer 6: 
+Citations:
+- Research & Policy | https://www.umb.edu/early-education-leaders-institute/research-policy
+- Creating a culture of learning | Early Education Leaders, an Institute at UMass Boston | https://blogs.umb.edu/earlyed/2020/09/10/creating-a-culture-of-learning
+Evidence:
+- Rank 1 | Research & Policy | matched: culture, continuous, learning, project
+  Snippet: ...ce of the Administration of Children and Families, U.S. Department of Health and Human Services published Culture of Continuous Learning Project: A Literature Review of the Breakthrough Series Collaborative (BSC) Publications by Institute Faculty Books Douglass, A. (2017). Leading for Change in Early Care and Education...
+- Rank 2 | Research & Policy | matched: culture, continuous, learning, project
+  Snippet: For more information, please contact Christa.Kelleher@umb.edu. Culture of Continuous Learning Project The Leadership Institute has been studying and testing a new model for quality improvement and leadership in early care and education programs. Our current study of this is a federally-funded project called the Culture...
+- Rank 3 | Research & Policy | matched: culture, continuous, learning, project
+  Snippet: Our current study of this is a federally-funded project called the Culture of Continuous Learning Project. We work with ECE programs in Boston to enhance social and emotional teaching and learning using the model for improvement called the Breakthrough Series Collaborative. This model facilitates both individual and or...
+- Rank 4 | Creating a culture of learning | Early Education Leaders, an Institute at UMass Boston | matched: culture, learning
+  Snippet: Based on her experience as an emergency provider, Jno-Baptiste has advice for others seeking to reopen (and remain open) under new operating guidance from the state that is designed to minimize transmission of the coronavirus that causes COVID-19: be flexible. “It’s so hard to keep them away from each other,” says J...
+- Rank 5 | Creating a culture of learning | Early Education Leaders, an Institute at UMass Boston | matched: culture, learning
+  Snippet: Jno-Baptiste put all of her skills to use during the early months of the pandemic when she kept Wee Care JP open as an emergency child care program. The state permitted approximately 500 programs, including Wee Care JP, to remain open on an emergency basis provided that they prioritized child care for health care wo...
+Retrieval confidence: normal
+--------------------------------------------------------------------------------
+Question 7: How does the institute connect research, policy, and practice?
+Answer 7: 
+Citations:
+- Leading, learning, and networking at the tenth annual Leadership Forum on Early Education, Research, Policy, and Practice  | Early Education Leaders, an Institute at UMass Boston | https://blogs.umb.edu/earlyed/2023/06/09/leading-learning-and-networking-at-the-tenth-annual-leadership-forum-on-early-education-research-policy-and-practice
+- Applications now open for the Post Master’s Certificate in Early Education Research, Policy & Practice | Early Education Leaders, an Institute at UMass Boston | https://blogs.umb.edu/earlyed/2024/06/06/applications-now-open-for-the-post-masters-certificate-in-early-education-research-policy-practice
+- Photos from the 2021 Leadership Forum on Early Education Research, Policy, and Practice | Early Education Leaders, an Institute at UMass Boston | https://blogs.umb.edu/earlyed/2021/05/20/photos-from-the-2021-leadership-forum-on-early-education-research-policy-and-practice
+Evidence:
+- Rank 1 | Leading, learning, and networking at the tenth annual Leadership Forum on Early Education, Research, Policy, and Practice  | Early Education Leaders, an Institute at UMass Boston | matched: institute, research, policy, practice
+  Snippet: Find your space and encourage each other to continue.” Just days after the Leadership Forum concluded, Lopez learned that she had received a grant from Johns Hopkins to continue with her project. “I’m always looking for opportunities to talk about the issues and sometimes we make people uncomfortable,” Lopez said.
+- Rank 2 | Leading, learning, and networking at the tenth annual Leadership Forum on Early Education, Research, Policy, and Practice  | Early Education Leaders, an Institute at UMass Boston | matched: institute, research, policy, practice
+  Snippet: Williams is also a graduate of the Leadership Institute’s Small Business Innovation program training and Post Master’s Certificate in Early Education Research, Policy, and Practice. Emilee Johnson, educational coordinator at Boston Children’s Hospital Child Care Center and a graduate of our Post Master’s Certificate in...
+- Rank 3 | Applications now open for the Post Master’s Certificate in Early Education Research, Policy & Practice | Early Education Leaders, an Institute at UMass Boston | matched: institute, research, policy, practice
+  Snippet: ...HD 701 Advanced Child Development and Early Learning ECHD 702 Early Childhood Policy ECHD 703 Translating Research into Policy ECHD 704 Leadership and Change in Early Care and Education Expert Faculty : Learn from dedicated faculty members who are leaders in the field of early childhood education.
+- Rank 4 | Photos from the 2021 Leadership Forum on Early Education Research, Policy, and Practice | Early Education Leaders, an Institute at UMass Boston | matched: institute, research, policy, practice
+  Snippet: Renee Boynton-Jarrett, MD, ScD, Associate Professor of Pediatrics, Founding Director of the Vital Village Community Engagement Network, and UMass Boston Chancellor Marcelo Suárez-Orozco also attended and delivered keynote remarks.
+- Rank 5 | Leading, learning, and networking at the tenth annual Leadership Forum on Early Education, Research, Policy, and Practice  | Early Education Leaders, an Institute at UMass Boston | matched: institute, research, policy, practice
+  Snippet: Lopez met with the Assistant State Superintendent for the Division of Early Childhood Development at the Maryland State Department of Education to work out final details. “I was so excited to begin this work. But then guess what? New leadership came in with new rules about how we fund grant programs in Maryland and...
+Retrieval confidence: normal
+--------------------------------------------------------------------------------
+Question 8: Do they mention opportunities focused on infants and toddlers?
+Answer 8: 
+Citations:
+- Research Summary: Study finds that teachers’ higher educational attainment correlates with higher wages | Early Education Leaders, an Institute at UMass Boston | https://blogs.umb.edu/earlyed/2023/04/11/research-summary-study-finds-that-teachers-higher-educational-attainment-correlates-with-higher-wages
+- Meet a StrongStart PDC Coach: Shauna Trick | Early Education Leaders, an Institute at UMass Boston | https://blogs.umb.edu/earlyed/2023/07/13/meet-a-strongstart-pdc-coach-shauna-trick
+- Early Education Leaders, an Institute at UMass Boston | provides the leadership development opportunities and infrastructure that early educators need to support thriving children and families. | https://blogs.umb.edu/earlyed
+- Teaching young children about post-pandemic social interaction | Early Education Leaders, an Institute at UMass Boston | https://blogs.umb.edu/earlyed/2021/11/08/teaching-young-children-about-post-pandemic-social-interaction
+Evidence:
+- Rank 1 | Research Summary: Study finds that teachers’ higher educational attainment correlates with higher wages | Early Education Leaders, an Institute at UMass Boston | matched: infants, toddlers, opportunities
+  Snippet: This contrasts with past studies finding that working with infants and toddlers is associated with lower hourly wages. RESULTS AND IMPLICATIONS FOR THE FIELD The strong connection between higher educational attainment and higher hourly wages underscores the importance of implementing intentional strategies to create eq...
+- Rank 2 | Meet a StrongStart PDC Coach: Shauna Trick | Early Education Leaders, an Institute at UMass Boston | matched: infants, toddlers
+  Snippet: ...she was drawn to a career in ECE. For 25 years she has supported the growth and development of countless infants, toddlers, preschoolers, kindergarteners, and school-age children in a range of settings.
+- Rank 3 | Early Education Leaders, an Institute at UMass Boston | provides the leadership development opportunities and infrastructure that early educators need to support thriving children and families. | matched: opportunities
+  Snippet: May 15, 2026 by earlyedinstitute Comments Off on From Law to Early Learning: How One Educator Found Her Voice Through Leading for Change From Law to Early Learning: How One Educator Found Her Voice Through Leading for Change Sandra Amorim never planned to become an early childhood educator.
+- Rank 4 | Early Education Leaders, an Institute at UMass Boston | provides the leadership development opportunities and infrastructure that early educators need to support thriving children and families. | matched: opportunities
+  Snippet: “I started to research early childhood education and learn more about child development,” Amorim says. “It just blew my mind how important it was, and how little people know about it, and how much of the problems that I see in the world and in grown-ups can be eliminated if people have strong starts.” Continue Readi...
+- Rank 5 | Teaching young children about post-pandemic social interaction | Early Education Leaders, an Institute at UMass Boston | matched: infants, toddlers
+  Snippet: ...r post at the Boston Children’s Hospital Child Care Center, which includes eight classrooms that educates infants, toddlers, and preschoolers with a completely play-based, child-centered curriculum that draws on approaches like Montessori and Reggio Emilia, among others.
+Retrieval confidence: normal
+--------------------------------------------------------------------------------
+Question 9: How can someone learn more or contact the institute?
+Answer 9: 
+Citations:
+- New CUSP Report Shows Variation in Child Care Shortfalls Across Massachusetts | Early Education Leaders, an Institute at UMass Boston | https://blogs.umb.edu/earlyed/2026/03/30/new-cusp-report-shows-variation-in-child-care-shortfalls-across-massachusetts
+- UMass Boston Report Proposes Fix for ‘Cliff Effect’ in Financial Assistance for Child Care | Early Education Leaders, an Institute at UMass Boston | https://blogs.umb.edu/earlyed/2024/12/12/umass-boston-report-proposes-fix-for-cliff-effect-in-financial-assistance-for-child-care
+- Early Education Leaders Institute | https://www.umb.edu/early-education-leaders-institute
+Evidence:
+- Rank 1 | New CUSP Report Shows Variation in Child Care Shortfalls Across Massachusetts | Early Education Leaders, an Institute at UMass Boston | matched: early, education, leaders, institute
+  Snippet: Led by the Early Education Leaders Institute and Center for Women in Politics and Public Policy, the UMass Boston CUSP Project has developed a statistical model to produce estimates of key impacts resulting from expanding access to affordable, quality child care and early education.
+- Rank 2 | UMass Boston Report Proposes Fix for ‘Cliff Effect’ in Financial Assistance for Child Care | Early Education Leaders, an Institute at UMass Boston | matched: early, education, leaders, institute
+  Snippet: # # # About the Early Education Leaders Institute The Early Education Leaders Institute at the University of Massachusetts Boston provides the leadership development opportunities and infrastructure that early educators need to support thriving children and families.
+- Rank 3 | New CUSP Report Shows Variation in Child Care Shortfalls Across Massachusetts | Early Education Leaders, an Institute at UMass Boston | matched: early, education, leaders, institute
+  Snippet: ...d extreme shortfalls in infant and toddler capacity in centers and family child care settings. Led by the Early Education Leaders Institute and Center for Women in Politics and Public Policy, the UMass Boston CUSP Project has developed a statistical model to produce estimates of key impacts resulting from expanding acc...
+- Rank 4 | Early Education Leaders Institute | matched: early, education, leaders, institute
+  Snippet: We invest in workforce and leadership development, research, and the larger early education ecosystem to cultivate leaders who reflect and represent their communities. Investors & Partners Partners and investors are critical to the Leadership Institute’s work in cultivating leadership from the field of early care and e...
+- Rank 5 | Early Education Leaders Institute | matched: early, education, leaders, institute
+  Snippet: ...d below: City of Boston Boston Children’s Hospital Foundation The Boston Foundation Boston Public Schools Early Childhood Department Mayor’s Office of Women’s Advancement - City of Boston Child Trends Maryland Early Childhood Leadership Project - Sherman Center for Early Learning and Urban Communities, University of Ma...
+Retrieval confidence: normal
+--------------------------------------------------------------------------------
+Question 10: Does the institute say anything about campus parking permits?
+Answer 10: 
+Citations:
+- UMass Boston Report Proposes Fix for ‘Cliff Effect’ in Financial Assistance for Child Care | Early Education Leaders, an Institute at UMass Boston | https://blogs.umb.edu/earlyed/2024/12/12/umass-boston-report-proposes-fix-for-cliff-effect-in-financial-assistance-for-child-care
+- Early Education Leaders Institute | https://www.umb.edu/early-education-leaders-institute
+Evidence:
+- Rank 1 | UMass Boston Report Proposes Fix for ‘Cliff Effect’ in Financial Assistance for Child Care | Early Education Leaders, an Institute at UMass Boston | matched: early, education, leaders, institute
+  Snippet: # # # About the Early Education Leaders Institute The Early Education Leaders Institute at the University of Massachusetts Boston provides the leadership development opportunities and infrastructure that early educators need to support thriving children and families.
+- Rank 2 | Early Education Leaders Institute | matched: early, education, leaders, institute
+  Snippet: We consistently and successfully make accessible, high-quality early care and education a reality for more children and families, while supporting the professional growth of a diverse workforce of early educators. As a result, The Leadership Institute is nationally recognized as a model of excellence. Mission The Leade...
+- Rank 3 | Early Education Leaders Institute | matched: early, education, leaders, institute
+  Snippet: Home Early Education Leaders Institute Menu menu Menu Offerings Research & Policy Impact Our Team Offering Early Education Leadership, Training & Research We are building a leadership development ecosystem to cultivate, sustain, and elevate early educator leadership that reflects the racial and linguistic diversity of...
+- Rank 4 | Early Education Leaders Institute | matched: early, education, leaders, institute
+  Snippet: ...d below: City of Boston Boston Children’s Hospital Foundation The Boston Foundation Boston Public Schools Early Childhood Department Mayor’s Office of Women’s Advancement - City of Boston Child Trends Maryland Early Childhood Leadership Project - Sherman Center for Early Learning and Urban Communities, University of Ma...
+- Rank 5 | Early Education Leaders Institute | matched: early, education, leaders, institute
+  Snippet: We invest in workforce and leadership development, research, and the larger early education ecosystem to cultivate leaders who reflect and represent their communities. Investors & Partners Partners and investors are critical to the Leadership Institute’s work in cultivating leadership from the field of early care and e...
+Retrieval confidence: normal
+--------------------------------------------------------------------------------
+Question 11: What does Early Education Leaders do?
+Answer 11: 
+--------------------------------------------------------------------------------
+Question 12: Who do we partner with?
+Answer 12: 
+--------------------------------------------------------------------------------
+Question 13: What kinds of leadership programs are offered by the Leadership Institute?
+Answer 13: 
+Citations:
+- 2025 Early Educator Leadership Forum: A Day of Power, Purpose, and Possibility | Early Education Leaders, an Institute at UMass Boston | https://blogs.umb.edu/earlyed/2025/05/27/2025-early-educator-leadership-forum-a-day-of-power-purpose-and-possibility
+- Meet our Director of Leadership Programs | Early Education Leaders, an Institute at UMass Boston | https://blogs.umb.edu/earlyed/2020/11/22/meet-our-director-of-leadership-programs
+Evidence:
+- Rank 1 | 2025 Early Educator Leadership Forum: A Day of Power, Purpose, and Possibility | Early Education Leaders, an Institute at UMass Boston | matched: leadership, programs, offered, early, education, leaders, institute, umass, boston
+  Snippet: Presenters were graduates of leadership programs offered by EEC’s Professional Development Academy and the Metro Boston Professional Development Center, and the Essential Leadership Model, which trains program leaders on continuous quality improvement through one of the state’s Early Childhood Support Organizations.
+- Rank 2 | Meet our Director of Leadership Programs | Early Education Leaders, an Institute at UMass Boston | matched: leadership, programs, early, education, leaders, institute, umass, boston
+  Snippet: When she ran a small child care program in a poverty- and violence-stricken neighborhood of Boston, she and her staff supported families in numerous ways by connecting them with other services that could help with housing, clothing, and food. On staff at Child Care Resource Center in Cambridge, she worked with highly-t...
+- Rank 3 | Meet our Director of Leadership Programs | Early Education Leaders, an Institute at UMass Boston | matched: leadership, programs, early, education, leaders, institute, umass, boston
+  Snippet: Meet our Director of Leadership Programs November 22, 2020 by Anne Douglass | 0 comments Director of Leadership Programs Lynne Mendes In her role as Director of Leadership Programs for the Institute of Early Education Leadership and Innovation, Lynne Mendes is much more than an educator, trainer, and facilitator. She i...
+- Rank 4 | Meet our Director of Leadership Programs | Early Education Leaders, an Institute at UMass Boston | matched: leadership, programs, early, education, leaders, institute, umass, boston
+  Snippet: Through the course, which is anchored with the Leadership Institute’s curriculum on entrepreneurial leadership, participants go through a shift in mindset where they begin to see that their work is just as vital to the life of local neighborhoods as the pizza shop, hair salon, or insurance agency. “They go through this...
+- Rank 5 | Meet our Director of Leadership Programs | Early Education Leaders, an Institute at UMass Boston | matched: leadership, programs, early, education, leaders, institute, umass, boston
+  Snippet: ...ny of the women who run these small businesses don’t think of themselves as business owners and community leaders because they’re not treated as such. “First, they’re women, and second, most of them are women of color,” Mendes says. She gives the following analogy to illustrate her point. “If you grew up in the suburbs...
+Retrieval confidence: normal
+--------------------------------------------------------------------------------
+Question 14: What kind of research does Early Education Leaders do?
+Answer 14: 
+Citations:
+- Research Summary: Study finds that teachers’ higher educational attainment correlates with higher wages | Early Education Leaders, an Institute at UMass Boston | https://blogs.umb.edu/earlyed/2023/04/11/research-summary-study-finds-that-teachers-higher-educational-attainment-correlates-with-higher-wages
+- Research Summary: Mobilizing Leadership with the Breakthrough Series Collaborative | Early Education Leaders, an Institute at UMass Boston | https://blogs.umb.edu/earlyed/2019/05/02/research-summary-mobilizing-leadership-with-the-breakthrough-series-collaborative
+- Applications now open for the Post Master’s Certificate in Early Education Research, Policy & Practice | Early Education Leaders, an Institute at UMass Boston | https://blogs.umb.edu/earlyed/2024/06/06/applications-now-open-for-the-post-masters-certificate-in-early-education-research-policy-practice
+- Research Summary: Positive Relationships Key to Early Educator Success in Earning Bachelor’s Degree | Early Education Leaders, an Institute at UMass Boston | https://blogs.umb.edu/earlyed/2020/01/15/research-summary-positive-relationships-key-to-early-educator-success-in-earning-bachelors-degree
+Evidence:
+- Rank 1 | Research Summary: Study finds that teachers’ higher educational attainment correlates with higher wages | Early Education Leaders, an Institute at UMass Boston | matched: research, conducted, early, education, leaders, institute, umass, boston
+  Snippet: ...ew data from a larger study “The Massachusetts Early Education and Care Workforce Survey 2019,” which was conducted to document the demographic characteristics, educational attainment, professional development opportunities, working conditions, compensation, and benefits across ECE educators and administrators in a nor...
+- Rank 2 | Research Summary: Study finds that teachers’ higher educational attainment correlates with higher wages | Early Education Leaders, an Institute at UMass Boston | matched: research, conducted, early, education, leaders, institute, umass, boston
+  Snippet: ...ew data from a larger study “The Massachusetts Early Education and Care Workforce Survey 2019,” which was conducted to document the demographic characteristics, educational attainment, professional development opportunities, working conditions, compensation, and benefits across ECE educators and administrators in a nor...
+- Rank 3 | Research Summary: Mobilizing Leadership with the Breakthrough Series Collaborative | Early Education Leaders, an Institute at UMass Boston | matched: research, early, education, leaders, institute, umass, boston
+  Snippet: ...ys to cultivate educator leadership or not. Most of what is done now in ECE minimizes the opportunity for early educators to be leaders and active agents of change.
+- Rank 4 | Applications now open for the Post Master’s Certificate in Early Education Research, Policy & Practice | Early Education Leaders, an Institute at UMass Boston | matched: research, early, education, leaders, institute, umass, boston
+  Snippet: ...HD 701 Advanced Child Development and Early Learning ECHD 702 Early Childhood Policy ECHD 703 Translating Research into Policy ECHD 704 Leadership and Change in Early Care and Education Expert Faculty : Learn from dedicated faculty members who are leaders in the field of early childhood education.
+- Rank 5 | Research Summary: Positive Relationships Key to Early Educator Success in Earning Bachelor’s Degree | Early Education Leaders, an Institute at UMass Boston | matched: research, early, education, leaders, institute, umass, boston
+  Snippet: Research Summary: Positive Relationships Key to Early Educator Success in Earning Bachelor’s Degree January 15, 2020 by Anne Douglass | 0 comments In “The Role of Relationships: An Exploratory Study of Early Childhood Educators Earning a Bachelor’s Degree,” Professor Anne Douglass shows how positive relationships with...
+Retrieval confidence: normal
+--------------------------------------------------------------------------------
+Question 15: What impact do our programs have?
+Answer 15: 
+Citations:
+- FY2024 Impact Report | Early Education Leaders, an Institute at UMass Boston | https://blogs.umb.edu/earlyed/2025/04/22/fy2024-impact-report
+- FY22 Impact Report | Early Education Leaders, an Institute at UMass Boston | https://blogs.umb.edu/earlyed/2022/11/16/fy22-impact-report
+- Leading for Change Now Offered to Family Child Care Educators  in New York | Early Education Leaders, an Institute at UMass Boston | https://blogs.umb.edu/earlyed/2023/04/02/leading-for-change-now-offered-to-family-child-care-educators-in-new-york
+Evidence:
+- Rank 1 | FY2024 Impact Report | Early Education Leaders, an Institute at UMass Boston | matched: impact, offered, early, education, leaders, institute, umass, boston
+  Snippet: LFC is offered for free to all licensed early educators in Massachusetts and available to early educators in Maryland through the Maryland Early Childhood Leadership Program based at the Shriver Center/Division of Professional Studies at the University of Maryland Baltimore County.
+- Rank 2 | FY2024 Impact Report | Early Education Leaders, an Institute at UMass Boston | matched: impact, programs, early, education, leaders, institute, umass, boston
+  Snippet: FY2024 Impact Report April 22, 2025 by earlyedinstitute This past fiscal year marked a pivotal chapter for Early Education Leaders. From launching our new name to expanding leadership development programs across multiple states, our journey has been guided by a single, powerful vision: a world where racially, culturall...
+- Rank 3 | FY22 Impact Report | Early Education Leaders, an Institute at UMass Boston | matched: impact, programs, early, education, leaders, institute, umass, boston
+  Snippet: FY22 Impact Report November 16, 2022 by earlyedinstitute | 0 comments The work of the Institute for Early Education Leadership and Innovation is to catalyze transformation in the early care and education sector through leadership from within our field. The foundation for this work is our belief in the power of early ed...
+- Rank 4 | FY22 Impact Report | Early Education Leaders, an Institute at UMass Boston | matched: impact, programs, early, education, leaders, institute, umass, boston
+  Snippet: ...he foundation for this work is our belief in the power of early educators to lead and drive change in ECE programs and systems. In this overview of our efforts throughout Fiscal Year 2022, we highlight the ways in which we are cultivating, sustaining, and elevating leadership that reflects the racial and linguistic div...
+- Rank 5 | Leading for Change Now Offered to Family Child Care Educators  in New York | Early Education Leaders, an Institute at UMass Boston | matched: impact, offered, early, education, leaders, institute, umass, boston
+  Snippet: “This program has a significant impact on the educators who complete it, and we are thrilled to extend its reach to even more early childhood professionals. By empowering educators to lead for change, we are creating a stronger and more equitable early childhood education system.” Taught as a professional learning comm...
+Retrieval confidence: normal
+--------------------------------------------------------------------------------
+Question 16: What do our leaders/graduates/fellows do?
+Answer 16: 
+Citations:
+- Meet Our 2020-2021 Early Education Leadership Fellows | Early Education Leaders, an Institute at UMass Boston | https://blogs.umb.edu/earlyed/2020/09/23/meet-our-2020-2021-early-education-leadership-fellows
+- Leadership Fellows announced | Early Education Leaders, an Institute at UMass Boston | https://blogs.umb.edu/earlyed/2019/09/10/leadership-fellows-announced
+- 52 Early Childhood Fellows enrolled at UMass Boston | Early Education Leaders, an Institute at UMass Boston | https://blogs.umb.edu/earlyed/2023/06/30/52-early-childhood-fellows-enrolled-at-umass-boston
+- Early Education Leaders Announces Incoming Class of Early Educator Leadership Fellows | Early Education Leaders, an Institute at UMass Boston | https://blogs.umb.edu/earlyed/2024/10/21/early-education-leaders-announces-incoming-class-of-early-education-leadership-fellows
+- October | 2024 | Early Education Leaders, an Institute at UMass Boston | https://blogs.umb.edu/earlyed/2024/10
+Evidence:
+- Rank 1 | Meet Our 2020-2021 Early Education Leadership Fellows | Early Education Leaders, an Institute at UMass Boston | matched: leaders, graduates, fellows, early, education, leaders, institute, umass, boston
+  Snippet: Past graduates of the Post-Master’s Certificate Program have gone on to pursue doctoral study to advance scholarship in the field, led quality improvement efforts in their programs, sought new positions to make change on a scale greater than that possible in their prior job, served on professional advisory boards, and...
+- Rank 2 | Leadership Fellows announced | Early Education Leaders, an Institute at UMass Boston | matched: leaders, graduates, fellows, early, education, leaders, institute, umass, boston
+  Snippet: ...ards, and launched entrepreneurial ventures including the establishment of a mission-specific school. The Leadership Fellows were selected based on their experience and interest in advancing the ECE field.
+- Rank 3 | 52 Early Childhood Fellows enrolled at UMass Boston | Early Education Leaders, an Institute at UMass Boston | matched: leaders, graduates, fellows, early, education, leaders, institute, umass, boston
+  Snippet: ...of any institution of higher education in Massachusetts and two-thirds of UMass Boston’s early education graduates are BIPOC women. “When I learned about the Fellowship, I thought, ‘They’re talking about me!,’” said Early Childhood Fellow Shataura Driver, an infant-toddler teacher with 10 years of experience.
+- Rank 4 | Early Education Leaders Announces Incoming Class of Early Educator Leadership Fellows | Early Education Leaders, an Institute at UMass Boston | matched: leaders, graduates, fellows, early, education, leaders, institute, umass, boston
+  Snippet: Many graduates of the PMC program have gone on to take leadership roles in early education programs, serve on advisory boards, and launch innovative models of care. For more information about the PMC program or to learn more about Early Education Leaders, visit earlyedinstitute.umb.edu.
+- Rank 5 | October | 2024 | Early Education Leaders, an Institute at UMass Boston | matched: leaders, fellows, early, education, leaders, institute, umass, boston
+  Snippet: October 21, 2024 by earlyedinstitute Comments Off on Early Education Leaders Announces Incoming Class of Early Educator Leadership Fellows Early Education Leaders Announces Incoming Class of Early Educator Leadership Fellows Early Education Leaders, an Institute at the University of Massachusetts Boston, is pleased to...
+Retrieval confidence: normal
+--------------------------------------------------------------------------------
+Question 17: What are the key types of positive relationships that support early educators in earning their bachelor's degree?
+Answer 17: 
+Citations:
+- Research Summary: Positive Relationships Key to Early Educator Success in Earning Bachelor’s Degree | Early Education Leaders, an Institute at UMass Boston | https://blogs.umb.edu/earlyed/2020/01/15/research-summary-positive-relationships-key-to-early-educator-success-in-earning-bachelors-degree
+Evidence:
+- Rank 1 | Research Summary: Positive Relationships Key to Early Educator Success in Earning Bachelor’s Degree | Early Education Leaders, an Institute at UMass Boston | matched: positive, relationships, early, educators, degree
+  Snippet: This qualitative study examined the higher education experiences of 18 early educators enrolled in a public urban university early childhood teacher education program. It included in-depth interviews with 11 of these educators’ workplace supervisors. The results highlight the potential importance of the relational cont...
+- Rank 2 | Research Summary: Positive Relationships Key to Early Educator Success in Earning Bachelor’s Degree | Early Education Leaders, an Institute at UMass Boston | matched: positive, relationships, early, educators, degree
+  Snippet: ...or ECE teachers to hold a bachelor’s degree as one measure of educator quality. But little is known about early educators’ higher education experience and its impact on their professional practice.
+- Rank 3 | Research Summary: Positive Relationships Key to Early Educator Success in Earning Bachelor’s Degree | Early Education Leaders, an Institute at UMass Boston | matched: positive, relationships, early, educators, degree
+  Snippet: ...essional practice. An emerging body of research across multiple disciplines provides strong evidence that positive relationships in work and educational settings are associated with better outcomes, such as learning and improvement, organizational performance, and worker well-being and retention.
+- Rank 4 | Research Summary: Positive Relationships Key to Early Educator Success in Earning Bachelor’s Degree | Early Education Leaders, an Institute at UMass Boston | matched: positive, relationships, support, early, educators, degree
+  Snippet: Findings from this study show that four types of positive relational processes influenced educators’ experience learning and working toward bachelor’s degree completion. Mutual respect and caring: Educators said that it was important that core program staff and faculty members knew educators as individuals and provided...
+- Rank 5 | Research Summary: Positive Relationships Key to Early Educator Success in Earning Bachelor’s Degree | Early Education Leaders, an Institute at UMass Boston | matched: positive, relationships, support, early, educators, degree
+  Snippet: Workplace supervisors also played an ongoing supportive role for many educators, for example, by offering flexible work hours so educators could get to classes, providing time to study during the workday, providing tuition support, and providing encouragement and helping with homework.
+Retrieval confidence: normal
+--------------------------------------------------------------------------------
+Question 18: What are the main focus areas of the institute’s work?
+Answer 18: 
+Citations:
+- New CUSP Report Shows Variation in Child Care Shortfalls Across Massachusetts | Early Education Leaders, an Institute at UMass Boston | https://blogs.umb.edu/earlyed/2026/03/30/new-cusp-report-shows-variation-in-child-care-shortfalls-across-massachusetts
+- UMass Boston Report Proposes Fix for ‘Cliff Effect’ in Financial Assistance for Child Care | Early Education Leaders, an Institute at UMass Boston | https://blogs.umb.edu/earlyed/2024/12/12/umass-boston-report-proposes-fix-for-cliff-effect-in-financial-assistance-for-child-care
+- UMass Boston Report Shows Potential for Reducing Racial Inequities in Child Care and Early Education | Early Education Leaders, an Institute at UMass Boston | https://blogs.umb.edu/earlyed/2024/06/28/umass-boston-report-shows-potential-for-reducing-racial-inequities-in-child-care-and-early-education
+Evidence:
+- Rank 1 | New CUSP Report Shows Variation in Child Care Shortfalls Across Massachusetts | Early Education Leaders, an Institute at UMass Boston | matched: early, education, leaders, institute, umass, boston
+  Snippet: Led by the Early Education Leaders Institute and Center for Women in Politics and Public Policy, the UMass Boston CUSP Project has developed a statistical model to produce estimates of key impacts resulting from expanding access to affordable, quality child care and early education.
+- Rank 2 | UMass Boston Report Proposes Fix for ‘Cliff Effect’ in Financial Assistance for Child Care | Early Education Leaders, an Institute at UMass Boston | matched: early, education, leaders, institute, umass, boston
+  Snippet: ...ployment, and family income when family financial assistance for child care is increased. # # # About the Early Education Leaders Institute The Early Education Leaders Institute at the University of Massachusetts Boston provides the leadership development opportunities and infrastructure that early educators need to su...
+- Rank 3 | UMass Boston Report Shows Potential for Reducing Racial Inequities in Child Care and Early Education | Early Education Leaders, an Institute at UMass Boston | matched: early, education, leaders, institute, umass, boston
+  Snippet: Led by the Early Education Leaders Institute and Center for Women in Politics and Public Policy, the UMass Boston CUSP Project has developed a statistical model to produce estimates of key impacts of proposed legislation in Massachusetts (Senate Bill 301) to expand access to affordable, quality child care and early edu...
+- Rank 4 | New CUSP Report Shows Variation in Child Care Shortfalls Across Massachusetts | Early Education Leaders, an Institute at UMass Boston | matched: early, education, leaders, institute, umass, boston
+  Snippet: ...d extreme shortfalls in infant and toddler capacity in centers and family child care settings. Led by the Early Education Leaders Institute and Center for Women in Politics and Public Policy, the UMass Boston CUSP Project has developed a statistical model to produce estimates of key impacts resulting from expanding acc...
+- Rank 5 | UMass Boston Report Proposes Fix for ‘Cliff Effect’ in Financial Assistance for Child Care | Early Education Leaders, an Institute at UMass Boston | matched: early, education, leaders, institute, umass, boston
+  Snippet: # # # About the Early Education Leaders Institute The Early Education Leaders Institute at the University of Massachusetts Boston provides the leadership development opportunities and infrastructure that early educators need to support thriving children and families.
+Retrieval confidence: normal
+--------------------------------------------------------------------------------
+Question 19: What is the Leadership Forum?
+Answer 19: 
+Citations:
+- Leadership Forum 2021 | Early Education Leaders, an Institute at UMass Boston | https://blogs.umb.edu/earlyed/2021/06/08/leadership-forum-2021
+- 11th annual Leadership Forum back in person for first time in four years! | Early Education Leaders, an Institute at UMass Boston | https://blogs.umb.edu/earlyed/2024/04/15/11th-annual-leadership-forum-back-in-person-for-first-time-in-four-years
+- Leading, learning, and networking at the tenth annual Leadership Forum on Early Education, Research, Policy, and Practice  | Early Education Leaders, an Institute at UMass Boston | https://blogs.umb.edu/earlyed/2023/06/09/leading-learning-and-networking-at-the-tenth-annual-leadership-forum-on-early-education-research-policy-and-practice
+- An inspiring day at the 11th annual Leadership Forum | Early Education Leaders, an Institute at UMass Boston | https://blogs.umb.edu/earlyed/2024/06/05/an-inspiring-day-at-the-11th-annual-leadership-forum
+Evidence:
+- Rank 1 | Leadership Forum 2021 | Early Education Leaders, an Institute at UMass Boston | matched: leadership, forum, early, education, leaders, institute, umass, boston
+  Snippet: More than 30 students from Leadership Institute programs presented their leadership projects during eight breakout sessions, addressing such topics and issues as supporting non-English speaking family child care providers through their first licensing cycle, creating an integrated professional learning system, developi...
+- Rank 2 | 11th annual Leadership Forum back in person for first time in four years! | Early Education Leaders, an Institute at UMass Boston | matched: leadership, forum, early, education, leaders, institute, umass, boston
+  Snippet: This year the Leadership Forum returns to an in-person format after being held virtually since the start of the COVID-19 pandemic in 2020. The theme is “Celebration of Early Educator Leadership,” in recognition of the central role early educators have played in shaping the new initiatives to improve the affordability a...
+- Rank 3 | Leading, learning, and networking at the tenth annual Leadership Forum on Early Education, Research, Policy, and Practice  | Early Education Leaders, an Institute at UMass Boston | matched: leadership, forum, early, education, leaders, institute, umass, boston
+  Snippet: All of the presenters at the Leadership Forum are graduates of our leadership programs, in which participants learn how to lead for change to improve early childhood education quality, business quality, and promote equity in early care and education. This learning occurs through highly reflective exercises in which stu...
+- Rank 4 | An inspiring day at the 11th annual Leadership Forum | Early Education Leaders, an Institute at UMass Boston | matched: leadership, forum, early, education, leaders, institute, umass, boston
+  Snippet: ...Anne Douglass explained that our new name better reflects the work we do to support ECE leaders and build leadership development ecosystems, create community partnerships with other stakeholders locally and in states around the country, and contribute new knowledge to the field through original research.
+- Rank 5 | An inspiring day at the 11th annual Leadership Forum | Early Education Leaders, an Institute at UMass Boston | matched: leadership, forum, early, education, leaders, institute, umass, boston
+  Snippet: Attendees of the Leadership Forum expressed appreciation for the opportunity to hear and learn from their professional peers about how they were confronting and solving problems of practice, expanding their professional horizons, managing their businesses, advocating for the profession, and more.
+Retrieval confidence: normal
+--------------------------------------------------------------------------------
+Question 20: Why is the Leadership Forum so special?
+Answer 20: 
+Citations:
+- Leadership Forum 2021 | Early Education Leaders, an Institute at UMass Boston | https://blogs.umb.edu/earlyed/2021/06/08/leadership-forum-2021
+- Ninth annual Leadership Forum on Early Education, Research, Policy, and Practice showcases inspiring and innovative Change Projects   ￼ | Early Education Leaders, an Institute at UMass Boston | https://blogs.umb.edu/earlyed/2022/06/18/ninth-annual-leadership-forum-on-early-education-research-policy-and-practice-showcases-inspiring-and-innovative-change-projects-%ef%bf%bc
+- An inspiring day at the 11th annual Leadership Forum | Early Education Leaders, an Institute at UMass Boston | https://blogs.umb.edu/earlyed/2024/06/05/an-inspiring-day-at-the-11th-annual-leadership-forum
+Evidence:
+- Rank 1 | Leadership Forum 2021 | Early Education Leaders, an Institute at UMass Boston | matched: leadership, forum, special, early, education, leaders, institute, umass, boston
+  Snippet: ...ey after the conference. “Like the [ Post-Master’s Certificate program] this forum embodies the spirit of leadership diversity, whole-person, whole-community: from the music to the bringing together of folks from all different “sectors”, places in ECE, experiences in ECE, to the very welcoming and supportive atmosphere...
+- Rank 2 | Leadership Forum 2021 | Early Education Leaders, an Institute at UMass Boston | matched: leadership, forum, special, early, education, leaders, institute, umass, boston
+  Snippet: ...ge, and other areas of practice and policy, making for an inspiring and informative day. “This was a VERY SPECIAL experience!” one attendee shared in a survey after the conference.
+- Rank 3 | Ninth annual Leadership Forum on Early Education, Research, Policy, and Practice showcases inspiring and innovative Change Projects   ￼ | Early Education Leaders, an Institute at UMass Boston | matched: leadership, forum, special, early, education, leaders, institute, umass, boston
+  Snippet: ...is what we see year after year and it’s what makes this event so special,” said Lynne Mendes, Director of Leadership Programs for the Institute for Early Education Leadership and Innovation.
+- Rank 4 | Ninth annual Leadership Forum on Early Education, Research, Policy, and Practice showcases inspiring and innovative Change Projects   ￼ | Early Education Leaders, an Institute at UMass Boston | matched: leadership, forum, special, early, education, leaders, institute, umass, boston
+  Snippet: ...is what we see year after year and it’s what makes this event so special,” said Lynne Mendes, Director of Leadership Programs for the Institute for Early Education Leadership and Innovation.
+- Rank 5 | An inspiring day at the 11th annual Leadership Forum | Early Education Leaders, an Institute at UMass Boston | matched: leadership, forum, early, education, leaders, institute, umass, boston
+  Snippet: ...Anne Douglass explained that our new name better reflects the work we do to support ECE leaders and build leadership development ecosystems, create community partnerships with other stakeholders locally and in states around the country, and contribute new knowledge to the field through original research.
+Retrieval confidence: normal
+--------------------------------------------------------------------------------
+Question 21: Who should attend the Leadership Forum?
+Answer 21: 
+Citations:
+- One Word: How Attendees Described the 13th Annual Early Educator Leadership Forum | Early Education Leaders, an Institute at UMass Boston | https://blogs.umb.edu/earlyed/2026/05/12/one-word-how-attendees-described-the-13th-annual-early-educator-leadership-forum
+- Register Now for the 13th Annual Early Educator Leadership Forum | Early Education Leaders, an Institute at UMass Boston | https://blogs.umb.edu/earlyed/2026/02/26/register-now-for-the-13th-annual-early-educator-leadership-forum
+Evidence:
+- Rank 1 | One Word: How Attendees Described the 13th Annual Early Educator Leadership Forum | Early Education Leaders, an Institute at UMass Boston | matched: leadership, forum, early, education, leaders, institute, umass, boston
+  Snippet: ...English, Spanish, and Portuguese, and one of the day’s featured speakers, Giane O’Connell, presented her Leadership and Change Project entirely in Portuguese. That’s the early childhood education field: multilingual, multicultural, and deeply committed to children and families.
+- Rank 2 | One Word: How Attendees Described the 13th Annual Early Educator Leadership Forum | Early Education Leaders, an Institute at UMass Boston | matched: leadership, forum, early, education, leaders, institute, umass, boston
+  Snippet: One Word: How Attendees Described the 13th Annual Early Educator Leadership Forum May 12, 2026 by earlyedinstitute At the 13th Annual Early Educator Leadership Forum on May 2, 2026, the theme was The Power in Our Collective Voices — and the voices in the room that day made that theme real. Early Education Leaders asked...
+- Rank 3 | One Word: How Attendees Described the 13th Annual Early Educator Leadership Forum | Early Education Leaders, an Institute at UMass Boston | matched: leadership, forum, early, education, leaders, institute, umass, boston
+  Snippet: Attendees were greeted in multiple languages when they arrived. When UMass Boston Chancellor Marcelo Suarez-Orozco addressed the audience in Spanish, it landed as more than a gesture — a signal that every language in the room was a language of leadership. Breakout sessions were offered in English, Spanish, and Portugue...
+- Rank 4 | One Word: How Attendees Described the 13th Annual Early Educator Leadership Forum | Early Education Leaders, an Institute at UMass Boston | matched: leadership, forum, early, education, leaders, institute, umass, boston
+  Snippet: ...in — a reflection of the multilingual, multicultural community that gathered at UMass Boston for the day. Attendees were greeted in multiple languages when they arrived.
+- Rank 5 | Register Now for the 13th Annual Early Educator Leadership Forum | Early Education Leaders, an Institute at UMass Boston | matched: attend, leadership, forum, early, education, leaders, institute, umass, boston
+  Snippet: ...expanding their professional horizons, managing their businesses, and advocating for the profession. Why Attend The Leadership Forum is more than a conference. It’s a place where early educators can practice sharing their expertise, build professional networks, and find the collaborators they need to put their plans i...
+Retrieval confidence: normal
+--------------------------------------------------------------------------------
+Question 22: What do our leadership development program graduates/alumni say about developing and strengthening their leadership?
+Answer 22: 
+Citations:
+- Call for Submissions: 5th Edition of the ECE Leadership Development Compendium | Early Education Leaders, an Institute at UMass Boston | https://blogs.umb.edu/earlyed/2025/03/07/call-for-submissions-5th-edition-of-the-ece-leadership-development-compendium
+- New Study Shows Leadership Development Can Be Scaled Effectively to Reach Early Educators  | Early Education Leaders, an Institute at UMass Boston | https://blogs.umb.edu/earlyed/2025/06/06/new-study-shows-leadership-development-can-be-scaled-effectively-to-reach-early-educators
+- Research Summary: Entrepreneurial Leadership Training Catalyzes Change Initiatives in Early Ed Programs | Early Education Leaders, an Institute at UMass Boston | https://blogs.umb.edu/earlyed/2022/03/18/research-summary-entrepreneurial-leadership-training-catalyzes-change-initiatives-in-early-ed-programs
+Evidence:
+- Rank 1 | Call for Submissions: 5th Edition of the ECE Leadership Development Compendium | Early Education Leaders, an Institute at UMass Boston | matched: leadership, development, program, umass, boston, early, education, leaders, institute
+  Snippet: If your organization offers multiple leadership development programs, please complete a separate submission for each program. Why Participate? By contributing to the Compendium, your program will: Gain visibility on a national stage Connect with potential participants and collaborators Contribute to building a stronger...
+- Rank 2 | Call for Submissions: 5th Edition of the ECE Leadership Development Compendium | Early Education Leaders, an Institute at UMass Boston | matched: leadership, development, program, umass, boston, early, education, leaders, institute
+  Snippet: Who Should Submit? Programs eligible for inclusion must have a cohesive leadership development curriculum. This includes: Degree programs (associate’s, bachelor’s, master’s, doctoral) Non-degree programs Online programs In-person programs Hybrid programs Please note: One-time conferences, workshops, or isolated trainin...
+- Rank 3 | New Study Shows Leadership Development Can Be Scaled Effectively to Reach Early Educators  | Early Education Leaders, an Institute at UMass Boston | matched: leadership, development, program, umass, boston, early, education, leaders, institute
+  Snippet: Significantly, the study, titled “Scalability of Leadership Development Program in a State Professional Development System,” also revealed that the scaled version may be especially effective at reaching early educators who have historically experienced limited access to leadership development.
+- Rank 4 | New Study Shows Leadership Development Can Be Scaled Effectively to Reach Early Educators  | Early Education Leaders, an Institute at UMass Boston | matched: leadership, development, program, umass, boston, early, education, leaders, institute
+  Snippet: “Scalability of Leadership Development Program in a State Professional Development System” is available online at https://doi.org/10.3390/educsci15050609 About Early Education Leaders Early Education Leaders, an institute at the University of Massachusetts Boston provides the leadership development opportunities and in...
+- Rank 5 | Research Summary: Entrepreneurial Leadership Training Catalyzes Change Initiatives in Early Ed Programs | Early Education Leaders, an Institute at UMass Boston | matched: leadership, development, program, umass, boston, early, education, leaders, institute
+  Snippet: ...affordable, high quality early care and education accessible to all families. Relational-entrepreneurial leadership training In this study, relational-entrepreneurial leadership training was delivered through Leading for Change, a 40-hour relational-entrepreneurial leadership development program delivered over 15 week...
+Retrieval confidence: normal
+--------------------------------------------------------------------------------
+Question 23: How do our programs impact early educators?
+Answer 23: 
+Citations:
+- Media Advisory: Research Brief on Affordable, Quality Child Care and Early Education Expansion in MA To Be Released Oct 11 | Early Education Leaders, an Institute at UMass Boston | https://blogs.umb.edu/earlyed/2023/10/02/media-advisory-research-brief-on-affordable-quality-child-care-and-early-education-expansion-in-ma-to-be-released-oct-11
+- FY22 Impact Report | Early Education Leaders, an Institute at UMass Boston | https://blogs.umb.edu/earlyed/2022/11/16/fy22-impact-report
+- FY2024 Impact Report | Early Education Leaders, an Institute at UMass Boston | https://blogs.umb.edu/earlyed/2025/04/22/fy2024-impact-report
+- New Study Shows Leadership Development Can Be Scaled Effectively to Reach Early Educators  | Early Education Leaders, an Institute at UMass Boston | https://blogs.umb.edu/earlyed/2025/06/06/new-study-shows-leadership-development-can-be-scaled-effectively-to-reach-early-educators
+Evidence:
+- Rank 1 | Media Advisory: Research Brief on Affordable, Quality Child Care and Early Education Expansion in MA To Be Released Oct 11 | Early Education Leaders, an Institute at UMass Boston | matched: early, educators, umass, boston, early, education, leaders, institute
+  Snippet: UMass Boston Early Education CUSP (Cost and Usage Simulator Project) is led by the Institute for Early Education Leadership and Innovation in collaboration with the Center for Women in Politics and Public Policy. About the Institute for Early Education Leadership and Innovation at UMass Boston The Institute for Early E...
+- Rank 2 | FY22 Impact Report | Early Education Leaders, an Institute at UMass Boston | matched: impact, programs, early, educators, umass, boston, early, education, leaders, institute
+  Snippet: FY22 Impact Report November 16, 2022 by earlyedinstitute | 0 comments The work of the Institute for Early Education Leadership and Innovation is to catalyze transformation in the early care and education sector through leadership from within our field. The foundation for this work is our belief in the power of early ed...
+- Rank 3 | FY2024 Impact Report | Early Education Leaders, an Institute at UMass Boston | matched: impact, programs, early, educators, umass, boston, early, education, leaders, institute
+  Snippet: FY2024 Impact Report April 22, 2025 by earlyedinstitute This past fiscal year marked a pivotal chapter for Early Education Leaders. From launching our new name to expanding leadership development programs across multiple states, our journey has been guided by a single, powerful vision: a world where racially, culturall...
+- Rank 4 | New Study Shows Leadership Development Can Be Scaled Effectively to Reach Early Educators  | Early Education Leaders, an Institute at UMass Boston | matched: impact, programs, early, educators, umass, boston, early, education, leaders, institute
+  Snippet: ...und that leadership development programs for early educators can be successfully scaled while maintaining impact—and even expanding equity.
+- Rank 5 | FY22 Impact Report | Early Education Leaders, an Institute at UMass Boston | matched: impact, programs, early, educators, umass, boston, early, education, leaders, institute
+  Snippet: ...he foundation for this work is our belief in the power of early educators to lead and drive change in ECE programs and systems. In this overview of our efforts throughout Fiscal Year 2022, we highlight the ways in which we are cultivating, sustaining, and elevating leadership that reflects the racial and linguistic div...
+Retrieval confidence: normal
+--------------------------------------------------------------------------------
+Question 24: What kinds of things do our program graduates/alumni (early educators) do as a result of our leadership programs?
+Answer 24: 
+Citations:
+- Meet our Director of Leadership Programs | Early Education Leaders, an Institute at UMass Boston | https://blogs.umb.edu/earlyed/2020/11/22/meet-our-director-of-leadership-programs
+- New Study Shows Leadership Development Can Be Scaled Effectively to Reach Early Educators  | Early Education Leaders, an Institute at UMass Boston | https://blogs.umb.edu/earlyed/2025/06/06/new-study-shows-leadership-development-can-be-scaled-effectively-to-reach-early-educators
+- Research Summary: Entrepreneurial Leadership Training Catalyzes Change Initiatives in Early Ed Programs | Early Education Leaders, an Institute at UMass Boston | https://blogs.umb.edu/earlyed/2022/03/18/research-summary-entrepreneurial-leadership-training-catalyzes-change-initiatives-in-early-ed-programs
+Evidence:
+- Rank 1 | Meet our Director of Leadership Programs | Early Education Leaders, an Institute at UMass Boston | matched: early, educators, leadership, programs, umass, boston, early, education, leaders, institute
+  Snippet: ...es students to connect policy with practice and think of concrete ways that they can change the system of early care and education to make it better.” All of the students who enroll in a Leadership Institute program receive instruction in the same entrepreneurial leadership curriculum that’s been shown to shift the min...
+- Rank 2 | New Study Shows Leadership Development Can Be Scaled Effectively to Reach Early Educators  | Early Education Leaders, an Institute at UMass Boston | matched: early, educators, leadership, programs, umass, boston, early, education, leaders, institute
+  Snippet: Anne Douglass, Executive Director of Early Education Leaders and a co-author of the study. “This study shows that we can scale high-quality leadership programs—and do so in a way that advances equity by reaching educators who are often excluded from professional development opportunities that focus on leadership.” To g...
+- Rank 3 | New Study Shows Leadership Development Can Be Scaled Effectively to Reach Early Educators  | Early Education Leaders, an Institute at UMass Boston | matched: early, educators, leadership, programs, umass, boston, early, education, leaders, institute
+  Snippet: ...essional development opportunities that focus on leadership.” To guide the scaling effort, researchers at Early Education Leaders created the ECE Professional Development Scaling Framework, a first-of-its-kind tool for early care and education. Until now, no such framework existed for the ECE field.
+- Rank 4 | Meet our Director of Leadership Programs | Early Education Leaders, an Institute at UMass Boston | matched: early, educators, leadership, programs, umass, boston, early, education, leaders, institute
+  Snippet: ...es students to connect policy with practice and think of concrete ways that they can change the system of early care and education to make it better.” All of the students who enroll in a Leadership Institute program receive instruction in the same entrepreneurial leadership curriculum that’s been shown to shift the min...
+- Rank 5 | Research Summary: Entrepreneurial Leadership Training Catalyzes Change Initiatives in Early Ed Programs | Early Education Leaders, an Institute at UMass Boston | matched: outcomes, early, educators, leadership, programs, umass, boston, early, education, leaders, institute
+  Snippet: ...provides the first evidence on which approaches, features, and leadership practices can lead to improved outcomes for staff, program quality, and children. It shows that relational-entrepreneurial leadership development can provide early educators with the tools to create innovative solutions to the persistent challen...
+Retrieval confidence: normal
+--------------------------------------------------------------------------------
+Question 25: What impact do our early educator alums have on early childhood programs, practices, systems, and policies?
+Answer 25: 
+Citations:
+- Leadership Institute Creates Early Childhood Support Organization for State’s ECE Programs with $3.75M Grant | Early Education Leaders, an Institute at UMass Boston | https://blogs.umb.edu/earlyed/2020/10/19/leadership-institute-creates-early-childhood-support-organization-for-states-ece-programs-with-3-75m-grant
+- From Law to Early Learning: How One Educator Found Her Voice Through Leading for Change | Early Education Leaders, an Institute at UMass Boston | https://blogs.umb.edu/earlyed/2026/05/15/from-law-to-early-learning-how-one-educator-found-her-voice-through-leading-for-change
+Evidence:
+- Rank 1 | Leadership Institute Creates Early Childhood Support Organization for State’s ECE Programs with $3.75M Grant | Early Education Leaders, an Institute at UMass Boston | matched: impact, early, early, childhood, programs, systems, umass, boston, early, education, leaders, institute
+  Snippet: ...in systems change initiatives that break down barriers to opportunity. “The ECE field urgently needs high impact professional and leadership development supports that promote early educators’ expertise and abilities to improve program quality,” said Anne Douglass, PhD, the Leadership Institute’s founder and executive d...
+- Rank 2 | Leadership Institute Creates Early Childhood Support Organization for State’s ECE Programs with $3.75M Grant | Early Education Leaders, an Institute at UMass Boston | matched: impact, early, early, childhood, programs, umass, boston, early, education, leaders, institute
+  Snippet: “The ECE field urgently needs high impact professional and leadership development supports that promote early educators’ expertise and abilities to improve program quality,” said Anne Douglass, PhD, the Leadership Institute’s founder and executive director.
+- Rank 3 | Leadership Institute Creates Early Childhood Support Organization for State’s ECE Programs with $3.75M Grant | Early Education Leaders, an Institute at UMass Boston | matched: impact, early, early, childhood, programs, umass, boston, early, education, leaders, institute
+  Snippet: Last, it conducts original research that contributes new knowledge about the impact of leadership in early care and education, and its potential as a powerful lever for equity and social change. With this work, the Leadership Institute is creating ecosystems throughout the field that recognize, support, and sustain the...
+- Rank 4 | From Law to Early Learning: How One Educator Found Her Voice Through Leading for Change | Early Education Leaders, an Institute at UMass Boston | matched: early, educator, early, childhood, programs, umass, boston, early, education, leaders, institute
+  Snippet: ...d Amorim pressed on by asking herself a clarifying question: What keeps me up at night when I think about early childhood education? The answer came from her experience managing a grant that supported early childhood programs in some of Washington, D.C.’s most underserved communities.
+- Rank 5 | From Law to Early Learning: How One Educator Found Her Voice Through Leading for Change | Early Education Leaders, an Institute at UMass Boston | matched: early, educator, early, childhood, programs, umass, boston, early, education, leaders, institute
+  Snippet: The answer came from her experience managing a grant that supported early childhood programs in some of Washington, D.C.’s most underserved communities. During a professional development session, another educator posed a question that stopped her cold: What happens when not even the little strip of playground outside y...
+Retrieval confidence: normal
+--------------------------------------------------------------------------------
+Question 26: Why does leadership matter in early care and education?
+Answer 26: 
+Citations:
+- Leadership Forum Draws Record Participation, Spurs Conversations About Early Care and Education | Early Education Leaders, an Institute at UMass Boston | https://blogs.umb.edu/earlyed/2018/05/23/leadership-forum-draws-record-participation-spurs-conversations-about-early-care-and-education
+- Early Ed Leadership Institute to publish future editions of Early Care and Education Leadership Development Compendium | Early Education Leaders, an Institute at UMass Boston | https://blogs.umb.edu/earlyed/2021/10/12/early-ed-leadership-institute-to-publish-future-editions-of-early-care-and-education-leadership-development-compendium
+Evidence:
+- Rank 1 | Leadership Forum Draws Record Participation, Spurs Conversations About Early Care and Education | Early Education Leaders, an Institute at UMass Boston | matched: leadership, early, care, education
+  Snippet: Executive Director Anne Douglass noted in her welcoming remarks that ECE providers have historically been overlooked when it comes to driving change in the field despite the fact that they are the experts who do the work every day.
+- Rank 2 | Early Ed Leadership Institute to publish future editions of Early Care and Education Leadership Development Compendium | Early Education Leaders, an Institute at UMass Boston | matched: leadership, early, care, education
+  Snippet: ...ibution as an advisor, and to feature her as a guest speaker in an upcoming virtual event on the state of leadership development in early care and education.” The first edition of the Leadership Compendium, titled “Leadership Development in early care and education: A view of the current landscape,” was published in 20...
+- Rank 3 | Early Ed Leadership Institute to publish future editions of Early Care and Education Leadership Development Compendium | Early Education Leaders, an Institute at UMass Boston | matched: leadership, early, care, education
+  Snippet: ...ume responsibility for the production and publication for future editions of the Early Care and Education Leadership Development Compendium. We are thrilled to be producing the next edition with Stacie Goffin’s contribution as an advisor, and to feature her as a guest speaker in an upcoming virtual event on the state o...
+- Rank 4 | Early Ed Leadership Institute to publish future editions of Early Care and Education Leadership Development Compendium | Early Education Leaders, an Institute at UMass Boston | matched: leadership, early, care, education
+  Snippet: Taken together, the four editions of the Leadership Development Compendium have captured trends in the field’s knowledge base, and the clear need for more leadership development opportunities for practitioners from every level of the field. “I could not be more energized by Anne’s open-armed welcome to sponsor future e...
+- Rank 5 | Leadership Forum Draws Record Participation, Spurs Conversations About Early Care and Education | Early Education Leaders, an Institute at UMass Boston | matched: leadership, early, care, education
+  Snippet: Leadership Forum Draws Record Participation, Spurs Conversations About Early Care and Education May 23, 2018 by Anne Douglass | 0 comments A record number of people—more than 100—attended the Institute for Early Education Leadership and Innovation ‘s fifth annual Leadership Forum on Early Education Research, Policy, an...
+Retrieval confidence: normal
+--------------------------------------------------------------------------------
+Question 27: What is Leading for Change in ECE?
+Answer 27: 
+Citations:
+- Leading for Change in Hawaiʻi | Early Education Leaders, an Institute at UMass Boston | https://blogs.umb.edu/earlyed/2025/07/18/leading-for-change-in-hawai%ca%bbi
+- Leading for Change Now Offered to Family Child Care Educators  in New York | Early Education Leaders, an Institute at UMass Boston | https://blogs.umb.edu/earlyed/2023/04/02/leading-for-change-now-offered-to-family-child-care-educators-in-new-york
+- From Law to Early Learning: How One Educator Found Her Voice Through Leading for Change | Early Education Leaders, an Institute at UMass Boston | https://blogs.umb.edu/earlyed/2026/05/15/from-law-to-early-learning-how-one-educator-found-her-voice-through-leading-for-change
+Evidence:
+- Rank 1 | Leading for Change in Hawaiʻi | Early Education Leaders, an Institute at UMass Boston | matched: leading, change, early, childhood, education
+  Snippet: ...king to create pathways for on-the-ground educators to develop their leadership skills and drive positive change in their programs and communities.
+- Rank 2 | Leading for Change Now Offered to Family Child Care Educators  in New York | Early Education Leaders, an Institute at UMass Boston | matched: leading, change, early, childhood, education
+  Snippet: ...ronger and more equitable early childhood education system.” Taught as a professional learning community, Leading for Change cultivates leadership mindsets among educators who then develop a Change Project, or concrete action plan, that will improve program quality and promote equity. Some graduates of Leading for Chan...
+- Rank 3 | From Law to Early Learning: How One Educator Found Her Voice Through Leading for Change | Early Education Leaders, an Institute at UMass Boston | matched: leading, change, early, childhood, education
+  Snippet: ...d Amorim pressed on by asking herself a clarifying question: What keeps me up at night when I think about early childhood education? The answer came from her experience managing a grant that supported early childhood programs in some of Washington, D.C.’s most underserved communities.
+- Rank 4 | Leading for Change Now Offered to Family Child Care Educators  in New York | Early Education Leaders, an Institute at UMass Boston | matched: leading, change, early, childhood, education
+  Snippet: ...ronger and more equitable early childhood education system.” Taught as a professional learning community, Leading for Change cultivates leadership mindsets among educators who then develop a Change Project, or concrete action plan, that will improve program quality and promote equity.
+- Rank 5 | From Law to Early Learning: How One Educator Found Her Voice Through Leading for Change | Early Education Leaders, an Institute at UMass Boston | matched: leading, change, early, childhood, education
+  Snippet: ...cy work. It was a professional path that made sense—until she had her first child. “I started to research early childhood education and learn more about child development,” Amorim says.
+Retrieval confidence: normal
+--------------------------------------------------------------------------------
+Question 28: How can I learn more about what entrepreneurial leadership is and how you train people on it?
+Answer 28: 
+Citations:
+- Research Summary: Entrepreneurial Leadership Training Catalyzes Change Initiatives in Early Ed Programs | Early Education Leaders, an Institute at UMass Boston | https://blogs.umb.edu/earlyed/2022/03/18/research-summary-entrepreneurial-leadership-training-catalyzes-change-initiatives-in-early-ed-programs
+Evidence:
+- Rank 1 | Research Summary: Entrepreneurial Leadership Training Catalyzes Change Initiatives in Early Ed Programs | Early Education Leaders, an Institute at UMass Boston | matched: entrepreneurial, leadership, training
+  Snippet: Increasing knowledge Leading for Change begins with extensive reading about leadership, entrepreneurship, and change theories from a variety of disciplines, including management, nursing, healthcare, and education. Participants engaged in discussion groups focused on understanding the concepts and application of these...
+- Rank 2 | Research Summary: Entrepreneurial Leadership Training Catalyzes Change Initiatives in Early Ed Programs | Early Education Leaders, an Institute at UMass Boston | matched: entrepreneurial, leadership, training
+  Snippet: ...ion Policy, 16, 2 (2022). doi.org/10.1186/s40723-022-00095-z. Sim, J. H. (2019). Exploring the relational leadership potential of appreciative inquiry: A case study. South Asian Journal of Business and Management Cases 8(1), 47–57. journals.sagepub.com/doi/full/10.1177/2277977918803217. Douglass, A. (2018). Redefining...
+- Rank 3 | Research Summary: Entrepreneurial Leadership Training Catalyzes Change Initiatives in Early Ed Programs | Early Education Leaders, an Institute at UMass Boston | matched: entrepreneurial, leadership, training
+  Snippet: ...support them to do so. Finally, they created a plan for how they would implement the change, what type of leadership would be needed to do so, and the role they would play in bringing the plan to fruition. Study Participants Thirty-one early educators participated in this study.
+- Rank 4 | Research Summary: Entrepreneurial Leadership Training Catalyzes Change Initiatives in Early Ed Programs | Early Education Leaders, an Institute at UMass Boston | matched: entrepreneurial, leadership, training
+  Snippet: Relational-entrepreneurial leadership training In this study, relational-entrepreneurial leadership training was delivered through Leading for Change, a 40-hour relational-entrepreneurial leadership development program delivered over 15 weeks. The curriculum was designed specifically for early educators who would conti...
+- Rank 5 | Research Summary: Entrepreneurial Leadership Training Catalyzes Change Initiatives in Early Ed Programs | Early Education Leaders, an Institute at UMass Boston | matched: entrepreneurial, leadership, training
+  Snippet: Participants held positions throughout the field ranging from assistant teacher to center director and worked in all program types including centers, schools, and family child care programs. Results and Implications for the Field Surveys filled out by participants before and after completing Leading for Change showe...
+Retrieval confidence: normal
+--------------------------------------------------------------------------------
+Question 29: How can I become involved in the Institute’s network?
+Answer 29: 
+Citations:
+- At Leadership Forum, ECE practitioners get a call to action | Early Education Leaders, an Institute at UMass Boston | https://blogs.umb.edu/earlyed/2019/05/24/leadershipforum2019
+- Media Advisory: Research Brief on Affordable, Quality Child Care and Early Education Expansion in MA To Be Released Oct 11 | Early Education Leaders, an Institute at UMass Boston | https://blogs.umb.edu/earlyed/2023/10/02/media-advisory-research-brief-on-affordable-quality-child-care-and-early-education-expansion-in-ma-to-be-released-oct-11
+- UMass Boston Report Proposes Fix for ‘Cliff Effect’ in Financial Assistance for Child Care | Early Education Leaders, an Institute at UMass Boston | https://blogs.umb.edu/earlyed/2024/12/12/umass-boston-report-proposes-fix-for-cliff-effect-in-financial-assistance-for-child-care
+Evidence:
+- Rank 1 | At Leadership Forum, ECE practitioners get a call to action | Early Education Leaders, an Institute at UMass Boston | matched: get, involved
+  Snippet: ..., children from vulnerable communities who receive quality ECE are less likely as adults to be criminally involved and more likely to graduate college. It is far more cost effective, Houlder said, to fund ECE for children than it is to pay for criminal justice interventions later on.
+- Rank 2 | Media Advisory: Research Brief on Affordable, Quality Child Care and Early Education Expansion in MA To Be Released Oct 11 | Early Education Leaders, an Institute at UMass Boston | matched: get, involved
+  Snippet: Get involved or learn more by visiting www.umb.edu/earlyedinstitute . About the Center for Women in Politics and Public Policy The Center for Women in Politics and Public Policy (CWPPP), based at the McCormack Graduate School of Policy and Global Studies at the University of Massachusetts Boston aims to promote diverse...
+- Rank 3 | Media Advisory: Research Brief on Affordable, Quality Child Care and Early Education Expansion in MA To Be Released Oct 11 | Early Education Leaders, an Institute at UMass Boston | matched: get, involved
+  Snippet: ...children and families while supporting the professional growth of a diverse workforce of early educators. Get involved or learn more by visiting www.umb.edu/earlyedinstitute .
+- Rank 4 | UMass Boston Report Proposes Fix for ‘Cliff Effect’ in Financial Assistance for Child Care | Early Education Leaders, an Institute at UMass Boston | matched: get, involved
+  Snippet: Get involved or learn more by visiting umb.edu/earlyedinstitute. About the Center for Women in Politics and Public Policy The Center for Women in Politics and Public Policy, established in 1994, aims to promote diverse women’s leadership to achieve more just, equitable, and responsive public and institutional policies...
+- Rank 5 | UMass Boston Report Proposes Fix for ‘Cliff Effect’ in Financial Assistance for Child Care | Early Education Leaders, an Institute at UMass Boston | matched: get, involved
+  Snippet: ...children and families while supporting the professional growth of a diverse workforce of early educators. Get involved or learn more by visiting umb.edu/earlyedinstitute.
+Retrieval confidence: normal
+--------------------------------------------------------------------------------
+Question 30: What does coaching look like?
+Answer 30: 
+Citations:
+- What ECE leadership looks like | Early Education Leaders, an Institute at UMass Boston | https://blogs.umb.edu/earlyed/2024/06/10/what-ece-leadership-looks-like
+- From Struggle to Success: How Coaching Transformed One Young Provider’s Early Education Journey | Early Education Leaders, an Institute at UMass Boston | https://blogs.umb.edu/earlyed/2025/10/30/from-struggle-to-success-how-coaching-transformed-one-young-providers-early-education-journey
+- What ECE Advocacy Looks Like | Early Education Leaders, an Institute at UMass Boston | https://blogs.umb.edu/earlyed/2024/04/15/what-ece-advocacy-looks-like
+Evidence:
+- Rank 1 | What ECE leadership looks like | Early Education Leaders, an Institute at UMass Boston | matched: like
+  Snippet: What ECE leadership looks like June 10, 2024 by earlyedinstitute Becky DelVecchio, Ph.D, project coordinator of EEL’s Statewide Professional Development Academy, recently co-authored an article with early educator Sara Becker for Exchange Press’s Exchange magazine, a quarterly publication that focuses on early childhoo...
+- Rank 2 | From Struggle to Success: How Coaching Transformed One Young Provider’s Early Education Journey | Early Education Leaders, an Institute at UMass Boston | matched: coaching, like
+  Snippet: ...unning a business involved much more than caring for children. “When I had to do all the paperwork, I was like, going crazy. I didn’t know how to do anything,” she recalls. “There’s so much people don’t realize goes into it—you have to develop a curriculum, handle all the business documentation, manage schedules and bi...
+- Rank 3 | What ECE Advocacy Looks Like | Early Education Leaders, an Institute at UMass Boston | matched: like
+  Snippet: Based on the Leadership Institute’s experience running the Early Childhood Support Organization and various courses, Lopes said, “your investment in early education leadership and instructional leadership within programs and continuous quality improvement has led to more a positive work environment in programs that...
+- Rank 4 | What ECE Advocacy Looks Like | Early Education Leaders, an Institute at UMass Boston | matched: like
+  Snippet: It’s also led to nourishing and mutually respectful relationships with children and families … and led to increased quality in classroom practices where all children can grow and thrive. “And so I’m here to thank you for that investment and advocate for continued investment in those things that really allow early ed...
+- Rank 5 | From Struggle to Success: How Coaching Transformed One Young Provider’s Early Education Journey | Early Education Leaders, an Institute at UMass Boston | matched: coaching, like
+  Snippet: ...weekly initially, then biweekly as Isabella’s confidence grew, their sessions covered practical elements like developing child-led curricula and managing operations while providing crucial emotional support. Through their work together, Isabella developed a deeper understanding of early childhood education that went f...
+Retrieval confidence: normal
+--------------------------------------------------------------------------------
